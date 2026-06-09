@@ -100,7 +100,7 @@ const PostListPage = () => {
     setLoading(true);
     const { data } = await supabase
       .from('posts')
-      .select(`*, profiles(username), post_likes(user_id), comments(id)`)
+      .select(`*, profiles!posts_user_id_fkey(username), post_likes(user_id), comments(id)`)
       .order('created_at', { ascending: false });
 
     const normalized = (data || []).map(p => ({

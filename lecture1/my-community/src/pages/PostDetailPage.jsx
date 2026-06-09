@@ -142,7 +142,7 @@ const PostDetailPage = () => {
   const fetchPost = useCallback(async () => {
     const { data } = await supabase
       .from('posts')
-      .select('*, profiles(username)')
+      .select('*, profiles!posts_user_id_fkey(username)')
       .eq('id', id)
       .single();
     if (data) {
