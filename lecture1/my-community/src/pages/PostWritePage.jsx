@@ -8,7 +8,7 @@ import { ArrowBack, AddPhotoAlternate, Refresh, Tag } from '@mui/icons-material'
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
 
-const PICSUM_URL = 'https://picsum.photos/800/400?random=';
+const PICSUM_SEED_URL = 'https://picsum.photos/seed/';
 
 const PostWritePage = () => {
   const navigate = useNavigate();
@@ -22,7 +22,8 @@ const PostWritePage = () => {
   const handleChange = (e) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleRandomImage = () => {
-    setImageUrl(`${PICSUM_URL}${Math.floor(Math.random() * 1000)}`);
+    const seed = Math.random().toString(36).slice(2, 10);
+    setImageUrl(`${PICSUM_SEED_URL}${seed}/800/400`);
   };
 
   const handleAddTag = (e) => {
