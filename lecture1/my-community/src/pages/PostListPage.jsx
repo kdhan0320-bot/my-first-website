@@ -100,18 +100,13 @@ const PostListPage = () => {
     setLoading(true);
     const { data } = await supabase
       .from('posts')
-      .select(`
-        *,
-        profiles(username),
-        like_count:post_likes(count),
-        comment_count:comments(count)
-      `)
+      .select(`*, profiles(username), post_likes(user_id), comments(id)`)
       .order('created_at', { ascending: false });
 
     const normalized = (data || []).map(p => ({
       ...p,
-      like_count: p.like_count?.[0]?.count ?? 0,
-      comment_count: p.comment_count?.[0]?.count ?? 0,
+      like_count: p.post_likes?.length ?? 0,
+      comment_count: p.comments?.length ?? 0,
     }));
     setPosts(normalized);
     setLoading(false);

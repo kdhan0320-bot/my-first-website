@@ -152,11 +152,10 @@ const PostDetailPage = () => {
   }, [id]);
 
   const fetchLikes = useCallback(async () => {
-    const { count } = await supabase.from('post_likes').select('*', { count: 'exact' }).eq('post_id', id);
-    setLikeCount(count ?? 0);
+    const { data: likeRows } = await supabase.from('post_likes').select('user_id').eq('post_id', id);
+    setLikeCount(likeRows?.length ?? 0);
     if (user) {
-      const { data } = await supabase.from('post_likes').select('user_id').eq('post_id', id).eq('user_id', user.id).single();
-      setLiked(!!data);
+      setLiked(likeRows?.some(r => r.user_id === user.id) ?? false);
     }
   }, [id, user]);
 
