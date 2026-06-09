@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, Card, CardActionArea,
   CardContent, Grid, Chip, Avatar, Skeleton, AppBar, Toolbar,
-  IconButton, Tooltip, Divider,
+  IconButton, Tooltip, Divider, InputAdornment, TextField,
 } from '@mui/material';
 import {
   Add, Logout, Favorite, ChatBubble, Visibility,
-  SportsEsports, AccessTime,
+  SportsEsports, AccessTime, Search,
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
+
+const IMG_HEIGHT = 180;
 
 const formatRelativeTime = (dateStr) => {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -19,23 +21,47 @@ const formatRelativeTime = (dateStr) => {
   if (m < 60) return `${m}분 전`;
   const h = Math.floor(m / 60);
   if (h < 24) return `${h}시간 전`;
-  const d = Math.floor(h / 24);
-  return `${d}일 전`;
+  return `${Math.floor(h / 24)}일 전`;
 };
 
 const PostCard = ({ post, onClick }) => (
-  <Card sx={{ height: '100%', transition: 'transform 0.15s, box-shadow 0.15s', '&:hover': { transform: 'translateY(-3px)', boxShadow: 6 } }}>
-    <CardActionArea onClick={onClick} sx={{ height: '100%' }}>
-      {post.image_url && (
-        <Box
-          component="img"
-          src={post.image_url}
-          alt="썸네일"
-          sx={{ width: '100%', height: 160, objectFit: 'cover' }}
-          onError={(e) => { e.target.style.display = 'none'; }}
-        />
-      )}
-      <CardContent>
+  <Card sx={{
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    transition: 'transform 0.15s, box-shadow 0.15s',
+    '&:hover': { transform: 'translateY(-3px)', boxShadow: 6 },
+  }}>
+    <CardActionArea onClick={onClick} sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+      {/* 이미지 영역 - 항상 동일한 높이 */}
+      <Box sx={{ width: '100%', height: IMG_HEIGHT, flexShrink: 0, overflow: 'hidden', position: 'relative' }}>
+        {post.image_url ? (
+          <Box
+            component="img"
+            src={post.image_url}
+            alt="썸네일"
+            sx={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+              e.target.parentElement.style.background = 'linear-gradient(135deg, #0d1b3e 0%, #1a1040 100%)';
+            }}
+          />
+        ) : (
+          <Box sx={{
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(135deg, #0d1b3e 0%, #1a1040 100%)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            <SportsEsports sx={{ fontSize: 48, color: 'rgba(255,255,255,0.1)' }} />
+          </Box>
+        )}
+      </Box>
+
+      {/* 콘텐츠 영역 */}
+      <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         {post.hashtags?.length > 0 && (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
             {post.hashtags.slice(0, 3).map(tag => (
@@ -48,7 +74,7 @@ const PostCard = ({ post, onClick }) => (
           {post.title}
         </Typography>
 
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2, flexGrow: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {post.content}
         </Typography>
 
@@ -95,6 +121,7 @@ const PostListPage = () => {
   const { profile, signOut } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [query, setQuery] = useState('');
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -112,9 +139,17 @@ const PostListPage = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  useEffect(() => { fetchPosts(); }, []);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return posts;
+    return posts.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.content.toLowerCase().includes(q) ||
+      p.hashtags?.some(t => t.toLowerCase().includes(q))
+    );
+  }, [posts, query]);
 
   const handleLogout = async () => {
     await signOut();
@@ -123,7 +158,6 @@ const PostListPage = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      {/* 네비게이션 바 */}
       <AppBar position="sticky">
         <Toolbar>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexGrow: 1 }}>
@@ -142,7 +176,7 @@ const PostListPage = () => {
 
       <Container maxWidth="lg" sx={{ py: 4 }}>
         {/* 헤더 */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
           <Box>
             <Typography variant="h2" sx={{ mb: 0.5 }}>게시물 목록</Typography>
             <Typography variant="body2" color="text.secondary">
@@ -159,23 +193,56 @@ const PostListPage = () => {
           </Button>
         </Box>
 
+        {/* 검색창 */}
+        <TextField
+          fullWidth
+          placeholder="제목, 내용, 해시태그로 검색..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          size="small"
+          sx={{
+            mb: 4,
+            '& .MuiOutlinedInput-root': {
+              bgcolor: 'background.paper',
+              borderRadius: 2,
+              fontSize: '0.95rem',
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search sx={{ color: 'text.disabled', fontSize: 22 }} />
+              </InputAdornment>
+            ),
+          }}
+        />
+
+        {/* 검색 결과 수 */}
+        {query && !loading && (
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+            "{query}" 검색 결과 {filtered.length}개
+          </Typography>
+        )}
+
         {/* 게시물 그리드 */}
         {loading ? (
           <Grid container spacing={3}>
             {Array.from({ length: 6 }).map((_, i) => (
               <Grid item xs={12} sm={6} md={4} key={i}>
-                <Skeleton variant="rectangular" height={280} sx={{ borderRadius: 2 }} />
+                <Skeleton variant="rectangular" height={380} sx={{ borderRadius: 2 }} />
               </Grid>
             ))}
           </Grid>
-        ) : posts.length === 0 ? (
+        ) : filtered.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 10 }}>
             <SportsEsports sx={{ fontSize: 64, color: 'text.disabled', mb: 2 }} />
-            <Typography color="text.secondary">아직 게시물이 없어요. 첫 번째 게시물을 작성해보세요!</Typography>
+            <Typography color="text.secondary">
+              {query ? `"${query}"에 해당하는 게시물이 없어요.` : '아직 게시물이 없어요. 첫 번째 게시물을 작성해보세요!'}
+            </Typography>
           </Box>
         ) : (
           <Grid container spacing={3}>
-            {posts.map(post => (
+            {filtered.map(post => (
               <Grid item xs={12} sm={6} md={4} key={post.id}>
                 <PostCard post={post} onClick={() => navigate(`/posts/${post.id}`)} />
               </Grid>
