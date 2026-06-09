@@ -257,7 +257,13 @@ const PostDetailPage = () => {
           <IconButton edge="start" color="inherit" onClick={() => navigate(-1)}>
             <ArrowBack />
           </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1, ml: 1 }}>게시물 상세</Typography>
+          <Typography
+            variant="h6"
+            onClick={() => navigate(-1)}
+            sx={{ flexGrow: 1, ml: 1, cursor: 'pointer', '&:hover': { opacity: 0.7 } }}
+          >
+            게시물 상세
+          </Typography>
         </Toolbar>
       </AppBar>
 
