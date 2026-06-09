@@ -5,6 +5,7 @@ import SignupPage from './pages/SignupPage';
 import PostListPage from './pages/PostListPage';
 import PostWritePage from './pages/PostWritePage';
 import PostDetailPage from './pages/PostDetailPage';
+import PostEditPage from './pages/PostEditPage';
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -25,6 +26,7 @@ const AppRoutes = () => (
     <Route path="/" element={<PrivateRoute><PostListPage /></PrivateRoute>} />
     <Route path="/write" element={<PrivateRoute><PostWritePage /></PrivateRoute>} />
     <Route path="/posts/:id" element={<PrivateRoute><PostDetailPage /></PrivateRoute>} />
+    <Route path="/posts/:id/edit" element={<PrivateRoute><PostEditPage /></PrivateRoute>} />
   </Routes>
 );
 

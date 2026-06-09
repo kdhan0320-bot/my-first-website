@@ -3,11 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, TextField, Avatar,
   IconButton, Chip, AppBar, Toolbar, Divider, Skeleton,
-  Alert, Collapse,
+  Alert, Collapse, Dialog, DialogTitle, DialogContent,
+  DialogContentText, DialogActions,
 } from '@mui/material';
 import {
   ArrowBack, Favorite, FavoriteBorder, ChatBubble,
   Visibility, AccessTime, Send, Reply,
+  Edit, Delete, Check, Close,
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
@@ -22,9 +24,51 @@ const formatRelativeTime = (dateStr) => {
   return `${Math.floor(h / 24)}일 전`;
 };
 
-const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds }) => {
+// ── 댓글/대댓글 인라인 수정 버튼 ──
+const EditDeleteButtons = ({ onEdit, onDelete, size = 'small' }) => (
+  <Box sx={{ display: 'flex', gap: 0.2 }}>
+    <IconButton size={size} onClick={onEdit} sx={{ p: 0.3, color: 'text.disabled', '&:hover': { color: 'primary.main' } }}>
+      <Edit sx={{ fontSize: size === 'small' ? 13 : 11 }} />
+    </IconButton>
+    <IconButton size={size} onClick={onDelete} sx={{ p: 0.3, color: 'text.disabled', '&:hover': { color: 'error.main' } }}>
+      <Delete sx={{ fontSize: size === 'small' ? 13 : 11 }} />
+    </IconButton>
+  </Box>
+);
+
+// ── 인라인 편집 폼 ──
+const InlineEditField = ({ value, onSave, onCancel }) => {
+  const [text, setText] = useState(value);
+  return (
+    <Box sx={{ display: 'flex', gap: 0.5, mt: 0.5 }}>
+      <TextField
+        size="small"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        fullWidth
+        multiline
+        maxRows={4}
+        autoFocus
+        onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey && text.trim()) { e.preventDefault(); onSave(text.trim()); } }}
+      />
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.3 }}>
+        <IconButton size="small" color="primary" onClick={() => text.trim() && onSave(text.trim())} sx={{ p: 0.4 }}>
+          <Check sx={{ fontSize: 16 }} />
+        </IconButton>
+        <IconButton size="small" onClick={onCancel} sx={{ p: 0.4 }}>
+          <Close sx={{ fontSize: 16 }} />
+        </IconButton>
+      </Box>
+    </Box>
+  );
+};
+
+// ── 댓글 아이템 ──
+const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds, onDeleteComment, onEditComment }) => {
   const [showReply, setShowReply] = useState(false);
+  const [editing, setEditing] = useState(false);
   const liked = likedCommentIds.has(comment.id);
+  const isOwner = comment.user_id === currentUserId;
 
   return (
     <Box>
@@ -33,17 +77,35 @@ const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds 
           {comment.profiles?.username?.[0]?.toUpperCase()}
         </Avatar>
         <Box sx={{ flexGrow: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-            <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              {comment.profiles?.username}
-            </Typography>
-            <Typography variant="caption" color="text.disabled">
-              {formatRelativeTime(comment.created_at)}
-            </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                {comment.profiles?.username}
+              </Typography>
+              <Typography variant="caption" color="text.disabled">
+                {formatRelativeTime(comment.created_at)}
+              </Typography>
+            </Box>
+            {isOwner && !editing && (
+              <EditDeleteButtons
+                onEdit={() => setEditing(true)}
+                onDelete={() => onDeleteComment(comment.id)}
+              />
+            )}
           </Box>
-          <Typography variant="body2" sx={{ mb: 0.5, whiteSpace: 'pre-wrap' }}>
-            {comment.content}
-          </Typography>
+
+          {editing ? (
+            <InlineEditField
+              value={comment.content}
+              onSave={(text) => { onEditComment(comment.id, text); setEditing(false); }}
+              onCancel={() => setEditing(false)}
+            />
+          ) : (
+            <Typography variant="body2" sx={{ mb: 0.5, whiteSpace: 'pre-wrap' }}>
+              {comment.content}
+            </Typography>
+          )}
+
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <IconButton size="small" onClick={() => onLike(comment.id, liked)} sx={{ p: 0.3 }}>
               {liked
@@ -63,40 +125,23 @@ const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds 
             </Button>
           </Box>
 
-          {/* 대댓글 입력 */}
           <Collapse in={showReply}>
             <ReplyInput
-              onSubmit={(content) => {
-                onReply(comment.id, content);
-                setShowReply(false);
-              }}
+              onSubmit={(content) => { onReply(comment.id, content); setShowReply(false); }}
             />
           </Collapse>
 
           {/* 대댓글 목록 */}
           {comment.replies?.map(reply => (
-            <Box key={reply.id} sx={{ display: 'flex', gap: 1.5, mt: 1.5, pl: 1, borderLeft: '2px solid rgba(255,255,255,0.1)' }}>
-              <Avatar sx={{ width: 26, height: 26, fontSize: '0.7rem', bgcolor: 'primary.dark', flexShrink: 0 }}>
-                {reply.profiles?.username?.[0]?.toUpperCase()}
-              </Avatar>
-              <Box sx={{ flexGrow: 1 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.3 }}>
-                  <Typography variant="caption" sx={{ fontWeight: 600 }}>{reply.profiles?.username}</Typography>
-                  <Typography variant="caption" color="text.disabled">{formatRelativeTime(reply.created_at)}</Typography>
-                </Box>
-                <Typography variant="body2" sx={{ fontSize: '0.85rem', whiteSpace: 'pre-wrap' }}>{reply.content}</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.3 }}>
-                  <IconButton size="small" onClick={() => onLike(reply.id, likedCommentIds.has(reply.id))} sx={{ p: 0.2 }}>
-                    {likedCommentIds.has(reply.id)
-                      ? <Favorite sx={{ fontSize: 12, color: 'error.main' }} />
-                      : <FavoriteBorder sx={{ fontSize: 12, color: 'text.disabled' }} />}
-                  </IconButton>
-                  <Typography variant="caption" color="text.secondary">
-                    {reply.comment_likes?.length ?? 0}
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
+            <ReplyItem
+              key={reply.id}
+              reply={reply}
+              currentUserId={currentUserId}
+              onLike={onLike}
+              likedCommentIds={likedCommentIds}
+              onDeleteComment={onDeleteComment}
+              onEditComment={onEditComment}
+            />
           ))}
         </Box>
       </Box>
@@ -105,6 +150,59 @@ const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds 
   );
 };
 
+// ── 대댓글 아이템 ──
+const ReplyItem = ({ reply, currentUserId, onLike, likedCommentIds, onDeleteComment, onEditComment }) => {
+  const [editing, setEditing] = useState(false);
+  const isOwner = reply.user_id === currentUserId;
+
+  return (
+    <Box sx={{ display: 'flex', gap: 1.5, mt: 1.5, pl: 1, borderLeft: '2px solid rgba(255,255,255,0.1)' }}>
+      <Avatar sx={{ width: 26, height: 26, fontSize: '0.7rem', bgcolor: 'primary.dark', flexShrink: 0 }}>
+        {reply.profiles?.username?.[0]?.toUpperCase()}
+      </Avatar>
+      <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.3 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="caption" sx={{ fontWeight: 600 }}>{reply.profiles?.username}</Typography>
+            <Typography variant="caption" color="text.disabled">{formatRelativeTime(reply.created_at)}</Typography>
+          </Box>
+          {isOwner && !editing && (
+            <EditDeleteButtons
+              onEdit={() => setEditing(true)}
+              onDelete={() => onDeleteComment(reply.id)}
+              size="small"
+            />
+          )}
+        </Box>
+
+        {editing ? (
+          <InlineEditField
+            value={reply.content}
+            onSave={(text) => { onEditComment(reply.id, text); setEditing(false); }}
+            onCancel={() => setEditing(false)}
+          />
+        ) : (
+          <Typography variant="body2" sx={{ fontSize: '0.85rem', whiteSpace: 'pre-wrap' }}>
+            {reply.content}
+          </Typography>
+        )}
+
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mt: 0.3 }}>
+          <IconButton size="small" onClick={() => onLike(reply.id, likedCommentIds.has(reply.id))} sx={{ p: 0.2 }}>
+            {likedCommentIds.has(reply.id)
+              ? <Favorite sx={{ fontSize: 12, color: 'error.main' }} />
+              : <FavoriteBorder sx={{ fontSize: 12, color: 'text.disabled' }} />}
+          </IconButton>
+          <Typography variant="caption" color="text.secondary">
+            {reply.comment_likes?.length ?? 0}
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+// ── 대댓글 입력 ──
 const ReplyInput = ({ onSubmit }) => {
   const [content, setContent] = useState('');
   return (
@@ -126,6 +224,21 @@ const ReplyInput = ({ onSubmit }) => {
   );
 };
 
+// ── 삭제 확인 다이얼로그 ──
+const ConfirmDialog = ({ open, title, description, onConfirm, onClose }) => (
+  <Dialog open={open} onClose={onClose}>
+    <DialogTitle>{title}</DialogTitle>
+    <DialogContent>
+      <DialogContentText>{description}</DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onClose}>취소</Button>
+      <Button onClick={onConfirm} color="error" variant="contained">삭제</Button>
+    </DialogActions>
+  </Dialog>
+);
+
+// ── 메인 페이지 ──
 const PostDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -138,6 +251,7 @@ const PostDetailPage = () => {
   const [commentInput, setCommentInput] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deletePostDialog, setDeletePostDialog] = useState(false);
 
   const fetchPost = useCallback(async () => {
     const { data } = await supabase
@@ -154,9 +268,7 @@ const PostDetailPage = () => {
   const fetchLikes = useCallback(async () => {
     const { data: likeRows } = await supabase.from('post_likes').select('user_id').eq('post_id', id);
     setLikeCount(likeRows?.length ?? 0);
-    if (user) {
-      setLiked(likeRows?.some(r => r.user_id === user.id) ?? false);
-    }
+    if (user) setLiked(likeRows?.some(r => r.user_id === user.id) ?? false);
   }, [id, user]);
 
   const fetchComments = useCallback(async () => {
@@ -176,16 +288,15 @@ const PostDetailPage = () => {
       .in('parent_id', allIds.length > 0 ? allIds : [-1])
       .order('created_at', { ascending: true });
 
-    const withReplies = topLevel.map(c => ({
+    setComments(topLevel.map(c => ({
       ...c,
       replies: (replies || []).filter(r => r.parent_id === c.id),
-    }));
-    setComments(withReplies);
+    })));
 
     if (user) {
-      const allCommentIds = [...topLevel.map(c => c.id), ...(replies || []).map(r => r.id)];
-      if (allCommentIds.length > 0) {
-        const { data: myLikes } = await supabase.from('comment_likes').select('comment_id').eq('user_id', user.id).in('comment_id', allCommentIds);
+      const allIds2 = [...topLevel.map(c => c.id), ...(replies || []).map(r => r.id)];
+      if (allIds2.length > 0) {
+        const { data: myLikes } = await supabase.from('comment_likes').select('comment_id').eq('user_id', user.id).in('comment_id', allIds2);
         setLikedCommentIds(new Set((myLikes || []).map(l => l.comment_id)));
       }
     }
@@ -200,19 +311,25 @@ const PostDetailPage = () => {
     init();
   }, [fetchPost, fetchLikes, fetchComments]);
 
+  // 게시물 삭제
+  const handleDeletePost = async () => {
+    await supabase.from('posts').delete().eq('id', id);
+    navigate('/');
+  };
+
+  // 게시물 좋아요
   const handlePostLike = async () => {
     if (!user) return;
     if (liked) {
       await supabase.from('post_likes').delete().eq('post_id', id).eq('user_id', user.id);
-      setLiked(false);
-      setLikeCount(p => p - 1);
+      setLiked(false); setLikeCount(p => p - 1);
     } else {
       await supabase.from('post_likes').insert({ post_id: Number(id), user_id: user.id });
-      setLiked(true);
-      setLikeCount(p => p + 1);
+      setLiked(true); setLikeCount(p => p + 1);
     }
   };
 
+  // 댓글 좋아요
   const handleCommentLike = async (commentId, isLiked) => {
     if (!user) return;
     if (isLiked) {
@@ -225,6 +342,7 @@ const PostDetailPage = () => {
     fetchComments();
   };
 
+  // 댓글 추가
   const handleAddComment = async () => {
     if (!commentInput.trim() || !user) return;
     await supabase.from('comments').insert({ post_id: Number(id), user_id: user.id, content: commentInput.trim() });
@@ -232,9 +350,22 @@ const PostDetailPage = () => {
     fetchComments();
   };
 
+  // 대댓글 추가
   const handleReply = async (parentId, content) => {
     if (!user) return;
     await supabase.from('comments').insert({ post_id: Number(id), user_id: user.id, parent_id: parentId, content });
+    fetchComments();
+  };
+
+  // 댓글/대댓글 삭제
+  const handleDeleteComment = async (commentId) => {
+    await supabase.from('comments').delete().eq('id', commentId);
+    fetchComments();
+  };
+
+  // 댓글/대댓글 수정
+  const handleEditComment = async (commentId, content) => {
+    await supabase.from('comments').update({ content }).eq('id', commentId);
     fetchComments();
   };
 
@@ -250,6 +381,8 @@ const PostDetailPage = () => {
     </Box>
   );
 
+  const isPostOwner = user?.id === post.user_id;
+
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar position="sticky">
@@ -264,15 +397,44 @@ const PostDetailPage = () => {
           >
             게시물 상세
           </Typography>
+          {/* 내 게시물 편집/삭제 */}
+          {isPostOwner && (
+            <Box sx={{ display: 'flex', gap: 0.5 }}>
+              <Button
+                size="small"
+                startIcon={<Edit sx={{ fontSize: 15 }} />}
+                onClick={() => navigate(`/posts/${id}/edit`)}
+                sx={{ color: 'inherit', fontSize: '0.8rem' }}
+              >
+                수정
+              </Button>
+              <Button
+                size="small"
+                startIcon={<Delete sx={{ fontSize: 15 }} />}
+                onClick={() => setDeletePostDialog(true)}
+                sx={{ color: 'error.light', fontSize: '0.8rem' }}
+              >
+                삭제
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
+
+      {/* 게시물 삭제 확인 */}
+      <ConfirmDialog
+        open={deletePostDialog}
+        title="게시물 삭제"
+        description="이 게시물을 삭제하면 댓글, 좋아요 데이터도 모두 사라져요. 정말 삭제할까요?"
+        onConfirm={handleDeletePost}
+        onClose={() => setDeletePostDialog(false)}
+      />
 
       <Container maxWidth="md" sx={{ py: 4 }}>
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
         {/* 게시물 본문 */}
         <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 4, mb: 3, border: '1px solid rgba(255,255,255,0.07)' }}>
-          {/* 해시태그 */}
           {post.hashtags?.length > 0 && (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
               {post.hashtags.map(tag => (
@@ -303,7 +465,9 @@ const PostDetailPage = () => {
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 <ChatBubble sx={{ fontSize: 14, color: 'primary.main' }} />
-                <Typography variant="caption" color="text.secondary">{comments.length}</Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0)}
+                </Typography>
               </Box>
             </Box>
           </Box>
@@ -323,7 +487,6 @@ const PostDetailPage = () => {
 
           <Divider sx={{ mb: 2 }} />
 
-          {/* 좋아요 버튼 */}
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               variant={liked ? 'contained' : 'outlined'}
@@ -343,7 +506,6 @@ const PostDetailPage = () => {
             댓글 {comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0)}개
           </Typography>
 
-          {/* 댓글 입력 */}
           <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
             <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.dark', flexShrink: 0 }}>
               {user?.email?.[0]?.toUpperCase()}
@@ -366,7 +528,6 @@ const PostDetailPage = () => {
 
           <Divider sx={{ mb: 1 }} />
 
-          {/* 댓글 목록 */}
           {comments.length === 0 ? (
             <Box sx={{ textAlign: 'center', py: 4 }}>
               <ChatBubble sx={{ fontSize: 40, color: 'text.disabled', mb: 1 }} />
@@ -381,6 +542,8 @@ const PostDetailPage = () => {
                 onReply={handleReply}
                 onLike={handleCommentLike}
                 likedCommentIds={likedCommentIds}
+                onDeleteComment={handleDeleteComment}
+                onEditComment={handleEditComment}
               />
             ))
           )}
