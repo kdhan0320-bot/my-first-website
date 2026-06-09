@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signUp = async ({ username, password, phone }) => {
-    const email = `${username}@gamehub.local`;
+    const email = `${username}@gamehub.com`;
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
 
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = async ({ username, password }) => {
-    const email = `${username}@gamehub.local`;
+    const email = `${username}@gamehub.com`;
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     return data;
