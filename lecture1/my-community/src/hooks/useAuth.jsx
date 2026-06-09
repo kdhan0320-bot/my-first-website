@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
       phone: phone || null,
     });
     if (profileError) throw profileError;
+    await fetchProfile(data.user.id);
     return data;
   };
 
