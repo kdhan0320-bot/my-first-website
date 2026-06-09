@@ -51,7 +51,7 @@ const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds 
                 : <FavoriteBorder sx={{ fontSize: 14, color: 'text.disabled' }} />}
             </IconButton>
             <Typography variant="caption" color="text.secondary">
-              {comment.comment_likes?.[0]?.count ?? 0}
+              {comment.comment_likes?.length ?? 0}
             </Typography>
             <Button
               size="small"
@@ -92,7 +92,7 @@ const CommentItem = ({ comment, currentUserId, onReply, onLike, likedCommentIds 
                       : <FavoriteBorder sx={{ fontSize: 12, color: 'text.disabled' }} />}
                   </IconButton>
                   <Typography variant="caption" color="text.secondary">
-                    {reply.comment_likes?.[0]?.count ?? 0}
+                    {reply.comment_likes?.length ?? 0}
                   </Typography>
                 </Box>
               </Box>
@@ -162,7 +162,7 @@ const PostDetailPage = () => {
   const fetchComments = useCallback(async () => {
     const { data } = await supabase
       .from('comments')
-      .select('*, profiles(username), comment_likes(count)')
+      .select('*, profiles!comments_user_id_fkey(username), comment_likes(user_id)')
       .eq('post_id', id)
       .is('parent_id', null)
       .order('created_at', { ascending: true });
@@ -172,7 +172,7 @@ const PostDetailPage = () => {
 
     const { data: replies } = await supabase
       .from('comments')
-      .select('*, profiles(username), comment_likes(count)')
+      .select('*, profiles!comments_user_id_fkey(username), comment_likes(user_id)')
       .in('parent_id', allIds.length > 0 ? allIds : [-1])
       .order('created_at', { ascending: true });
 
