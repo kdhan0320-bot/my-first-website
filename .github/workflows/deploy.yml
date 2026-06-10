@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
+      - name: Install dependencies (mini_sns)
         working-directory: lecture1/mini_sns
         run: npm install
 
@@ -34,11 +34,29 @@ jobs:
           NODE_ENV: production
         run: npm run build
 
+      - name: Install dependencies (my-portfolio)
+        working-directory: lecture1/my-portfolio
+        run: npm install
+
+      - name: Build my-portfolio
+        working-directory: lecture1/my-portfolio
+        run: npm run build
+
+      - name: Install dependencies (my-community)
+        working-directory: lecture1/my-community
+        run: npm install
+
+      - name: Build my-community
+        working-directory: lecture1/my-community
+        run: npm run build
+
       - name: Prepare site directory
         run: |
           mkdir -p _site
           cp index.html _site/index.html
           cp -r lecture1/mini_sns/dist/. _site/mini-sns
+          cp -r lecture1/my-portfolio/dist/. _site/my-portfolio
+          cp -r lecture1/my-community/dist/. _site/my-community
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
