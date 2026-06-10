@@ -34,16 +34,29 @@ export const AuthProvider = ({ children }) => {
     const email = `${username}@gamestagram.app`;
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
-    if (data.user) {
+
+    // 이메일 확인이 켜져 있어도 프로필 먼저 생성 시도
+    const userId = data.user?.id;
+    if (userId) {
       const { error: profileError } = await supabase.from('profiles').insert({
-        id: data.user.id,
+        id: userId,
         username,
         nickname,
         profile_image_url: getRandomGameAvatar(),
       });
-      if (profileError) throw profileError;
+      if (profileError && profileError.code !== '23505') throw profileError;
     }
-    return data;
+
+    // 이메일 확인 미완료 상태여도 바로 로그인 시도
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    if (signInError) {
+      // 이메일 확인 필요한 경우 → 안내 메시지로 처리
+      if (signInError.message.includes('Email not confirmed')) {
+        throw new Error('회원가입은 완료됐어요! Supabase 대시보드에서 이메일 확인을 OFF 해주세요. (Authentication → Settings → Disable email confirmations)');
+      }
+      throw signInError;
+    }
+    return signInData;
   };
 
   const signIn = async (username, password) => {
