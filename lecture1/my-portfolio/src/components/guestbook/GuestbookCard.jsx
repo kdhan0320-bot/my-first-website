@@ -137,11 +137,12 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
             multiline
             rows={2}
             size="small"
-            InputProps={{ style: { color: '#DDDDDD', fontSize: '0.875rem' } }}
             sx={{
               mb: 1,
               flex: 1,
               '& .MuiOutlinedInput-root': {
+                color: '#DDDDDD',
+                fontSize: '0.875rem',
                 '& fieldset': { borderColor: '#444444' },
                 '&.Mui-focused fieldset': { borderColor: '#AAAAAA' },
               },
@@ -166,13 +167,15 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                 placeholder="키워드"
                 variant="outlined"
                 size="small"
-                InputProps={{ style: { color: '#DDDDDD', fontSize: '0.75rem' } }}
                 sx={{
                   width: 100,
                   '& .MuiOutlinedInput-root': {
+                    color: '#DDDDDD',
+                    fontSize: '0.75rem',
                     '& fieldset': { borderColor: '#444444' },
                     '& input': { py: 0.5 },
                   },
+                  '& .MuiInputBase-input::placeholder': { color: '#555555', opacity: 1 },
                 }}
               />
             ) : (

@@ -22,10 +22,14 @@ const DEFAULT_FORM = {
 
 const darkFieldSx = {
   '& .MuiOutlinedInput-root': {
+    color: '#FFFFFF',
     '& fieldset': { borderColor: '#333333' },
     '&:hover fieldset': { borderColor: '#666666' },
     '&.Mui-focused fieldset': { borderColor: '#AAAAAA' },
   },
+  '& .MuiInputLabel-root': { color: '#666666' },
+  '& .MuiInputLabel-root.Mui-focused': { color: '#AAAAAA' },
+  '& .MuiInputBase-input::placeholder': { color: '#555555', opacity: 1 },
 };
 
 const GuestbookForm = ({ onSuccess }) => {
@@ -89,8 +93,6 @@ const GuestbookForm = ({ onSuccess }) => {
           onChange={handleChange}
           variant="outlined"
           fullWidth
-          InputLabelProps={{ style: { color: '#666666' } }}
-          InputProps={{ style: { color: '#FFFFFF' } }}
           sx={darkFieldSx}
         />
         <TextField
@@ -100,8 +102,6 @@ const GuestbookForm = ({ onSuccess }) => {
           onChange={handleChange}
           variant="outlined"
           fullWidth
-          InputLabelProps={{ style: { color: '#666666' } }}
-          InputProps={{ style: { color: '#FFFFFF' } }}
           sx={darkFieldSx}
         />
       </Box>
@@ -114,8 +114,6 @@ const GuestbookForm = ({ onSuccess }) => {
           onChange={handleChange}
           variant="outlined"
           fullWidth
-          InputLabelProps={{ style: { color: '#666666' } }}
-          InputProps={{ style: { color: '#FFFFFF' } }}
           sx={darkFieldSx}
         />
         <FormControlLabel
@@ -170,8 +168,6 @@ const GuestbookForm = ({ onSuccess }) => {
         multiline
         rows={3}
         required
-        InputLabelProps={{ style: { color: '#666666' } }}
-        InputProps={{ style: { color: '#FFFFFF' } }}
         sx={darkFieldSx}
       />
 
@@ -183,8 +179,6 @@ const GuestbookForm = ({ onSuccess }) => {
           onChange={handleChange}
           variant="outlined"
           fullWidth
-          InputLabelProps={{ style: { color: '#666666' } }}
-          InputProps={{ style: { color: '#FFFFFF' } }}
           sx={darkFieldSx}
         />
         <Box sx={{ flexShrink: 0 }}>
