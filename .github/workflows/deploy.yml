@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -19,44 +19,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install and build my-portfolio
-        working-directory: lecture1/my-portfolio
-        run: npm install && npm run build
-        env:
-          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
-          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
-
-      - name: Install and build my-community
-        working-directory: lecture1/my-community
-        run: npm install && npm run build
-        env:
-          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
-          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
-
-      - name: Prepare deploy directory
-        run: |
-          mkdir -p _site/my-portfolio
-          mkdir -p _site/my-community
-          cp -r lecture1/my-portfolio/dist/. _site/my-portfolio/
-          cp -r lecture1/my-community/dist/. _site/my-community/
-          cp _site/my-portfolio/index.html _site/my-portfolio/404.html
-          cp _site/my-community/index.html _site/my-community/404.html
-          [ -f index.html ] && cp index.html _site/ || true
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '_site'
-
+          path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
