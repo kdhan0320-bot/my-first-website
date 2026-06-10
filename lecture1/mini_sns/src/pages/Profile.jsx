@@ -4,7 +4,6 @@ import {
   Box, Typography, Avatar, Button, Grid, CircularProgress,
   IconButton, Modal, Backdrop, Fade,
 } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MainLayout from '../components/layout/MainLayout';

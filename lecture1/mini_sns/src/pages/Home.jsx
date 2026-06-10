@@ -17,36 +17,42 @@ const Home = () => {
 
   const fetchPosts = async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from('posts')
-      .select(`
-        *,
-        profiles(nickname, profile_image_url),
-        recent_comments:comments(id, content, profiles(nickname)),
-        comments_count:comments(count)
-      `)
-      .order('created_at', { ascending: false })
-      .limit(20);
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .select(`
+          *,
+          profiles(nickname, profile_image_url),
+          comments(id, content, profiles(nickname))
+        `)
+        .order('created_at', { ascending: false })
+        .limit(20);
 
-    // 좋아요 여부 확인
-    let likedPostIds = new Set();
-    if (user) {
-      const { data: likesData } = await supabase
-        .from('likes')
-        .select('post_id')
-        .eq('user_id', user.id);
-      likedPostIds = new Set(likesData?.map((l) => l.post_id) || []);
+      if (error) throw error;
+
+      // 좋아요 여부 확인
+      let likedPostIds = new Set();
+      if (user) {
+        const { data: likesData } = await supabase
+          .from('likes')
+          .select('post_id')
+          .eq('user_id', user.id);
+        likedPostIds = new Set(likesData?.map((l) => l.post_id) || []);
+      }
+
+      const enriched = (data || []).map((post) => ({
+        ...post,
+        user_liked: likedPostIds.has(post.id),
+        comments_count: post.comments?.length || 0,
+        recent_comments: (post.comments || []).slice(-2),
+      }));
+
+      setPosts(enriched);
+    } catch (err) {
+      console.error('피드 로딩 오류:', err);
+    } finally {
+      setLoading(false);
     }
-
-    const enriched = (data || []).map((post) => ({
-      ...post,
-      user_liked: likedPostIds.has(post.id),
-      comments_count: post.comments_count?.[0]?.count || 0,
-      recent_comments: post.recent_comments?.slice(-2) || [],
-    }));
-
-    setPosts(enriched);
-    setLoading(false);
   };
 
   const handleDelete = (postId) => {

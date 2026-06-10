@@ -1,17 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Box, Typography, TextField, Button, IconButton,
-  CircularProgress, Alert, Chip,
+  CircularProgress, Alert,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { supabase } from '../utils/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes';
-
-const GAME_SEARCH_TERMS = ['gaming', 'esports', 'rpg', 'fps', 'adventure', 'fantasy', 'arcade', 'cyberpunk'];
-const UNSPLASH_ACCESS_KEY = 'demo'; // demo 키는 일부 이미지만 제공
 
 const getRandomGameImage = () => {
   const seeds = ['game1','game2','game3','controller','pixel','quest','dragon','knight','space','neon'];

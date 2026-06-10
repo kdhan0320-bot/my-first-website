@@ -31,7 +31,7 @@ const Signup = () => {
     setChecks((prev) => ({ ...prev, [field]: !data }));
   };
 
-  const validatePassword = (pw) => /[!@#$%^&*(),.?":{}|<>]/.test(pw);
+  const validatePassword = (pw) => pw.length >= 6 && /[!@#$%^&*(),.?":{}|<>]/.test(pw);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -104,7 +104,7 @@ const Signup = () => {
           value={form.password}
           onChange={handleChange('password')}
           sx={{ mb: 1 }}
-          helperText="특수문자(!@#$% 등) 하나 이상 포함"
+          helperText="6자 이상, 특수문자(!@#$% 등) 하나 이상 포함"
         />
 
         {/* 닉네임 */}
