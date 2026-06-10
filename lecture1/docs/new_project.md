@@ -1,72 +1,67 @@
-# New Project Guide
+# 새 프로젝트 시작 가이드
 
-## 새 프로젝트 빠른 시작
+## 빠른 시작 (템플릿 사용)
 
 ### 1. 템플릿 복사
-`_template_settings` 폴더를 새 프로젝트 이름으로 복사합니다.
+```bash
+# lecture1 디렉토리에서 실행
+cp -r _template_settings my-new-project
 
-```powershell
-# PowerShell
-Copy-Item -Path "lecture1\_template_settings" -Destination "lecture1\새프로젝트명" -Recurse
+# 또는 Windows
+xcopy /E /I _template_settings my-new-project
 ```
 
 ### 2. 프로젝트 이름 변경
-복사된 폴더의 `package.json` 에서 `name` 필드를 수정합니다.
-
+`my-new-project/package.json`에서 `name` 필드 수정:
 ```json
 {
-  "name": "새프로젝트명"
+  "name": "my-new-project",
+  ...
 }
 ```
 
-### 3. 의존성 재설치
+### 3. 의존성 설치
 ```bash
-cd 새프로젝트명
+cd my-new-project
 npm install
 ```
 
 ### 4. 개발 서버 실행
 ```bash
 npm run dev
-# http://localhost:5173 에서 확인
 ```
 
 ---
 
-## 기본 파일 구조 세팅
+## 프로젝트 초기 설정 체크리스트
 
-새 프로젝트 시작 시 `src/` 안에 다음 폴더를 먼저 생성합니다.
+### 필수 설정
+- [ ] `package.json` 프로젝트 이름 변경
+- [ ] `index.html` title 태그 수정
+- [ ] `src/App.jsx` 초기 내용 정리
+- [ ] `src/theme.js` 프로젝트 색상 커스터마이징
 
-```
-src/
-├── components/
-│   ├── common/
-│   └── layout/
-├── pages/
-├── hooks/
-├── utils/
-└── constants/
-```
-
-```powershell
-# 폴더 일괄 생성 (PowerShell)
-New-Item -ItemType Directory -Force src/components/common, src/components/layout, src/pages, src/hooks, src/utils, src/constants
+### 폴더 구조 생성
+```bash
+mkdir -p src/components/ui src/components/layout src/pages src/hooks src/utils src/constants
 ```
 
 ---
 
-## 라우터 기본 설정
+## 기본 라우터 설정
 
-### App.jsx 수정
+`src/App.jsx` 기본 구조:
 ```jsx
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
+import Home from './pages/Home';
+import About from './pages/About';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </BrowserRouter>
   );
@@ -75,153 +70,47 @@ const App = () => {
 export default App;
 ```
 
-### 첫 페이지 생성 (src/pages/HomePage.jsx)
-```jsx
-import { Container, Typography, Box } from '@mui/material';
+---
 
-const HomePage = () => {
+## 페이지 컴포넌트 기본 템플릿
+
+`src/pages/Home.jsx`:
+```jsx
+import { Box, Container, Typography } from '@mui/material';
+
+const Home = () => {
   return (
     <Container maxWidth="lg">
       <Box sx={{ py: 4 }}>
-        <Typography variant="h1">홈 페이지</Typography>
+        <Typography variant="h1" gutterBottom>
+          홈 페이지
+        </Typography>
         <Typography variant="body1" color="text.secondary">
-          프로젝트를 시작해보세요.
+          여기에 내용을 추가하세요.
         </Typography>
       </Box>
     </Container>
   );
 };
 
-export default HomePage;
-```
-
----
-
-## 네비게이션 바 추가
-
-### src/components/layout/Navbar.jsx
-```jsx
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-
-const Navbar = () => {
-  const navigate = useNavigate();
-
-  return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography
-          variant="h6"
-          component={Link}
-          to="/"
-          sx={{ flexGrow: 1, color: 'inherit', textDecoration: 'none' }}
-        >
-          내 앱
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button color="inherit" onClick={() => navigate('/')}>홈</Button>
-          <Button color="inherit" onClick={() => navigate('/about')}>소개</Button>
-        </Box>
-      </Toolbar>
-    </AppBar>
-  );
-};
-
-export default Navbar;
-```
-
-### main.jsx 또는 App.jsx에 추가
-```jsx
-import Navbar from './components/layout/Navbar';
-
-const App = () => (
-  <BrowserRouter>
-    <Navbar />
-    <Routes>
-      {/* 라우트 */}
-    </Routes>
-  </BrowserRouter>
-);
-```
-
----
-
-## 자주 쓰는 컴포넌트 패턴
-
-### 데이터 로딩 화면
-```jsx
-import { CircularProgress, Box, Typography } from '@mui/material';
-
-const LoadingScreen = () => (
-  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8 }}>
-    <CircularProgress />
-    <Typography sx={{ mt: 2 }} color="text.secondary">불러오는 중...</Typography>
-  </Box>
-);
-```
-
-### 에러 화면
-```jsx
-import { Alert, Button, Box } from '@mui/material';
-
-const ErrorMessage = ({ message, onRetry }) => (
-  <Box sx={{ p: 2 }}>
-    <Alert
-      severity="error"
-      action={onRetry && <Button color="inherit" size="small" onClick={onRetry}>재시도</Button>}
-    >
-      {message}
-    </Alert>
-  </Box>
-);
-```
-
-### 빈 상태 화면
-```jsx
-import { Box, Typography } from '@mui/material';
-import InboxIcon from '@mui/icons-material/Inbox';
-
-const EmptyState = ({ message = '데이터가 없습니다' }) => (
-  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8, color: 'text.disabled' }}>
-    <InboxIcon sx={{ fontSize: 64, mb: 2 }} />
-    <Typography variant="body1">{message}</Typography>
-  </Box>
-);
+export default Home;
 ```
 
 ---
 
 ## 테마 커스터마이징
 
-`src/theme.js` 에서 프로젝트별로 색상을 변경합니다.
-
+`src/theme.js`에서 프로젝트 색상 변경:
 ```js
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#여기에색상코드',  // 예: '#1976d2' (파랑), '#2e7d32' (초록)
+      main: '#1976d2',   // 원하는 색상으로 변경
     },
     secondary: {
-      main: '#여기에색상코드',
-    },
-  },
-  // 폰트 크기 전체 조정
-  typography: {
-    fontSize: 14,  // 기본 16px → 14px
-  },
-  // 컴포넌트 기본 스타일 재정의
-  components: {
-    MuiButton: {
-      defaultProps: {
-        disableElevation: true,  // 버튼 그림자 제거
-      },
-      styleOverrides: {
-        root: {
-          borderRadius: 8,  // 버튼 둥글기
-        },
-      },
+      main: '#dc004e',   // 원하는 색상으로 변경
     },
   },
 });
@@ -231,58 +120,44 @@ export default theme;
 
 ---
 
-## 빌드 및 배포
+## 자주 사용하는 MUI 컴포넌트
 
-### 빌드
-```bash
-npm run build
-# dist/ 폴더에 결과물 생성
+### 레이아웃
+```jsx
+import { Container, Box, Grid, Stack } from '@mui/material';
+
+// 페이지 래퍼
+<Container maxWidth="lg">...</Container>
+
+// 유연한 박스
+<Box sx={{ display: 'flex', gap: 2 }}>...</Box>
+
+// 그리드
+<Grid container spacing={2}>
+  <Grid item xs={12} md={6}>...</Grid>
+</Grid>
+
+// 수직/수평 스택
+<Stack direction="row" spacing={2}>...</Stack>
 ```
 
-### 빌드 미리보기
-```bash
-npm run preview
-# http://localhost:4173 에서 빌드 결과 확인
-```
+### 피드백
+```jsx
+import { Alert, Snackbar, CircularProgress, Skeleton } from '@mui/material';
 
-### GitHub Pages 배포
-```bash
-# 1. vite.config.js에 base 설정 추가
-# base: '/레포지토리명/'
+// 알림
+<Alert severity="success">저장되었습니다!</Alert>
 
-# 2. 빌드
-npm run build
-
-# 3. dist 폴더를 gh-pages 브랜치에 푸시
-npx gh-pages -d dist
+// 로딩
+<CircularProgress />
+<Skeleton variant="rectangular" width={210} height={60} />
 ```
 
 ---
 
-## 자주 발생하는 문제
+## 개발 팁
 
-### 포트 충돌
-```js
-// vite.config.js
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    port: 3000,  // 기본 5173에서 변경
-  },
-});
-```
-
-### MUI 버전 호환 오류
-```bash
-npm install --legacy-peer-deps
-```
-
-### 환경변수 사용
-```bash
-# 프로젝트 루트에 .env 파일 생성
-VITE_API_URL=https://api.example.com
-```
-```js
-// 코드에서 사용 (VITE_ 접두사 필수)
-const apiUrl = import.meta.env.VITE_API_URL;
-```
+1. **MUI 문서 참고**: https://mui.com/components/
+2. **sx prop 우선**: 인라인 style 대신 항상 sx 사용
+3. **theme 활용**: 하드코딩 색상/크기 대신 theme 값 사용
+4. **반응형 기본**: 모바일 먼저 설계 후 큰 화면으로 확장
