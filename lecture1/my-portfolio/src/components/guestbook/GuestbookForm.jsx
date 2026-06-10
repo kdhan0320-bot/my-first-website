@@ -162,7 +162,7 @@ const GuestbookForm = ({ onSuccess }) => {
 
       <TextField
         name="message"
-        label="메시지 *"
+        label="메시지"
         value={form.message}
         onChange={handleChange}
         variant="outlined"
