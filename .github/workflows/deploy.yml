@@ -26,7 +26,11 @@ jobs:
           node-version: '20'
 
       - name: Install and build my-portfolio
-        run: cd my-portfolio && npm install && npm run build
+        working-directory: lecture1/my-portfolio
+        run: npm install && npm run build
+        env:
+          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
 
       - name: Install and build my-community
         working-directory: lecture1/my-community
@@ -39,8 +43,9 @@ jobs:
         run: |
           mkdir -p _site/my-portfolio
           mkdir -p _site/my-community
-          cp -r my-portfolio/dist/. _site/my-portfolio/
+          cp -r lecture1/my-portfolio/dist/. _site/my-portfolio/
           cp -r lecture1/my-community/dist/. _site/my-community/
+          cp _site/my-portfolio/index.html _site/my-portfolio/404.html
           cp _site/my-community/index.html _site/my-community/404.html
           [ -f index.html ] && cp index.html _site/ || true
 
