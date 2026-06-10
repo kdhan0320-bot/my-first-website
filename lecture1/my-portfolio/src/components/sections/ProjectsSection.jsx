@@ -17,7 +17,7 @@ const ProjectsSection = () => {
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
-            Projects 섹션
+            PROJECTS
           </Typography>
           <Typography variant="h2" sx={{ mt: 1, color: '#111111' }}>
             여기는 Projects 섹션입니다.
@@ -45,7 +45,7 @@ const ProjectsSection = () => {
                 </Box>
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography variant="h4" gutterBottom>{title}</Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  <Typography variant="body2" sx={{ color: '#666666', mb: 2 }}>
                     {desc}
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>

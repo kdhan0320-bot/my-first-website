@@ -15,7 +15,7 @@ const HeroSection = () => (
         variant="overline"
         sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}
       >
-        Hero 섹션
+        HERO
       </Typography>
 
       <Typography variant="h1" sx={{ mt: 2, mb: 3, color: '#FFFFFF', px: { xs: 1, sm: 0 } }}>
@@ -27,7 +27,11 @@ const HeroSection = () => (
       </Typography>
 
       <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', px: { xs: 2, sm: 0 } }}>
-        <Button variant="contained" color="primary" size="large">
+        <Button
+          variant="contained"
+          size="large"
+          sx={{ bgcolor: '#FFFFFF', color: '#111111', '&:hover': { bgcolor: '#E0E0E0' } }}
+        >
           프로젝트 보기
         </Button>
         <Button

@@ -6,7 +6,7 @@ const ProjectsPage = () => (
     <Container maxWidth="lg">
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
-          Projects 페이지
+          PROJECTS
         </Typography>
         <Typography variant="h1" sx={{ mt: 1, color: '#FFFFFF' }}>
           Projects

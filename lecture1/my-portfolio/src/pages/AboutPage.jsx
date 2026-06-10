@@ -6,7 +6,7 @@ const AboutPage = () => (
     <Container maxWidth="md">
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
-          About Me 페이지
+          ABOUT ME
         </Typography>
         <Typography variant="h1" sx={{ mt: 1, color: '#111111' }}>
           About Me

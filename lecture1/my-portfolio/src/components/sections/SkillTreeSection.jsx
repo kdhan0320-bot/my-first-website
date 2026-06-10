@@ -15,7 +15,7 @@ const SkillTreeSection = () => (
     <Container maxWidth="lg">
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
-          Skill Tree 섹션
+          SKILLS
         </Typography>
         <Typography variant="h2" sx={{ mt: 1, color: '#111111' }}>
           여기는 Skill Tree 섹션입니다.
@@ -26,9 +26,9 @@ const SkillTreeSection = () => (
         </Typography>
       </Box>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={4} alignItems="stretch">
         <Grid item xs={12} md={6}>
-          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: 3, p: 4 }}>
+          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: 3, p: 4, height: '100%' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               <CodeIcon sx={{ color: '#111111' }} />
               <Typography variant="h4" sx={{ color: '#111111' }}>기술 숙련도</Typography>
@@ -55,8 +55,11 @@ const SkillTreeSection = () => (
         </Grid>
 
         <Grid item xs={12} md={6}>
-          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: 3, p: 4 }}>
-            <Typography variant="h4" sx={{ color: '#111111', mb: 3 }}>기술 태그</Typography>
+          <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: 3, p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h4" sx={{ color: '#111111', mb: 1 }}>기술 태그</Typography>
+            <Typography variant="body2" sx={{ color: '#888888', mb: 3 }}>
+              사용 가능한 기술 스택입니다.
+            </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
               {TAGS.map((tag) => (
                 <Chip
@@ -67,6 +70,8 @@ const SkillTreeSection = () => (
                     color: '#111111',
                     border: '1px solid #333333',
                     fontWeight: 600,
+                    fontSize: '0.85rem',
+                    height: 34,
                     '&:hover': { bgcolor: '#111111', color: '#FFFFFF' },
                   }}
                 />
