@@ -23,7 +23,7 @@ const Login = () => {
     try {
       await signIn(username, password);
       navigate(ROUTES.HOME);
-    } catch (err) {
+    } catch {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.');
     } finally {
       setLoading(false);
@@ -33,10 +33,10 @@ const Login = () => {
   return (
     <Box
       sx={{
-        maxWidth: 480,
+        maxWidth: 420,
         mx: 'auto',
         minHeight: '100vh',
-        bgcolor: 'background.default',
+        bgcolor: '#F6F8FB',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -44,29 +44,49 @@ const Login = () => {
         px: 3,
       }}
     >
-      {/* 로고 영역 */}
+      {/* 로고 */}
       <Box sx={{ textAlign: 'center', mb: 5 }}>
         <Box
           sx={{
-            width: 80, height: 80, borderRadius: '50%',
-            bgcolor: 'primary.main',
+            width: 72, height: 72,
+            borderRadius: '20px',
+            bgcolor: '#EAF6FC',
+            border: '2px solid #B8DFF2',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             mx: 'auto', mb: 2,
-            boxShadow: '0 4px 20px rgba(21,101,192,0.35)',
           }}
         >
-          <SportsEsportsIcon sx={{ fontSize: 44, color: '#fff' }} />
+          <SportsEsportsIcon sx={{ fontSize: 36, color: '#1578AA' }} />
         </Box>
-        <Typography variant="h1" sx={{ color: 'primary.main', fontWeight: 800, fontSize: '2rem' }}>
+        <Typography
+          sx={{
+            color: '#1A1A2E',
+            fontWeight: 800,
+            fontSize: '1.5rem',
+            letterSpacing: '-0.4px',
+            lineHeight: 1.2,
+          }}
+        >
           겜스타그램
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-          게임 리뷰 & 정보 공유 SNS
+        <Typography variant="body2" sx={{ color: '#7F8FA4', mt: 0.5 }}>
+          게임 리뷰 &amp; 모임 SNS
         </Typography>
       </Box>
 
       {/* 로그인 폼 */}
-      <Box component="form" onSubmit={handleLogin} sx={{ width: '100%' }}>
+      <Box
+        component="form"
+        onSubmit={handleLogin}
+        sx={{
+          width: '100%',
+          bgcolor: '#FFFFFF',
+          borderRadius: 3,
+          p: 3.5,
+          border: '1px solid #E0E4EA',
+          boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
+        }}
+      >
         {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
         <TextField
@@ -95,9 +115,9 @@ const Login = () => {
           fullWidth
           size="large"
           disabled={loading}
-          sx={{ mb: 2, py: 1.5, fontSize: '1rem' }}
+          sx={{ mb: 1.5, py: 1.4, borderRadius: 2.5, fontWeight: 700, fontSize: '0.95rem' }}
         >
-          {loading ? <CircularProgress size={24} color="inherit" /> : '로그인'}
+          {loading ? <CircularProgress size={22} color="inherit" /> : '로그인'}
         </Button>
 
         <Button
@@ -105,7 +125,7 @@ const Login = () => {
           fullWidth
           size="large"
           onClick={() => navigate(ROUTES.SIGNUP)}
-          sx={{ py: 1.5, fontSize: '1rem' }}
+          sx={{ py: 1.4, borderRadius: 2.5, fontWeight: 600, fontSize: '0.95rem' }}
         >
           회원가입
         </Button>

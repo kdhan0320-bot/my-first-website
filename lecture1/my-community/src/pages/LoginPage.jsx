@@ -4,7 +4,8 @@ import {
   Box, Container, Typography, TextField, Button,
   Alert, InputAdornment, IconButton,
 } from '@mui/material';
-import { Visibility, VisibilityOff, SportsEsports } from '@mui/icons-material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useAuth } from '../hooks/useAuth';
 
 const LoginPage = () => {
@@ -35,42 +36,48 @@ const LoginPage = () => {
     <Box
       sx={{
         minHeight: '100vh',
+        bgcolor: '#F6F8FB',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'radial-gradient(ellipse at top, #0d1b3e 0%, #0a0e1a 60%)',
+        py: 4,
       }}
     >
       <Container maxWidth="xs">
+
         {/* 로고 */}
-        <Box sx={{ textAlign: 'center', mb: 5 }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box
             sx={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 1.5,
-              background: 'linear-gradient(135deg, #00b4d8, #7b2ff7)',
-              borderRadius: 3,
-              px: 3,
-              py: 1.5,
-              mb: 2,
+              gap: 1.2,
+              mb: 1.5,
             }}
           >
-            <SportsEsports sx={{ fontSize: 36, color: '#fff' }} />
-            <Typography
-              variant="h4"
+            <Box
               sx={{
-                fontWeight: 900,
-                color: '#fff',
-                letterSpacing: 2,
-                fontStyle: 'italic',
+                width: 40, height: 40,
+                borderRadius: '12px',
+                bgcolor: '#1578AA',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
-              GAME HUB
+              <ForumOutlinedIcon sx={{ color: '#fff', fontSize: '1.3rem' }} />
+            </Box>
+            <Typography
+              sx={{
+                fontWeight: 800,
+                fontSize: '1.25rem',
+                color: '#1A1A2E',
+                letterSpacing: '-0.3px',
+              }}
+            >
+              Dohan Community
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary">
-            게이머들을 위한 정보 공유 커뮤니티
+          <Typography variant="body2" sx={{ color: '#7F8FA4' }}>
+            자유롭게 소통하는 커뮤니티
           </Typography>
         </Box>
 
@@ -79,17 +86,18 @@ const LoginPage = () => {
           component="form"
           onSubmit={handleSubmit}
           sx={{
-            bgcolor: 'background.paper',
+            bgcolor: '#FFFFFF',
             borderRadius: 3,
-            p: 4,
-            border: '1px solid rgba(255,255,255,0.07)',
+            p: { xs: 3, sm: 4 },
+            border: '1px solid #E0E4EA',
+            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
           }}
         >
-          <Typography variant="h2" sx={{ mb: 3, textAlign: 'center' }}>
+          <Typography variant="h2" sx={{ mb: 3, textAlign: 'center', color: '#1A1A2E', fontWeight: 700, fontSize: '1.25rem' }}>
             로그인
           </Typography>
 
-          {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+          {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
           <TextField
             label="아이디"
@@ -114,8 +122,8 @@ const LoginPage = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPw(p => !p)} edge="end">
-                    {showPw ? <VisibilityOff /> : <Visibility />}
+                  <IconButton onClick={() => setShowPw(p => !p)} edge="end" size="small">
+                    {showPw ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -129,21 +137,21 @@ const LoginPage = () => {
             fullWidth
             size="large"
             disabled={loading}
-            sx={{ mb: 2, py: 1.5 }}
+            sx={{ mb: 2, py: 1.4, borderRadius: 2.5, fontWeight: 700 }}
           >
             {loading ? '로그인 중...' : '로그인'}
           </Button>
 
           <Box sx={{ textAlign: 'center' }}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#7F8FA4' }}>
               아직 계정이 없으신가요?{' '}
               <Typography
                 component={Link}
                 to="/signup"
                 variant="body2"
-                sx={{ color: 'primary.main', textDecoration: 'none', fontWeight: 600 }}
+                sx={{ color: '#1578AA', textDecoration: 'none', fontWeight: 700 }}
               >
-                회원가입하러 가기
+                회원가입
               </Typography>
             </Typography>
           </Box>

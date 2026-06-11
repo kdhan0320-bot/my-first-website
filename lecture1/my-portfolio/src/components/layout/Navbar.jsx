@@ -13,25 +13,53 @@ const NAV_ITEMS = [
   { label: 'Projects', path: '/projects' },
 ];
 
+const LogoSymbol = () => (
+  <Box
+    sx={{
+      width: 32, height: 32,
+      borderRadius: '10px',
+      bgcolor: '#1578AA',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0,
+    }}
+  >
+    <Typography sx={{ color: '#FFF', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
+      DK
+    </Typography>
+  </Box>
+);
+
 const Navbar = () => {
   const location = useLocation();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid #2A2A4E' }}>
+    <AppBar position="sticky">
       <Container maxWidth="lg">
-        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-          <Typography
-            variant="h6"
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between', minHeight: 64 }}>
+
+          <Box
             component={Link}
             to="/"
-            sx={{ color: '#FFFFFF', textDecoration: 'none', fontWeight: 700, letterSpacing: 1 }}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1.2, textDecoration: 'none' }}
           >
-            PORTFOLIO
-          </Typography>
+            <LogoSymbol />
+            <Typography
+              sx={{
+                color: '#1A1A2E',
+                fontWeight: 800,
+                fontSize: '1.1rem',
+                letterSpacing: '-0.2px',
+                fontFamily: '"Pretendard", "Noto Sans KR", sans-serif',
+              }}
+            >
+              Dohan.K
+            </Typography>
+          </Box>
 
-          {/* 데스크톱 네비게이션 */}
-          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 0.5, alignItems: 'center' }}>
             {NAV_ITEMS.map(({ label, path }) => {
               const isActive = location.pathname === path;
               return (
@@ -40,11 +68,14 @@ const Navbar = () => {
                   component={Link}
                   to={path}
                   sx={{
-                    color: isActive ? '#FFFFFF' : '#AAAAAA',
-                    borderBottom: isActive ? '2px solid #FFFFFF' : '2px solid transparent',
+                    color: isActive ? '#1578AA' : '#7F8FA4',
+                    fontWeight: isActive ? 700 : 500,
+                    fontSize: '0.875rem',
+                    borderBottom: isActive ? '2px solid #1578AA' : '2px solid transparent',
                     borderRadius: 0,
                     px: 2,
-                    '&:hover': { color: '#FFFFFF', backgroundColor: 'transparent' },
+                    py: 1,
+                    '&:hover': { color: '#1578AA', backgroundColor: 'transparent' },
                   }}
                 >
                   {label}
@@ -53,9 +84,8 @@ const Navbar = () => {
             })}
           </Box>
 
-          {/* 모바일 햄버거 버튼 */}
           <IconButton
-            sx={{ display: { xs: 'flex', sm: 'none' }, color: '#FFFFFF' }}
+            sx={{ display: { xs: 'flex', sm: 'none' }, color: '#1A1A2E' }}
             onClick={() => setDrawerOpen(true)}
             aria-label="메뉴 열기"
           >
@@ -64,19 +94,22 @@ const Navbar = () => {
         </Toolbar>
       </Container>
 
-      {/* 모바일 드로어 */}
       <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        slotProps={{ paper: { sx: { bgcolor: '#1A1A2E', width: 220 } } }}
+        slotProps={{ paper: { sx: { bgcolor: '#FFFFFF', width: 220, borderLeft: '1px solid #E0E4EA' } } }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
-          <IconButton sx={{ color: '#FFFFFF' }} onClick={() => setDrawerOpen(false)} aria-label="메뉴 닫기">
-            <CloseIcon />
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, borderBottom: '1px solid #E0E4EA' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <LogoSymbol />
+            <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#1A1A2E' }}>Dohan.K</Typography>
+          </Box>
+          <IconButton sx={{ color: '#7F8FA4' }} onClick={() => setDrawerOpen(false)}>
+            <CloseIcon fontSize="small" />
           </IconButton>
         </Box>
-        <List>
+        <List sx={{ pt: 1 }}>
           {NAV_ITEMS.map(({ label, path }) => {
             const isActive = location.pathname === path;
             return (
@@ -86,13 +119,13 @@ const Navbar = () => {
                   to={path}
                   onClick={() => setDrawerOpen(false)}
                   sx={{
-                    color: isActive ? '#FFFFFF' : '#AAAAAA',
-                    borderLeft: isActive ? '3px solid #FFFFFF' : '3px solid transparent',
+                    color: isActive ? '#1578AA' : '#7F8FA4',
+                    borderLeft: isActive ? '3px solid #1578AA' : '3px solid transparent',
                     pl: 3,
-                    '&:hover': { color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.08)' },
+                    '&:hover': { color: '#1578AA', bgcolor: '#EAF6FC' },
                   }}
                 >
-                  <ListItemText primary={label} />
+                  <ListItemText primary={label} slotProps={{ primary: { fontWeight: isActive ? 700 : 400, fontSize: '0.9rem' } }} />
                 </ListItemButton>
               </ListItem>
             );
