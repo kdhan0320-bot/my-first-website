@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Container, Typography, Card, CardContent, Grid, Button, Chip, Divider } from '@mui/material';
+import { Box, Container, Typography, Card, CardContent, Button, Chip, Divider } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
@@ -37,65 +37,82 @@ const ProjectsSection = () => {
           </Typography>
         </Box>
 
-        <Grid container spacing={3}>
+        {/* CSS Grid - MUI v9 호환 */}
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(4, 1fr)',
+            },
+            gap: 3,
+          }}
+        >
           {projects.map(({ id, title, description, tech_stack, thumbnail_url }) => (
-            <Grid item xs={12} sm={6} md={3} key={id}>
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: '0 12px 32px rgba(0,0,0,0.15)',
-                  },
-                }}
-              >
-                <Box sx={{ height: 150, bgcolor: '#E8E8E8', overflow: 'hidden', flexShrink: 0 }}>
-                  {thumbnail_url && (
-                    <Box
-                      component="img"
-                      src={thumbnail_url}
-                      alt={title}
-                      sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                      onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                    />
-                  )}
-                </Box>
-                <CardContent sx={{ flexGrow: 1, p: 2 }}>
-                  <Typography variant="h4" gutterBottom sx={{ fontSize: '0.95rem', fontWeight: 600 }}>
-                    {title}
-                  </Typography>
-                  <Typography
-                    variant="body2"
+            <Card
+              key={id}
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  boxShadow: '0 12px 32px rgba(0,0,0,0.15)',
+                },
+                '&:hover .thumb-img': { transform: 'scale(1.05)' },
+              }}
+            >
+              {/* 16:9 고정 비율 썸네일 */}
+              <Box sx={{ position: 'relative', paddingTop: '56.25%', bgcolor: '#E8E8E8', overflow: 'hidden', flexShrink: 0 }}>
+                {thumbnail_url && (
+                  <Box
+                    component="img"
+                    className="thumb-img"
+                    src={thumbnail_url}
+                    alt={title}
                     sx={{
-                      color: '#666666',
-                      mb: 1.5,
-                      lineHeight: 1.6,
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden',
+                      position: 'absolute', top: 0, left: 0,
+                      width: '100%', height: '100%',
+                      objectFit: 'cover', objectPosition: 'top',
+                      transition: 'transform 0.35s ease',
                     }}
-                  >
-                    {description}
-                  </Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {tech_stack?.slice(0, 3).map((tag) => (
-                      <Chip
-                        key={tag}
-                        label={tag}
-                        size="small"
-                        sx={{ border: '1px solid #CCCCCC', color: '#555555', bgcolor: 'transparent', fontSize: '0.68rem' }}
-                      />
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  />
+                )}
+              </Box>
+              <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                <Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: '#111', mb: 0.5 }}>
+                  {title}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: '#777',
+                    fontSize: '0.78rem',
+                    mb: 1.5,
+                    lineHeight: 1.6,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {description}
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {tech_stack?.slice(0, 3).map((tag) => (
+                    <Chip
+                      key={tag}
+                      label={tag}
+                      size="small"
+                      sx={{ border: '1px solid #DDD', color: '#555', bgcolor: 'transparent', fontSize: '0.65rem', height: 22 }}
+                    />
+                  ))}
+                </Box>
+              </CardContent>
+            </Card>
           ))}
-        </Grid>
+        </Box>
 
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Button

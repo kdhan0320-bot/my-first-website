@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  Box, Container, Typography, Grid, Card, CardContent, CardActions,
+  Box, Container, Typography, Card, CardContent, CardActions,
   Chip, Button, Divider, Skeleton, Alert, IconButton, Tooltip,
 } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -18,27 +18,35 @@ const formatDate = (dateStr) => {
 const ProjectCard = ({ project, index }) => (
   <Card
     sx={{
-      height: '100%',
       display: 'flex',
       flexDirection: 'column',
-      bgcolor: '#161616',
-      border: '1px solid rgba(255,255,255,0.08)',
+      bgcolor: '#1A1A1A',
+      border: '1px solid rgba(255,255,255,0.1)',
       borderRadius: 3,
       boxShadow: 'none',
       overflow: 'hidden',
       transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
       '&:hover': {
-        transform: 'translateY(-8px)',
-        boxShadow: '0 24px 60px rgba(0,0,0,0.7)',
-        borderColor: 'rgba(255,255,255,0.2)',
+        transform: 'translateY(-6px)',
+        boxShadow: '0 20px 50px rgba(0,0,0,0.7)',
+        borderColor: 'rgba(255,255,255,0.25)',
       },
       '&:hover .thumb-img': {
-        transform: 'scale(1.05)',
+        transform: 'scale(1.06)',
       },
     }}
   >
-    {/* 썸네일 */}
-    <Box sx={{ position: 'relative', height: 180, bgcolor: '#0D0D0D', overflow: 'hidden', flexShrink: 0 }}>
+    {/* 썸네일 - 고정 높이, 동일한 비율 */}
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100%',
+        paddingTop: '56.25%', /* 16:9 고정 비율 */
+        bgcolor: '#0D0D0D',
+        overflow: 'hidden',
+        flexShrink: 0,
+      }}
+    >
       {project.thumbnail_url ? (
         <Box
           component="img"
@@ -46,65 +54,84 @@ const ProjectCard = ({ project, index }) => (
           src={project.thumbnail_url}
           alt={project.title}
           sx={{
+            position: 'absolute',
+            top: 0, left: 0,
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: 'top',
             transition: 'transform 0.4s ease',
           }}
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
         />
       ) : (
-        <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography variant="caption" sx={{ color: '#333' }}>No Image</Typography>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography sx={{ color: '#333', fontSize: '0.8rem' }}>미리보기 없음</Typography>
         </Box>
       )}
-      {/* 프로젝트 번호 뱃지 */}
+
+      {/* 번호 뱃지 */}
       <Box
         sx={{
           position: 'absolute',
-          top: 12,
-          left: 12,
-          width: 32,
-          height: 32,
+          top: 10,
+          left: 10,
+          width: 30,
+          height: 30,
           borderRadius: '50%',
-          bgcolor: 'rgba(0,0,0,0.75)',
+          bgcolor: 'rgba(0,0,0,0.7)',
           border: '1px solid rgba(255,255,255,0.3)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          backdropFilter: 'blur(4px)',
         }}
       >
-        <Typography sx={{ color: '#FFFFFF', fontSize: '0.7rem', fontWeight: 700 }}>
+        <Typography sx={{ color: '#FFF', fontSize: '0.65rem', fontWeight: 700 }}>
           {String(index + 1).padStart(2, '0')}
         </Typography>
       </Box>
     </Box>
 
-    <CardContent sx={{ flexGrow: 1, p: 2.5, pb: 1.5 }}>
+    {/* 카드 본문 */}
+    <CardContent sx={{ flexGrow: 1, p: 2.5, pb: 1 }}>
       {/* 날짜 */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
-        <CalendarTodayIcon sx={{ fontSize: '0.7rem', color: '#666666' }} />
-        <Typography sx={{ fontSize: '0.72rem', color: '#666666', letterSpacing: 0.5 }}>
+        <CalendarTodayIcon sx={{ fontSize: '0.65rem', color: '#555' }} />
+        <Typography sx={{ fontSize: '0.7rem', color: '#555', letterSpacing: 0.5 }}>
           {formatDate(project.created_at)}
         </Typography>
       </Box>
 
       {/* 제목 */}
       <Typography
-        variant="h4"
-        sx={{ color: '#FFFFFF', mb: 1, fontSize: '1rem', fontWeight: 700, lineHeight: 1.4 }}
+        sx={{
+          color: '#FFFFFF',
+          fontSize: '0.95rem',
+          fontWeight: 700,
+          lineHeight: 1.45,
+          mb: 1,
+          letterSpacing: '-0.01em',
+        }}
       >
         {project.title}
       </Typography>
 
       {/* 설명 */}
       <Typography
-        variant="body2"
         sx={{
-          color: '#888888',
-          mb: 2,
+          color: '#999',
+          fontSize: '0.8rem',
           lineHeight: 1.7,
-          fontSize: '0.82rem',
+          mb: 2,
           display: '-webkit-box',
           WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical',
@@ -124,8 +151,8 @@ const ProjectCard = ({ project, index }) => (
             sx={{
               height: 22,
               bgcolor: 'rgba(255,255,255,0.06)',
-              color: '#AAAAAA',
-              border: '1px solid rgba(255,255,255,0.1)',
+              color: '#BBBBBB',
+              border: '1px solid rgba(255,255,255,0.12)',
               fontSize: '0.65rem',
               fontWeight: 500,
               '& .MuiChip-label': { px: 1 },
@@ -135,8 +162,9 @@ const ProjectCard = ({ project, index }) => (
       </Box>
     </CardContent>
 
-    <CardActions sx={{ p: 2.5, pt: 1, flexDirection: 'column', gap: 1, alignItems: 'stretch' }}>
-      {/* Live Demo + GitHub */}
+    {/* 버튼 영역 */}
+    <CardActions sx={{ px: 2.5, pt: 1.5, pb: 2.5, flexDirection: 'column', gap: 1, alignItems: 'stretch' }}>
+      <Divider sx={{ borderColor: 'rgba(255,255,255,0.07)', mb: 0.5 }} />
       <Box sx={{ display: 'flex', gap: 1 }}>
         {project.detail_url && (
           <Button
@@ -149,18 +177,19 @@ const ProjectCard = ({ project, index }) => (
             sx={{
               flex: 1,
               bgcolor: '#FFFFFF',
-              color: '#111111',
-              fontSize: '0.72rem',
+              color: '#111',
+              fontSize: '0.73rem',
               fontWeight: 700,
               py: 0.8,
-              '&:hover': { bgcolor: '#E0E0E0' },
+              borderRadius: 1.5,
+              '&:hover': { bgcolor: '#E8E8E8' },
             }}
           >
             Live Demo
           </Button>
         )}
         {project.github_url && (
-          <Tooltip title="GitHub">
+          <Tooltip title="GitHub 코드 보기">
             <IconButton
               href={project.github_url}
               target="_blank"
@@ -170,8 +199,8 @@ const ProjectCard = ({ project, index }) => (
                 border: '1px solid rgba(255,255,255,0.15)',
                 borderRadius: 1.5,
                 color: '#AAAAAA',
-                px: 1.5,
-                '&:hover': { borderColor: '#FFFFFF', color: '#FFFFFF', bgcolor: 'transparent' },
+                width: 36,
+                '&:hover': { borderColor: '#FFFFFF', color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.05)' },
               }}
             >
               <GitHubIcon sx={{ fontSize: '1rem' }} />
@@ -180,21 +209,22 @@ const ProjectCard = ({ project, index }) => (
         )}
       </Box>
 
-      {/* View Details */}
       <Button
         size="small"
         variant="text"
         href={project.detail_url}
         target="_blank"
         rel="noopener noreferrer"
-        endIcon={<ArrowForwardIcon sx={{ fontSize: '0.85rem !important' }} />}
+        endIcon={<ArrowForwardIcon sx={{ fontSize: '0.8rem !important' }} />}
         fullWidth
         sx={{
-          color: '#666666',
+          color: '#555',
           fontSize: '0.72rem',
           justifyContent: 'flex-start',
           px: 0,
-          '&:hover': { color: '#FFFFFF', bgcolor: 'transparent' },
+          py: 0,
+          minHeight: 'unset',
+          '&:hover': { color: '#CCCCCC', bgcolor: 'transparent' },
         }}
       >
         View Details
@@ -204,25 +234,31 @@ const ProjectCard = ({ project, index }) => (
 );
 
 const SkeletonCard = () => (
-  <Card sx={{ bgcolor: '#161616', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 3, boxShadow: 'none' }}>
-    <Skeleton variant="rectangular" height={180} sx={{ bgcolor: '#1E1E1E' }} />
+  <Card sx={{ bgcolor: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 3, boxShadow: 'none', overflow: 'hidden' }}>
+    {/* 16:9 비율 스켈레톤 */}
+    <Box sx={{ paddingTop: '56.25%', position: 'relative', bgcolor: '#111' }}>
+      <Skeleton
+        variant="rectangular"
+        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: '#222' }}
+      />
+    </Box>
     <CardContent sx={{ p: 2.5 }}>
-      <Skeleton variant="text" width={70} height={16} sx={{ bgcolor: '#222', mb: 1 }} />
-      <Skeleton variant="text" width="70%" height={22} sx={{ bgcolor: '#242424', mb: 1 }} />
-      <Skeleton variant="text" sx={{ bgcolor: '#1E1E1E' }} />
-      <Skeleton variant="text" width="85%" sx={{ bgcolor: '#1E1E1E', mb: 2 }} />
+      <Skeleton variant="text" width={70} height={14} sx={{ bgcolor: '#2A2A2A', mb: 1 }} />
+      <Skeleton variant="text" width="75%" height={20} sx={{ bgcolor: '#2A2A2A', mb: 1 }} />
+      <Skeleton variant="text" sx={{ bgcolor: '#222' }} />
+      <Skeleton variant="text" width="85%" sx={{ bgcolor: '#222', mb: 2 }} />
       <Box sx={{ display: 'flex', gap: 0.5 }}>
-        {[52, 44, 56].map((w) => (
-          <Skeleton key={w} variant="rounded" width={w} height={22} sx={{ bgcolor: '#1E1E1E' }} />
+        {[48, 40, 52].map((w) => (
+          <Skeleton key={w} variant="rounded" width={w} height={22} sx={{ bgcolor: '#222' }} />
         ))}
       </Box>
     </CardContent>
-    <CardActions sx={{ p: 2.5, pt: 1, flexDirection: 'column', gap: 1 }}>
+    <CardActions sx={{ px: 2.5, pb: 2.5, flexDirection: 'column', gap: 1 }}>
       <Box sx={{ display: 'flex', gap: 1, width: '100%' }}>
-        <Skeleton variant="rounded" height={32} sx={{ bgcolor: '#1E1E1E', flex: 1 }} />
-        <Skeleton variant="rounded" width={40} height={32} sx={{ bgcolor: '#1E1E1E' }} />
+        <Skeleton variant="rounded" height={32} sx={{ bgcolor: '#222', flex: 1 }} />
+        <Skeleton variant="rounded" width={36} height={32} sx={{ bgcolor: '#222' }} />
       </Box>
-      <Skeleton variant="text" width={90} height={20} sx={{ bgcolor: '#1E1E1E' }} />
+      <Skeleton variant="text" width={80} height={16} sx={{ bgcolor: '#222' }} />
     </CardActions>
   </Card>
 );
@@ -249,49 +285,62 @@ const ProjectsPage = () => {
   return (
     <Box sx={{ bgcolor: '#111111', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
       <Container maxWidth="lg">
+
         {/* 헤더 */}
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
           <Typography
-            variant="overline"
-            sx={{ color: '#555555', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem' }}
+            sx={{
+              color: '#555',
+              letterSpacing: 6,
+              fontWeight: 600,
+              fontSize: '0.68rem',
+              textTransform: 'uppercase',
+              mb: 1.5,
+            }}
           >
             PROJECTS
           </Typography>
-          <Typography variant="h1" sx={{ mt: 1, color: '#FFFFFF', fontWeight: 800 }}>
-            Projects
+          <Typography
+            variant="h1"
+            sx={{ color: '#FFFFFF', fontWeight: 800, fontSize: { xs: '2rem', md: '2.8rem' } }}
+          >
+            나의 프로젝트
           </Typography>
-          <Box sx={{ width: 48, height: 3, bgcolor: '#FFFFFF', mx: 'auto', mt: 2, borderRadius: 2 }} />
-          <Typography variant="body2" sx={{ mt: 2.5, color: '#666666' }}>
+          <Box sx={{ width: 44, height: 3, bgcolor: '#FFFFFF', mx: 'auto', mt: 2, borderRadius: 2 }} />
+          <Typography sx={{ mt: 2.5, color: '#666', fontSize: '0.85rem', lineHeight: 1.8 }}>
             직접 설계하고 구현한 프로젝트들을 소개합니다.
           </Typography>
         </Box>
 
         {error && <Alert severity="error" sx={{ mb: 4 }}>{error}</Alert>}
 
-        {/* 프로젝트 그리드 */}
-        <Grid container spacing={3}>
+        {/* CSS Grid - MUI v9 호환, 4열/2열/1열 반응형 */}
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(4, 1fr)',
+            },
+            gap: 3,
+          }}
+        >
           {loading
-            ? Array.from({ length: 4 }).map((_, i) => (
-                <Grid item xs={12} sm={6} md={3} key={i}>
-                  <SkeletonCard />
-                </Grid>
-              ))
+            ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
             : projects.map((project, i) => (
-                <Grid item xs={12} sm={6} md={3} key={project.id}>
-                  <ProjectCard project={project} index={i} />
-                </Grid>
+                <ProjectCard key={project.id} project={project} index={i} />
               ))
           }
-          {!loading && projects.length === 0 && !error && (
-            <Grid item xs={12}>
-              <Box sx={{ textAlign: 'center', py: 12 }}>
-                <Typography variant="h3" sx={{ color: '#333333' }}>
-                  아직 등록된 프로젝트가 없습니다.
-                </Typography>
-              </Box>
-            </Grid>
-          )}
-        </Grid>
+        </Box>
+
+        {!loading && projects.length === 0 && !error && (
+          <Box sx={{ textAlign: 'center', py: 14 }}>
+            <Typography sx={{ color: '#333', fontSize: '1.1rem' }}>
+              아직 등록된 프로젝트가 없습니다.
+            </Typography>
+          </Box>
+        )}
       </Container>
     </Box>
   );
