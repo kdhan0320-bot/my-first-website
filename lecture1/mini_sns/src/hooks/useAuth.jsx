@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
     supabase.auth.getSession()
@@ -72,8 +73,11 @@ export const AuthProvider = ({ children }) => {
     await supabase.auth.signOut();
   };
 
+  const enterGuestMode = () => setIsGuest(true);
+  const exitGuestMode = () => setIsGuest(false);
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signOut, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, loading, isGuest, signUp, signIn, signOut, fetchProfile, enterGuestMode, exitGuestMode }}>
       {children}
     </AuthContext.Provider>
   );

@@ -8,10 +8,11 @@ import CreatePost from './pages/CreatePost';
 import Profile from './pages/Profile';
 import Meetup from './pages/Meetup';
 import Chat from './pages/Chat';
+import Notifications from './pages/Notifications';
 import { ROUTES } from './constants/routes';
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, isGuest } = useAuth();
   if (loading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -19,7 +20,7 @@ const ProtectedRoute = ({ children }) => {
       </Box>
     );
   }
-  return user ? children : <Navigate to={ROUTES.LOGIN} replace />;
+  return (user || isGuest) ? children : <Navigate to={ROUTES.LOGIN} replace />;
 };
 
 const PublicRoute = ({ children }) => {
@@ -44,6 +45,7 @@ const AppRoutes = () => (
     <Route path={ROUTES.PROFILE} element={<ProtectedRoute><Profile /></ProtectedRoute>} />
     <Route path={ROUTES.MEETUP} element={<ProtectedRoute><Meetup /></ProtectedRoute>} />
     <Route path={ROUTES.CHAT} element={<ProtectedRoute><Chat /></ProtectedRoute>} />
+    <Route path={ROUTES.NOTIFICATIONS} element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
     <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
   </Routes>
 );

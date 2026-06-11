@@ -38,13 +38,13 @@ const ChatRoom = ({ room, onBack }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', bgcolor: '#f0f4ff' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 56px - 72px)', bgcolor: '#f0f4ff' }}>
       {/* 헤더 */}
       <Box sx={{
         display: 'flex', alignItems: 'center', gap: 1.5,
         px: 1, py: 1, bgcolor: 'background.paper',
         borderBottom: '1px solid', borderColor: 'divider',
-        position: 'sticky', top: 56, zIndex: 5,
+        flexShrink: 0,
       }}>
         <IconButton size="small" onClick={onBack}><ArrowBackIcon /></IconButton>
         <Avatar src={room.avatar} sx={{ width: 36, height: 36 }} />
@@ -82,7 +82,7 @@ const ChatRoom = ({ room, onBack }) => {
       </Box>
 
       {/* 입력 */}
-      <Box sx={{ p: 1.5, bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider' }}>
+      <Box sx={{ p: 1.5, bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
         <TextField
           fullWidth size="small" placeholder="메시지를 입력하세요..."
           value={text}
@@ -160,9 +160,12 @@ const Chat = () => {
           ))}
         </List>
 
-        <Box sx={{ textAlign: 'center', py: 3 }}>
-          <Typography variant="caption" color="text.secondary">
-            🚧 실시간 채팅 기능은 준비 중입니다
+        <Box sx={{ textAlign: 'center', py: 4 }}>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+            채팅방을 선택해 대화를 시작하세요
+          </Typography>
+          <Typography variant="caption" sx={{ color: '#B0B8C1' }}>
+            🚧 실시간 채팅은 준비 중입니다
           </Typography>
         </Box>
       </Box>

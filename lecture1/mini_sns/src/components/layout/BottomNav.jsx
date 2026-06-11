@@ -5,10 +5,12 @@ import {
   Forum, ForumOutlined, AccountCircle, AccountCircleOutlined, Add,
 } from '@mui/icons-material';
 import { ROUTES } from '../../constants/routes';
+import { useAuth } from '../../hooks/useAuth';
 
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isGuest } = useAuth();
   const path = location.pathname;
 
   const isActive = (route) => path === route;
@@ -40,7 +42,7 @@ const BottomNav = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', px: 2 }}>
             <Fab
               size="medium" color="primary"
-              onClick={() => navigate(ROUTES.CREATE_POST)}
+              onClick={() => navigate(isGuest ? ROUTES.LOGIN : ROUTES.CREATE_POST)}
               sx={{ boxShadow: '0 4px 14px rgba(21,101,192,0.4)', width: 48, height: 48 }}
             >
               <Add />

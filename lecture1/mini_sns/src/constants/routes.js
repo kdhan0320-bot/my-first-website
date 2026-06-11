@@ -6,5 +6,5 @@ export const ROUTES = {
   PROFILE: '/profile',
   MEETUP: '/meetup',
   CHAT: '/chat',
-  CHAT_ROOM: '/chat/:id',
+  NOTIFICATIONS: '/notifications',
 };

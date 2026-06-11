@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card, CardContent, Box, Avatar, Typography, IconButton,
-  Chip, Menu, MenuItem,
+  Chip, Menu, MenuItem, Snackbar, Alert,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -15,16 +15,17 @@ import { formatDistanceToNow } from '../../utils/timeFormat';
 import CommentModal from './CommentModal';
 
 const PostCard = ({ post, onDelete }) => {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   const navigate = useNavigate();
 
   const [liked, setLiked] = useState(post.user_liked || false);
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [commentOpen, setCommentOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [guestSnack, setGuestSnack] = useState(false);
 
   const handleLike = async () => {
-    if (!user) return;
+    if (isGuest || !user) { setGuestSnack(true); return; }
     if (liked) {
       await supabase.from('likes').delete().eq('post_id', post.id).eq('user_id', user.id);
       setLiked(false);
@@ -97,7 +98,7 @@ const PostCard = ({ post, onDelete }) => {
               }
             </IconButton>
             <Typography variant="body2" fontWeight={600}>{likesCount}</Typography>
-            <IconButton size="small" onClick={() => setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }}>
+            <IconButton size="small" onClick={() => isGuest ? setGuestSnack(true) : setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }}>
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
             <Typography variant="body2" color="text.secondary">{post.comments_count || 0}</Typography>
@@ -141,6 +142,18 @@ const PostCard = ({ post, onDelete }) => {
       </Card>
 
       <CommentModal open={commentOpen} onClose={() => setCommentOpen(false)} postId={post.id} />
+
+      <Snackbar
+        open={guestSnack}
+        autoHideDuration={2500}
+        onClose={() => setGuestSnack(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        sx={{ mb: 8 }}
+      >
+        <Alert severity="info" sx={{ width: '100%', borderRadius: 2 }}>
+          로그인 후 이용할 수 있어요 🔐
+        </Alert>
+      </Snackbar>
     </>
   );
 };

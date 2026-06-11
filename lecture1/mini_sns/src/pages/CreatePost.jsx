@@ -81,12 +81,7 @@ const CreatePost = () => {
       >
         <IconButton onClick={() => navigate(-1)}><ArrowBackIcon /></IconButton>
         <Typography variant="h4">{editPost ? '게시물 수정' : '새 게시물'}</Typography>
-        <Button
-          variant="contained" size="small" onClick={handleSubmit}
-          disabled={submitting} sx={{ minWidth: 64 }}
-        >
-          {submitting ? <CircularProgress size={18} color="inherit" /> : editPost ? '수정' : '등록'}
-        </Button>
+        <Box sx={{ width: 40 }} />
       </Box>
 
       <Box component="form" onSubmit={handleSubmit} sx={{ pb: 4 }}>
@@ -151,8 +146,23 @@ const CreatePost = () => {
             value={postLocation}
             onChange={(e) => setPostLocation(e.target.value)}
             placeholder="서울, 대한민국"
-            sx={{ mb: 2 }}
+            sx={{ mb: 3 }}
           />
+
+          {/* 하단 등록 버튼 */}
+          <Button
+            variant="contained"
+            fullWidth
+            size="large"
+            onClick={handleSubmit}
+            disabled={submitting}
+            sx={{ py: 1.6, borderRadius: 3, fontWeight: 700, fontSize: '1rem', mb: 1 }}
+          >
+            {submitting
+              ? <CircularProgress size={22} color="inherit" />
+              : editPost ? '수정하기' : '게시물 등록하기 🎮'
+            }
+          </Button>
         </Box>
       </Box>
     </Box>
