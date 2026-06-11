@@ -18,7 +18,7 @@ const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid #333333' }}>
+    <AppBar position="sticky" elevation={0} sx={{ borderBottom: '1px solid #2A2A4E' }}>
       <Container maxWidth="lg">
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Typography
@@ -69,7 +69,7 @@ const Navbar = () => {
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        slotProps={{ paper: { sx: { bgcolor: '#111111', width: 220 } } }}
+        slotProps={{ paper: { sx: { bgcolor: '#1A1A2E', width: 220 } } }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 1 }}>
           <IconButton sx={{ color: '#FFFFFF' }} onClick={() => setDrawerOpen(false)} aria-label="메뉴 닫기">

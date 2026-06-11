@@ -4,7 +4,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const HeroSection = () => (
   <Box
     sx={{
-      bgcolor: '#111111',
+      bgcolor: '#1A1A2E',
       color: '#FFFFFF',
       py: { xs: 10, md: 16 },
       textAlign: 'center',
@@ -30,14 +30,14 @@ const HeroSection = () => (
         <Button
           variant="contained"
           size="large"
-          sx={{ bgcolor: '#FFFFFF', color: '#111111', '&:hover': { bgcolor: '#E0E0E0' } }}
+          sx={{ bgcolor: '#1578AA', color: '#FFFFFF', '&:hover': { bgcolor: '#1E9BD7' } }}
         >
           프로젝트 보기
         </Button>
         <Button
           variant="outlined"
           size="large"
-          sx={{ color: '#FFFFFF', borderColor: '#555555', '&:hover': { borderColor: '#FFFFFF' } }}
+          sx={{ color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.5)', '&:hover': { borderColor: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.08)' } }}
         >
           연락하기
         </Button>

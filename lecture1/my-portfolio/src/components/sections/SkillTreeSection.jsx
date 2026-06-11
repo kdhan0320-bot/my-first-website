@@ -11,16 +11,16 @@ const SKILLS = [
 const TAGS = ['React', 'JavaScript', 'TypeScript', 'Node.js', 'Git', 'Figma', 'SQL'];
 
 const SkillTreeSection = () => (
-  <Box sx={{ bgcolor: '#F5F5F5', py: { xs: 8, md: 12 } }}>
+  <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
     <Container maxWidth="lg">
       <Box sx={{ textAlign: 'center', mb: 6 }}>
         <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
           SKILLS
         </Typography>
-        <Typography variant="h2" sx={{ mt: 1, color: '#111111' }}>
+        <Typography variant="h2" sx={{ mt: 1, color: '#1A1A2E' }}>
           여기는 Skill Tree 섹션입니다.
         </Typography>
-        <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#111111', borderWidth: 3 }} />
+        <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#1578AA', borderWidth: 3 }} />
         <Typography variant="body2" sx={{ mt: 2, color: '#666666' }}>
           기술 스택을 트리나 프로그레스바로 시각화할 예정입니다.
         </Typography>
@@ -30,8 +30,8 @@ const SkillTreeSection = () => (
         <Grid item xs={12} md={6}>
           <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: 3, p: 4, height: '100%' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-              <CodeIcon sx={{ color: '#111111' }} />
-              <Typography variant="h4" sx={{ color: '#111111' }}>기술 숙련도</Typography>
+              <CodeIcon sx={{ color: '#1578AA' }} />
+              <Typography variant="h4" sx={{ color: '#1A1A2E' }}>기술 숙련도</Typography>
             </Box>
             {SKILLS.map(({ name, level }) => (
               <Box key={name} sx={{ mb: 3 }}>
@@ -46,7 +46,7 @@ const SkillTreeSection = () => (
                     height: 8,
                     borderRadius: 4,
                     bgcolor: '#E0E0E0',
-                    '& .MuiLinearProgress-bar': { bgcolor: '#111111', borderRadius: 4 },
+                    '& .MuiLinearProgress-bar': { bgcolor: '#1578AA', borderRadius: 4 },
                   }}
                 />
               </Box>
@@ -56,7 +56,7 @@ const SkillTreeSection = () => (
 
         <Grid item xs={12} md={6}>
           <Box sx={{ bgcolor: '#FFFFFF', border: '1px solid #E0E0E0', borderRadius: 3, p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="h4" sx={{ color: '#111111', mb: 1 }}>기술 태그</Typography>
+            <Typography variant="h4" sx={{ color: '#1A1A2E', mb: 1 }}>기술 태그</Typography>
             <Typography variant="body2" sx={{ color: '#888888', mb: 3 }}>
               사용 가능한 기술 스택입니다.
             </Typography>
@@ -67,12 +67,12 @@ const SkillTreeSection = () => (
                   label={tag}
                   sx={{
                     bgcolor: '#FFFFFF',
-                    color: '#111111',
-                    border: '1px solid #333333',
+                    color: '#1578AA',
+                    border: '1px solid #1578AA',
                     fontWeight: 600,
                     fontSize: '0.85rem',
                     height: 34,
-                    '&:hover': { bgcolor: '#111111', color: '#FFFFFF' },
+                    '&:hover': { bgcolor: '#1578AA', color: '#FFFFFF' },
                   }}
                 />
               ))}

@@ -22,16 +22,16 @@ const ProjectsSection = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
+    <Box sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
             PROJECTS
           </Typography>
-          <Typography variant="h2" sx={{ mt: 1, color: '#111111' }}>
+          <Typography variant="h2" sx={{ mt: 1, color: '#1A1A2E' }}>
             주요 프로젝트
           </Typography>
-          <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#111111', borderWidth: 3 }} />
+          <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#1578AA', borderWidth: 3 }} />
           <Typography variant="body2" sx={{ mt: 2, color: '#666666' }}>
             직접 만든 대표 프로젝트들입니다.
           </Typography>
@@ -82,7 +82,7 @@ const ProjectsSection = () => {
                 )}
               </Box>
               <CardContent sx={{ flexGrow: 1, p: 2 }}>
-                <Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: '#111', mb: 0.5 }}>
+                <Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: '#1A1A2E', mb: 0.5 }}>
                   {title}
                 </Typography>
                 <Typography
@@ -105,7 +105,7 @@ const ProjectsSection = () => {
                       key={tag}
                       label={tag}
                       size="small"
-                      sx={{ border: '1px solid #DDD', color: '#555', bgcolor: 'transparent', fontSize: '0.65rem', height: 22 }}
+                      sx={{ border: '1px solid #1E9BD7', color: '#1578AA', bgcolor: 'transparent', fontSize: '0.65rem', height: 22 }}
                     />
                   ))}
                 </Box>

@@ -66,7 +66,7 @@ const ContactSection = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: '#111111', py: { xs: 8, md: 12 } }} id="contact">
+    <Box sx={{ bgcolor: '#1A1A2E', py: { xs: 8, md: 12 } }} id="contact">
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
@@ -103,8 +103,8 @@ const ContactSection = () => {
                   target={href.startsWith('mailto') ? '_self' : '_blank'}
                   rel="noopener noreferrer"
                   sx={{
-                    bgcolor: '#1A1A1A',
-                    border: '1px solid #252525',
+                    bgcolor: '#242450',
+                    border: '1px solid #2E2E5E',
                     borderRadius: 2,
                     textDecoration: 'none',
                     display: 'flex',
@@ -112,7 +112,7 @@ const ContactSection = () => {
                     gap: 2,
                     p: 2,
                     transition: 'border-color 0.2s, background-color 0.2s',
-                    '&:hover': { borderColor: '#555555', bgcolor: '#202020' },
+                    '&:hover': { borderColor: '#1578AA', bgcolor: '#2A2A5A' },
                   }}
                 >
                   <Box sx={{ color: '#777777', display: 'flex', flexShrink: 0 }}>{icon}</Box>

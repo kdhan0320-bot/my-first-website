@@ -3,23 +3,23 @@ import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 let theme = createTheme({
   palette: {
     primary: {
-      main:         '#111111',
-      light:        '#333333',
-      dark:         '#000000',
+      main:         '#1578AA',
+      light:        '#1E9BD7',
+      dark:         '#0F5A7A',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main:         '#666666',
-      light:        '#999999',
-      dark:         '#444444',
+      main:         '#1E9BD7',
+      light:        '#4DB6E8',
+      dark:         '#1578AA',
       contrastText: '#FFFFFF',
     },
     background: {
-      default: '#FFFFFF',
-      paper:   '#FAFAFA',
+      default: '#F6F8FB',
+      paper:   '#FFFFFF',
     },
     text: {
-      primary:   '#111111',
+      primary:   '#1A1A2E',
       secondary: '#555555',
       disabled:  '#AAAAAA',
     },
@@ -58,7 +58,7 @@ let theme = createTheme({
     },
     MuiAppBar: {
       styleOverrides: {
-        root: { backgroundColor: '#111111' },
+        root: { backgroundColor: '#1A1A2E' },
       },
     },
   },

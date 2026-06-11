@@ -6,16 +6,16 @@ const AboutSection = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
+    <Box sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
             ABOUT ME
           </Typography>
-          <Typography variant="h2" sx={{ mt: 1, color: '#111111' }}>
+          <Typography variant="h2" sx={{ mt: 1, color: '#1A1A2E' }}>
             여기는 About Me 섹션입니다.
           </Typography>
-          <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#111111', borderWidth: 3 }} />
+          <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#1578AA', borderWidth: 3 }} />
         </Box>
 
         <Grid container spacing={4} alignItems="center">
@@ -46,7 +46,7 @@ const AboutSection = () => {
             <Button
               variant="contained"
               size="large"
-              sx={{ bgcolor: '#111111', color: '#FFFFFF', '&:hover': { bgcolor: '#333333' } }}
+              sx={{ bgcolor: '#1578AA', color: '#FFFFFF', '&:hover': { bgcolor: '#1E9BD7' } }}
               onClick={() => navigate('/about')}
             >
               더 알아보기
