@@ -67,7 +67,7 @@ const HomeSkillCard = ({ skill }) => {
               {skill.name}
             </Typography>
             <Chip
-              label={skill.category}
+              label={skill.category ?? '기타'}
               size="small"
               sx={{
                 mt: 0.5, height: 20, fontSize: '0.68rem', fontWeight: 600,
@@ -81,7 +81,7 @@ const HomeSkillCard = ({ skill }) => {
 
         {/* 상태 */}
         <Chip
-          label={skill.status}
+          label={skill.status ?? '미분류'}
           size="small"
           sx={{
             fontSize: '0.72rem', fontWeight: 600,

@@ -37,7 +37,7 @@ const SkillCard = ({ skill }) => {
   const [animValue, setAnimValue] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => setAnimValue(skill.level), 300);
+    const timer = setTimeout(() => setAnimValue(skill.level ?? 0), 300);
     return () => clearTimeout(timer);
   }, [skill.level]);
 
@@ -87,7 +87,7 @@ const SkillCard = ({ skill }) => {
               {skill.name}
             </Typography>
             <Chip
-              label={skill.category}
+              label={skill.category ?? '기타'}
               size="small"
               sx={{
                 mt: 0.5, height: 20,
@@ -102,7 +102,7 @@ const SkillCard = ({ skill }) => {
 
         {/* 상태 Chip */}
         <Chip
-          label={skill.status}
+          label={skill.status ?? '미분류'}
           size="small"
           sx={{
             alignSelf: 'flex-start', mb: 1.5,
@@ -127,7 +127,7 @@ const SkillCard = ({ skill }) => {
               학습 적용도
             </Typography>
             <Typography variant="caption" sx={{ color: '#94A3B8', fontSize: '0.68rem' }}>
-              {skill.level}%
+              {skill.level ?? 0}%
             </Typography>
           </Box>
           <Tooltip

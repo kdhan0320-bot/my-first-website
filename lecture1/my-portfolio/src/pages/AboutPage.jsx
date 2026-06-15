@@ -9,12 +9,14 @@ import WorkIcon from '@mui/icons-material/Work';
 import { usePortfolio } from '../context/PortfolioContext';
 import SkillsSection from '../components/sections/SkillsSection';
 
-const toParagraphs = (text) =>
-  text
+const toParagraphs = (text = '') => {
+  if (!text) return [];
+  return text
     .split('. ')
     .map((s) => s.trim())
     .filter(Boolean)
     .map((s) => (s.endsWith('.') ? s : `${s}.`));
+};
 
 const InfoRow = ({ icon, label, value, note }) => (
   <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 2 }}>
@@ -39,8 +41,8 @@ const AboutPage = () => {
   const { aboutMeData } = usePortfolio();
   const [activeTab, setActiveTab] = useState(0);
 
-  const { basicInfo, sections } = aboutMeData;
-  const activeSection = sections[activeTab];
+  const { basicInfo = {}, sections = [] } = aboutMeData ?? {};
+  const activeSection = sections[activeTab] ?? sections[0] ?? null;
 
   return (
     <Box sx={{ bgcolor: '#F6F8FB', minHeight: '100vh', py: { xs: 8, md: 12 } }}>
@@ -100,7 +102,7 @@ const AboutPage = () => {
                   border: '3px solid #D0EEFA',
                 }}
               >
-                {!basicInfo.photo && basicInfo.name.charAt(0)}
+                {!basicInfo.photo && (basicInfo.name?.charAt(0) ?? '')}
               </Avatar>
             </Grid>
 
@@ -191,18 +193,22 @@ const AboutPage = () => {
           </Tabs>
 
           <Box sx={{ p: { xs: 3, md: 5 } }}>
-            <Typography variant="h4" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 3 }}>
-              {activeSection.title}
-            </Typography>
-            {toParagraphs(activeSection.content).map((para, idx) => (
-              <Typography
-                key={idx}
-                variant="body1"
-                sx={{ color: '#4A5568', lineHeight: 1.95, mb: 2 }}
-              >
-                {para}
-              </Typography>
-            ))}
+            {activeSection && (
+              <>
+                <Typography variant="h4" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 3 }}>
+                  {activeSection.title}
+                </Typography>
+                {toParagraphs(activeSection.content ?? '').map((para, idx) => (
+                  <Typography
+                    key={idx}
+                    variant="body1"
+                    sx={{ color: '#4A5568', lineHeight: 1.95, mb: 2 }}
+                  >
+                    {para}
+                  </Typography>
+                ))}
+              </>
+            )}
           </Box>
         </Box>
 
