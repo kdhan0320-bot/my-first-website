@@ -51,20 +51,20 @@ const ProjectsSection = () => {
   }, []);
 
   return (
-    <Box id="projects" sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
+    <Box id="projects" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
+            <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 4, fontWeight: 600 }}>
               PROJECTS
             </Typography>
-            <Typography variant="h2" sx={{ mt: 1, color: '#1A1A2E' }}>
+            <Typography variant="h2" sx={{ mt: 1, color: 'text.primary' }}>
               주요 프로젝트
             </Typography>
-            <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#1578AA', borderWidth: 3 }} />
-            <Typography variant="body2" sx={{ mt: 2, color: '#666666' }}>
+            <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: 'primary.main', borderWidth: 3 }} />
+            <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
               직접 만든 대표 프로젝트들입니다.
             </Typography>
           </Box>
@@ -104,7 +104,7 @@ const ProjectsSection = () => {
                         navigate('/projects');
                       }
                     }}
-                    sx={{
+                    sx={(theme) => ({
                       display: 'flex',
                       flexDirection: 'column',
                       flex: 1,
@@ -112,22 +112,36 @@ const ProjectsSection = () => {
                       transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
                       '&:hover': {
                         transform: 'translateY(-4px)',
-                        boxShadow: '0 12px 32px rgba(0,0,0,0.15)',
-                        borderColor: 'rgba(30,155,215,0.25)',
+                        boxShadow: theme.palette.mode === 'dark'
+                          ? '0 12px 32px rgba(0,0,0,0.4)'
+                          : '0 12px 32px rgba(0,0,0,0.15)',
+                        borderColor: theme.palette.mode === 'dark'
+                          ? 'rgba(56,189,248,0.25)'
+                          : 'rgba(30,155,215,0.25)',
                       },
                       '&:hover .thumb-img': { transform: 'scale(1.05)' },
                       '&:hover .img-overlay': { opacity: 1 },
                       '&:focus-visible': {
-                        outline: '2px solid #1578AA',
+                        outline: `2px solid ${theme.palette.primary.main}`,
                         outlineOffset: '2px',
-                        borderColor: 'rgba(30,155,215,0.25)',
+                        borderColor: theme.palette.mode === 'dark'
+                          ? 'rgba(56,189,248,0.25)'
+                          : 'rgba(30,155,215,0.25)',
                       },
                       '&:focus-visible .img-overlay': { opacity: 1 },
                       '&:active': { transform: 'translateY(0)' },
-                    }}
+                    })}
                   >
                     {/* 16:9 고정 비율 썸네일 */}
-                    <Box sx={{ position: 'relative', paddingTop: '56.25%', bgcolor: '#E8E8E8', overflow: 'hidden', flexShrink: 0 }}>
+                    <Box
+                      sx={(theme) => ({
+                        position: 'relative',
+                        paddingTop: '56.25%',
+                        bgcolor: theme.palette.mode === 'dark' ? '#1A2A3A' : '#E8E8E8',
+                        overflow: 'hidden',
+                        flexShrink: 0,
+                      })}
+                    >
                       {thumbnail_url && (
                         <Box
                           component="img"
@@ -166,12 +180,12 @@ const ProjectsSection = () => {
                     </Box>
 
                     <CardContent sx={{ flexGrow: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
-                      <Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: '#1A1A2E', mb: 0.5 }}>
+                      <Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                         {title}
                       </Typography>
                       <Typography
                         sx={{
-                          color: '#777',
+                          color: 'text.secondary',
                           fontSize: '0.78rem',
                           mb: 1.5,
                           lineHeight: 1.6,
@@ -189,7 +203,13 @@ const ProjectsSection = () => {
                             key={tag}
                             label={tag}
                             size="small"
-                            sx={{ border: '1px solid #1E9BD7', color: '#1578AA', bgcolor: 'transparent', fontSize: '0.65rem', height: 22 }}
+                            sx={(theme) => ({
+                              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : '#1E9BD7'}`,
+                              color: 'primary.main',
+                              bgcolor: 'transparent',
+                              fontSize: '0.65rem',
+                              height: 22,
+                            })}
                           />
                         ))}
                       </Box>
@@ -200,7 +220,7 @@ const ProjectsSection = () => {
                           display: { xs: 'flex', md: 'none' },
                           alignItems: 'center',
                           mt: 1.5,
-                          color: '#1578AA',
+                          color: 'primary.main',
                           fontSize: '0.75rem',
                           fontWeight: 600,
                         }}
@@ -223,14 +243,19 @@ const ProjectsSection = () => {
               onClick={() => navigate('/projects')}
               aria-label="전체 프로젝트 보기 페이지로 이동"
               sx={{
-                bgcolor: '#1578AA',
+                bgcolor: 'primary.main',
+                color: 'primary.contrastText',
                 px: 3.5,
                 fontWeight: 700,
                 minHeight: 44,
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
-                '&:hover': { bgcolor: '#1E9BD7', transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(21,120,170,0.28)' },
+                '&:hover': {
+                  bgcolor: 'primary.light',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 24px rgba(21,120,170,0.28)',
+                },
                 '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
-                '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
+                '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
               }}
             >
               전체 프로젝트 보기

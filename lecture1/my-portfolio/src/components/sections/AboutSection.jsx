@@ -11,21 +11,21 @@ const AboutSection = () => {
   const { basicInfo, sections, skills } = homeData;
 
   return (
-    <Box id="about" sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
+    <Box id="about" sx={{ bgcolor: 'background.paper', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: 7 }}>
             <Typography
-              sx={{ color: '#7F8FA4', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
+              sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
             >
               ABOUT ME
             </Typography>
-            <Typography variant="h2" sx={{ color: '#1A1A2E', fontWeight: 800, mt: 1 }}>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800, mt: 1 }}>
               소개
             </Typography>
-            <Box sx={{ width: 44, height: 3, bgcolor: '#1578AA', mx: 'auto', mt: 2, borderRadius: 2 }} />
+            <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
           </Box>
         </RevealOnScroll>
 
@@ -38,29 +38,45 @@ const AboutSection = () => {
                 <Avatar
                   src={basicInfo.photo || undefined}
                   aria-label={`${basicInfo.name} 프로필 사진`}
-                  sx={{
+                  sx={(theme) => ({
                     width: 120, height: 120,
-                    bgcolor: '#EAF6FC', color: '#1578AA',
+                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                    color: 'primary.main',
                     fontSize: '2.5rem', fontWeight: 700,
-                    border: '3px solid #D0EEFA',
-                  }}
+                    border: `3px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : '#D0EEFA'}`,
+                  })}
                 >
                   {!basicInfo.photo && basicInfo.name.charAt(0)}
                 </Avatar>
 
                 <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-                  <Typography variant="h3" sx={{ color: '#1A1A2E', fontWeight: 800, mb: 1 }}>
+                  <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, mb: 1 }}>
                     {basicInfo.name}
                   </Typography>
                   <Chip
                     label={basicInfo.position}
                     size="small"
-                    sx={{ bgcolor: '#EAF6FC', color: '#1578AA', border: '1px solid #B8DFF2', fontWeight: 600, fontSize: '0.75rem' }}
+                    sx={(theme) => ({
+                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                      color: 'primary.main',
+                      border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : '#B8DFF2'}`,
+                      fontWeight: 600,
+                      fontSize: '0.75rem',
+                    })}
                   />
                 </Box>
 
-                <Box sx={{ bgcolor: '#F6F8FB', borderLeft: '3px solid #1578AA', borderRadius: '0 8px 8px 0', p: 2, width: '100%' }}>
-                  <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.85, fontStyle: 'italic' }}>
+                {/* 요약 인용 박스 */}
+                <Box
+                  sx={(theme) => ({
+                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : '#F6F8FB',
+                    borderLeft: `3px solid ${theme.palette.primary.main}`,
+                    borderRadius: '0 8px 8px 0',
+                    p: 2,
+                    width: '100%',
+                  })}
+                >
+                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.85, fontStyle: 'italic' }}>
                     &ldquo;{basicInfo.summary}&rdquo;
                   </Typography>
                 </Box>
@@ -77,23 +93,27 @@ const AboutSection = () => {
                 {sections.map((section) => (
                   <Box
                     key={section.id}
-                    sx={{
-                      bgcolor: '#F6F8FB',
-                      border: '1px solid #E0E4EA',
+                    sx={(theme) => ({
+                      bgcolor: 'background.default',
+                      border: `1px solid ${theme.palette.divider}`,
                       borderRadius: 2,
                       p: 3,
                       transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
                       '&:hover': {
                         transform: 'translateY(-2px)',
-                        boxShadow: '0 6px 20px rgba(26,26,46,0.08)',
-                        borderColor: 'rgba(30,155,215,0.2)',
+                        boxShadow: theme.palette.mode === 'dark'
+                          ? '0 6px 20px rgba(0,0,0,0.3)'
+                          : '0 6px 20px rgba(26,26,46,0.08)',
+                        borderColor: theme.palette.mode === 'dark'
+                          ? 'rgba(56,189,248,0.2)'
+                          : 'rgba(30,155,215,0.2)',
                       },
-                    }}
+                    })}
                   >
-                    <Typography variant="h5" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 1.5 }}>
+                    <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700, mb: 1.5 }}>
                       {section.title}
                     </Typography>
-                    <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.85 }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.85 }}>
                       {section.summary}
                     </Typography>
                   </Box>
@@ -101,7 +121,7 @@ const AboutSection = () => {
 
                 {/* 주요 스킬 배지 (상위 4개) */}
                 <Box>
-                  <Typography variant="caption" sx={{ color: '#94A3B8', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', display: 'block', mb: 1.5 }}>
+                  <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', display: 'block', mb: 1.5 }}>
                     주요 기술
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
@@ -110,13 +130,21 @@ const AboutSection = () => {
                       return (
                         <Box
                           key={skill.id}
-                          sx={{
+                          sx={(theme) => ({
                             display: 'flex', alignItems: 'center', gap: 1,
-                            bgcolor: '#FFFFFF', border: '1px solid #E0E4EA',
+                            bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF',
+                            border: `1px solid ${theme.palette.divider}`,
                             borderRadius: 2, px: 1.5, py: 0.75,
                             transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-                            '&:hover': { borderColor: 'rgba(30,155,215,0.3)', boxShadow: '0 2px 8px rgba(26,26,46,0.06)' },
-                          }}
+                            '&:hover': {
+                              borderColor: theme.palette.mode === 'dark'
+                                ? 'rgba(56,189,248,0.3)'
+                                : 'rgba(30,155,215,0.3)',
+                              boxShadow: theme.palette.mode === 'dark'
+                                ? '0 2px 8px rgba(0,0,0,0.2)'
+                                : '0 2px 8px rgba(26,26,46,0.06)',
+                            },
+                          })}
                         >
                           <Box
                             aria-hidden="true"
@@ -129,7 +157,7 @@ const AboutSection = () => {
                           >
                             {icon.text}
                           </Box>
-                          <Typography variant="caption" sx={{ color: '#1A1A2E', fontWeight: 600 }}>
+                          <Typography variant="caption" sx={{ color: 'text.primary', fontWeight: 600 }}>
                             {skill.name}
                           </Typography>
                         </Box>
@@ -145,14 +173,20 @@ const AboutSection = () => {
                   aria-label="About Me 페이지에서 더 자세히 알아보기"
                   sx={{
                     alignSelf: { xs: 'center', md: 'flex-start' },
-                    bgcolor: '#1578AA', color: '#FFFFFF', mt: 1,
+                    bgcolor: 'primary.main',
+                    color: 'primary.contrastText',
+                    mt: 1,
                     px: 3,
                     minHeight: 44,
                     fontWeight: 700,
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
-                    '&:hover': { bgcolor: '#1E9BD7', transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(21,120,170,0.28)' },
+                    '&:hover': {
+                      bgcolor: 'primary.light',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 8px 24px rgba(21,120,170,0.28)',
+                    },
                     '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
-                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
                 >
                   더 알아보기
