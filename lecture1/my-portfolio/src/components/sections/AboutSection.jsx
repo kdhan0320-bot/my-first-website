@@ -10,7 +10,7 @@ const AboutSection = () => {
   const { basicInfo, sections, skills } = homeData;
 
   return (
-    <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
+    <Box id="about" sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}

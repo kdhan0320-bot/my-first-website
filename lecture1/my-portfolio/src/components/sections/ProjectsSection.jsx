@@ -22,7 +22,7 @@ const ProjectsSection = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
+    <Box id="projects" sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>

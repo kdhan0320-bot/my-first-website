@@ -90,7 +90,7 @@ const SkillTreeSection = () => {
   const skills = homeData.skills; // priority 기준 상위 4개 (Context에서 처리됨)
 
   return (
-    <Box sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
+    <Box id="skills" sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}

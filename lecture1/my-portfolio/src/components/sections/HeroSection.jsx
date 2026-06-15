@@ -17,6 +17,7 @@ const HeroSection = () => {
 
   return (
     <Box
+      id="home"
       sx={{
         background: 'linear-gradient(135deg, #F6F8FB 0%, #EEF7FC 60%, #FFFFFF 100%)',
         position: 'relative',
