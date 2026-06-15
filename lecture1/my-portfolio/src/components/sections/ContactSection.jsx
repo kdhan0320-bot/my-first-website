@@ -5,7 +5,6 @@ import {
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
@@ -26,9 +25,8 @@ const CONTACT_CARDS = [
 ];
 
 const SNS_BUTTONS = [
-  { icon: <GitHubIcon />,   label: 'GitHub',   href: 'https://github.com/kdhan0320-bot' },
-  { icon: <LinkedInIcon />, label: 'LinkedIn', href: '#' },
-  { icon: <EmailIcon />,    label: 'Email',    href: 'mailto:kdhan0320@gmail.com' },
+  { icon: <GitHubIcon />, label: 'GitHub', href: 'https://github.com/kdhan0320-bot' },
+  { icon: <EmailIcon />,  label: 'Email',  href: 'mailto:kdhan0320@gmail.com' },
 ];
 
 const ContactSection = () => {

@@ -105,7 +105,7 @@ const Navbar = () => {
             <LogoSymbol />
             <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#1A1A2E' }}>Dohan.K</Typography>
           </Box>
-          <IconButton sx={{ color: '#7F8FA4' }} onClick={() => setDrawerOpen(false)}>
+          <IconButton sx={{ color: '#7F8FA4' }} onClick={() => setDrawerOpen(false)} aria-label="메뉴 닫기">
             <CloseIcon fontSize="small" />
           </IconButton>
         </Box>

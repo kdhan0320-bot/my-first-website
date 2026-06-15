@@ -4,18 +4,7 @@ import {
   LinearProgress, Chip, Tooltip, Button,
 } from '@mui/material';
 import { usePortfolio } from '../../context/PortfolioContext';
-
-const ICON_MAP = {
-  html:       { text: 'H',   color: '#C84B17', bg: '#FFF3EF' },
-  css:        { text: 'C',   color: '#1E56D0', bg: '#EEF3FF' },
-  javascript: { text: 'JS',  color: '#9A7D00', bg: '#FFFCE8' },
-  react:      { text: 'Re',  color: '#087EA4', bg: '#E7F8FE' },
-  mui:        { text: 'M',   color: '#007FFF', bg: '#E8F4FF' },
-  figma:      { text: 'Fi',  color: '#9747FF', bg: '#F5EEFF' },
-  database:   { text: 'SB',  color: '#059669', bg: '#EDFAF5' },
-  github:     { text: 'GH',  color: '#333333', bg: '#F0F0F0' },
-  ai:         { text: 'AI',  color: '#B45309', bg: '#FFFBEB' },
-};
+import { ICON_MAP } from '../../constants/iconMap';
 
 const CATEGORY_COLORS = {
   'Frontend':     { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE' },
@@ -159,7 +148,7 @@ const SkillCard = ({ skill }) => {
 
 const SkillsSection = () => {
   const { aboutMeData } = usePortfolio();
-  const [showAddButton] = useState(false);
+  const showAddButton = false;
 
   return (
     <Box sx={{ mt: 4 }}>

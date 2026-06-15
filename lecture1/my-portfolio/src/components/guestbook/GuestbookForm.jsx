@@ -141,6 +141,7 @@ const GuestbookForm = ({ onSuccess }) => {
             <ToggleButton
               key={emoji}
               value={emoji}
+              aria-label={`${emoji} 이모지 선택`}
               sx={{
                 border: '1px solid #2A2A2A !important',
                 borderRadius: '8px !important',

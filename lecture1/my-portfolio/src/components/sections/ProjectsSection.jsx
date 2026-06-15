@@ -22,7 +22,7 @@ const ProjectsSection = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
+    <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
@@ -52,9 +52,11 @@ const ProjectsSection = () => {
           {projects.map(({ id, title, description, tech_stack, thumbnail_url }) => (
             <Card
               key={id}
+              onClick={() => navigate('/projects')}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
+                cursor: 'pointer',
                 transition: 'transform 0.25s ease, box-shadow 0.25s ease',
                 '&:hover': {
                   transform: 'translateY(-4px)',
