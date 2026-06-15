@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Box } from '@mui/material';
 import Navbar from './components/layout/Navbar';
+import CustomCursor from './components/common/CustomCursor';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ProjectsPage from './pages/ProjectsPage';
@@ -9,6 +10,7 @@ const NAVBAR_HEIGHT = 64;
 
 const App = () => (
   <HashRouter>
+    <CustomCursor />
     <Navbar />
     {/* fixed 헤더 높이만큼 공간 확보 */}
     <Box sx={{ height: NAVBAR_HEIGHT }} />
