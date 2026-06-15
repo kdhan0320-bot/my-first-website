@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import { useNavigate } from 'react-router-dom';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { supabase } from '../../lib/supabase';
 import useInViewOnce from '../../hooks/useInViewOnce';
 import useCountUp from '../../hooks/useCountUp';
+import MorphingKeyword from '../common/MorphingKeyword';
 
 const WORKFLOW = [
   { label: '기획',  sub: 'UX 분석'  },
@@ -151,9 +153,9 @@ const HeroSection = () => {
                 animation: 'fadeInUp 0.6s ease both',
               }}
             >
-              {/* 배지 */}
+              {/* 상단 라벨 */}
               <Chip
-                label="UX/UI 기반 웹디자이너 지망생"
+                label="UX/UI · Web Design · React"
                 sx={{
                   bgcolor: 'rgba(21,120,170,0.08)',
                   color: '#1578AA',
@@ -179,28 +181,23 @@ const HeroSection = () => {
               >
                 사용자 흐름을 정리하고,
                 <br />
-                <Box component="span" sx={{ color: '#1E9BD7' }}>
+                <Box
+                  component="span"
+                  sx={{
+                    background: 'linear-gradient(90deg, #1E9BD7 0%, #1578AA 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
                   실제 작동하는 웹 화면으로
                 </Box>
                 <br />
                 구현합니다.
               </Typography>
 
-              {/* 서브 문구 */}
-              <Typography
-                variant="body1"
-                sx={{
-                  color: '#64748B',
-                  mb: { xs: 3, md: 5 },
-                  lineHeight: 1.85,
-                  fontSize: { xs: '0.9375rem', md: '1.0625rem' },
-                  maxWidth: { xs: '100%', md: 480 },
-                  mx: { xs: 'auto', md: 0 },
-                }}
-              >
-                UX/UI, 웹디자인, React 기반 구현을 학습하며
-                사용자가 이해하기 쉬운 웹서비스 화면을 만들어가고 있습니다.
-              </Typography>
+              {/* 서브 문구 — 모핑 키워드 */}
+              <MorphingKeyword />
 
               {/* CTA 버튼 */}
               <Stack
@@ -258,53 +255,55 @@ const HeroSection = () => {
                 >
                   About Me
                 </Button>
-              </Stack>
-
-              {/* 작은 텍스트 링크 */}
-              <Stack
-                direction="row"
-                spacing={1.5}
-                justifyContent={{ xs: 'center', md: 'flex-start' }}
-                alignItems="center"
-              >
-                <Typography
+                <Button
                   component="a"
                   href="https://github.com/kdhan0320-bot"
                   target="_blank"
                   rel="noopener noreferrer"
+                  variant="outlined"
+                  size="large"
+                  startIcon={<GitHubIcon />}
                   aria-label="GitHub 프로필 새 탭에서 열기"
-                  variant="caption"
                   sx={{
-                    color: '#94A3B8',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                    transition: 'color 0.2s',
-                    '&:hover': { color: '#1578AA' },
-                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px', borderRadius: '2px' },
+                    color: '#1578AA',
+                    borderColor: 'rgba(21,120,170,0.4)',
+                    px: 3,
+                    minHeight: 44,
+                    fontWeight: 600,
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+                    '&:hover': {
+                      bgcolor: 'rgba(21,120,170,0.05)',
+                      borderColor: '#1578AA',
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(21,120,170,0.1)',
+                    },
+                    '&:active': { transform: 'translateY(0)', boxShadow: 'none' },
+                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
                   }}
                 >
-                  GitHub
-                </Typography>
-                <Box
-                  aria-hidden="true"
-                  sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: '#CBD5E1' }}
-                />
-                <Typography
-                  component="a"
-                  href="mailto:kdhan0320@gmail.com"
-                  aria-label="이메일로 연락하기"
-                  variant="caption"
-                  sx={{
-                    color: '#94A3B8',
-                    textDecoration: 'none',
-                    fontWeight: 500,
-                    transition: 'color 0.2s',
-                    '&:hover': { color: '#1578AA' },
-                  }}
-                >
-                  연락하기
-                </Typography>
+                  GitHub 보기
+                </Button>
               </Stack>
+
+              {/* 보조 링크 */}
+              <Typography
+                component="a"
+                href="mailto:kdhan0320@gmail.com"
+                aria-label="이메일로 연락하기"
+                variant="caption"
+                sx={{
+                  display: 'block',
+                  textAlign: { xs: 'center', md: 'left' },
+                  color: '#94A3B8',
+                  textDecoration: 'none',
+                  fontWeight: 500,
+                  transition: 'color 0.2s',
+                  '&:hover': { color: '#1578AA' },
+                  '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px', borderRadius: '2px' },
+                }}
+              >
+                연락하기
+              </Typography>
 
               {/* Portfolio Stats */}
               <PortfolioStats />
