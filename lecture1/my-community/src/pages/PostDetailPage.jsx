@@ -27,10 +27,10 @@ const formatRelativeTime = (dateStr) => {
 // ── 댓글/대댓글 인라인 수정 버튼 ──
 const EditDeleteButtons = ({ onEdit, onDelete, size = 'small' }) => (
   <Box sx={{ display: 'flex', gap: 0.2 }}>
-    <IconButton size={size} onClick={onEdit} sx={{ p: 0.3, color: 'text.disabled', '&:hover': { color: 'primary.main' } }}>
+    <IconButton size={size} onClick={onEdit} sx={{ p: 0.3, color: 'text.disabled', '&:hover': { color: 'primary.main' } }} aria-label="수정">
       <Edit sx={{ fontSize: size === 'small' ? 13 : 11 }} />
     </IconButton>
-    <IconButton size={size} onClick={onDelete} sx={{ p: 0.3, color: 'text.disabled', '&:hover': { color: 'error.main' } }}>
+    <IconButton size={size} onClick={onDelete} sx={{ p: 0.3, color: 'text.disabled', '&:hover': { color: 'error.main' } }} aria-label="삭제">
       <Delete sx={{ fontSize: size === 'small' ? 13 : 11 }} />
     </IconButton>
   </Box>
@@ -52,10 +52,10 @@ const InlineEditField = ({ value, onSave, onCancel }) => {
         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey && text.trim()) { e.preventDefault(); onSave(text.trim()); } }}
       />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.3 }}>
-        <IconButton size="small" color="primary" onClick={() => text.trim() && onSave(text.trim())} sx={{ p: 0.4 }}>
+        <IconButton size="small" color="primary" onClick={() => text.trim() && onSave(text.trim())} sx={{ p: 0.4 }} aria-label="저장">
           <Check sx={{ fontSize: 16 }} />
         </IconButton>
-        <IconButton size="small" onClick={onCancel} sx={{ p: 0.4 }}>
+        <IconButton size="small" onClick={onCancel} sx={{ p: 0.4 }} aria-label="취소">
           <Close sx={{ fontSize: 16 }} />
         </IconButton>
       </Box>
@@ -156,7 +156,7 @@ const ReplyItem = ({ reply, currentUserId, onLike, likedCommentIds, onDeleteComm
   const isOwner = reply.user_id === currentUserId;
 
   return (
-    <Box sx={{ display: 'flex', gap: 1.5, mt: 1.5, pl: 1, borderLeft: '2px solid rgba(255,255,255,0.1)' }}>
+    <Box sx={{ display: 'flex', gap: 1.5, mt: 1.5, pl: 1, borderLeft: '2px solid', borderColor: 'divider' }}>
       <Avatar sx={{ width: 26, height: 26, fontSize: '0.7rem', bgcolor: 'primary.dark', flexShrink: 0 }}>
         {reply.profiles?.username?.[0]?.toUpperCase()}
       </Avatar>
@@ -217,7 +217,7 @@ const ReplyInput = ({ onSubmit }) => {
         maxRows={3}
         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey && content.trim()) { e.preventDefault(); onSubmit(content.trim()); setContent(''); } }}
       />
-      <IconButton color="primary" onClick={() => { if (content.trim()) { onSubmit(content.trim()); setContent(''); } }}>
+      <IconButton color="primary" onClick={() => { if (content.trim()) { onSubmit(content.trim()); setContent(''); } }} aria-label="답글 전송">
         <Send sx={{ fontSize: 18 }} />
       </IconButton>
     </Box>
@@ -242,7 +242,7 @@ const ConfirmDialog = ({ open, title, description, onConfirm, onClose }) => (
 const PostDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -387,7 +387,7 @@ const PostDetailPage = () => {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)}>
+          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)} aria-label="뒤로 가기">
             <ArrowBack />
           </IconButton>
           <Typography
@@ -434,7 +434,7 @@ const PostDetailPage = () => {
         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
         {/* 게시물 본문 */}
-        <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 4, mb: 3, border: '1px solid rgba(255,255,255,0.07)' }}>
+        <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 4, mb: 3, border: '1px solid', borderColor: 'divider' }}>
           {post.hashtags?.length > 0 && (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
               {post.hashtags.map(tag => (
@@ -501,30 +501,36 @@ const PostDetailPage = () => {
         </Box>
 
         {/* 댓글 섹션 */}
-        <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 3, border: '1px solid rgba(255,255,255,0.07)' }}>
+        <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 3, border: '1px solid', borderColor: 'divider' }}>
           <Typography variant="h3" sx={{ mb: 2 }}>
             댓글 {comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0)}개
           </Typography>
 
-          <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
-            <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.dark', flexShrink: 0 }}>
-              {user?.email?.[0]?.toUpperCase()}
-            </Avatar>
-            <Box sx={{ flexGrow: 1, display: 'flex', gap: 1 }}>
-              <TextField
-                placeholder="댓글을 입력하세요..."
-                value={commentInput}
-                onChange={(e) => setCommentInput(e.target.value)}
-                fullWidth
-                multiline
-                maxRows={4}
-                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAddComment(); } }}
-              />
-              <IconButton color="primary" onClick={handleAddComment} disabled={!commentInput.trim()}>
-                <Send />
-              </IconButton>
+          {isGuest ? (
+            <Alert severity="info" sx={{ mb: 3 }}>
+              댓글을 작성하려면 로그인이 필요합니다.
+            </Alert>
+          ) : (
+            <Box sx={{ display: 'flex', gap: 1.5, mb: 3 }}>
+              <Avatar sx={{ width: 36, height: 36, bgcolor: 'primary.main', flexShrink: 0 }}>
+                {user?.email?.[0]?.toUpperCase()}
+              </Avatar>
+              <Box sx={{ flexGrow: 1, display: 'flex', gap: 1 }}>
+                <TextField
+                  placeholder="댓글을 입력하세요..."
+                  value={commentInput}
+                  onChange={(e) => setCommentInput(e.target.value)}
+                  fullWidth
+                  multiline
+                  maxRows={4}
+                  onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAddComment(); } }}
+                />
+                <IconButton color="primary" onClick={handleAddComment} disabled={!commentInput.trim()} aria-label="댓글 전송">
+                  <Send />
+                </IconButton>
+              </Box>
             </Box>
-          </Box>
+          )}
 
           <Divider sx={{ mb: 1 }} />
 

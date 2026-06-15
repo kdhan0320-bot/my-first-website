@@ -93,7 +93,7 @@ const PostEditPage = () => {
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)}>
+          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)} aria-label="뒤로 가기">
             <ArrowBack />
           </IconButton>
           <Typography variant="h6" sx={{ flexGrow: 1, ml: 1 }}>게시물 수정</Typography>
@@ -148,7 +148,7 @@ const PostEditPage = () => {
                 component="img"
                 src={imageUrl}
                 alt="미리보기"
-                sx={{ width: '100%', maxHeight: 280, objectFit: 'cover', borderRadius: 2, border: '1px solid rgba(255,255,255,0.1)' }}
+                sx={{ width: '100%', maxHeight: 280, objectFit: 'cover', borderRadius: 2, border: '1px solid', borderColor: 'divider' }}
               />
             )}
           </Box>
@@ -165,7 +165,7 @@ const PostEditPage = () => {
                   label={`#${tag}`}
                   onDelete={() => removeTag(tag)}
                   size="small"
-                  sx={{ bgcolor: 'rgba(0,180,216,0.15)', color: 'primary.light' }}
+                  sx={{ bgcolor: 'secondary.light', color: 'primary.dark' }}
                 />
               ))}
             </Box>

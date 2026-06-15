@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(false);
 
   const fetchProfile = async (userId) => {
     const { data } = await supabase
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async ({ username, password, phone }) => {
+  const signUp = async ({ username, password }) => {
     const email = `${username}@gamehub.com`;
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
@@ -49,7 +50,6 @@ export const AuthProvider = ({ children }) => {
     const { error: profileError } = await supabase.from('profiles').insert({
       id: data.user.id,
       username,
-      phone: phone || null,
     });
     if (profileError) throw profileError;
     await fetchProfile(data.user.id);
@@ -76,8 +76,11 @@ export const AuthProvider = ({ children }) => {
     return !data;
   };
 
+  const enterGuestMode = () => setIsGuest(true);
+  const exitGuestMode = () => setIsGuest(false);
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signOut, checkUsernameAvailable }}>
+    <AuthContext.Provider value={{ user, profile, loading, isGuest, signUp, signIn, signOut, checkUsernameAvailable, enterGuestMode, exitGuestMode }}>
       {children}
     </AuthContext.Provider>
   );

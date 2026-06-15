@@ -4,9 +4,8 @@ import {
   Box, Container, Typography, TextField, Button, Alert,
   InputAdornment, IconButton, LinearProgress, Chip,
 } from '@mui/material';
-import {
-  Visibility, VisibilityOff, CheckCircle, Cancel, SportsEsports,
-} from '@mui/icons-material';
+import { Visibility, VisibilityOff, CheckCircle, Cancel } from '@mui/icons-material';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useAuth } from '../hooks/useAuth';
 
 const PASSWORD_RULES = [
@@ -19,7 +18,7 @@ const PASSWORD_RULES = [
 const SignupPage = () => {
   const navigate = useNavigate();
   const { signUp, checkUsernameAvailable } = useAuth();
-  const [form, setForm] = useState({ username: '', password: '', phone: '' });
+  const [form, setForm] = useState({ username: '', password: '' });
   const [showPw, setShowPw] = useState(false);
   const [usernameStatus, setUsernameStatus] = useState(null);
   const [checkingUsername, setCheckingUsername] = useState(false);
@@ -45,17 +44,6 @@ const SignupPage = () => {
     }
   };
 
-  const formatPhone = (value) => {
-    const digits = value.replace(/\D/g, '');
-    if (digits.length <= 3) return digits;
-    if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-    return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
-  };
-
-  const handlePhoneChange = (e) => {
-    setForm(prev => ({ ...prev, phone: formatPhone(e.target.value) }));
-  };
-
   const passedRules = PASSWORD_RULES.filter(r => r.test(form.password));
   const pwStrength = (passedRules.length / PASSWORD_RULES.length) * 100;
   const allPwRulesPassed = passedRules.length === PASSWORD_RULES.length;
@@ -73,10 +61,10 @@ const SignupPage = () => {
     }
     setLoading(true);
     try {
-      await signUp({ username: form.username.trim(), password: form.password, phone: form.phone });
+      await signUp({ username: form.username.trim(), password: form.password });
       navigate('/');
     } catch (err) {
-      setError(err.message || '회원가입 중 오류가 발생했습니다.');
+      setError(err.message || '회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }
@@ -89,37 +77,46 @@ const SignupPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'radial-gradient(ellipse at top, #0d1b3e 0%, #0a0e1a 60%)',
+        bgcolor: 'background.default',
         py: 4,
       }}
     >
       <Container maxWidth="xs">
         {/* 로고 */}
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Box
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 1.5,
-              background: 'linear-gradient(135deg, #00b4d8, #7b2ff7)',
-              borderRadius: 3,
-              px: 3,
-              py: 1.5,
-            }}
-          >
-            <SportsEsports sx={{ fontSize: 30, color: '#fff' }} />
-            <Typography variant="h5" sx={{ fontWeight: 900, color: '#fff', letterSpacing: 2, fontStyle: 'italic' }}>
-              GAME HUB
+          <Box sx={{ display: 'inline-flex', alignItems: 'center', gap: 1.2, mb: 1.5 }}>
+            <Box
+              sx={{
+                width: 40, height: 40,
+                borderRadius: '12px',
+                bgcolor: 'primary.main',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <ForumOutlinedIcon sx={{ color: '#fff', fontSize: '1.3rem' }} />
+            </Box>
+            <Typography sx={{ fontWeight: 800, fontSize: '1.2rem', color: 'text.primary', letterSpacing: '-0.3px' }}>
+              Portfolio Feedback Hub
             </Typography>
           </Box>
+          <Typography variant="body2" color="text.secondary">
+            수강생과 취업준비생을 위한 피드백 공간
+          </Typography>
         </Box>
 
         <Box
           component="form"
           onSubmit={handleSubmit}
-          sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 4, border: '1px solid rgba(255,255,255,0.07)' }}
+          sx={{
+            bgcolor: 'background.paper',
+            borderRadius: 3,
+            p: 4,
+            border: '1px solid',
+            borderColor: 'divider',
+            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
+          }}
         >
-          <Typography variant="h2" sx={{ mb: 3, textAlign: 'center' }}>
+          <Typography variant="h2" sx={{ mb: 3, textAlign: 'center', fontWeight: 700, fontSize: '1.25rem' }}>
             회원가입
           </Typography>
 
@@ -173,7 +170,12 @@ const SignupPage = () => {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPw(p => !p)} edge="end" disabled={usernameStatus !== 'available'}>
+                  <IconButton
+                    onClick={() => setShowPw(p => !p)}
+                    edge="end"
+                    disabled={usernameStatus !== 'available'}
+                    aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 표시'}
+                  >
                     {showPw ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -188,10 +190,7 @@ const SignupPage = () => {
                 variant="determinate"
                 value={pwStrength}
                 sx={{
-                  mb: 1,
-                  height: 6,
-                  borderRadius: 3,
-                  bgcolor: 'rgba(255,255,255,0.1)',
+                  mb: 1, height: 6, borderRadius: 3,
                   '& .MuiLinearProgress-bar': {
                     bgcolor: pwStrength <= 25 ? 'error.main' : pwStrength <= 50 ? 'warning.main' : pwStrength <= 75 ? 'primary.main' : 'success.main',
                   },
@@ -217,25 +216,9 @@ const SignupPage = () => {
           )}
           {!form.password && <Box sx={{ mb: 2 }} />}
 
-          {/* 휴대폰번호 */}
-          <TextField
-            label="휴대폰번호"
-            name="phone"
-            value={form.phone}
-            onChange={handlePhoneChange}
-            fullWidth
-            placeholder="010-0000-0000"
-            sx={{ mb: 1 }}
-            helperText="선택사항 · 비밀번호 찾기에 활용됩니다"
-            inputProps={{ maxLength: 13 }}
-          />
-
-          <Box sx={{ mb: 2, p: 2, bgcolor: 'rgba(255,255,255,0.04)', borderRadius: 2 }}>
-            <Typography variant="caption" color="text.secondary">
-              💡 아이디/비밀번호 찾기 힌트: 가입 시 입력한 휴대폰번호로 본인 확인 후 안내받을 수 있습니다.<br />
-              ⚠️ 가입 후 30일이 지나면 계정이 자동으로 삭제됩니다.
-            </Typography>
-          </Box>
+          <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mb: 2, textAlign: 'center' }}>
+            포트폴리오 데모 프로젝트입니다. 실제 개인정보를 입력하지 마세요.
+          </Typography>
 
           <Button
             type="submit"
@@ -244,7 +227,7 @@ const SignupPage = () => {
             fullWidth
             size="large"
             disabled={loading}
-            sx={{ mb: 2, py: 1.5 }}
+            sx={{ mb: 2, py: 1.5, borderRadius: 2.5, fontWeight: 700, minHeight: 44 }}
           >
             {loading ? '가입 중...' : '회원가입'}
           </Button>

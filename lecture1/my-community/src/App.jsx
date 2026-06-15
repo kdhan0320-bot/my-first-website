@@ -8,9 +8,9 @@ import PostDetailPage from './pages/PostDetailPage';
 import PostEditPage from './pages/PostEditPage';
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, isGuest } = useAuth();
   if (loading) return null;
-  return user ? children : <Navigate to="/login" replace />;
+  return (user || isGuest) ? children : <Navigate to="/login" replace />;
 };
 
 const PublicRoute = ({ children }) => {
