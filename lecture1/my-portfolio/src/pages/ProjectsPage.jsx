@@ -17,35 +17,39 @@ const formatDate = (dateStr) => {
 
 const ProjectCard = ({ project, index }) => (
   <Card
-    sx={{
+    sx={(theme) => ({
       display: 'flex',
       flexDirection: 'column',
-      bgcolor: '#1A1A1A',
-      border: '1px solid rgba(255,255,255,0.1)',
+      bgcolor: 'background.paper',
+      border: `1px solid ${theme.palette.divider}`,
       borderRadius: 3,
       boxShadow: 'none',
       overflow: 'hidden',
       transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
       '&:hover': {
         transform: 'translateY(-6px)',
-        boxShadow: '0 20px 50px rgba(0,0,0,0.7)',
-        borderColor: 'rgba(255,255,255,0.25)',
+        boxShadow: theme.palette.mode === 'dark'
+          ? '0 20px 50px rgba(0,0,0,0.5)'
+          : '0 20px 50px rgba(0,0,0,0.12)',
+        borderColor: theme.palette.mode === 'dark'
+          ? 'rgba(56,189,248,0.3)'
+          : 'rgba(30,155,215,0.3)',
       },
       '&:hover .thumb-img': {
         transform: 'scale(1.06)',
       },
-    }}
+    })}
   >
-    {/* 썸네일 - 고정 높이, 동일한 비율 */}
+    {/* 썸네일 */}
     <Box
-      sx={{
+      sx={(theme) => ({
         position: 'relative',
         width: '100%',
-        paddingTop: '56.25%', /* 16:9 고정 비율 */
-        bgcolor: '#0D0D0D',
+        paddingTop: '56.25%',
+        bgcolor: theme.palette.mode === 'dark' ? '#0D1520' : '#E8EDF2',
         overflow: 'hidden',
         flexShrink: 0,
-      }}
+      })}
     >
       {project.thumbnail_url ? (
         <Box
@@ -75,26 +79,26 @@ const ProjectCard = ({ project, index }) => (
             justifyContent: 'center',
           }}
         >
-          <Typography sx={{ color: '#333', fontSize: '0.8rem' }}>미리보기 없음</Typography>
+          <Typography sx={{ color: 'text.disabled', fontSize: '0.8rem' }}>미리보기 없음</Typography>
         </Box>
       )}
 
       {/* 번호 뱃지 */}
       <Box
-        sx={{
+        sx={(theme) => ({
           position: 'absolute',
           top: 10,
           left: 10,
           width: 30,
           height: 30,
           borderRadius: '50%',
-          bgcolor: 'rgba(0,0,0,0.7)',
-          border: '1px solid rgba(255,255,255,0.3)',
+          bgcolor: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.65)' : 'rgba(0,0,0,0.45)',
+          border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.5)'}`,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           backdropFilter: 'blur(4px)',
-        }}
+        })}
       >
         <Typography sx={{ color: '#FFF', fontSize: '0.65rem', fontWeight: 700 }}>
           {String(index + 1).padStart(2, '0')}
@@ -104,18 +108,16 @@ const ProjectCard = ({ project, index }) => (
 
     {/* 카드 본문 */}
     <CardContent sx={{ flexGrow: 1, p: 2.5, pb: 1 }}>
-      {/* 날짜 */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
-        <CalendarTodayIcon sx={{ fontSize: '0.65rem', color: '#555' }} />
-        <Typography sx={{ fontSize: '0.7rem', color: '#555', letterSpacing: 0.5 }}>
+        <CalendarTodayIcon sx={{ fontSize: '0.65rem', color: 'text.disabled' }} />
+        <Typography sx={{ fontSize: '0.7rem', color: 'text.disabled', letterSpacing: 0.5 }}>
           {formatDate(project.created_at)}
         </Typography>
       </Box>
 
-      {/* 제목 */}
       <Typography
         sx={{
-          color: '#FFFFFF',
+          color: 'text.primary',
           fontSize: '0.95rem',
           fontWeight: 700,
           lineHeight: 1.45,
@@ -126,10 +128,9 @@ const ProjectCard = ({ project, index }) => (
         {project.title}
       </Typography>
 
-      {/* 설명 */}
       <Typography
         sx={{
-          color: '#999',
+          color: 'text.secondary',
           fontSize: '0.8rem',
           lineHeight: 1.7,
           mb: 2,
@@ -142,22 +143,21 @@ const ProjectCard = ({ project, index }) => (
         {project.description}
       </Typography>
 
-      {/* 기술 스택 */}
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
         {project.tech_stack?.map((tech) => (
           <Chip
             key={tech}
             label={tech}
             size="small"
-            sx={{
+            sx={(theme) => ({
               height: 22,
-              bgcolor: 'rgba(255,255,255,0.06)',
-              color: '#BBBBBB',
-              border: '1px solid rgba(255,255,255,0.12)',
+              bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)',
+              color: 'text.secondary',
+              border: `1px solid ${theme.palette.divider}`,
               fontSize: '0.65rem',
               fontWeight: 500,
               '& .MuiChip-label': { px: 1 },
-            }}
+            })}
           />
         ))}
       </Box>
@@ -165,25 +165,27 @@ const ProjectCard = ({ project, index }) => (
 
     {/* 버튼 영역 */}
     <CardActions sx={{ px: 2.5, pt: 1.5, pb: 2.5, flexDirection: 'column', gap: 1, alignItems: 'stretch' }}>
-      <Divider sx={{ borderColor: 'rgba(255,255,255,0.07)', mb: 0.5 }} />
+      <Divider sx={{ mb: 0.5 }} />
       <Box sx={{ display: 'flex', gap: 1 }}>
         {project.detail_url && (
           <Button
             size="small"
             variant="contained"
+            component="a"
             href={project.detail_url}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label={`${project.title} 데모 보기 (새 탭)`}
             endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
             sx={{
               flex: 1,
-              bgcolor: '#FFFFFF',
-              color: '#111',
+              bgcolor: 'primary.main',
+              color: 'primary.contrastText',
               fontSize: '0.73rem',
               fontWeight: 700,
               py: 0.8,
               borderRadius: 1.5,
-              '&:hover': { bgcolor: '#E8E8E8' },
+              '&:hover': { bgcolor: 'primary.dark' },
             }}
           >
             데모 보기
@@ -192,18 +194,24 @@ const ProjectCard = ({ project, index }) => (
         {project.github_url && (
           <Tooltip title="GitHub 코드 보기">
             <IconButton
+              component="a"
               href={project.github_url}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${project.title} GitHub 코드 보기 (새 탭)`}
               size="small"
-              sx={{
-                border: '1px solid rgba(255,255,255,0.15)',
+              sx={(theme) => ({
+                border: `1px solid ${theme.palette.divider}`,
                 borderRadius: 1.5,
-                color: '#AAAAAA',
+                color: 'text.secondary',
                 width: 36,
                 height: 36,
-                '&:hover': { borderColor: '#FFFFFF', color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.05)' },
-              }}
+                '&:hover': {
+                  borderColor: theme.palette.primary.main,
+                  color: 'primary.main',
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : 'rgba(21,120,170,0.05)',
+                },
+              })}
             >
               <GitHubIcon sx={{ fontSize: '1rem' }} />
             </IconButton>
@@ -215,19 +223,21 @@ const ProjectCard = ({ project, index }) => (
         <Button
           size="small"
           variant="text"
+          component="a"
           href={project.detail_url}
           target="_blank"
           rel="noopener noreferrer"
+          aria-label={`${project.title} 자세히 보기 (새 탭)`}
           endIcon={<ArrowForwardIcon sx={{ fontSize: '0.8rem !important' }} />}
           fullWidth
           sx={{
-            color: '#555',
+            color: 'text.secondary',
             fontSize: '0.72rem',
             justifyContent: 'flex-start',
             px: 0,
             py: 0,
             minHeight: 'unset',
-            '&:hover': { color: '#CCCCCC', bgcolor: 'transparent' },
+            '&:hover': { color: 'primary.main', bgcolor: 'transparent' },
           }}
         >
           자세히 보기
@@ -238,31 +248,38 @@ const ProjectCard = ({ project, index }) => (
 );
 
 const SkeletonCard = () => (
-  <Card sx={{ bgcolor: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 3, boxShadow: 'none', overflow: 'hidden' }}>
-    {/* 16:9 비율 스켈레톤 */}
-    <Box sx={{ paddingTop: '56.25%', position: 'relative', bgcolor: '#111' }}>
+  <Card
+    sx={(theme) => ({
+      bgcolor: 'background.paper',
+      border: `1px solid ${theme.palette.divider}`,
+      borderRadius: 3,
+      boxShadow: 'none',
+      overflow: 'hidden',
+    })}
+  >
+    <Box sx={{ paddingTop: '56.25%', position: 'relative', bgcolor: 'action.hover' }}>
       <Skeleton
         variant="rectangular"
-        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: '#222' }}
+        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
       />
     </Box>
     <CardContent sx={{ p: 2.5 }}>
-      <Skeleton variant="text" width={70} height={14} sx={{ bgcolor: '#2A2A2A', mb: 1 }} />
-      <Skeleton variant="text" width="75%" height={20} sx={{ bgcolor: '#2A2A2A', mb: 1 }} />
-      <Skeleton variant="text" sx={{ bgcolor: '#222' }} />
-      <Skeleton variant="text" width="85%" sx={{ bgcolor: '#222', mb: 2 }} />
+      <Skeleton variant="text" width={70} height={14} sx={{ mb: 1 }} />
+      <Skeleton variant="text" width="75%" height={20} sx={{ mb: 1 }} />
+      <Skeleton variant="text" />
+      <Skeleton variant="text" width="85%" sx={{ mb: 2 }} />
       <Box sx={{ display: 'flex', gap: 0.5 }}>
         {[48, 40, 52].map((w) => (
-          <Skeleton key={w} variant="rounded" width={w} height={22} sx={{ bgcolor: '#222' }} />
+          <Skeleton key={w} variant="rounded" width={w} height={22} />
         ))}
       </Box>
     </CardContent>
     <CardActions sx={{ px: 2.5, pb: 2.5, flexDirection: 'column', gap: 1 }}>
       <Box sx={{ display: 'flex', gap: 1, width: '100%' }}>
-        <Skeleton variant="rounded" height={32} sx={{ bgcolor: '#222', flex: 1 }} />
-        <Skeleton variant="rounded" width={36} height={32} sx={{ bgcolor: '#222' }} />
+        <Skeleton variant="rounded" height={32} sx={{ flex: 1 }} />
+        <Skeleton variant="rounded" width={36} height={32} />
       </Box>
-      <Skeleton variant="text" width={80} height={16} sx={{ bgcolor: '#222' }} />
+      <Skeleton variant="text" width={80} height={16} />
     </CardActions>
   </Card>
 );
@@ -287,14 +304,14 @@ const ProjectsPage = () => {
   }, []);
 
   return (
-    <Box sx={{ bgcolor: '#111111', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
       <Container maxWidth="lg">
 
         {/* 헤더 */}
         <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
           <Typography
             sx={{
-              color: '#555',
+              color: 'text.secondary',
               letterSpacing: 6,
               fontWeight: 600,
               fontSize: '0.68rem',
@@ -306,19 +323,18 @@ const ProjectsPage = () => {
           </Typography>
           <Typography
             variant="h1"
-            sx={{ color: '#FFFFFF', fontWeight: 800, fontSize: { xs: '2rem', md: '2.8rem' } }}
+            sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '2rem', md: '2.8rem' } }}
           >
             나의 프로젝트
           </Typography>
-          <Box sx={{ width: 44, height: 3, bgcolor: '#FFFFFF', mx: 'auto', mt: 2, borderRadius: 2 }} />
-          <Typography sx={{ mt: 2.5, color: '#666', fontSize: '0.85rem', lineHeight: 1.8 }}>
+          <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
+          <Typography sx={{ mt: 2.5, color: 'text.secondary', fontSize: '0.85rem', lineHeight: 1.8 }}>
             직접 설계하고 구현한 프로젝트들을 소개합니다.
           </Typography>
         </Box>
 
         {error && <Alert severity="error" sx={{ mb: 4 }}>{error}</Alert>}
 
-        {/* CSS Grid - MUI v9 호환, 4열/2열/1열 반응형 */}
         <Box
           sx={{
             display: 'grid',
@@ -340,7 +356,7 @@ const ProjectsPage = () => {
 
         {!loading && projects.length === 0 && !error && (
           <Box sx={{ textAlign: 'center', py: 14 }}>
-            <Typography sx={{ color: '#333', fontSize: '1.1rem' }}>
+            <Typography sx={{ color: 'text.secondary', fontSize: '1.1rem' }}>
               아직 등록된 프로젝트가 없습니다.
             </Typography>
           </Box>

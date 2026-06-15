@@ -4,12 +4,12 @@ import { createContext, useContext, useState, useMemo, useCallback } from 'react
 const initialAboutMeData = {
   basicInfo: {
     name: "김도한",
-    education: "대구한의대학교 경찰행정학과 졸업",
-    educationNote: "문제 파악 · 정보 정리 · 책임감 있는 업무 태도의 배경",
+    education: "4년제 대학 졸업 (비전공)",
+    educationNote: "웹디자인·UX/UI 분야로 전환 준비 중",
     major: "웹디자인 · UX/UI · React 기반 웹 구현 학습 중",
     experience: "신입 / 전환 취업 준비",
     position: "UX/UI 기반 웹디자이너 지망생",
-    summary: "사용자 흐름을 정리하고 실제 작동하는 웹서비스 화면으로 구현하는 것을 목표로 합니다.",
+    summary: "비전공에서 웹디자인·UX/UI 분야로 전환하며, 사용자 흐름을 정리하고 실제 작동하는 웹서비스 화면으로 구현하는 과정을 학습하고 있습니다.",
     photo: "",
   },
   sections: [
