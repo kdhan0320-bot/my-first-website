@@ -91,6 +91,7 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                 <>
                   <IconButton
                     size="small"
+                    aria-label="방명록 편집"
                     onClick={() => setEditing(true)}
                     sx={{ color: '#555555', '&:hover': { color: '#AAAAAA' } }}
                   >
@@ -98,6 +99,7 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                   </IconButton>
                   <IconButton
                     size="small"
+                    aria-label="방명록 삭제"
                     onClick={handleDelete}
                     sx={{ color: '#555555', '&:hover': { color: '#ff6b6b' } }}
                   >
@@ -108,6 +110,7 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                 <>
                   <IconButton
                     size="small"
+                    aria-label="편집 저장"
                     onClick={handleSave}
                     disabled={saving}
                     sx={{ color: '#4caf50', '&:hover': { color: '#81c784' } }}
@@ -116,6 +119,7 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                   </IconButton>
                   <IconButton
                     size="small"
+                    aria-label="편집 취소"
                     onClick={handleCancelEdit}
                     sx={{ color: '#555555', '&:hover': { color: '#AAAAAA' } }}
                   >

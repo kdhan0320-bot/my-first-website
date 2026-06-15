@@ -53,6 +53,7 @@ const ProjectCard = ({ project, index }) => (
           className="thumb-img"
           src={project.thumbnail_url}
           alt={project.title}
+          loading="lazy"
           sx={{
             position: 'absolute',
             top: 0, left: 0,
@@ -185,7 +186,7 @@ const ProjectCard = ({ project, index }) => (
               '&:hover': { bgcolor: '#E8E8E8' },
             }}
           >
-            Live Demo
+            데모 보기
           </Button>
         )}
         {project.github_url && (
@@ -229,7 +230,7 @@ const ProjectCard = ({ project, index }) => (
             '&:hover': { color: '#CCCCCC', bgcolor: 'transparent' },
           }}
         >
-          View Details
+          자세히 보기
         </Button>
       )}
     </CardActions>
