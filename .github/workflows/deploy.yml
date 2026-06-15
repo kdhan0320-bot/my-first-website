@@ -1,0 +1,84 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies (mini_sns)
+        working-directory: lecture1/mini_sns
+        run: npm install
+
+      - name: Build mini_sns
+        working-directory: lecture1/mini_sns
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          NODE_ENV: production
+        run: npm run build
+
+      - name: Install dependencies (my-portfolio)
+        working-directory: lecture1/my-portfolio
+        run: npm install
+
+      - name: Build my-portfolio
+        working-directory: lecture1/my-portfolio
+        env:
+          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
+        run: npm run build
+
+      - name: Install dependencies (my-community)
+        working-directory: lecture1/my-community
+        run: npm install
+
+      - name: Build my-community
+        working-directory: lecture1/my-community
+        env:
+          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
+        run: npm run build
+
+      - name: Prepare site directory
+        run: |
+          mkdir -p _site
+          cp index.html _site/index.html
+          cp -r lecture1/mini_sns/dist/. _site/mini-sns
+          cp _site/mini-sns/index.html _site/mini-sns/404.html
+          cp -r lecture1/my-portfolio/dist/. _site/my-portfolio
+          cp _site/my-portfolio/index.html _site/my-portfolio/404.html
+          cp -r lecture1/my-community/dist/. _site/my-community
+          cp _site/my-community/index.html _site/my-community/404.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

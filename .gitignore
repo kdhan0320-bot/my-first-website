@@ -1,0 +1,29 @@
+# MCP 설정 파일
+.mcp.json
+
+# Claude 로컬 설정
+.claude/
+
+# Node.js
+node_modules/
+package-lock.json
+
+# 캐시 파일
+.cache/
+.vite/
+dist/
+
+# 환경 변수
+.env
+.env.local
+.env.*.local
+
+# OS/IDE 파일
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 로그 파일
+*.log
+npm-debug.log*

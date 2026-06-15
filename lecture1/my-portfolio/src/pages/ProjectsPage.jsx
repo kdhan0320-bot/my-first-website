@@ -1,0 +1,349 @@
+import { useState, useEffect } from 'react';
+import {
+  Box, Container, Typography, Card, CardContent, CardActions,
+  Chip, Button, Divider, Skeleton, Alert, IconButton, Tooltip,
+} from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { supabase } from '../lib/supabase';
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}`;
+};
+
+const ProjectCard = ({ project, index }) => (
+  <Card
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      bgcolor: '#1A1A1A',
+      border: '1px solid rgba(255,255,255,0.1)',
+      borderRadius: 3,
+      boxShadow: 'none',
+      overflow: 'hidden',
+      transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+      '&:hover': {
+        transform: 'translateY(-6px)',
+        boxShadow: '0 20px 50px rgba(0,0,0,0.7)',
+        borderColor: 'rgba(255,255,255,0.25)',
+      },
+      '&:hover .thumb-img': {
+        transform: 'scale(1.06)',
+      },
+    }}
+  >
+    {/* 썸네일 - 고정 높이, 동일한 비율 */}
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100%',
+        paddingTop: '56.25%', /* 16:9 고정 비율 */
+        bgcolor: '#0D0D0D',
+        overflow: 'hidden',
+        flexShrink: 0,
+      }}
+    >
+      {project.thumbnail_url ? (
+        <Box
+          component="img"
+          className="thumb-img"
+          src={project.thumbnail_url}
+          alt={project.title}
+          sx={{
+            position: 'absolute',
+            top: 0, left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'top',
+            transition: 'transform 0.4s ease',
+          }}
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+        />
+      ) : (
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography sx={{ color: '#333', fontSize: '0.8rem' }}>미리보기 없음</Typography>
+        </Box>
+      )}
+
+      {/* 번호 뱃지 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 10,
+          left: 10,
+          width: 30,
+          height: 30,
+          borderRadius: '50%',
+          bgcolor: 'rgba(0,0,0,0.7)',
+          border: '1px solid rgba(255,255,255,0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backdropFilter: 'blur(4px)',
+        }}
+      >
+        <Typography sx={{ color: '#FFF', fontSize: '0.65rem', fontWeight: 700 }}>
+          {String(index + 1).padStart(2, '0')}
+        </Typography>
+      </Box>
+    </Box>
+
+    {/* 카드 본문 */}
+    <CardContent sx={{ flexGrow: 1, p: 2.5, pb: 1 }}>
+      {/* 날짜 */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+        <CalendarTodayIcon sx={{ fontSize: '0.65rem', color: '#555' }} />
+        <Typography sx={{ fontSize: '0.7rem', color: '#555', letterSpacing: 0.5 }}>
+          {formatDate(project.created_at)}
+        </Typography>
+      </Box>
+
+      {/* 제목 */}
+      <Typography
+        sx={{
+          color: '#FFFFFF',
+          fontSize: '0.95rem',
+          fontWeight: 700,
+          lineHeight: 1.45,
+          mb: 1,
+          letterSpacing: '-0.01em',
+        }}
+      >
+        {project.title}
+      </Typography>
+
+      {/* 설명 */}
+      <Typography
+        sx={{
+          color: '#999',
+          fontSize: '0.8rem',
+          lineHeight: 1.7,
+          mb: 2,
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}
+      >
+        {project.description}
+      </Typography>
+
+      {/* 기술 스택 */}
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+        {project.tech_stack?.map((tech) => (
+          <Chip
+            key={tech}
+            label={tech}
+            size="small"
+            sx={{
+              height: 22,
+              bgcolor: 'rgba(255,255,255,0.06)',
+              color: '#BBBBBB',
+              border: '1px solid rgba(255,255,255,0.12)',
+              fontSize: '0.65rem',
+              fontWeight: 500,
+              '& .MuiChip-label': { px: 1 },
+            }}
+          />
+        ))}
+      </Box>
+    </CardContent>
+
+    {/* 버튼 영역 */}
+    <CardActions sx={{ px: 2.5, pt: 1.5, pb: 2.5, flexDirection: 'column', gap: 1, alignItems: 'stretch' }}>
+      <Divider sx={{ borderColor: 'rgba(255,255,255,0.07)', mb: 0.5 }} />
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        {project.detail_url && (
+          <Button
+            size="small"
+            variant="contained"
+            href={project.detail_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
+            sx={{
+              flex: 1,
+              bgcolor: '#FFFFFF',
+              color: '#111',
+              fontSize: '0.73rem',
+              fontWeight: 700,
+              py: 0.8,
+              borderRadius: 1.5,
+              '&:hover': { bgcolor: '#E8E8E8' },
+            }}
+          >
+            Live Demo
+          </Button>
+        )}
+        {project.github_url && (
+          <Tooltip title="GitHub 코드 보기">
+            <IconButton
+              href={project.github_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              size="small"
+              sx={{
+                border: '1px solid rgba(255,255,255,0.15)',
+                borderRadius: 1.5,
+                color: '#AAAAAA',
+                width: 36,
+                '&:hover': { borderColor: '#FFFFFF', color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.05)' },
+              }}
+            >
+              <GitHubIcon sx={{ fontSize: '1rem' }} />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Box>
+
+      <Button
+        size="small"
+        variant="text"
+        href={project.detail_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        endIcon={<ArrowForwardIcon sx={{ fontSize: '0.8rem !important' }} />}
+        fullWidth
+        sx={{
+          color: '#555',
+          fontSize: '0.72rem',
+          justifyContent: 'flex-start',
+          px: 0,
+          py: 0,
+          minHeight: 'unset',
+          '&:hover': { color: '#CCCCCC', bgcolor: 'transparent' },
+        }}
+      >
+        View Details
+      </Button>
+    </CardActions>
+  </Card>
+);
+
+const SkeletonCard = () => (
+  <Card sx={{ bgcolor: '#1A1A1A', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 3, boxShadow: 'none', overflow: 'hidden' }}>
+    {/* 16:9 비율 스켈레톤 */}
+    <Box sx={{ paddingTop: '56.25%', position: 'relative', bgcolor: '#111' }}>
+      <Skeleton
+        variant="rectangular"
+        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', bgcolor: '#222' }}
+      />
+    </Box>
+    <CardContent sx={{ p: 2.5 }}>
+      <Skeleton variant="text" width={70} height={14} sx={{ bgcolor: '#2A2A2A', mb: 1 }} />
+      <Skeleton variant="text" width="75%" height={20} sx={{ bgcolor: '#2A2A2A', mb: 1 }} />
+      <Skeleton variant="text" sx={{ bgcolor: '#222' }} />
+      <Skeleton variant="text" width="85%" sx={{ bgcolor: '#222', mb: 2 }} />
+      <Box sx={{ display: 'flex', gap: 0.5 }}>
+        {[48, 40, 52].map((w) => (
+          <Skeleton key={w} variant="rounded" width={w} height={22} sx={{ bgcolor: '#222' }} />
+        ))}
+      </Box>
+    </CardContent>
+    <CardActions sx={{ px: 2.5, pb: 2.5, flexDirection: 'column', gap: 1 }}>
+      <Box sx={{ display: 'flex', gap: 1, width: '100%' }}>
+        <Skeleton variant="rounded" height={32} sx={{ bgcolor: '#222', flex: 1 }} />
+        <Skeleton variant="rounded" width={36} height={32} sx={{ bgcolor: '#222' }} />
+      </Box>
+      <Skeleton variant="text" width={80} height={16} sx={{ bgcolor: '#222' }} />
+    </CardActions>
+  </Card>
+);
+
+const ProjectsPage = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('is_published', true)
+        .order('sort_order');
+      if (error) setError(error.message);
+      else setProjects(data ?? []);
+      setLoading(false);
+    };
+    fetchProjects();
+  }, []);
+
+  return (
+    <Box sx={{ bgcolor: '#111111', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
+      <Container maxWidth="lg">
+
+        {/* 헤더 */}
+        <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
+          <Typography
+            sx={{
+              color: '#555',
+              letterSpacing: 6,
+              fontWeight: 600,
+              fontSize: '0.68rem',
+              textTransform: 'uppercase',
+              mb: 1.5,
+            }}
+          >
+            PROJECTS
+          </Typography>
+          <Typography
+            variant="h1"
+            sx={{ color: '#FFFFFF', fontWeight: 800, fontSize: { xs: '2rem', md: '2.8rem' } }}
+          >
+            나의 프로젝트
+          </Typography>
+          <Box sx={{ width: 44, height: 3, bgcolor: '#FFFFFF', mx: 'auto', mt: 2, borderRadius: 2 }} />
+          <Typography sx={{ mt: 2.5, color: '#666', fontSize: '0.85rem', lineHeight: 1.8 }}>
+            직접 설계하고 구현한 프로젝트들을 소개합니다.
+          </Typography>
+        </Box>
+
+        {error && <Alert severity="error" sx={{ mb: 4 }}>{error}</Alert>}
+
+        {/* CSS Grid - MUI v9 호환, 4열/2열/1열 반응형 */}
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: 'repeat(2, 1fr)',
+              md: 'repeat(4, 1fr)',
+            },
+            gap: 3,
+          }}
+        >
+          {loading
+            ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+            : projects.map((project, i) => (
+                <ProjectCard key={project.id} project={project} index={i} />
+              ))
+          }
+        </Box>
+
+        {!loading && projects.length === 0 && !error && (
+          <Box sx={{ textAlign: 'center', py: 14 }}>
+            <Typography sx={{ color: '#333', fontSize: '1.1rem' }}>
+              아직 등록된 프로젝트가 없습니다.
+            </Typography>
+          </Box>
+        )}
+      </Container>
+    </Box>
+  );
+};
+
+export default ProjectsPage;
