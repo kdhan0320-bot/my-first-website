@@ -7,6 +7,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import WorkIcon from '@mui/icons-material/Work';
 import aboutMeData from '../data/aboutMeData';
+import SkillsSection from '../components/sections/SkillsSection';
 
 const toParagraphs = (text) =>
   text
@@ -204,6 +205,9 @@ const AboutPage = () => {
             ))}
           </Box>
         </Box>
+
+        {/* Skills 섹션 */}
+        <SkillsSection />
 
       </Container>
     </Box>
