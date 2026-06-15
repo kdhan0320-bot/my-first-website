@@ -25,7 +25,7 @@ const HeroSection = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        py: { xs: 10, md: 4 },
+        py: { xs: 7, sm: 9, md: 5 },
 
         /* 점 패턴 */
         '&::before': {
@@ -88,7 +88,7 @@ const HeroSection = () => {
                   border: '1px solid rgba(21,120,170,0.2)',
                   fontWeight: 600,
                   fontSize: '0.78rem',
-                  mb: 3,
+                  mb: { xs: 2, md: 3 },
                   height: 28,
                 }}
               />
@@ -99,8 +99,8 @@ const HeroSection = () => {
                 sx={{
                   color: '#1A1A2E',
                   fontWeight: 800,
-                  fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
-                  lineHeight: 1.25,
+                  fontSize: { xs: '1.875rem', sm: '2.375rem', md: '3rem', lg: '3.5rem' },
+                  lineHeight: { xs: 1.3, md: 1.25 },
                   letterSpacing: '-0.03em',
                   mb: 3,
                 }}
@@ -119,9 +119,9 @@ const HeroSection = () => {
                 variant="body1"
                 sx={{
                   color: '#64748B',
-                  mb: 5,
+                  mb: { xs: 3, md: 5 },
                   lineHeight: 1.85,
-                  fontSize: { xs: '0.95rem', md: '1.05rem' },
+                  fontSize: { xs: '0.9375rem', md: '1.0625rem' },
                   maxWidth: { xs: '100%', md: 480 },
                   mx: { xs: 'auto', md: 0 },
                 }}
@@ -148,6 +148,7 @@ const HeroSection = () => {
                     bgcolor: '#1578AA',
                     color: '#FFFFFF',
                     px: 3.5,
+                    minHeight: 44,
                     fontWeight: 700,
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                     '&:hover': {
@@ -168,6 +169,7 @@ const HeroSection = () => {
                     color: '#1578AA',
                     borderColor: 'rgba(21,120,170,0.4)',
                     px: 3.5,
+                    minHeight: 44,
                     fontWeight: 600,
                     transition: 'transform 0.2s ease',
                     '&:hover': {
@@ -213,6 +215,7 @@ const HeroSection = () => {
                 <Typography
                   component="a"
                   href="mailto:kdhan0320@gmail.com"
+                  aria-label="이메일로 연락하기"
                   variant="caption"
                   sx={{
                     color: '#94A3B8',
