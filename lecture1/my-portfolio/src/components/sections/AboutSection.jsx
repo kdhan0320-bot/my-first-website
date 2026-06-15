@@ -1,57 +1,142 @@
-import { Box, Container, Typography, Button, Grid, Divider } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
+import { Box, Container, Typography, Avatar, Button, Grid, Chip } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
+import aboutMeData from '../../data/aboutMeData';
+
+const getFirstSentence = (text) => {
+  const idx = text.indexOf('. ');
+  return idx !== -1 ? text.slice(0, idx + 1) : text;
+};
 
 const AboutSection = () => {
   const navigate = useNavigate();
+  const { basicInfo, sections } = aboutMeData;
+  const homeSections = sections.filter((s) => s.showInHome);
 
   return (
-    <Box sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
+    <Box sx={{ bgcolor: '#FFFFFF', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Typography variant="overline" sx={{ color: '#888888', letterSpacing: 4, fontWeight: 600 }}>
+
+        {/* 섹션 헤더 */}
+        <Box sx={{ textAlign: 'center', mb: 7 }}>
+          <Typography
+            sx={{
+              color: '#7F8FA4',
+              letterSpacing: 6,
+              fontWeight: 600,
+              fontSize: '0.7rem',
+              textTransform: 'uppercase',
+              mb: 1.5,
+            }}
+          >
             ABOUT ME
           </Typography>
-          <Typography variant="h2" sx={{ mt: 1, color: '#1A1A2E' }}>
-            여기는 About Me 섹션입니다.
+          <Typography variant="h2" sx={{ color: '#1A1A2E', fontWeight: 800, mt: 1 }}>
+            소개
           </Typography>
-          <Divider sx={{ width: 60, mx: 'auto', mt: 2, borderColor: '#1578AA', borderWidth: 3 }} />
+          <Box sx={{ width: 44, height: 3, bgcolor: '#1578AA', mx: 'auto', mt: 2, borderRadius: 2 }} />
         </Box>
 
-        <Grid container spacing={4} alignItems="center">
+        <Grid container spacing={{ xs: 4, md: 8 }} alignItems="center">
+
+          {/* 왼쪽: 프로필 카드 */}
           <Grid item xs={12} md={4}>
             <Box
               sx={{
-                bgcolor: '#F0F0F0',
-                borderRadius: 3,
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                aspectRatio: '1 / 1',
-                maxWidth: 280,
-                mx: 'auto',
+                flexDirection: 'column',
+                alignItems: { xs: 'center', md: 'flex-start' },
+                gap: 2,
               }}
             >
-              <PersonIcon sx={{ fontSize: 80, color: '#BBBBBB' }} />
+              <Avatar
+                src={basicInfo.photo || undefined}
+                sx={{
+                  width: 120,
+                  height: 120,
+                  bgcolor: '#EAF6FC',
+                  color: '#1578AA',
+                  fontSize: '2.5rem',
+                  fontWeight: 700,
+                  border: '3px solid #D0EEFA',
+                }}
+              >
+                {!basicInfo.photo && basicInfo.name.charAt(0)}
+              </Avatar>
+
+              <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                <Typography variant="h3" sx={{ color: '#1A1A2E', fontWeight: 800, mb: 1 }}>
+                  {basicInfo.name}
+                </Typography>
+                <Chip
+                  label={basicInfo.position}
+                  size="small"
+                  sx={{
+                    bgcolor: '#EAF6FC',
+                    color: '#1578AA',
+                    border: '1px solid #B8DFF2',
+                    fontWeight: 600,
+                    fontSize: '0.75rem',
+                  }}
+                />
+              </Box>
+
+              {/* 한 줄 요약 */}
+              <Box
+                sx={{
+                  bgcolor: '#F6F8FB',
+                  borderLeft: '3px solid #1578AA',
+                  borderRadius: '0 8px 8px 0',
+                  p: 2,
+                  width: '100%',
+                }}
+              >
+                <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.85, fontStyle: 'italic' }}>
+                  &ldquo;{basicInfo.summary}&rdquo;
+                </Typography>
+              </Box>
             </Box>
           </Grid>
 
+          {/* 오른쪽: showInHome 섹션 미리보기 + CTA */}
           <Grid item xs={12} md={8}>
-            <Typography variant="body1" sx={{ color: '#333333', lineHeight: 2, mb: 2 }}>
-              간단한 자기소개와 &apos;더 알아보기&apos; 버튼이 들어갈 예정입니다.
-            </Typography>
-            <Typography variant="body2" sx={{ color: '#777777', lineHeight: 1.8, mb: 4 }}>
-              이름, 직군, 관심 분야, 간단한 경력 등이 이 영역에 작성됩니다.
-            </Typography>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ bgcolor: '#1578AA', color: '#FFFFFF', '&:hover': { bgcolor: '#1E9BD7' } }}
-              onClick={() => navigate('/about')}
-            >
-              더 알아보기
-            </Button>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+              {homeSections.map((section) => (
+                <Box
+                  key={section.id}
+                  sx={{
+                    bgcolor: '#F6F8FB',
+                    border: '1px solid #E0E4EA',
+                    borderRadius: 2,
+                    p: 3,
+                  }}
+                >
+                  <Typography variant="h5" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 1.5 }}>
+                    {section.title}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.85 }}>
+                    {getFirstSentence(section.content)}
+                  </Typography>
+                </Box>
+              ))}
+
+              <Button
+                variant="contained"
+                endIcon={<ArrowForwardIcon />}
+                onClick={() => navigate('/about')}
+                sx={{
+                  alignSelf: { xs: 'center', md: 'flex-start' },
+                  bgcolor: '#1578AA',
+                  color: '#FFFFFF',
+                  mt: 1,
+                  '&:hover': { bgcolor: '#1E9BD7' },
+                }}
+              >
+                더 알아보기
+              </Button>
+            </Box>
           </Grid>
+
         </Grid>
       </Container>
     </Box>
