@@ -29,7 +29,7 @@ const HeroSection = () => (
 
       {/* 배지 */}
       <Chip
-        label="🚀 Frontend Developer"
+        label="UX/UI 기반 웹디자이너 지망생"
         sx={{
           bgcolor: 'rgba(21,120,170,0.25)',
           color: '#1E9BD7',
@@ -53,10 +53,9 @@ const HeroSection = () => (
           mb: 2,
         }}
       >
-        안녕하세요,
+        사용자 흐름을 정리하고,
         <br />
-        <Box component="span" sx={{ color: '#1E9BD7' }}>김도한</Box>
-        입니다.
+        <Box component="span" sx={{ color: '#1E9BD7' }}>화면으로 구현합니다.</Box>
       </Typography>
 
       {/* 부제 */}
@@ -72,9 +71,9 @@ const HeroSection = () => (
           px: { xs: 1, sm: 0 },
         }}
       >
-        사용자 경험을 중심으로 생각하는 프론트엔드 개발자입니다.
+        사용자 입장에서 화면을 설계하고,
         <br />
-        React · MUI · Supabase로 웹 서비스를 만들고 있습니다.
+        React · MUI로 실제 작동하는 웹서비스 화면을 만들고 있습니다.
       </Typography>
 
       {/* CTA 버튼 */}
@@ -93,7 +92,7 @@ const HeroSection = () => (
             '&:hover': { bgcolor: '#1E9BD7' },
           }}
         >
-          프로젝트 보기
+          작업물 보기
         </Button>
         <Button
           variant="outlined"
