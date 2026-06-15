@@ -6,10 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="사용자 흐름을 정리하고 실제 작동하는 웹서비스 화면으로 구현하는 김도한의 UX/UI 기반 웹디자인 포트폴리오입니다." />
     <title>김도한 | UX/UI 기반 웹디자인 포트폴리오</title>
+    <!-- 다크모드 초기 깜빡임 방지: React 렌더링 전에 테마 적용 -->
+    <script>
+      (function () {
+        try {
+          var m = localStorage.getItem('portfolio-theme-mode');
+          if (m !== 'dark' && m !== 'light') {
+            m = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-color-scheme', m);
+          document.documentElement.style.colorScheme = m;
+          if (m === 'dark') {
+            document.documentElement.style.background = '#0F172A';
+          }
+        } catch (e) {}
+      })();
+    </script>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-    <script type="module" crossorigin src="/my-first-website/my-portfolio/assets/index-BkjTYG0x.js"></script>
-    <link rel="stylesheet" crossorigin href="/my-first-website/my-portfolio/assets/index--Tf1Yld0.css">
+    <script type="module" crossorigin src="/my-first-website/my-portfolio/assets/index-DpcYgnlw.js"></script>
+    <link rel="stylesheet" crossorigin href="/my-first-website/my-portfolio/assets/index-Dbcf5uc2.css">
   </head>
   <body>
     <div id="root"></div>
