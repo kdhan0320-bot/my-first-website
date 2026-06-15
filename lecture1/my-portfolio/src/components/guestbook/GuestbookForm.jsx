@@ -207,9 +207,10 @@ const GuestbookForm = ({ onSuccess }) => {
           fontWeight: 700,
           '&:hover': { bgcolor: '#EEEEEE' },
           '&.Mui-disabled': { bgcolor: '#333333', color: '#666666' },
-          alignSelf: 'flex-end',
+          alignSelf: { xs: 'stretch', sm: 'flex-end' },
           px: 4,
           py: 1.25,
+          minHeight: 44,
         }}
       >
         {submitting ? '등록 중...' : '방명록 남기기'}

@@ -4,21 +4,16 @@ import { useEffect, useRef } from 'react';
 const INTERACTIVE =
   'button, a, [role="button"], .MuiButton-root, .MuiIconButton-root';
 
-/* ── 활성화 조건 확인 (CSR 전용) ──
+/* ── 활성화 조건 확인 (CSR 전용)
    - hover 가능한 포인팅 기기 (마우스)
    - prefers-reduced-motion: reduce 아닌 경우 */
 const checkEnabled = () =>
   window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
   !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const CustomCursor = () => {
-  /* 비활성 조건이면 렌더링 자체를 하지 않음 */
-  if (!checkEnabled()) return null;
-
-  return <CursorFollower />;
-};
-
-/* 실제 follower DOM 관리 (활성 환경에서만 마운트됨) */
+/* ── Follower 실체 ────────────────────────────────────────────────────
+   활성 환경에서만 마운트됨. useRef로 좌표를 관리하고 RAF에서 DOM을 직접
+   업데이트하므로 setState 호출 없이 60fps로 부드럽게 추적. */
 const CursorFollower = () => {
   const elRef    = useRef(null);
   const follower = useRef({ x: -200, y: -200 }); // eased 좌표
@@ -110,6 +105,13 @@ const CursorFollower = () => {
       }}
     />
   );
+};
+
+/* ── 진입점 ──────────────────────────────────────────────────────────
+   비활성 조건이면 null 반환 → 모바일에서 DOM 요소 없음 */
+const CustomCursor = () => {
+  if (!checkEnabled()) return null;
+  return <CursorFollower />;
 };
 
 export default CustomCursor;

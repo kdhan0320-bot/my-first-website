@@ -200,6 +200,7 @@ const ProjectCard = ({ project, index }) => (
                 borderRadius: 1.5,
                 color: '#AAAAAA',
                 width: 36,
+                height: 36,
                 '&:hover': { borderColor: '#FFFFFF', color: '#FFFFFF', bgcolor: 'rgba(255,255,255,0.05)' },
               }}
             >

@@ -221,7 +221,7 @@ const Navbar = () => {
                   borderRadius: 2,
                   px: 2,
                   py: 0.75,
-                  minHeight: 38,
+                  minHeight: 44,
                   transition: 'color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s',
                   '&:hover': { color: '#1578AA', borderColor: '#1578AA', bgcolor: 'rgba(21,120,170,0.05)', transform: 'translateY(-1px)' },
                   '&:active': { transform: 'translateY(0)' },
