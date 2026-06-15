@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
 import {
   Box, Typography, Grid, Card, CardContent,
   LinearProgress, Chip, Tooltip, Button,
 } from '@mui/material';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { ICON_MAP } from '../../constants/iconMap';
+import useInViewOnce from '../../hooks/useInViewOnce';
+import useCountUp from '../../hooks/useCountUp';
 
 const CATEGORY_COLORS = {
   'Frontend':     { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE' },
@@ -23,12 +24,9 @@ const STATUS_COLORS = {
 };
 
 const SkillCard = ({ skill }) => {
-  const [animValue, setAnimValue] = useState(0);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setAnimValue(skill.level ?? 0), 300);
-    return () => clearTimeout(timer);
-  }, [skill.level]);
+  const [cardRef, isVisible] = useInViewOnce(0.25);
+  const safeLevel = Math.min(100, Math.max(0, Number(skill.level) || 0));
+  const animCount = useCountUp(safeLevel, 900, isVisible);
 
   const icon = ICON_MAP[skill.icon] ?? { text: skill.name.slice(0, 2), color: '#1578AA', bg: '#EAF6FC' };
   const catColor = CATEGORY_COLORS[skill.category] ?? CATEGORY_COLORS['Tool'];
@@ -36,6 +34,7 @@ const SkillCard = ({ skill }) => {
 
   return (
     <Card
+      ref={cardRef}
       tabIndex={0}
       sx={{
         width: '100%',
@@ -125,8 +124,13 @@ const SkillCard = ({ skill }) => {
             <Typography variant="caption" sx={{ color: '#94A3B8', fontSize: '0.68rem' }}>
               학습 적용도
             </Typography>
-            <Typography variant="caption" sx={{ color: '#94A3B8', fontSize: '0.68rem' }}>
-              {skill.level ?? 0}%
+            {/* 카운팅 숫자 — 스크린 리더는 progress bar의 aria-label을 읽음 */}
+            <Typography
+              variant="caption"
+              aria-hidden="true"
+              sx={{ color: '#1578AA', fontSize: '0.68rem', fontWeight: 600, minWidth: '2.5ch', textAlign: 'right' }}
+            >
+              {animCount}%
             </Typography>
           </Box>
           <Tooltip
@@ -137,15 +141,21 @@ const SkillCard = ({ skill }) => {
           >
             <LinearProgress
               variant="determinate"
-              value={animValue}
-              aria-label={`${skill.name} 학습 적용도 ${skill.level}%`}
+              value={isVisible ? safeLevel : 0}
+              aria-label={`${skill.name} 학습 적용도 ${safeLevel}%`}
+              aria-valuenow={safeLevel}
+              aria-valuemin={0}
+              aria-valuemax={100}
               sx={{
-                height: 6, borderRadius: 3,
-                bgcolor: '#E8EDF3',
+                height: 7,
+                borderRadius: 4,
+                bgcolor: 'rgba(30,155,215,0.12)',
                 '& .MuiLinearProgress-bar': {
-                  borderRadius: 3,
+                  borderRadius: 4,
                   bgcolor: '#1578AA',
-                  transition: 'transform 0.8s ease-in-out',
+                  transition: isVisible
+                    ? 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)'
+                    : 'none',
                 },
               }}
             />
@@ -183,7 +193,6 @@ const SkillsSection = () => {
         ))}
       </Grid>
 
-      {/* 스킬 추가 데모 버튼 — 기본값 false (방문자에게 노출 안 됨) */}
       {showAddButton && (
         <Box sx={{ mt: 4, textAlign: 'center' }}>
           <Button

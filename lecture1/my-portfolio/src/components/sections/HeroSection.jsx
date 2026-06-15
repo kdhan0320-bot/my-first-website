@@ -1,7 +1,12 @@
+import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useNavigate } from 'react-router-dom';
+import { usePortfolio } from '../../context/PortfolioContext';
+import { supabase } from '../../lib/supabase';
+import useInViewOnce from '../../hooks/useInViewOnce';
+import useCountUp from '../../hooks/useCountUp';
 
 const WORKFLOW = [
   { label: '기획',  sub: 'UX 분석'  },
@@ -11,6 +16,72 @@ const WORKFLOW = [
 ];
 
 const SKILL_CHIPS = ['UX/UI', 'React', 'MUI', 'Figma', 'AI Tools'];
+
+/* ── Portfolio Stats 인라인 컴포넌트 ── */
+const PortfolioStats = () => {
+  const { aboutMeData } = usePortfolio();
+  const [projectCount, setProjectCount] = useState(null);
+  const [statsRef, isVisible] = useInViewOnce(0.1);
+
+  useEffect(() => {
+    supabase
+      .from('projects')
+      .select('id', { count: 'exact', head: true })
+      .eq('is_published', true)
+      .then(({ count }) => setProjectCount(count ?? 0));
+  }, []);
+
+  const skillCount = aboutMeData?.skills?.length ?? 0;
+  const loaded = projectCount !== null;
+
+  const projectNum = useCountUp(projectCount ?? 0, 1000, isVisible && loaded);
+  const skillNum   = useCountUp(skillCount, 1000, isVisible);
+  const deployNum  = useCountUp(projectCount ?? 0, 1000, isVisible && loaded);
+
+  const stats = [
+    { label: '진행 프로젝트', value: loaded ? projectNum : '—', suffix: loaded ? '개' : '' },
+    { label: '활용 기술',     value: skillNum,                  suffix: '개'               },
+    { label: '배포 경험',     value: loaded ? deployNum  : '—', suffix: loaded ? '회' : '' },
+  ];
+
+  return (
+    <Box
+      ref={statsRef}
+      sx={{
+        display: 'flex',
+        gap: { xs: 3, sm: 4 },
+        mt: 3,
+        pt: 2.5,
+        borderTop: '1px solid rgba(30,155,215,0.12)',
+        justifyContent: { xs: 'center', md: 'flex-start' },
+      }}
+    >
+      {stats.map(({ label, value, suffix }) => (
+        <Box key={label} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+          <Typography
+            component="p"
+            aria-hidden="true"
+            sx={{
+              color: '#1578AA',
+              fontWeight: 800,
+              fontSize: { xs: '1.4rem', md: '1.625rem' },
+              lineHeight: 1,
+              fontVariantNumeric: 'tabular-nums',
+            }}
+          >
+            {value}{suffix}
+          </Typography>
+          <Typography
+            variant="caption"
+            sx={{ color: '#94A3B8', fontWeight: 500, mt: 0.5, display: 'block', fontSize: '0.7rem' }}
+          >
+            {label}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
+  );
+};
 
 const HeroSection = () => {
   const navigate = useNavigate();
@@ -53,7 +124,6 @@ const HeroSection = () => {
           pointerEvents: 'none',
         },
 
-        /* 애니메이션 keyframes */
         '@keyframes fadeInUp': {
           from: { opacity: 0, transform: 'translateY(20px)' },
           to:   { opacity: 1, transform: 'translateY(0)'    },
@@ -63,7 +133,6 @@ const HeroSection = () => {
           '50%':      { transform: 'translateY(7px)' },
         },
 
-        /* 모션 저감 접근성 */
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
@@ -234,6 +303,9 @@ const HeroSection = () => {
                   연락하기
                 </Typography>
               </Stack>
+
+              {/* Portfolio Stats */}
+              <PortfolioStats />
             </Box>
           </Grid>
 
@@ -371,7 +443,7 @@ const HeroSection = () => {
           </Grid>
         </Grid>
 
-        {/* 스크롤 유도 화살표 — 클릭 시 다음 섹션으로 스크롤 */}
+        {/* 스크롤 유도 화살표 */}
         <Box
           component="button"
           onClick={() => window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' })}
