@@ -72,7 +72,18 @@ const AboutSection = () => {
               {sections.map((section) => (
                 <Box
                   key={section.id}
-                  sx={{ bgcolor: '#F6F8FB', border: '1px solid #E0E4EA', borderRadius: 2, p: 3 }}
+                  sx={{
+                    bgcolor: '#F6F8FB',
+                    border: '1px solid #E0E4EA',
+                    borderRadius: 2,
+                    p: 3,
+                    transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+                    '&:hover': {
+                      transform: 'translateY(-2px)',
+                      boxShadow: '0 6px 20px rgba(26,26,46,0.08)',
+                      borderColor: 'rgba(30,155,215,0.2)',
+                    },
+                  }}
                 >
                   <Typography variant="h5" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 1.5 }}>
                     {section.title}
@@ -98,6 +109,8 @@ const AboutSection = () => {
                           display: 'flex', alignItems: 'center', gap: 1,
                           bgcolor: '#FFFFFF', border: '1px solid #E0E4EA',
                           borderRadius: 2, px: 1.5, py: 0.75,
+                          transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                          '&:hover': { borderColor: 'rgba(30,155,215,0.3)', boxShadow: '0 2px 8px rgba(26,26,46,0.06)' },
                         }}
                       >
                         <Box
@@ -128,7 +141,13 @@ const AboutSection = () => {
                 sx={{
                   alignSelf: { xs: 'center', md: 'flex-start' },
                   bgcolor: '#1578AA', color: '#FFFFFF', mt: 1,
-                  '&:hover': { bgcolor: '#1E9BD7' },
+                  px: 3,
+                  minHeight: 44,
+                  fontWeight: 700,
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
+                  '&:hover': { bgcolor: '#1E9BD7', transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(21,120,170,0.28)' },
+                  '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
+                  '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
                 }}
               >
                 더 알아보기

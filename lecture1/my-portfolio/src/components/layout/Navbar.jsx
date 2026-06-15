@@ -191,7 +191,11 @@ const Navbar = () => {
                       py: 1,
                       minHeight: 44,
                       transition: 'color 0.2s, border-color 0.2s',
-                      '&:hover': { color: '#1578AA', backgroundColor: 'transparent' },
+                      '&:hover': {
+                        color: '#1578AA',
+                        backgroundColor: 'transparent',
+                        borderBottom: isActive ? '2px solid #1578AA' : '2px solid rgba(21,120,170,0.4)',
+                      },
                       '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px' },
                     }}
                   >
@@ -218,8 +222,9 @@ const Navbar = () => {
                   px: 2,
                   py: 0.75,
                   minHeight: 38,
-                  transition: 'color 0.2s, border-color 0.2s, background-color 0.2s',
-                  '&:hover': { color: '#1578AA', borderColor: '#1578AA', bgcolor: 'rgba(21,120,170,0.05)' },
+                  transition: 'color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s',
+                  '&:hover': { color: '#1578AA', borderColor: '#1578AA', bgcolor: 'rgba(21,120,170,0.05)', transform: 'translateY(-1px)' },
+                  '&:active': { transform: 'translateY(0)' },
                   '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px' },
                 }}
               >

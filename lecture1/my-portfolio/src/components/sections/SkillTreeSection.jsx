@@ -27,13 +27,24 @@ const HomeSkillCard = ({ skill }) => {
 
   return (
     <Card
+      tabIndex={0}
       sx={{
         width: '100%',
         border: '1px solid #E0E4EA',
         borderRadius: '16px',
         boxShadow: '0 2px 12px rgba(26,26,46,0.05)',
-        transition: 'box-shadow 0.2s ease, transform 0.2s ease',
-        '&:hover': { boxShadow: '0 6px 20px rgba(26,26,46,0.10)', transform: 'translateY(-2px)' },
+        transition: 'box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
+        '&:hover': {
+          boxShadow: '0 6px 20px rgba(26,26,46,0.10)',
+          transform: 'translateY(-2px)',
+          borderColor: 'rgba(30,155,215,0.25)',
+        },
+        '&:hover .skill-icon': { transform: 'scale(1.05)' },
+        '&:focus-visible': {
+          outline: '2px solid #1578AA',
+          outlineOffset: '2px',
+          borderColor: 'rgba(30,155,215,0.25)',
+        },
       }}
     >
       <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
@@ -42,11 +53,13 @@ const HomeSkillCard = ({ skill }) => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
           <Box
             aria-hidden="true"
+            className="skill-icon"
             sx={{
               width: 48, height: 48, borderRadius: 2, flexShrink: 0,
               bgcolor: icon.bg, color: icon.color,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontWeight: 700, fontSize: '0.82rem',
+              transition: 'transform 0.2s ease',
             }}
           >
             {icon.text}
@@ -127,7 +140,19 @@ const SkillTreeSection = () => {
             aria-label="About Me 페이지에서 전체 스킬 보기"
             sx={{
               borderColor: '#1578AA', color: '#1578AA',
-              '&:hover': { bgcolor: '#EAF6FC', borderColor: '#1E9BD7', color: '#1E9BD7' },
+              px: 3,
+              minHeight: 44,
+              fontWeight: 600,
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
+              '&:hover': {
+                bgcolor: '#EAF6FC',
+                borderColor: '#1E9BD7',
+                color: '#1E9BD7',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(21,120,170,0.15)',
+              },
+              '&:active': { transform: 'translateY(0)' },
+              '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
             }}
           >
             전체 스킬 보기

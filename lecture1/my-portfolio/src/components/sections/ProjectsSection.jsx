@@ -53,16 +53,29 @@ const ProjectsSection = () => {
             <Card
               key={id}
               onClick={() => navigate('/projects')}
+              tabIndex={0}
+              role="button"
+              aria-label={`${title} 프로젝트 자세히 보기`}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate('/projects'); } }}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 cursor: 'pointer',
-                transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
                 '&:hover': {
                   transform: 'translateY(-4px)',
                   boxShadow: '0 12px 32px rgba(0,0,0,0.15)',
+                  borderColor: 'rgba(30,155,215,0.25)',
                 },
                 '&:hover .thumb-img': { transform: 'scale(1.05)' },
+                '&:hover .img-overlay': { opacity: 1 },
+                '&:focus-visible': {
+                  outline: '2px solid #1578AA',
+                  outlineOffset: '2px',
+                  borderColor: 'rgba(30,155,215,0.25)',
+                },
+                '&:focus-visible .img-overlay': { opacity: 1 },
+                '&:active': { transform: 'translateY(0)' },
               }}
             >
               {/* 16:9 고정 비율 썸네일 */}
@@ -82,8 +95,28 @@ const ProjectsSection = () => {
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}
                   />
                 )}
+                {/* 이미지 오버레이 (hover/focus 시 표시, 모바일은 기본 버튼으로 대체) */}
+                <Box
+                  className="img-overlay"
+                  aria-hidden="true"
+                  sx={{
+                    position: 'absolute', top: 0, left: 0,
+                    width: '100%', height: '100%',
+                    bgcolor: 'rgba(26,26,46,0.35)',
+                    display: { xs: 'none', md: 'flex' },
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <Typography sx={{ color: '#FFFFFF', fontWeight: 700, fontSize: '0.85rem', letterSpacing: 0.5 }}>
+                    자세히 보기
+                  </Typography>
+                </Box>
               </Box>
-              <CardContent sx={{ flexGrow: 1, p: 2 }}>
+              <CardContent sx={{ flexGrow: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
                 <Typography sx={{ fontSize: '0.92rem', fontWeight: 700, color: '#1A1A2E', mb: 0.5 }}>
                   {title}
                 </Typography>
@@ -111,6 +144,20 @@ const ProjectsSection = () => {
                     />
                   ))}
                 </Box>
+                {/* 모바일: 항상 보이는 자세히 보기 힌트 */}
+                <Box
+                  aria-hidden="true"
+                  sx={{
+                    display: { xs: 'flex', md: 'none' },
+                    alignItems: 'center',
+                    mt: 1.5,
+                    color: '#1578AA',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                  }}
+                >
+                  자세히 보기 →
+                </Box>
               </CardContent>
             </Card>
           ))}
@@ -119,10 +166,20 @@ const ProjectsSection = () => {
         <Box sx={{ textAlign: 'center', mt: 6 }}>
           <Button
             variant="contained"
-            color="primary"
             size="large"
             endIcon={<OpenInNewIcon />}
             onClick={() => navigate('/projects')}
+            aria-label="전체 프로젝트 보기 페이지로 이동"
+            sx={{
+              bgcolor: '#1578AA',
+              px: 3.5,
+              fontWeight: 700,
+              minHeight: 44,
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
+              '&:hover': { bgcolor: '#1E9BD7', transform: 'translateY(-2px)', boxShadow: '0 8px 24px rgba(21,120,170,0.28)' },
+              '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
+              '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
+            }}
           >
             전체 프로젝트 보기
           </Button>

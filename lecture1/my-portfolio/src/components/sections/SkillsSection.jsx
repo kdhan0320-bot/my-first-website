@@ -36,6 +36,7 @@ const SkillCard = ({ skill }) => {
 
   return (
     <Card
+      tabIndex={0}
       sx={{
         width: '100%',
         display: 'flex',
@@ -43,10 +44,17 @@ const SkillCard = ({ skill }) => {
         border: '1px solid #E0E4EA',
         borderRadius: '16px',
         boxShadow: '0 2px 12px rgba(26,26,46,0.05)',
-        transition: 'box-shadow 0.2s ease, transform 0.2s ease',
+        transition: 'box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
         '&:hover': {
           boxShadow: '0 6px 20px rgba(26,26,46,0.10)',
           transform: 'translateY(-2px)',
+          borderColor: 'rgba(30,155,215,0.25)',
+        },
+        '&:hover .skill-icon': { transform: 'scale(1.05)' },
+        '&:focus-visible': {
+          outline: '2px solid #1578AA',
+          outlineOffset: '2px',
+          borderColor: 'rgba(30,155,215,0.25)',
         },
       }}
     >
@@ -57,6 +65,7 @@ const SkillCard = ({ skill }) => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
           <Box
             aria-hidden="true"
+            className="skill-icon"
             sx={{
               width: 48, height: 48,
               borderRadius: 2,
@@ -67,6 +76,7 @@ const SkillCard = ({ skill }) => {
               fontWeight: 700,
               fontSize: '0.82rem',
               letterSpacing: '-0.02em',
+              transition: 'transform 0.2s ease',
             }}
           >
             {icon.text}

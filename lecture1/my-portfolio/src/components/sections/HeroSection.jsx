@@ -151,12 +151,14 @@ const HeroSection = () => {
                     px: 3.5,
                     minHeight: 44,
                     fontWeight: 700,
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
                     '&:hover': {
                       bgcolor: '#1E9BD7',
                       transform: 'translateY(-2px)',
                       boxShadow: '0 8px 24px rgba(21,120,170,0.28)',
                     },
+                    '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
+                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
                   }}
                 >
                   프로젝트 보기
@@ -172,12 +174,15 @@ const HeroSection = () => {
                     px: 3.5,
                     minHeight: 44,
                     fontWeight: 600,
-                    transition: 'transform 0.2s ease',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
                       bgcolor: 'rgba(21,120,170,0.05)',
                       borderColor: '#1578AA',
                       transform: 'translateY(-2px)',
+                      boxShadow: '0 4px 12px rgba(21,120,170,0.1)',
                     },
+                    '&:active': { transform: 'translateY(0)', boxShadow: 'none' },
+                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
                   }}
                 >
                   About Me

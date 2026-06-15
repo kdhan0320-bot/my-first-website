@@ -109,11 +109,19 @@ const ContactSection = () => {
                     alignItems: 'center',
                     gap: 2,
                     p: 2,
-                    transition: 'border-color 0.2s, background-color 0.2s',
-                    '&:hover': { borderColor: '#1578AA', bgcolor: '#2A2A5A' },
+                    transition: 'border-color 0.2s, background-color 0.2s, transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      borderColor: '#1578AA',
+                      bgcolor: '#2A2A5A',
+                      transform: 'translateY(-3px)',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                    },
+                    '&:hover .contact-icon': { color: '#1578AA' },
+                    '&:active': { transform: 'translateY(0)' },
+                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px' },
                   }}
                 >
-                  <Box sx={{ color: '#777777', display: 'flex', flexShrink: 0 }}>{icon}</Box>
+                  <Box className="contact-icon" sx={{ color: '#777777', display: 'flex', flexShrink: 0, transition: 'color 0.2s' }}>{icon}</Box>
                   <Box>
                     <Typography variant="caption" sx={{ color: '#555555', display: 'block', lineHeight: 1.2 }}>
                       {label}
@@ -145,13 +153,18 @@ const ContactSection = () => {
                     borderColor: '#2A2A2A',
                     borderRadius: 2,
                     py: 1.25,
+                    minHeight: 44,
                     justifyContent: 'flex-start',
                     fontSize: '0.875rem',
+                    transition: 'border-color 0.2s, color 0.2s, background-color 0.2s, transform 0.2s',
                     '&:hover': {
                       borderColor: '#666666',
                       color: '#FFFFFF',
                       bgcolor: 'rgba(255,255,255,0.04)',
+                      transform: 'translateY(-1px)',
                     },
+                    '&:active': { transform: 'translateY(0)' },
+                    '&:focus-visible': { outline: '2px solid rgba(170,170,170,0.8)', outlineOffset: '2px' },
                   }}
                 >
                   {label}
