@@ -71,7 +71,7 @@ const ContactSection = () => {
         <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
           <Typography
             variant="overline"
-            sx={{ color: '#666666', letterSpacing: 4, fontWeight: 600, fontSize: '0.75rem' }}
+            sx={{ color: '#999999', letterSpacing: 4, fontWeight: 600, fontSize: '0.75rem' }}
           >
             CONTACT
           </Typography>

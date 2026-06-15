@@ -209,26 +209,28 @@ const ProjectCard = ({ project, index }) => (
         )}
       </Box>
 
-      <Button
-        size="small"
-        variant="text"
-        href={project.detail_url}
-        target="_blank"
-        rel="noopener noreferrer"
-        endIcon={<ArrowForwardIcon sx={{ fontSize: '0.8rem !important' }} />}
-        fullWidth
-        sx={{
-          color: '#555',
-          fontSize: '0.72rem',
-          justifyContent: 'flex-start',
-          px: 0,
-          py: 0,
-          minHeight: 'unset',
-          '&:hover': { color: '#CCCCCC', bgcolor: 'transparent' },
-        }}
-      >
-        View Details
-      </Button>
+      {project.detail_url && (
+        <Button
+          size="small"
+          variant="text"
+          href={project.detail_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          endIcon={<ArrowForwardIcon sx={{ fontSize: '0.8rem !important' }} />}
+          fullWidth
+          sx={{
+            color: '#555',
+            fontSize: '0.72rem',
+            justifyContent: 'flex-start',
+            px: 0,
+            py: 0,
+            minHeight: 'unset',
+            '&:hover': { color: '#CCCCCC', bgcolor: 'transparent' },
+          }}
+        >
+          View Details
+        </Button>
+      )}
     </CardActions>
   </Card>
 );
