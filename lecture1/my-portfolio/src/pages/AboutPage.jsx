@@ -20,16 +20,16 @@ const toParagraphs = (text = '') => {
 
 const InfoRow = ({ icon, label, value, note }) => (
   <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.5, mb: 2 }}>
-    <Box sx={{ color: '#1578AA', mt: '3px', flexShrink: 0 }}>{icon}</Box>
+    <Box sx={{ color: 'primary.main', mt: '3px', flexShrink: 0 }}>{icon}</Box>
     <Box>
-      <Typography variant="caption" sx={{ color: '#7F8FA4', display: 'block', mb: 0.3 }}>
+      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.3 }}>
         {label}
       </Typography>
-      <Typography variant="body2" sx={{ color: '#1A1A2E', fontWeight: 500, lineHeight: 1.6 }}>
+      <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 500, lineHeight: 1.6 }}>
         {value}
       </Typography>
       {note && (
-        <Typography variant="caption" sx={{ color: '#1578AA', display: 'block', mt: 0.4 }}>
+        <Typography variant="caption" sx={{ color: 'primary.main', display: 'block', mt: 0.4 }}>
           → {note}
         </Typography>
       )}
@@ -45,14 +45,14 @@ const AboutPage = () => {
   const activeSection = sections[activeTab] ?? sections[0] ?? null;
 
   return (
-    <Box sx={{ bgcolor: '#F6F8FB', minHeight: '100vh', py: { xs: 8, md: 12 } }}>
+    <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="md">
 
         {/* 페이지 헤더 */}
         <Box sx={{ textAlign: 'center', mb: 7 }}>
           <Typography
             sx={{
-              color: '#7F8FA4',
+              color: 'text.secondary',
               letterSpacing: 6,
               fontWeight: 600,
               fontSize: '0.7rem',
@@ -64,23 +64,23 @@ const AboutPage = () => {
           </Typography>
           <Typography
             variant="h1"
-            sx={{ color: '#1A1A2E', fontWeight: 800, fontSize: { xs: '2rem', md: '2.5rem' } }}
+            sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '2rem', md: '2.5rem' } }}
           >
             소개
           </Typography>
-          <Box sx={{ width: 44, height: 3, bgcolor: '#1578AA', mx: 'auto', mt: 2, borderRadius: 2 }} />
+          <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
         </Box>
 
         {/* 기본 정보 카드 */}
         <Box
-          sx={{
-            bgcolor: '#FFFFFF',
-            border: '1px solid #E0E4EA',
+          sx={(theme) => ({
+            bgcolor: 'background.paper',
+            border: `1px solid ${theme.palette.divider}`,
             borderRadius: 3,
             p: { xs: 3, md: 5 },
-            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
+            boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 2px 16px rgba(26,26,46,0.06)',
             mb: 4,
-          }}
+          })}
         >
           <Grid container spacing={{ xs: 3, md: 5 }} alignItems="flex-start">
 
@@ -92,15 +92,15 @@ const AboutPage = () => {
               <Avatar
                 src={basicInfo.photo || undefined}
                 alt={basicInfo.name}
-                sx={{
+                sx={(theme) => ({
                   width: 150,
                   height: 150,
-                  bgcolor: '#EAF6FC',
-                  color: '#1578AA',
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                  color: 'primary.main',
                   fontSize: '3rem',
                   fontWeight: 700,
-                  border: '3px solid #D0EEFA',
-                }}
+                  border: `3px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : '#D0EEFA'}`,
+                })}
               >
                 {!basicInfo.photo && (basicInfo.name?.charAt(0) ?? '')}
               </Avatar>
@@ -109,19 +109,19 @@ const AboutPage = () => {
             {/* 기본 정보 텍스트 */}
             <Grid item xs={12} sm={8}>
               <Box sx={{ textAlign: { xs: 'center', sm: 'left' }, mb: 3 }}>
-                <Typography variant="h2" sx={{ color: '#1A1A2E', fontWeight: 800, mb: 1 }}>
+                <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800, mb: 1 }}>
                   {basicInfo.name}
                 </Typography>
                 <Chip
                   label={basicInfo.position}
                   size="small"
-                  sx={{
-                    bgcolor: '#EAF6FC',
-                    color: '#1578AA',
-                    border: '1px solid #B8DFF2',
+                  sx={(theme) => ({
+                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                    color: 'primary.main',
+                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : '#B8DFF2'}`,
                     fontWeight: 600,
                     fontSize: '0.78rem',
-                  }}
+                  })}
                 />
               </Box>
 
@@ -146,7 +146,7 @@ const AboutPage = () => {
 
               <Typography
                 variant="body2"
-                sx={{ color: '#64748B', lineHeight: 1.85, fontStyle: 'italic' }}
+                sx={{ color: 'text.secondary', lineHeight: 1.85, fontStyle: 'italic' }}
               >
                 &ldquo;{basicInfo.summary}&rdquo;
               </Typography>
@@ -157,35 +157,35 @@ const AboutPage = () => {
 
         {/* 콘텐츠 섹션 탭 */}
         <Box
-          sx={{
-            bgcolor: '#FFFFFF',
-            border: '1px solid #E0E4EA',
+          sx={(theme) => ({
+            bgcolor: 'background.paper',
+            border: `1px solid ${theme.palette.divider}`,
             borderRadius: 3,
-            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
+            boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 2px 16px rgba(26,26,46,0.06)',
             overflow: 'hidden',
-          }}
+          })}
         >
           <Tabs
             value={activeTab}
             onChange={(_, newVal) => setActiveTab(newVal)}
             variant="scrollable"
             scrollButtons="auto"
-            sx={{
-              borderBottom: '1px solid #E0E4EA',
+            sx={(theme) => ({
+              borderBottom: `1px solid ${theme.palette.divider}`,
               px: { xs: 1, md: 2 },
               '& .MuiTab-root': {
                 textTransform: 'none',
                 fontWeight: 600,
                 fontSize: { xs: '0.8rem', md: '0.9rem' },
-                color: '#7F8FA4',
+                color: 'text.secondary',
                 minHeight: 56,
-                '&.Mui-selected': { color: '#1578AA' },
+                '&.Mui-selected': { color: 'primary.main' },
               },
               '& .MuiTabs-indicator': {
-                backgroundColor: '#1578AA',
+                backgroundColor: theme.palette.primary.main,
                 height: 3,
               },
-            }}
+            })}
           >
             {sections.map((section) => (
               <Tab key={section.id} label={section.title} />
@@ -195,14 +195,14 @@ const AboutPage = () => {
           <Box sx={{ p: { xs: 3, md: 5 } }}>
             {activeSection && (
               <>
-                <Typography variant="h4" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 3 }}>
+                <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mb: 3 }}>
                   {activeSection.title}
                 </Typography>
                 {toParagraphs(activeSection.content ?? '').map((para, idx) => (
                   <Typography
                     key={idx}
                     variant="body1"
-                    sx={{ color: '#4A5568', lineHeight: 1.95, mb: 2 }}
+                    sx={{ color: 'text.secondary', lineHeight: 1.95, mb: 2 }}
                   >
                     {para}
                   </Typography>

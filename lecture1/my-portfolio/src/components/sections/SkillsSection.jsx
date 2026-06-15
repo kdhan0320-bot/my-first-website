@@ -25,8 +25,6 @@ const STATUS_COLORS = {
 };
 
 const SkillCard = ({ skill }) => {
-  /* progress bar + count-up 트리거 (카드 25% 진입 시)
-     RevealOnScroll(8%)가 먼저 실행 → 카드 등장 → 이후 25%에서 progress 시작 */
   const [cardRef, isVisible] = useInViewOnce(0.25);
   const safeLevel = Math.min(100, Math.max(0, Number(skill.level) || 0));
   const animCount = useCountUp(safeLevel, 900, isVisible);
@@ -39,27 +37,28 @@ const SkillCard = ({ skill }) => {
     <Card
       ref={cardRef}
       tabIndex={0}
-      sx={{
+      sx={(theme) => ({
         width: '100%',
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        border: '1px solid #E0E4EA',
         borderRadius: '16px',
-        boxShadow: '0 2px 12px rgba(26,26,46,0.05)',
         transition: 'box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
         '&:hover': {
-          boxShadow: '0 6px 20px rgba(26,26,46,0.10)',
+          boxShadow: theme.palette.mode === 'dark'
+            ? '0 6px 20px rgba(0,0,0,0.4)'
+            : '0 6px 20px rgba(26,26,46,0.10)',
           transform: 'translateY(-2px)',
-          borderColor: 'rgba(30,155,215,0.25)',
+          borderColor: theme.palette.mode === 'dark'
+            ? 'rgba(56,189,248,0.25)'
+            : 'rgba(30,155,215,0.25)',
         },
         '&:hover .skill-icon': { transform: 'scale(1.05)' },
         '&:focus-visible': {
-          outline: '2px solid #1578AA',
+          outline: `2px solid ${theme.palette.primary.main}`,
           outlineOffset: '2px',
-          borderColor: 'rgba(30,155,215,0.25)',
         },
-      }}
+      })}
     >
       <CardContent
         sx={{ flex: 1, display: 'flex', flexDirection: 'column', p: 3, '&:last-child': { pb: 3 } }}
@@ -85,7 +84,7 @@ const SkillCard = ({ skill }) => {
             {icon.text}
           </Box>
           <Box>
-            <Typography variant="h5" sx={{ color: '#1A1A2E', fontWeight: 700, lineHeight: 1.2 }}>
+            <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700, lineHeight: 1.2 }}>
               {skill.name}
             </Typography>
             <Chip
@@ -117,7 +116,7 @@ const SkillCard = ({ skill }) => {
         {/* 설명 */}
         <Typography
           variant="body2"
-          sx={{ color: '#64748B', lineHeight: 1.8, flex: 1, mb: 2.5 }}
+          sx={{ color: 'text.secondary', lineHeight: 1.8, flex: 1, mb: 2.5 }}
         >
           {skill.description}
         </Typography>
@@ -125,13 +124,13 @@ const SkillCard = ({ skill }) => {
         {/* 학습 적용도 프로그레스 바 */}
         <Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
-            <Typography variant="caption" sx={{ color: '#94A3B8', fontSize: '0.68rem' }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.68rem' }}>
               학습 적용도
             </Typography>
             <Typography
               variant="caption"
               aria-hidden="true"
-              sx={{ color: '#1578AA', fontSize: '0.68rem', fontWeight: 600, minWidth: '2.5ch', textAlign: 'right' }}
+              sx={{ color: 'primary.main', fontSize: '0.68rem', fontWeight: 600, minWidth: '2.5ch', textAlign: 'right' }}
             >
               {animCount}%
             </Typography>
@@ -149,18 +148,20 @@ const SkillCard = ({ skill }) => {
               aria-valuenow={safeLevel}
               aria-valuemin={0}
               aria-valuemax={100}
-              sx={{
+              sx={(theme) => ({
                 height: 7,
                 borderRadius: 4,
-                bgcolor: 'rgba(30,155,215,0.12)',
+                bgcolor: theme.palette.mode === 'dark'
+                  ? 'rgba(56,189,248,0.1)'
+                  : 'rgba(30,155,215,0.12)',
                 '& .MuiLinearProgress-bar': {
                   borderRadius: 4,
-                  bgcolor: '#1578AA',
+                  bgcolor: 'primary.main',
                   transition: isVisible
                     ? 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)'
                     : 'none',
                 },
-              }}
+              })}
             />
           </Tooltip>
         </Box>
@@ -179,19 +180,16 @@ const SkillsSection = () => {
       {/* 섹션 헤더 */}
       <RevealOnScroll>
         <Box sx={{ mb: 4 }}>
-          <Typography variant="h3" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 0.75 }}>
+          <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 700, mb: 0.75 }}>
             Skills
           </Typography>
-          <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.7 }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
             현재 학습하고 프로젝트에 적용해본 기술들을 중심으로 정리했습니다.
           </Typography>
-          <Box sx={{ width: 36, height: 3, bgcolor: '#1578AA', mt: 1.5, borderRadius: 2 }} />
+          <Box sx={{ width: 36, height: 3, bgcolor: 'primary.main', mt: 1.5, borderRadius: 2 }} />
         </Box>
       </RevealOnScroll>
 
-      {/* 스킬 카드 그리드 — stagger reveal
-          RevealOnScroll threshold 0.08 → 카드 fade-up
-          SkillCard 내부 threshold 0.25 → progress bar 순차 실행 */}
       <Grid container spacing={3}>
         {aboutMeData.skills.map((skill, i) => (
           <Grid item xs={12} sm={6} md={4} key={skill.id} sx={{ display: 'flex' }}>
@@ -211,12 +209,12 @@ const SkillsSection = () => {
           <Button
             variant="outlined"
             size="small"
-            sx={{
-              color: '#7F8FA4',
-              borderColor: '#D0D7E2',
+            sx={(theme) => ({
+              color: 'text.secondary',
+              borderColor: theme.palette.divider,
               fontSize: '0.8rem',
-              '&:hover': { borderColor: '#1578AA', color: '#1578AA', bgcolor: '#EAF6FC' },
-            }}
+              '&:hover': { borderColor: 'primary.main', color: 'primary.main', bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EAF6FC' },
+            })}
           >
             스킬 관리 데모
           </Button>

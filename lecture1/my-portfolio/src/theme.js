@@ -1,33 +1,34 @@
-import { createTheme, responsiveFontSizes } from '@mui/material/styles';
+import { responsiveFontSizes, createTheme } from '@mui/material/styles';
 
-let theme = createTheme({
+export const getDesignTokens = (mode) => ({
   palette: {
+    mode,
     primary: {
-      main: '#1578AA',
-      light: '#1E9BD7',
-      dark: '#1A1A2E',
-      contrastText: '#FFFFFF',
+      main:         mode === 'dark' ? '#38BDF8' : '#1578AA',
+      light:        mode === 'dark' ? '#7DD3FC' : '#1E9BD7',
+      dark:         mode === 'dark' ? '#0EA5E9' : '#0F5C8A',
+      contrastText: mode === 'dark' ? '#0F172A' : '#FFFFFF',
     },
     secondary: {
-      main: '#1A1A2E',
-      light: '#2D2D4A',
-      dark: '#0D0D1A',
-      contrastText: '#FFFFFF',
+      main:         mode === 'dark' ? '#94A3B8' : '#1A1A2E',
+      light:        mode === 'dark' ? '#CBD5E1' : '#2D2D4A',
+      dark:         mode === 'dark' ? '#64748B' : '#0D0D1A',
+      contrastText: mode === 'dark' ? '#0F172A' : '#FFFFFF',
     },
     background: {
-      default: '#F6F8FB',
-      paper:   '#FFFFFF',
+      default: mode === 'dark' ? '#0F172A' : '#F6F8FB',
+      paper:   mode === 'dark' ? '#111827' : '#FFFFFF',
     },
     text: {
-      primary:   '#1A1A2E',
-      secondary: '#7F8FA4',
-      disabled:  '#B0BAC8',
+      primary:   mode === 'dark' ? '#E5E7EB' : '#1A1A2E',
+      secondary: mode === 'dark' ? '#94A3B8' : '#7F8FA4',
+      disabled:  mode === 'dark' ? '#4B5563' : '#B0BAC8',
     },
-    divider: '#E0E4EA',
+    divider: mode === 'dark' ? 'rgba(148,163,184,0.18)' : '#E0E4EA',
     error:   { main: '#E53935' },
     warning: { main: '#FFB800' },
     success: { main: '#2E7D32' },
-    info:    { main: '#1E9BD7' },
+    info:    { main: mode === 'dark' ? '#38BDF8' : '#1E9BD7' },
   },
   typography: {
     fontFamily: '"Pretendard", "Noto Sans KR", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -37,11 +38,11 @@ let theme = createTheme({
     h4: { fontSize: '1.25rem',  fontWeight: 700 },
     h5: { fontSize: '1.125rem', fontWeight: 600 },
     h6: { fontSize: '1rem',     fontWeight: 600 },
-    body1: { fontSize: '1rem',      lineHeight: 1.7 },
-    body2: { fontSize: '0.875rem',  lineHeight: 1.65 },
+    body1:   { fontSize: '1rem',     lineHeight: 1.7  },
+    body2:   { fontSize: '0.875rem', lineHeight: 1.65 },
     caption: { fontSize: '0.75rem' },
-    button: { fontSize: '0.9375rem', fontWeight: 600, textTransform: 'none' },
-    overline: { fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.12em' },
+    button:  { fontSize: '0.9375rem', fontWeight: 600, textTransform: 'none' },
+    overline:{ fontSize: '0.7rem',    fontWeight: 600, letterSpacing: '0.12em' },
   },
   spacing: 8,
   shape: { borderRadius: 12 },
@@ -56,36 +57,29 @@ let theme = createTheme({
           fontSize: '0.9375rem',
           padding: '10px 24px',
         },
-        containedPrimary: {
-          backgroundColor: '#1578AA',
-          '&:hover': { backgroundColor: '#1E9BD7' },
-        },
-        outlinedPrimary: {
-          borderColor: '#1578AA',
-          color: '#1578AA',
-          '&:hover': { borderColor: '#1E9BD7', color: '#1E9BD7', backgroundColor: '#EAF6FC' },
-        },
       },
     },
     MuiCard: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: 12,
-          boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
-          border: '1px solid #E0E4EA',
+          boxShadow: theme.palette.mode === 'dark'
+            ? 'none'
+            : '0 2px 16px rgba(26,26,46,0.06)',
+          border: `1px solid ${theme.palette.divider}`,
           backgroundImage: 'none',
-        },
+        }),
       },
     },
     MuiAppBar: {
       defaultProps: { elevation: 0 },
       styleOverrides: {
-        root: {
-          backgroundColor: '#FFFFFF',
-          color: '#1A1A2E',
-          borderBottom: '1px solid #E0E4EA',
+        root: ({ theme }) => ({
+          backgroundColor: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+          borderBottom: `1px solid ${theme.palette.divider}`,
           boxShadow: 'none',
-        },
+        }),
       },
     },
     MuiChip: {
@@ -94,21 +88,22 @@ let theme = createTheme({
     MuiTextField: {
       defaultProps: { variant: 'outlined' },
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           '& .MuiOutlinedInput-root': {
             borderRadius: 10,
-            '&:hover fieldset': { borderColor: '#1578AA' },
-            '&.Mui-focused fieldset': { borderColor: '#1578AA', borderWidth: 2 },
+            '&:hover fieldset': { borderColor: theme.palette.primary.main },
+            '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main, borderWidth: 2 },
           },
-        },
+        }),
       },
     },
     MuiDivider: {
-      styleOverrides: { root: { borderColor: '#E0E4EA' } },
+      styleOverrides: {
+        root: ({ theme }) => ({ borderColor: theme.palette.divider }),
+      },
     },
   },
 });
 
-theme = responsiveFontSizes(theme);
-
+const theme = responsiveFontSizes(createTheme(getDesignTokens('light')));
 export default theme;

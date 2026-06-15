@@ -71,7 +71,7 @@ const MorphingKeyword = () => {
       variant="body1"
       component="p"
       sx={{
-        color: '#64748B',
+        color: 'text.secondary',
         lineHeight: 1.85,
         fontSize: { xs: '0.9375rem', md: '1.0625rem' },
         maxWidth: { xs: '100%', md: 480 },
@@ -90,7 +90,7 @@ const MorphingKeyword = () => {
         <Box
           component="span"
           sx={{
-            color: '#1578AA',
+            color: 'primary.main',
             fontWeight: 600,
             display: 'inline-block',
             opacity: visible ? 1 : 0,

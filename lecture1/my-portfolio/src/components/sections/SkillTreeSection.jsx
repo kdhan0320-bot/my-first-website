@@ -29,25 +29,29 @@ const HomeSkillCard = ({ skill }) => {
   return (
     <Card
       tabIndex={0}
-      sx={{
+      sx={(theme) => ({
         width: '100%',
         height: '100%',
-        border: '1px solid #E0E4EA',
         borderRadius: '16px',
-        boxShadow: '0 2px 12px rgba(26,26,46,0.05)',
         transition: 'box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
         '&:hover': {
-          boxShadow: '0 6px 20px rgba(26,26,46,0.10)',
+          boxShadow: theme.palette.mode === 'dark'
+            ? '0 6px 20px rgba(0,0,0,0.4)'
+            : '0 6px 20px rgba(26,26,46,0.10)',
           transform: 'translateY(-2px)',
-          borderColor: 'rgba(30,155,215,0.25)',
+          borderColor: theme.palette.mode === 'dark'
+            ? 'rgba(56,189,248,0.25)'
+            : 'rgba(30,155,215,0.25)',
         },
         '&:hover .skill-icon': { transform: 'scale(1.05)' },
         '&:focus-visible': {
-          outline: '2px solid #1578AA',
+          outline: `2px solid ${theme.palette.primary.main}`,
           outlineOffset: '2px',
-          borderColor: 'rgba(30,155,215,0.25)',
+          borderColor: theme.palette.mode === 'dark'
+            ? 'rgba(56,189,248,0.25)'
+            : 'rgba(30,155,215,0.25)',
         },
-      }}
+      })}
     >
       <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
 
@@ -67,7 +71,7 @@ const HomeSkillCard = ({ skill }) => {
             {icon.text}
           </Box>
           <Box>
-            <Typography variant="h5" sx={{ color: '#1A1A2E', fontWeight: 700, lineHeight: 1.2 }}>
+            <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700, lineHeight: 1.2 }}>
               {skill.name}
             </Typography>
             <Chip
@@ -105,22 +109,22 @@ const SkillTreeSection = () => {
   const skills = homeData.skills;
 
   return (
-    <Box id="skills" sx={{ bgcolor: '#F6F8FB', py: { xs: 8, md: 12 } }}>
+    <Box id="skills" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: 7 }}>
             <Typography
-              sx={{ color: '#7F8FA4', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
+              sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
             >
               SKILLS
             </Typography>
-            <Typography variant="h2" sx={{ color: '#1A1A2E', fontWeight: 800, mt: 1 }}>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800, mt: 1 }}>
               주요 기술
             </Typography>
-            <Box sx={{ width: 44, height: 3, bgcolor: '#1578AA', mx: 'auto', mt: 2, borderRadius: 2 }} />
-            <Typography variant="body2" sx={{ color: '#64748B', mt: 2 }}>
+            <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
+            <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
               현재 학습하고 프로젝트에 적용해본 핵심 기술입니다.
             </Typography>
           </Box>
@@ -137,7 +141,7 @@ const SkillTreeSection = () => {
           ))}
         </Grid>
 
-        {/* 전체 스킬 보기 CTA — 마지막 카드(delay 0.3s) 이후에 등장 */}
+        {/* 전체 스킬 보기 CTA */}
         <RevealOnScroll delay={0.35}>
           <Box sx={{ textAlign: 'center', mt: 5 }}>
             <Button
@@ -145,22 +149,23 @@ const SkillTreeSection = () => {
               endIcon={<ArrowForwardIcon />}
               onClick={() => navigate('/about')}
               aria-label="About Me 페이지에서 전체 스킬 보기"
-              sx={{
-                borderColor: '#1578AA', color: '#1578AA',
+              sx={(theme) => ({
+                borderColor: theme.palette.primary.main,
+                color: 'primary.main',
                 px: 3,
                 minHeight: 44,
                 fontWeight: 600,
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
                 '&:hover': {
-                  bgcolor: '#EAF6FC',
-                  borderColor: '#1E9BD7',
-                  color: '#1E9BD7',
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EAF6FC',
+                  borderColor: 'primary.light',
+                  color: 'primary.light',
                   transform: 'translateY(-2px)',
                   boxShadow: '0 4px 12px rgba(21,120,170,0.15)',
                 },
                 '&:active': { transform: 'translateY(0)' },
-                '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
-              }}
+                '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '3px' },
+              })}
             >
               전체 스킬 보기
             </Button>

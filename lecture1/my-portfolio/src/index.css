@@ -9,9 +9,21 @@ body {
   min-height: 100vh;
 }
 
-/* 명시적 라이트 모드: OS 다크모드에서도 스크롤바·인풋이 밝게 */
+/* 라이트/다크 color-scheme — 스크롤바, 인풋 등 OS 네이티브 요소에 반영 */
 :root {
   color-scheme: light;
+}
+[data-color-scheme="dark"] {
+  color-scheme: dark;
+}
+
+/* 부드러운 테마 전환 (background-color, color, border-color) */
+body,
+.theme-transition * {
+  transition:
+    background-color 0.25s ease,
+    color 0.15s ease,
+    border-color 0.25s ease !important;
 }
 
 /* 접근성: 모션 감소 선호 설정 전역 적용 */

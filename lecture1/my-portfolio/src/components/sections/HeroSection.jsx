@@ -52,21 +52,21 @@ const PortfolioStats = () => {
   return (
     <Box
       ref={statsRef}
-      sx={{
+      sx={(theme) => ({
         display: 'flex',
         gap: { xs: 3, sm: 4 },
         mt: 3,
         pt: 2.5,
-        borderTop: '1px solid rgba(30,155,215,0.12)',
+        borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(30,155,215,0.12)'}`,
         justifyContent: { xs: 'center', md: 'flex-start' },
-      }}
+      })}
     >
       {stats.map(({ label, value, suffix }) => (
         <Box key={label} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Typography
             component="p"
             sx={{
-              color: '#1578AA',
+              color: 'primary.main',
               fontWeight: 800,
               fontSize: { xs: '1.4rem', md: '1.625rem' },
               lineHeight: 1,
@@ -77,7 +77,7 @@ const PortfolioStats = () => {
           </Typography>
           <Typography
             variant="caption"
-            sx={{ color: '#94A3B8', fontWeight: 500, mt: 0.5, display: 'block', fontSize: '0.7rem' }}
+            sx={{ color: 'text.secondary', fontWeight: 500, mt: 0.5, display: 'block', fontSize: '0.7rem' }}
           >
             {label}
           </Typography>
@@ -93,8 +93,10 @@ const HeroSection = () => {
   return (
     <Box
       id="home"
-      sx={{
-        background: 'linear-gradient(135deg, #F6F8FB 0%, #EEF7FC 60%, #FFFFFF 100%)',
+      sx={(theme) => ({
+        background: theme.palette.mode === 'dark'
+          ? 'linear-gradient(135deg, #0F172A 0%, #0D1E2E 60%, #111827 100%)'
+          : 'linear-gradient(135deg, #F6F8FB 0%, #EEF7FC 60%, #FFFFFF 100%)',
         position: 'relative',
         overflow: 'hidden',
         minHeight: { xs: 'auto', md: '82vh' },
@@ -108,7 +110,9 @@ const HeroSection = () => {
           content: '""',
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle, rgba(21,120,170,0.07) 1.5px, transparent 1.5px)',
+          backgroundImage: theme.palette.mode === 'dark'
+            ? 'radial-gradient(circle, rgba(56,189,248,0.05) 1.5px, transparent 1.5px)'
+            : 'radial-gradient(circle, rgba(21,120,170,0.07) 1.5px, transparent 1.5px)',
           backgroundSize: '28px 28px',
           zIndex: 0,
           pointerEvents: 'none',
@@ -123,7 +127,9 @@ const HeroSection = () => {
           width: '480px',
           height: '480px',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(21,120,170,0.11) 0%, transparent 70%)',
+          background: theme.palette.mode === 'dark'
+            ? 'radial-gradient(circle, rgba(56,189,248,0.07) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(21,120,170,0.11) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
         },
@@ -140,7 +146,7 @@ const HeroSection = () => {
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
-      }}
+      })}
     >
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
         <Grid container spacing={{ xs: 4, md: 8 }} alignItems="center">
@@ -156,22 +162,27 @@ const HeroSection = () => {
               {/* 상단 라벨 */}
               <Chip
                 label="UX/UI · Web Design · React"
-                sx={{
-                  bgcolor: 'rgba(21,120,170,0.08)',
-                  color: '#1578AA',
-                  border: '1px solid rgba(21,120,170,0.2)',
+                sx={(theme) => ({
+                  bgcolor: theme.palette.mode === 'dark'
+                    ? 'rgba(56,189,248,0.1)'
+                    : 'rgba(21,120,170,0.08)',
+                  color: 'primary.main',
+                  border: '1px solid',
+                  borderColor: theme.palette.mode === 'dark'
+                    ? 'rgba(56,189,248,0.2)'
+                    : 'rgba(21,120,170,0.2)',
                   fontWeight: 600,
                   fontSize: '0.78rem',
                   mb: { xs: 2, md: 3 },
                   height: 28,
-                }}
+                })}
               />
 
               {/* 헤드라인 */}
               <Typography
                 variant="h1"
                 sx={{
-                  color: '#1A1A2E',
+                  color: 'text.primary',
                   fontWeight: 800,
                   fontSize: { xs: '1.875rem', sm: '2.375rem', md: '3rem', lg: '3.5rem' },
                   lineHeight: { xs: 1.3, md: 1.25 },
@@ -214,19 +225,19 @@ const HeroSection = () => {
                   onClick={() => navigate('/projects')}
                   aria-label="프로젝트 보기 페이지로 이동"
                   sx={{
-                    bgcolor: '#1578AA',
-                    color: '#FFFFFF',
+                    bgcolor: 'primary.main',
+                    color: 'primary.contrastText',
                     px: 3.5,
                     minHeight: 44,
                     fontWeight: 700,
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
                     '&:hover': {
-                      bgcolor: '#1E9BD7',
+                      bgcolor: 'primary.light',
                       transform: 'translateY(-2px)',
                       boxShadow: '0 8px 24px rgba(21,120,170,0.28)',
                     },
                     '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
-                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
                 >
                   프로젝트 보기
@@ -236,22 +247,24 @@ const HeroSection = () => {
                   size="large"
                   onClick={() => navigate('/about')}
                   aria-label="About Me 페이지로 이동"
-                  sx={{
-                    color: '#1578AA',
-                    borderColor: 'rgba(21,120,170,0.4)',
+                  sx={(theme) => ({
+                    color: 'primary.main',
+                    borderColor: theme.palette.mode === 'dark'
+                      ? 'rgba(56,189,248,0.4)'
+                      : 'rgba(21,120,170,0.4)',
                     px: 3.5,
                     minHeight: 44,
                     fontWeight: 600,
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
-                      bgcolor: 'rgba(21,120,170,0.05)',
-                      borderColor: '#1578AA',
+                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : 'rgba(21,120,170,0.05)',
+                      borderColor: 'primary.main',
                       transform: 'translateY(-2px)',
                       boxShadow: '0 4px 12px rgba(21,120,170,0.1)',
                     },
                     '&:active': { transform: 'translateY(0)', boxShadow: 'none' },
-                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
-                  }}
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+                  })}
                 >
                   About Me
                 </Button>
@@ -264,22 +277,24 @@ const HeroSection = () => {
                   size="large"
                   startIcon={<GitHubIcon />}
                   aria-label="GitHub 프로필 새 탭에서 열기"
-                  sx={{
-                    color: '#1578AA',
-                    borderColor: 'rgba(21,120,170,0.4)',
+                  sx={(theme) => ({
+                    color: 'primary.main',
+                    borderColor: theme.palette.mode === 'dark'
+                      ? 'rgba(56,189,248,0.4)'
+                      : 'rgba(21,120,170,0.4)',
                     px: 3,
                     minHeight: 44,
                     fontWeight: 600,
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
-                      bgcolor: 'rgba(21,120,170,0.05)',
-                      borderColor: '#1578AA',
+                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : 'rgba(21,120,170,0.05)',
+                      borderColor: 'primary.main',
                       transform: 'translateY(-2px)',
                       boxShadow: '0 4px 12px rgba(21,120,170,0.1)',
                     },
                     '&:active': { transform: 'translateY(0)', boxShadow: 'none' },
-                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '3px' },
-                  }}
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+                  })}
                 >
                   GitHub 보기
                 </Button>
@@ -294,12 +309,12 @@ const HeroSection = () => {
                 sx={{
                   display: 'block',
                   textAlign: { xs: 'center', md: 'left' },
-                  color: '#94A3B8',
+                  color: 'text.secondary',
                   textDecoration: 'none',
                   fontWeight: 500,
                   transition: 'color 0.2s',
-                  '&:hover': { color: '#1578AA' },
-                  '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px', borderRadius: '2px' },
+                  '&:hover': { color: 'primary.main' },
+                  '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '2px' },
                 }}
               >
                 연락하기
@@ -323,30 +338,27 @@ const HeroSection = () => {
             >
               {/* 작업 흐름 카드 */}
               <Box
-                sx={{
-                  bgcolor: 'rgba(255,255,255,0.85)',
-                  border: '1px solid rgba(30,155,215,0.12)',
+                sx={(theme) => ({
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(17,24,39,0.85)' : 'rgba(255,255,255,0.85)',
+                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(30,155,215,0.12)'}`,
                   borderRadius: 3,
                   p: 3,
-                  boxShadow: '0 4px 20px rgba(21,120,170,0.08)',
+                  boxShadow: theme.palette.mode === 'dark'
+                    ? '0 4px 20px rgba(0,0,0,0.3)'
+                    : '0 4px 20px rgba(21,120,170,0.08)',
                   backdropFilter: 'blur(8px)',
                   transition: 'transform 0.25s ease, box-shadow 0.25s ease',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    boxShadow: '0 12px 32px rgba(21,120,170,0.14)',
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? '0 12px 32px rgba(0,0,0,0.4)'
+                      : '0 12px 32px rgba(21,120,170,0.14)',
                   },
-                }}
+                })}
               >
                 <Typography
                   variant="caption"
-                  sx={{
-                    color: '#94A3B8',
-                    fontWeight: 600,
-                    letterSpacing: 2,
-                    textTransform: 'uppercase',
-                    display: 'block',
-                    mb: 2.5,
-                  }}
+                  sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', display: 'block', mb: 2.5 }}
                 >
                   작업 흐름
                 </Typography>
@@ -355,38 +367,25 @@ const HeroSection = () => {
                   {WORKFLOW.flatMap((s, i) => [
                     <Box key={s.label} sx={{ flex: 1, textAlign: 'center' }}>
                       <Box
-                        sx={{
-                          width: 44,
-                          height: 44,
-                          borderRadius: 2,
-                          mx: 'auto',
-                          mb: 0.75,
-                          bgcolor: i === 2 ? 'rgba(21,120,170,0.1)' : '#F6F8FB',
-                          border: i === 2 ? '1px solid rgba(21,120,170,0.28)' : '1px solid #E8EDF3',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
+                        sx={(theme) => ({
+                          width: 44, height: 44, borderRadius: 2, mx: 'auto', mb: 0.75,
+                          bgcolor: i === 2
+                            ? (theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(21,120,170,0.1)')
+                            : (theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.04)' : '#F6F8FB'),
+                          border: i === 2
+                            ? `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(21,120,170,0.28)'}`
+                            : `1px solid ${theme.palette.divider}`,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        })}
                       >
-                        <Typography
-                          sx={{
-                            color: i === 2 ? '#1578AA' : '#1A1A2E',
-                            fontWeight: 700,
-                            fontSize: '0.7rem',
-                          }}
-                        >
+                        <Typography sx={{ color: i === 2 ? 'primary.main' : 'text.primary', fontWeight: 700, fontSize: '0.7rem' }}>
                           {s.label}
                         </Typography>
                       </Box>
-                      <Typography sx={{ color: '#94A3B8', fontSize: '0.6rem' }}>
-                        {s.sub}
-                      </Typography>
+                      <Typography sx={{ color: 'text.secondary', fontSize: '0.6rem' }}>{s.sub}</Typography>
                     </Box>,
                     i < WORKFLOW.length - 1 ? (
-                      <Typography
-                        key={`arr-${i}`}
-                        sx={{ color: '#CBD5E1', fontSize: '0.75rem', flexShrink: 0, mt: '13px' }}
-                      >
+                      <Typography key={`arr-${i}`} sx={{ color: 'text.disabled', fontSize: '0.75rem', flexShrink: 0, mt: '13px' }}>
                         →
                       </Typography>
                     ) : null,
@@ -396,30 +395,27 @@ const HeroSection = () => {
 
               {/* 주요 기술 Chip 카드 */}
               <Box
-                sx={{
-                  bgcolor: 'rgba(255,255,255,0.85)',
-                  border: '1px solid rgba(30,155,215,0.12)',
+                sx={(theme) => ({
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(17,24,39,0.85)' : 'rgba(255,255,255,0.85)',
+                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(30,155,215,0.12)'}`,
                   borderRadius: 3,
                   p: 2.5,
-                  boxShadow: '0 4px 20px rgba(21,120,170,0.06)',
+                  boxShadow: theme.palette.mode === 'dark'
+                    ? '0 4px 20px rgba(0,0,0,0.25)'
+                    : '0 4px 20px rgba(21,120,170,0.06)',
                   backdropFilter: 'blur(8px)',
                   transition: 'transform 0.25s ease, box-shadow 0.25s ease',
                   '&:hover': {
                     transform: 'translateY(-4px)',
-                    boxShadow: '0 12px 32px rgba(21,120,170,0.12)',
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? '0 12px 32px rgba(0,0,0,0.35)'
+                      : '0 12px 32px rgba(21,120,170,0.12)',
                   },
-                }}
+                })}
               >
                 <Typography
                   variant="caption"
-                  sx={{
-                    color: '#94A3B8',
-                    fontWeight: 600,
-                    letterSpacing: 2,
-                    textTransform: 'uppercase',
-                    display: 'block',
-                    mb: 1.5,
-                  }}
+                  sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', display: 'block', mb: 1.5 }}
                 >
                   주요 기술
                 </Typography>
@@ -429,13 +425,13 @@ const HeroSection = () => {
                       key={s}
                       label={s}
                       size="small"
-                      sx={{
-                        bgcolor: '#EAF6FC',
-                        color: '#1578AA',
-                        border: '1px solid rgba(21,120,170,0.18)',
+                      sx={(theme) => ({
+                        bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                        color: 'primary.main',
+                        border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(21,120,170,0.18)'}`,
                         fontWeight: 600,
                         fontSize: '0.72rem',
-                      }}
+                      })}
                     />
                   ))}
                 </Box>
@@ -456,12 +452,13 @@ const HeroSection = () => {
             display: 'block',
             mx: 'auto',
             pt: { xs: 5, md: 6 },
-            color: '#B8C8D8',
+            color: 'text.disabled',
             animation: 'bounceDown 1.8s ease-in-out infinite',
             transition: 'color 0.2s ease',
-            '&:hover': { color: '#1578AA' },
+            '&:hover': { color: 'primary.main' },
             '&:focus-visible': {
-              outline: '2px solid #1578AA',
+              outline: '2px solid',
+              outlineColor: 'primary.main',
               outlineOffset: '4px',
               borderRadius: '4px',
             },
