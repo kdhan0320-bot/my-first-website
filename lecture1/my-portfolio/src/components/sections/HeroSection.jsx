@@ -134,6 +134,7 @@ const HeroSection = () => {
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={2}
+                alignItems={{ xs: 'stretch', sm: 'center' }}
                 justifyContent={{ xs: 'center', md: 'flex-start' }}
                 sx={{ mb: 3 }}
               >
@@ -192,6 +193,7 @@ const HeroSection = () => {
                   href="https://github.com/kdhan0320-bot"
                   target="_blank"
                   rel="noopener noreferrer"
+                  aria-label="GitHub 프로필 새 탭에서 열기"
                   variant="caption"
                   sx={{
                     color: '#94A3B8',
@@ -199,6 +201,7 @@ const HeroSection = () => {
                     fontWeight: 500,
                     transition: 'color 0.2s',
                     '&:hover': { color: '#1578AA' },
+                    '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px', borderRadius: '2px' },
                   }}
                 >
                   GitHub
@@ -359,14 +362,27 @@ const HeroSection = () => {
           </Grid>
         </Grid>
 
-        {/* 스크롤 유도 화살표 */}
+        {/* 스크롤 유도 화살표 — 클릭 시 다음 섹션으로 스크롤 */}
         <Box
-          aria-hidden="true"
+          component="button"
+          onClick={() => window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' })}
+          aria-label="아래 섹션으로 스크롤"
           sx={{
-            textAlign: 'center',
+            border: 'none',
+            background: 'none',
+            cursor: 'pointer',
+            display: 'block',
+            mx: 'auto',
             pt: { xs: 5, md: 6 },
             color: '#B8C8D8',
             animation: 'bounceDown 1.8s ease-in-out infinite',
+            transition: 'color 0.2s ease',
+            '&:hover': { color: '#1578AA' },
+            '&:focus-visible': {
+              outline: '2px solid #1578AA',
+              outlineOffset: '4px',
+              borderRadius: '4px',
+            },
           }}
         >
           <KeyboardArrowDownIcon sx={{ fontSize: 28 }} />
