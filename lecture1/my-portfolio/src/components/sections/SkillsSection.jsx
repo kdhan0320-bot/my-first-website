@@ -3,7 +3,7 @@ import {
   Box, Typography, Grid, Card, CardContent,
   LinearProgress, Chip, Tooltip, Button,
 } from '@mui/material';
-import { skillsData } from '../../data/skillsData';
+import { usePortfolio } from '../../context/PortfolioContext';
 
 const ICON_MAP = {
   html:       { text: 'H',   color: '#C84B17', bg: '#FFF3EF' },
@@ -158,6 +158,7 @@ const SkillCard = ({ skill }) => {
 };
 
 const SkillsSection = () => {
+  const { aboutMeData } = usePortfolio();
   const [showAddButton] = useState(false);
 
   return (
@@ -176,7 +177,7 @@ const SkillsSection = () => {
 
       {/* 스킬 카드 그리드 */}
       <Grid container spacing={3}>
-        {skillsData.map((skill) => (
+        {aboutMeData.skills.map((skill) => (
           <Grid item xs={12} sm={6} md={4} key={skill.id} sx={{ display: 'flex' }}>
             <SkillCard skill={skill} />
           </Grid>

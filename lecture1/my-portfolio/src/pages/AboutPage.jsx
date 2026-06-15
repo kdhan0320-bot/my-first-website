@@ -6,7 +6,7 @@ import {
 import SchoolIcon from '@mui/icons-material/School';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import WorkIcon from '@mui/icons-material/Work';
-import aboutMeData from '../data/aboutMeData';
+import { usePortfolio } from '../context/PortfolioContext';
 import SkillsSection from '../components/sections/SkillsSection';
 
 const toParagraphs = (text) =>
@@ -36,10 +36,10 @@ const InfoRow = ({ icon, label, value, note }) => (
 );
 
 const AboutPage = () => {
-  const [data] = useState(aboutMeData);
+  const { aboutMeData } = usePortfolio();
   const [activeTab, setActiveTab] = useState(0);
 
-  const { basicInfo, sections } = data;
+  const { basicInfo, sections } = aboutMeData;
   const activeSection = sections[activeTab];
 
   return (
