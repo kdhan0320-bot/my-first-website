@@ -42,7 +42,7 @@ const TopBar = () => {
         </Box>
 
         {/* 알림 버튼 */}
-        <IconButton size="small" onClick={() => navigate(ROUTES.NOTIFICATIONS)}>
+        <IconButton size="small" onClick={() => navigate(ROUTES.NOTIFICATIONS)} aria-label="알림 페이지로 이동">
           <Badge badgeContent={3} color="error" sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem', minWidth: 16, height: 16 } }}>
             <NotificationsNoneIcon sx={{ color: '#7F8FA4', fontSize: '1.3rem' }} />
           </Badge>

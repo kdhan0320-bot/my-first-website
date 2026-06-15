@@ -79,7 +79,7 @@ const Profile = () => {
           }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton size="small" onClick={handleSignOut} color="default">
+            <IconButton size="small" onClick={handleSignOut} color="default" aria-label="로그아웃">
               <LogoutIcon fontSize="small" />
             </IconButton>
           </Box>
@@ -173,7 +173,7 @@ const Profile = () => {
               bgcolor: 'background.paper', px: 1, py: 0.5,
               borderBottom: '1px solid', borderColor: 'divider',
             }}>
-              <IconButton onClick={() => setSelectedPost(null)}>
+              <IconButton onClick={() => setSelectedPost(null)} aria-label="닫기">
                 <CloseIcon />
               </IconButton>
             </Box>

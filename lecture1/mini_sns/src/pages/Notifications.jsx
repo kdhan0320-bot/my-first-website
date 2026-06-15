@@ -96,7 +96,7 @@ const Notifications = () => {
             )}
           </Box>
           {unreadCount > 0 && (
-            <IconButton size="small" onClick={markAllRead} title="모두 읽음">
+            <IconButton size="small" onClick={markAllRead} aria-label="모두 읽음으로 표시">
               <DoneAllIcon fontSize="small" />
             </IconButton>
           )}
@@ -149,6 +149,7 @@ const Notifications = () => {
                     <Box
                       component="img"
                       src={notif.postImage}
+                      alt="관련 게시물 이미지"
                       sx={{ width: 44, height: 44, borderRadius: 1, objectFit: 'cover', ml: 1, flexShrink: 0 }}
                     />
                   )}

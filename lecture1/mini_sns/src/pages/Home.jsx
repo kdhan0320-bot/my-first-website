@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, CircularProgress, Typography, Button } from '@mui/material';
+import { Box, CircularProgress, Typography, Button, Alert } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import MainLayout from '../components/layout/MainLayout';
 import PostCard from '../components/ui/PostCard';
@@ -10,6 +10,7 @@ const Home = () => {
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchPosts();
@@ -17,8 +18,9 @@ const Home = () => {
 
   const fetchPosts = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const { data, error } = await supabase
+      const { data, error: fetchError } = await supabase
         .from('posts')
         .select(`
           *,
@@ -28,9 +30,8 @@ const Home = () => {
         .order('created_at', { ascending: false })
         .limit(20);
 
-      if (error) throw error;
+      if (fetchError) throw fetchError;
 
-      // 좋아요 여부 확인
       let likedPostIds = new Set();
       if (user) {
         const { data: likesData } = await supabase
@@ -48,8 +49,8 @@ const Home = () => {
       }));
 
       setPosts(enriched);
-    } catch (err) {
-      console.error('피드 로딩 오류:', err);
+    } catch {
+      setError('데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }
@@ -66,11 +67,19 @@ const Home = () => {
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}>
             <CircularProgress />
           </Box>
+        ) : error ? (
+          <Box sx={{ px: 2, pt: 4 }}>
+            <Alert severity="error" action={
+              <Button size="small" onClick={fetchPosts}>다시 시도</Button>
+            }>
+              {error}
+            </Alert>
+          </Box>
         ) : posts.length === 0 ? (
           <Box sx={{ textAlign: 'center', pt: 8, px: 3 }}>
-            <Typography variant="h3" gutterBottom>아직 게시물이 없어요 🎮</Typography>
+            <Typography variant="h3" gutterBottom>아직 게시물이 없어요</Typography>
             <Typography variant="body2" color="text.secondary">
-              첫 번째 게임 리뷰를 올려보세요!
+              첫 번째 게임 리뷰를 작성해보세요.
             </Typography>
           </Box>
         ) : (

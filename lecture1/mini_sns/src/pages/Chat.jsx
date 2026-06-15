@@ -46,7 +46,7 @@ const ChatRoom = ({ room, onBack }) => {
         borderBottom: '1px solid', borderColor: 'divider',
         flexShrink: 0,
       }}>
-        <IconButton size="small" onClick={onBack}><ArrowBackIcon /></IconButton>
+        <IconButton size="small" onClick={onBack} aria-label="뒤로 가기"><ArrowBackIcon /></IconButton>
         <Avatar src={room.avatar} sx={{ width: 36, height: 36 }} />
         <Box>
           <Typography variant="body2" fontWeight={700}>{room.name}</Typography>
@@ -92,7 +92,7 @@ const ChatRoom = ({ room, onBack }) => {
             sx: { borderRadius: 3 },
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton size="small" color="primary" onClick={handleSend}>
+                <IconButton size="small" color="primary" onClick={handleSend} aria-label="메시지 전송">
                   <SendIcon fontSize="small" />
                 </IconButton>
               </InputAdornment>

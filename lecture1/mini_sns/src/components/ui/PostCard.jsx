@@ -64,7 +64,7 @@ const PostCard = ({ post, onDelete }) => {
           </Box>
           {isOwner && (
             <>
-              <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)}>
+              <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)} aria-label="게시물 더보기">
                 <MoreVertIcon fontSize="small" />
               </IconButton>
               <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
@@ -91,14 +91,14 @@ const PostCard = ({ post, onDelete }) => {
         <CardContent sx={{ px: 2, py: 1, '&:last-child': { pb: 1.5 } }}>
           {/* 좋아요 / 댓글 버튼 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-            <IconButton size="small" onClick={handleLike} sx={{ p: 0.5 }}>
+            <IconButton size="small" onClick={handleLike} sx={{ p: 0.5 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
               {liked
                 ? <FavoriteIcon sx={{ color: 'error.main', fontSize: 24 }} />
                 : <FavoriteBorderIcon sx={{ fontSize: 24 }} />
               }
             </IconButton>
             <Typography variant="body2" fontWeight={600}>{likesCount}</Typography>
-            <IconButton size="small" onClick={() => isGuest ? setGuestSnack(true) : setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }}>
+            <IconButton size="small" onClick={() => isGuest ? setGuestSnack(true) : setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }} aria-label="댓글 보기">
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
             <Typography variant="body2" color="text.secondary">{post.comments_count || 0}</Typography>
