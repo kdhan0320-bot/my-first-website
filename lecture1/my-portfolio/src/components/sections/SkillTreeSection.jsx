@@ -137,8 +137,8 @@ const SkillTreeSection = () => {
           ))}
         </Grid>
 
-        {/* 전체 스킬 보기 CTA */}
-        <RevealOnScroll delay={0.15}>
+        {/* 전체 스킬 보기 CTA — 마지막 카드(delay 0.3s) 이후에 등장 */}
+        <RevealOnScroll delay={0.35}>
           <Box sx={{ textAlign: 'center', mt: 5 }}>
             <Button
               variant="outlined"

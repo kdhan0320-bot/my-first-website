@@ -31,17 +31,20 @@ const PortfolioStats = () => {
       .then(({ count }) => setProjectCount(count ?? 0));
   }, []);
 
-  const skillCount = aboutMeData?.skills?.length ?? 0;
-  const loaded = projectCount !== null;
+  const skillCount  = aboutMeData?.skills?.length ?? 0;
+  const loaded      = projectCount !== null;
+  const studyMonths = Math.floor(
+    (Date.now() - new Date('2024-12-01').getTime()) / (1000 * 60 * 60 * 24 * 30.44),
+  );
 
   const projectNum = useCountUp(projectCount ?? 0, 1000, isVisible && loaded);
-  const skillNum   = useCountUp(skillCount, 1000, isVisible);
-  const deployNum  = useCountUp(projectCount ?? 0, 1000, isVisible && loaded);
+  const skillNum   = useCountUp(skillCount,        1000, isVisible);
+  const studyNum   = useCountUp(studyMonths,        800, isVisible);
 
   const stats = [
     { label: '진행 프로젝트', value: loaded ? projectNum : '—', suffix: loaded ? '개' : '' },
     { label: '활용 기술',     value: skillNum,                  suffix: '개'               },
-    { label: '배포 경험',     value: loaded ? deployNum  : '—', suffix: loaded ? '회' : '' },
+    { label: '학습 기간',     value: studyNum,                  suffix: '개월+'             },
   ];
 
   return (
@@ -60,7 +63,6 @@ const PortfolioStats = () => {
         <Box key={label} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
           <Typography
             component="p"
-            aria-hidden="true"
             sx={{
               color: '#1578AA',
               fontWeight: 800,
