@@ -6,6 +6,7 @@ import { usePortfolio } from '../../context/PortfolioContext';
 import { ICON_MAP } from '../../constants/iconMap';
 import useInViewOnce from '../../hooks/useInViewOnce';
 import useCountUp from '../../hooks/useCountUp';
+import RevealOnScroll from '../common/RevealOnScroll';
 
 const CATEGORY_COLORS = {
   'Frontend':     { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE' },
@@ -24,6 +25,8 @@ const STATUS_COLORS = {
 };
 
 const SkillCard = ({ skill }) => {
+  /* progress bar + count-up 트리거 (카드 25% 진입 시)
+     RevealOnScroll(8%)가 먼저 실행 → 카드 등장 → 이후 25%에서 progress 시작 */
   const [cardRef, isVisible] = useInViewOnce(0.25);
   const safeLevel = Math.min(100, Math.max(0, Number(skill.level) || 0));
   const animCount = useCountUp(safeLevel, 900, isVisible);
@@ -38,6 +41,7 @@ const SkillCard = ({ skill }) => {
       tabIndex={0}
       sx={{
         width: '100%',
+        flex: 1,
         display: 'flex',
         flexDirection: 'column',
         border: '1px solid #E0E4EA',
@@ -124,7 +128,6 @@ const SkillCard = ({ skill }) => {
             <Typography variant="caption" sx={{ color: '#94A3B8', fontSize: '0.68rem' }}>
               학습 적용도
             </Typography>
-            {/* 카운팅 숫자 — 스크린 리더는 progress bar의 aria-label을 읽음 */}
             <Typography
               variant="caption"
               aria-hidden="true"
@@ -174,21 +177,31 @@ const SkillsSection = () => {
     <Box sx={{ mt: 4 }}>
 
       {/* 섹션 헤더 */}
-      <Box sx={{ mb: 4 }}>
-        <Typography variant="h3" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 0.75 }}>
-          Skills
-        </Typography>
-        <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.7 }}>
-          현재 학습하고 프로젝트에 적용해본 기술들을 중심으로 정리했습니다.
-        </Typography>
-        <Box sx={{ width: 36, height: 3, bgcolor: '#1578AA', mt: 1.5, borderRadius: 2 }} />
-      </Box>
+      <RevealOnScroll>
+        <Box sx={{ mb: 4 }}>
+          <Typography variant="h3" sx={{ color: '#1A1A2E', fontWeight: 700, mb: 0.75 }}>
+            Skills
+          </Typography>
+          <Typography variant="body2" sx={{ color: '#64748B', lineHeight: 1.7 }}>
+            현재 학습하고 프로젝트에 적용해본 기술들을 중심으로 정리했습니다.
+          </Typography>
+          <Box sx={{ width: 36, height: 3, bgcolor: '#1578AA', mt: 1.5, borderRadius: 2 }} />
+        </Box>
+      </RevealOnScroll>
 
-      {/* 스킬 카드 그리드 */}
+      {/* 스킬 카드 그리드 — stagger reveal
+          RevealOnScroll threshold 0.08 → 카드 fade-up
+          SkillCard 내부 threshold 0.25 → progress bar 순차 실행 */}
       <Grid container spacing={3}>
-        {aboutMeData.skills.map((skill) => (
+        {aboutMeData.skills.map((skill, i) => (
           <Grid item xs={12} sm={6} md={4} key={skill.id} sx={{ display: 'flex' }}>
-            <SkillCard skill={skill} />
+            <RevealOnScroll
+              delay={Math.min(i * 0.08, 0.4)}
+              y={16}
+              sx={{ flex: 1, display: 'flex' }}
+            >
+              <SkillCard skill={skill} />
+            </RevealOnScroll>
           </Grid>
         ))}
       </Grid>
