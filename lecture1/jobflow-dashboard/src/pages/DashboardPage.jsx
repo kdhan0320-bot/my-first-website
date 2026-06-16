@@ -10,8 +10,10 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import useApplications from '../hooks/useApplications';
+import useChecklist from '../hooks/useChecklist';
 import { useAuth } from '../context/AuthContext';
-import { DEMO_CHECKLISTS, APPLICATION_STATUSES } from '../constants';
+import { APPLICATION_STATUSES } from '../constants';
+import { calcProgress } from '../utils/statusHelpers';
 import StatusChip from '../components/ui/StatusChip';
 
 const StatCard = ({ icon, title, value, subtitle, color = 'primary.main' }) => (
@@ -43,6 +45,7 @@ const DashboardPage = () => {
   const navigate = useNavigate();
   const { isGuest } = useAuth();
   const { applications, loading } = useApplications();
+  const { items: checklistItems } = useChecklist();
 
   const stats = useMemo(() => {
     const total = applications.length;
@@ -50,11 +53,9 @@ const DashboardPage = () => {
       ['서류 진행', '면접 예정', '지원 완료', '지원 예정'].includes(a.status)
     ).length;
     const interview = applications.filter((a) => a.status === '면접 예정').length;
-    const checklists = DEMO_CHECKLISTS;
-    const done = checklists.filter((c) => c.is_done).length;
-    const checklistRate = checklists.length > 0 ? Math.round((done / checklists.length) * 100) : 0;
-    return { total, active, interview, checklistRate, done, checklistTotal: checklists.length };
-  }, [applications]);
+    const { rate: checklistRate, done, total: checklistTotal } = calcProgress(checklistItems);
+    return { total, active, interview, checklistRate, done, checklistTotal };
+  }, [applications, checklistItems]);
 
   const recentApps = applications.slice(0, 5);
 

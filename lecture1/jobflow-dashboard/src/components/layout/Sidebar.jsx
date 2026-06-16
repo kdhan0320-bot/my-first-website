@@ -15,13 +15,13 @@ import { useAuth } from '../../context/AuthContext';
 const DRAWER_WIDTH = 240;
 
 const NAV_ITEMS = [
-  { path: '/', label: 'Dashboard', icon: <DashboardIcon /> },
-  { path: '/applications', label: 'Applications', icon: <WorkIcon /> },
-  { path: '/kanban', label: 'Kanban', icon: <ViewKanbanIcon /> },
-  { path: '/checklist', label: 'Checklist', icon: <ChecklistIcon /> },
-  { path: '/interview', label: 'Interview', icon: <QuestionAnswerIcon /> },
-  { path: '/ai-prompt', label: 'AI Prompt', icon: <AutoAwesomeIcon /> },
-  { path: '/settings', label: 'Settings', icon: <SettingsIcon /> },
+  { path: '/', label: '대시보드', icon: <DashboardIcon /> },
+  { path: '/applications', label: '지원 현황', icon: <WorkIcon /> },
+  { path: '/kanban', label: '전형 보드', icon: <ViewKanbanIcon /> },
+  { path: '/checklist', label: '체크리스트', icon: <ChecklistIcon /> },
+  { path: '/interview', label: '면접 메모', icon: <QuestionAnswerIcon /> },
+  { path: '/ai-prompt', label: 'AI 프롬프트', icon: <AutoAwesomeIcon /> },
+  { path: '/settings', label: '설정', icon: <SettingsIcon /> },
 ];
 
 const SidebarContent = () => {

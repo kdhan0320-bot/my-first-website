@@ -6,13 +6,14 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { DRAWER_WIDTH } from './Sidebar';
 
 const PAGE_TITLES = {
-  '/': 'Dashboard',
-  '/applications': '지원 회사 관리',
-  '/kanban': '칸반 보드',
-  '/checklist': '포트폴리오 체크리스트',
+  '/': '대시보드',
+  '/applications': '지원 현황',
+  '/applications/new': '지원 회사 등록',
+  '/kanban': '전형 보드',
+  '/checklist': '체크리스트',
   '/interview': '면접 메모',
-  '/ai-prompt': 'AI 프롬프트 도우미',
-  '/settings': '마이페이지 / 설정',
+  '/ai-prompt': 'AI 프롬프트',
+  '/settings': '설정',
 };
 
 const Header = ({ onMenuClick }) => {

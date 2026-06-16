@@ -1,0 +1,15 @@
+/* 터치 영역 최소 44px 보장 */
+button, [role="button"], a, input[type="checkbox"], input[type="radio"] {
+  min-height: 44px;
+}
+
+/* 가로 스크롤 방지 */
+.no-overflow-x { overflow-x: hidden; }
+
+/* 모션 감소 접근성 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
