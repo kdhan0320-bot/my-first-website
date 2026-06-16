@@ -86,7 +86,6 @@ const GuestbookForm = ({ onSuccess }) => {
         fullWidth
         multiline
         rows={3}
-        required
       />
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>

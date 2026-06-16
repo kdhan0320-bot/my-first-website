@@ -1,13 +1,10 @@
-import { Box, Container, Typography, Avatar, Button, Grid, Chip } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useNavigate } from 'react-router-dom';
+import { Box, Container, Typography, Avatar, Grid, Chip } from '@mui/material';
 import { usePortfolio } from '../../context/PortfolioContext';
 import RevealOnScroll from '../common/RevealOnScroll';
 
 const STRENGTHS = ['사용자 흐름 정리', '보기 쉬운 화면 구성', '실제 작동하는 웹서비스 구현 경험'];
 
 const AboutSection = () => {
-  const navigate = useNavigate();
   const { homeData } = usePortfolio();
   const { basicInfo, sections } = homeData;
 
@@ -142,32 +139,6 @@ const AboutSection = () => {
                     ))}
                   </Box>
                 </Box>
-
-                <Button
-                  variant="contained"
-                  endIcon={<ArrowForwardIcon />}
-                  onClick={() => navigate('/about')}
-                  aria-label="About Me 페이지에서 더 자세히 알아보기"
-                  sx={{
-                    alignSelf: { xs: 'center', md: 'flex-start' },
-                    bgcolor: 'primary.main',
-                    color: 'primary.contrastText',
-                    mt: 1,
-                    px: 3,
-                    minHeight: 44,
-                    fontWeight: 700,
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
-                    '&:hover': {
-                      bgcolor: 'primary.light',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 24px rgba(21,120,170,0.28)',
-                    },
-                    '&:active': { transform: 'translateY(0)', boxShadow: '0 4px 12px rgba(21,120,170,0.18)' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
-                  }}
-                >
-                  더 알아보기
-                </Button>
               </Box>
             </RevealOnScroll>
           </Grid>

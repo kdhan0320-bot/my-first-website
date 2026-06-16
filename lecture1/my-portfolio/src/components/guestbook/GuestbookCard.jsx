@@ -75,16 +75,9 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
             <Typography sx={{ fontSize: '1.75rem', lineHeight: 1, flexShrink: 0 }} aria-hidden="true">
               {entry.emoji || '😊'}
             </Typography>
-            <Box>
-              <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600, lineHeight: 1.3 }}>
-                {entry.author_name}
-              </Typography>
-              {entry.affiliation && (
-                <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.2 }}>
-                  {entry.affiliation}
-                </Typography>
-              )}
-            </Box>
+            <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600, lineHeight: 1.3 }}>
+              {entry.author_name}
+            </Typography>
           </Box>
 
           {isOwner && (

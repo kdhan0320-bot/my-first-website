@@ -36,7 +36,7 @@ const ContactSection = () => {
   const loadEntries = async () => {
     const { data } = await supabase
       .from('guestbook')
-      .select('id, author_name, message, affiliation, email, email_public, emoji, keyword, star_rating, created_at')
+      .select('id, author_name, message, email, email_public, emoji, created_at')
       .order('created_at', { ascending: false });
     setEntries(data || []);
     setLoading(false);

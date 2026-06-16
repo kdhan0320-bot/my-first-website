@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useNavigate } from 'react-router-dom';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { supabase } from '../../lib/supabase';
 import useInViewOnce from '../../hooks/useInViewOnce';
@@ -14,7 +13,7 @@ const WORKFLOW = [
   { label: '기획',  sub: 'UX 분석'  },
   { label: '설계',  sub: 'Figma'    },
   { label: '구현',  sub: 'React'    },
-  { label: '개선',  sub: 'AI Tools' },
+  { label: '개선',  sub: '피드백 반영' },
 ];
 
 const SKILL_CHIPS = ['UX/UI', 'React', 'MUI', 'Figma'];
@@ -88,8 +87,6 @@ const PortfolioStats = () => {
 };
 
 const HeroSection = () => {
-  const navigate = useNavigate();
-
   return (
     <Box
       id="home"
@@ -235,8 +232,8 @@ const HeroSection = () => {
                   variant="contained"
                   size="large"
                   endIcon={<ArrowForwardIcon />}
-                  onClick={() => navigate('/projects')}
-                  aria-label="프로젝트 보기 페이지로 이동"
+                  onClick={() => scrollToSection('projects')}
+                  aria-label="프로젝트 섹션으로 이동"
                   sx={{
                     bgcolor: 'primary.main',
                     color: 'primary.contrastText',
@@ -400,7 +397,7 @@ const HeroSection = () => {
                   variant="caption"
                   sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', display: 'block', mb: 1.5 }}
                 >
-                  주요 기술
+                  핵심 역량
                 </Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                   {SKILL_CHIPS.map((s) => (
