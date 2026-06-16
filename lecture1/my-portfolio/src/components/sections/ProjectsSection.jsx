@@ -115,18 +115,14 @@ const ProjectsSection = () => {
                         boxShadow: theme.palette.mode === 'dark'
                           ? '0 12px 32px rgba(0,0,0,0.4)'
                           : '0 12px 32px rgba(0,0,0,0.15)',
-                        borderColor: theme.palette.mode === 'dark'
-                          ? 'rgba(56,189,248,0.25)'
-                          : 'rgba(30,155,215,0.25)',
+                        borderColor: theme.palette.primary.main,
                       },
                       '&:hover .thumb-img': { transform: 'scale(1.05)' },
                       '&:hover .img-overlay': { opacity: 1 },
                       '&:focus-visible': {
                         outline: `2px solid ${theme.palette.primary.main}`,
                         outlineOffset: '2px',
-                        borderColor: theme.palette.mode === 'dark'
-                          ? 'rgba(56,189,248,0.25)'
-                          : 'rgba(30,155,215,0.25)',
+                        borderColor: theme.palette.primary.main,
                       },
                       '&:focus-visible .img-overlay': { opacity: 1 },
                       '&:active': { transform: 'translateY(0)' },
@@ -205,7 +201,7 @@ const ProjectsSection = () => {
                             label={tag}
                             size="small"
                             sx={(theme) => ({
-                              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : '#1E9BD7'}`,
+                              border: `1px solid ${theme.palette.primary.main}`,
                               color: 'primary.main',
                               bgcolor: 'transparent',
                               fontSize: '0.65rem',

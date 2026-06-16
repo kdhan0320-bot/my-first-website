@@ -45,11 +45,11 @@ const CursorFollower = () => {
         el.style.width       = hit ? '40px' : '20px';
         el.style.height      = hit ? '40px' : '20px';
         el.style.background  = hit
-          ? 'rgba(30,155,215,0.10)'
-          : 'rgba(30,155,215,0.18)';
+          ? 'rgba(37,99,235,0.10)'
+          : 'rgba(37,99,235,0.18)';
         el.style.borderColor = hit
-          ? 'rgba(30,155,215,0.45)'
-          : 'rgba(30,155,215,0.35)';
+          ? 'rgba(37,99,235,0.45)'
+          : 'rgba(37,99,235,0.35)';
       }
     };
 
@@ -93,8 +93,8 @@ const CursorFollower = () => {
         width:         '20px',
         height:        '20px',
         borderRadius:  '50%',
-        background:    'rgba(30,155,215,0.18)',
-        border:        '1px solid rgba(30,155,215,0.35)',
+        background:    'rgba(37,99,235,0.18)',
+        border:        '1px solid rgba(37,99,235,0.35)',
         pointerEvents: 'none',
         zIndex:        9999,
         opacity:       0,

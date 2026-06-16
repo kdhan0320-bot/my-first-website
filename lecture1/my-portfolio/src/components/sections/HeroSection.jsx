@@ -190,21 +190,34 @@ const HeroSection = () => {
                   mb: 3,
                 }}
               >
-                사용자 흐름을 정리하고,
-                <br />
                 <Box
                   component="span"
-                  sx={{
-                    background: 'linear-gradient(90deg, #1E9BD7 0%, #1578AA 100%)',
+                  sx={(theme) => ({
+                    background: `linear-gradient(90deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
-                  }}
+                  })}
                 >
-                  실제 작동하는 웹 화면으로
+                  사용자 흐름
                 </Box>
+                을 정리하고,
                 <br />
-                구현합니다.
+                <Box
+                  component="span"
+                  sx={(theme) => ({
+                    bgcolor: theme.palette.highlight.background,
+                    textDecoration: 'underline',
+                    textDecorationColor: theme.palette.secondary.main,
+                    textDecorationThickness: '3px',
+                    textUnderlineOffset: '4px',
+                    borderRadius: '4px',
+                    px: '4px',
+                  })}
+                >
+                  실제 작동하는 웹 화면
+                </Box>
+                으로 구현합니다.
               </Typography>
 
               {/* 서브 문구 — 모핑 키워드 */}

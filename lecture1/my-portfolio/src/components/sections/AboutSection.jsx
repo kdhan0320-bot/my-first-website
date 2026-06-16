@@ -66,18 +66,20 @@ const AboutSection = () => {
                   />
                 </Box>
 
-                {/* 요약 인용 박스 */}
+                {/* 핵심 문구 강조 카드 */}
                 <Box
+                  component="blockquote"
                   sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : '#F6F8FB',
-                    borderLeft: `3px solid ${theme.palette.primary.main}`,
-                    borderRadius: '0 8px 8px 0',
-                    p: 2,
+                    m: 0,
+                    bgcolor: theme.palette.highlight.background,
+                    borderLeft: `4px solid ${theme.palette.secondary.main}`,
+                    borderRadius: '0 12px 12px 0',
+                    p: 2.5,
                     width: '100%',
                   })}
                 >
-                  <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.85, fontStyle: 'italic' }}>
-                    &ldquo;{basicInfo.summary}&rdquo;
+                  <Typography sx={{ color: 'text.primary', lineHeight: 1.8, fontWeight: 600, fontSize: '1.0625rem' }}>
+                    {basicInfo.summary}
                   </Typography>
                 </Box>
               </Box>

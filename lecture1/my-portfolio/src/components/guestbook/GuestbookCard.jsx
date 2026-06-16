@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import {
   Box, Typography, Card, CardContent, IconButton,
-  TextField, Rating, Chip,
+  TextField, Rating, Chip, Dialog, DialogTitle, DialogContent,
+  DialogContentText, DialogActions, Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,9 +23,10 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
   const [editMessage, setEditMessage] = useState(entry.message);
   const [editKeyword, setEditKeyword] = useState(entry.keyword || '');
   const [saving, setSaving] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleDelete = async () => {
-    if (!window.confirm('방명록을 삭제하시겠습니까?')) return;
+    setConfirmOpen(false);
     const { error } = await supabase
       .from('guestbook')
       .delete()
@@ -58,27 +60,29 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
   };
 
   return (
-    <Card sx={{
-      bgcolor: '#1A1A1A',
-      border: '1px solid #252525',
-      borderRadius: 2,
-      height: '100%',
-      transition: 'border-color 0.2s',
-      '&:hover': { borderColor: '#3A3A3A' },
-    }}>
+    <Card
+      sx={(theme) => ({
+        bgcolor: 'background.paper',
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 2,
+        height: '100%',
+        transition: 'border-color 0.2s',
+        '&:hover': { borderColor: theme.palette.primary.main },
+      })}
+    >
       <CardContent sx={{ p: 2.5, '&:last-child': { pb: 2.5 }, display: 'flex', flexDirection: 'column', height: '100%', boxSizing: 'border-box' }}>
         {/* 헤더: 이모지 + 이름 + 액션 버튼 */}
         <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-            <Typography sx={{ fontSize: '1.75rem', lineHeight: 1, flexShrink: 0 }}>
+            <Typography sx={{ fontSize: '1.75rem', lineHeight: 1, flexShrink: 0 }} aria-hidden="true">
               {entry.emoji || '😊'}
             </Typography>
             <Box>
-              <Typography variant="body2" sx={{ color: '#FFFFFF', fontWeight: 600, lineHeight: 1.3 }}>
+              <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600, lineHeight: 1.3 }}>
                 {entry.author_name}
               </Typography>
               {entry.affiliation && (
-                <Typography variant="caption" sx={{ color: '#777777', lineHeight: 1.2 }}>
+                <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.2 }}>
                   {entry.affiliation}
                 </Typography>
               )}
@@ -93,17 +97,17 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                     size="small"
                     aria-label="방명록 편집"
                     onClick={() => setEditing(true)}
-                    sx={{ color: '#555555', '&:hover': { color: '#AAAAAA' } }}
+                    sx={{ color: 'text.disabled', minWidth: 36, minHeight: 36, '&:hover': { color: 'primary.main' } }}
                   >
-                    <EditIcon sx={{ fontSize: 15 }} />
+                    <EditIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                   <IconButton
                     size="small"
                     aria-label="방명록 삭제"
-                    onClick={handleDelete}
-                    sx={{ color: '#555555', '&:hover': { color: '#ff6b6b' } }}
+                    onClick={() => setConfirmOpen(true)}
+                    sx={{ color: 'text.disabled', minWidth: 36, minHeight: 36, '&:hover': { color: 'error.main' } }}
                   >
-                    <DeleteIcon sx={{ fontSize: 15 }} />
+                    <DeleteIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                 </>
               ) : (
@@ -113,17 +117,17 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
                     aria-label="편집 저장"
                     onClick={handleSave}
                     disabled={saving}
-                    sx={{ color: '#4caf50', '&:hover': { color: '#81c784' } }}
+                    sx={{ color: 'success.main', minWidth: 36, minHeight: 36 }}
                   >
-                    <CheckIcon sx={{ fontSize: 15 }} />
+                    <CheckIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                   <IconButton
                     size="small"
                     aria-label="편집 취소"
                     onClick={handleCancelEdit}
-                    sx={{ color: '#555555', '&:hover': { color: '#AAAAAA' } }}
+                    sx={{ color: 'text.disabled', minWidth: 36, minHeight: 36 }}
                   >
-                    <CloseIcon sx={{ fontSize: 15 }} />
+                    <CloseIcon sx={{ fontSize: 16 }} />
                   </IconButton>
                 </>
               )}
@@ -136,26 +140,17 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
           <TextField
             value={editMessage}
             onChange={(e) => setEditMessage(e.target.value)}
-            variant="outlined"
+            label="메시지"
             fullWidth
             multiline
             rows={2}
             size="small"
-            sx={{
-              mb: 1,
-              flex: 1,
-              '& .MuiOutlinedInput-root': {
-                color: '#DDDDDD',
-                fontSize: '0.875rem',
-                '& fieldset': { borderColor: '#444444' },
-                '&.Mui-focused fieldset': { borderColor: '#AAAAAA' },
-              },
-            }}
+            sx={{ mb: 1, flex: 1 }}
           />
         ) : (
           <Typography
             variant="body2"
-            sx={{ color: '#CCCCCC', lineHeight: 1.65, wordBreak: 'break-word', flex: 1, mb: 2 }}
+            sx={{ color: 'text.secondary', lineHeight: 1.65, wordBreak: 'break-word', flex: 1, mb: 2 }}
           >
             {entry.message}
           </Typography>
@@ -168,37 +163,27 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
               <TextField
                 value={editKeyword}
                 onChange={(e) => setEditKeyword(e.target.value)}
-                placeholder="키워드"
-                variant="outlined"
+                label="키워드"
                 size="small"
-                sx={{
-                  width: 100,
-                  '& .MuiOutlinedInput-root': {
-                    color: '#DDDDDD',
-                    fontSize: '0.75rem',
-                    '& fieldset': { borderColor: '#444444' },
-                    '& input': { py: 0.5 },
-                  },
-                  '& .MuiInputBase-input::placeholder': { color: '#555555', opacity: 1 },
-                }}
+                sx={{ width: 110 }}
               />
             ) : (
               entry.keyword && (
                 <Chip
                   label={entry.keyword}
                   size="small"
-                  sx={{
-                    bgcolor: '#222222',
-                    color: '#999999',
+                  sx={(theme) => ({
+                    bgcolor: theme.palette.highlight.background,
+                    color: 'text.secondary',
                     fontSize: '0.7rem',
                     height: 20,
-                    border: '1px solid #333333',
-                  }}
+                    border: `1px solid ${theme.palette.divider}`,
+                  })}
                 />
               )
             )}
             {entry.email_public && entry.email && (
-              <Typography variant="caption" sx={{ color: '#555555', fontSize: '0.7rem' }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
                 {entry.email}
               </Typography>
             )}
@@ -208,14 +193,26 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
               value={entry.star_rating}
               readOnly
               size="small"
-              sx={{ color: '#FFD700', '& .MuiRating-iconEmpty': { color: '#333333' } }}
+              aria-label={`포트폴리오 인상 평가 ${entry.star_rating ?? 0}점`}
+              sx={{ color: 'secondary.main' }}
             />
-            <Typography variant="caption" sx={{ color: '#555555', fontSize: '0.7rem' }}>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.7rem' }}>
               {formatDate(entry.created_at)}
             </Typography>
           </Box>
         </Box>
       </CardContent>
+
+      <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)}>
+        <DialogTitle>방명록을 삭제하시겠습니까?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>삭제한 방명록은 다시 복구할 수 없습니다.</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmOpen(false)}>취소</Button>
+          <Button onClick={handleDelete} color="error" variant="contained">삭제</Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };

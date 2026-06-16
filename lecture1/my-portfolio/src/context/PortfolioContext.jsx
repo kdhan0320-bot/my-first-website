@@ -36,15 +36,15 @@ const initialAboutMeData = {
     },
   ],
   skills: [
-    { id: 1, icon: "html",       name: "HTML",       level: 75, category: "Frontend",    description: "시맨틱 마크업과 기본 웹 구조를 이해하고, 포트폴리오와 서비스형 화면 구성에 적용하고 있습니다.",               status: "프로젝트 적용",   showInHome: true,  isMainSkill: true,  priority: 1 },
-    { id: 2, icon: "css",        name: "CSS",        level: 70, category: "Frontend",    description: "반응형 레이아웃, 여백, 색상, 카드형 UI 구성 등 화면의 가독성과 정리감을 만드는 데 활용하고 있습니다.",          status: "프로젝트 적용",   showInHome: true,  isMainSkill: true,  priority: 2 },
-    { id: 3, icon: "javascript", name: "JavaScript", level: 60, category: "Frontend",    description: "이벤트 처리, 조건부 렌더링, 데이터 흐름 등 사용자 인터랙션을 구현하는 기초를 학습하고 있습니다.",              status: "학습 및 적용 중", showInHome: true,  isMainSkill: true,  priority: 3 },
-    { id: 4, icon: "react",      name: "React",      level: 58, category: "Framework",   description: "컴포넌트 기반 화면 구성, 라우팅, 상태 관리 기초를 활용해 실제 작동하는 웹서비스 화면을 구현하고 있습니다.",    status: "학습 및 적용 중", showInHome: true,  isMainSkill: true,  priority: 4 },
-    { id: 5, icon: "mui",        name: "MUI",        level: 60, category: "Framework",   description: "카드, 버튼, 폼, 탭, 아코디언 등 UI 컴포넌트를 활용해 일관성 있는 화면을 구성하고 있습니다.",                  status: "프로젝트 적용",   showInHome: true,  isMainSkill: true,  priority: 5 },
-    { id: 6, icon: "figma",      name: "Figma",      level: 55, category: "Design",      description: "와이어프레임, 화면 흐름, UI 구조를 정리하는 도구로 활용하며 디자인 의도를 시각화하고 있습니다.",               status: "학습 및 적용 중", showInHome: true,  isMainSkill: true,  priority: 6 },
+    { id: 1, icon: "html",       name: "HTML",       level: 75, category: "Frontend",    description: "시맨틱 마크업과 기본 웹 구조를 이해하고, 포트폴리오와 서비스형 화면 구성에 적용하고 있습니다.",               status: "프로젝트 적용",   showInHome: true,  isMainSkill: true,  priority: 5 },
+    { id: 2, icon: "css",        name: "CSS",        level: 70, category: "Frontend",    description: "반응형 레이아웃, 여백, 색상, 카드형 UI 구성 등 화면의 가독성과 정리감을 만드는 데 활용하고 있습니다.",          status: "프로젝트 적용",   showInHome: true,  isMainSkill: true,  priority: 6 },
+    { id: 3, icon: "javascript", name: "JavaScript", level: 60, category: "Frontend",    description: "이벤트 처리, 조건부 렌더링, 데이터 흐름 등 사용자 인터랙션을 구현하는 기초를 학습하고 있습니다.",              status: "학습 및 적용 중", showInHome: true,  isMainSkill: true,  priority: 4 },
+    { id: 4, icon: "react",      name: "React",      level: 58, category: "Framework",   description: "컴포넌트 기반 화면 구성, 라우팅, 상태 관리 기초를 활용해 실제 작동하는 웹서비스 화면을 구현하고 있습니다.",    status: "학습 및 적용 중", showInHome: true,  isMainSkill: true,  priority: 1 },
+    { id: 5, icon: "mui",        name: "MUI",        level: 60, category: "Framework",   description: "카드, 버튼, 폼, 탭, 아코디언 등 UI 컴포넌트를 활용해 일관성 있는 화면을 구성하고 있습니다.",                  status: "프로젝트 적용",   showInHome: true,  isMainSkill: true,  priority: 2 },
+    { id: 6, icon: "figma",      name: "Figma",      level: 55, category: "Design",      description: "와이어프레임, 화면 흐름, UI 구조를 정리하는 도구로 활용하며 디자인 의도를 시각화하고 있습니다.",               status: "학습 및 적용 중", showInHome: true,  isMainSkill: true,  priority: 3 },
     { id: 7, icon: "database",   name: "Supabase",   level: 45, category: "Backend / DB",description: "로그인, 게시글, 방명록 등 기본적인 데이터 연동 기능을 프로젝트에 적용하고 있습니다.",                         status: "기초 적용",       showInHome: false, isMainSkill: false, priority: 7 },
     { id: 8, icon: "github",     name: "GitHub",     level: 50, category: "Tool",        description: "프로젝트 코드 관리와 GitHub Pages 배포를 통해 결과물을 공유하는 데 활용하고 있습니다.",                       status: "기초 적용",       showInHome: false, isMainSkill: false, priority: 8 },
-    { id: 9, icon: "ai",         name: "AI Tools",   level: 70, category: "Workflow",    description: "Claude와 ChatGPT를 활용해 아이디어 정리, 코드 보조, 문구 개선, UI 구조 점검에 활용하고 있습니다.",            status: "적극 활용",       showInHome: true,  isMainSkill: true,  priority: 9 },
+    { id: 9, icon: "ai",         name: "AI Tools",   level: 70, category: "Workflow",    description: "Claude와 ChatGPT를 활용해 아이디어 정리, 코드 보조, 문구 개선, UI 구조 점검에 활용하고 있습니다.",            status: "적극 활용",       showInHome: true,  isMainSkill: false, priority: 9 },
   ],
 };
 

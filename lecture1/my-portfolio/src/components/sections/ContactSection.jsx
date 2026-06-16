@@ -30,9 +30,12 @@ const SNS_BUTTONS = [
   { icon: <EmailIcon />,  label: 'Email',  href: 'mailto:kdhan0320@gmail.com' },
 ];
 
+const GUESTBOOK_PAGE_SIZE = 3;
+
 const ContactSection = () => {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(GUESTBOOK_PAGE_SIZE);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const loadEntries = async () => {
@@ -51,7 +54,8 @@ const ContactSection = () => {
 
   const handleSuccess = () => {
     loadEntries();
-    showSnackbar('방명록이 등록되었습니다! 감사합니다 😊');
+    setVisibleCount(GUESTBOOK_PAGE_SIZE);
+    showSnackbar('방명록이 등록되었습니다.');
   };
 
   const handleDeleted = (id) => {
@@ -64,8 +68,11 @@ const ContactSection = () => {
     showSnackbar('방명록이 수정되었습니다.');
   };
 
+  const visibleEntries = entries.slice(0, visibleCount);
+  const hasMore = visibleCount < entries.length;
+
   return (
-    <Box sx={{ bgcolor: '#1A1A2E', py: { xs: 8, md: 12 } }} id="contact">
+    <Box sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }} id="contact">
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
@@ -73,27 +80,27 @@ const ContactSection = () => {
           <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
             <Typography
               variant="overline"
-              sx={{ color: '#999999', letterSpacing: 4, fontWeight: 600, fontSize: '0.75rem' }}
+              sx={{ color: 'text.secondary', letterSpacing: 4, fontWeight: 600, fontSize: '0.75rem' }}
             >
               CONTACT
             </Typography>
-            <Typography variant="h2" sx={{ mt: 1, color: '#FFFFFF' }}>
+            <Typography variant="h2" sx={{ mt: 1, color: 'text.primary' }}>
               함께 이야기해요
             </Typography>
-            <Divider sx={{ width: 48, mx: 'auto', mt: 2, borderColor: '#FFFFFF', borderWidth: 2 }} />
-            <Typography variant="body2" sx={{ mt: 2.5, color: '#888888', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
-              언제든 연락 주세요. 방명록도 남겨주시면 큰 힘이 됩니다 🙌
+            <Divider sx={{ width: 48, mx: 'auto', mt: 2, borderColor: 'primary.main', borderWidth: 2 }} />
+            <Typography variant="body2" sx={{ mt: 2.5, color: 'text.secondary', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
+              언제든 연락 주세요. 방명록도 남겨주시면 큰 힘이 됩니다.
             </Typography>
           </Box>
         </RevealOnScroll>
 
         {/* 연락처 + 방명록 폼 */}
         <RevealOnScroll delay={0.1}>
-          <Grid container spacing={{ xs: 4, md: 8 }} sx={{ mb: { xs: 6, md: 10 } }}>
+          <Grid container spacing={{ xs: 4, md: 8 }} sx={{ mb: { xs: 6, md: 10 } }} id="guestbook">
 
             {/* 왼쪽: 연락처 정보 */}
             <Grid item xs={12} md={4}>
-              <Typography variant="h4" sx={{ color: '#FFFFFF', mb: 3 }}>연락처</Typography>
+              <Typography variant="h4" sx={{ color: 'text.primary', mb: 3 }}>연락처</Typography>
 
               {/* 연락처 카드 */}
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 4 }}>
@@ -104,10 +111,7 @@ const ContactSection = () => {
                     href={href}
                     target={href.startsWith('mailto') ? '_self' : '_blank'}
                     rel="noopener noreferrer"
-                    sx={{
-                      bgcolor: '#242450',
-                      border: '1px solid #2E2E5E',
-                      borderRadius: 2,
+                    sx={(theme) => ({
                       textDecoration: 'none',
                       display: 'flex',
                       alignItems: 'center',
@@ -115,22 +119,22 @@ const ContactSection = () => {
                       p: 2,
                       transition: 'border-color 0.2s, background-color 0.2s, transform 0.2s, box-shadow 0.2s',
                       '&:hover': {
-                        borderColor: '#1578AA',
-                        bgcolor: '#2A2A5A',
+                        borderColor: theme.palette.primary.main,
+                        bgcolor: theme.palette.highlight.background,
                         transform: 'translateY(-3px)',
-                        boxShadow: '0 8px 24px rgba(0,0,0,0.25)',
+                        boxShadow: theme.palette.mode === 'dark' ? '0 8px 24px rgba(0,0,0,0.35)' : '0 8px 24px rgba(26,26,46,0.1)',
                       },
-                      '&:hover .contact-icon': { color: '#1578AA' },
+                      '&:hover .contact-icon': { color: theme.palette.primary.main },
                       '&:active': { transform: 'translateY(0)' },
-                      '&:focus-visible': { outline: '2px solid #1578AA', outlineOffset: '2px' },
-                    }}
+                      '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
+                    })}
                   >
-                    <Box className="contact-icon" sx={{ color: '#777777', display: 'flex', flexShrink: 0, transition: 'color 0.2s' }}>{icon}</Box>
+                    <Box className="contact-icon" sx={{ color: 'text.secondary', display: 'flex', flexShrink: 0, transition: 'color 0.2s' }}>{icon}</Box>
                     <Box>
-                      <Typography variant="caption" sx={{ color: '#555555', display: 'block', lineHeight: 1.2 }}>
+                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.2 }}>
                         {label}
                       </Typography>
-                      <Typography variant="body2" sx={{ color: '#DDDDDD', fontWeight: 500, lineHeight: 1.4 }}>
+                      <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 500, lineHeight: 1.4 }}>
                         {value}
                       </Typography>
                     </Box>
@@ -139,7 +143,7 @@ const ContactSection = () => {
               </Box>
 
               {/* SNS 버튼 그리드 */}
-              <Typography variant="h6" sx={{ color: '#CCCCCC', mb: 1.5, fontSize: '0.9rem', letterSpacing: 0.5 }}>
+              <Typography variant="h6" sx={{ color: 'text.primary', mb: 1.5, fontSize: '0.9rem', letterSpacing: 0.5 }}>
                 소셜 미디어
               </Typography>
               <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.25 }}>
@@ -152,24 +156,23 @@ const ContactSection = () => {
                     rel="noopener noreferrer"
                     variant="outlined"
                     startIcon={icon}
-                    sx={{
-                      color: '#BBBBBB',
-                      borderColor: '#2A2A2A',
-                      borderRadius: 2,
+                    sx={(theme) => ({
+                      color: 'text.secondary',
+                      borderColor: theme.palette.divider,
                       py: 1.25,
                       minHeight: 44,
                       justifyContent: 'flex-start',
                       fontSize: '0.875rem',
                       transition: 'border-color 0.2s, color 0.2s, background-color 0.2s, transform 0.2s',
                       '&:hover': {
-                        borderColor: '#666666',
-                        color: '#FFFFFF',
-                        bgcolor: 'rgba(255,255,255,0.04)',
+                        borderColor: theme.palette.primary.main,
+                        color: theme.palette.primary.main,
+                        bgcolor: theme.palette.highlight.background,
                         transform: 'translateY(-1px)',
                       },
                       '&:active': { transform: 'translateY(0)' },
-                      '&:focus-visible': { outline: '2px solid rgba(170,170,170,0.8)', outlineOffset: '2px' },
-                    }}
+                      '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
+                    })}
                   >
                     {label}
                   </Button>
@@ -188,9 +191,9 @@ const ContactSection = () => {
         <RevealOnScroll delay={0.05}>
           <Box>
             <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: 4 }}>
-              <Typography variant="h3" sx={{ color: '#FFFFFF' }}>방명록</Typography>
+              <Typography variant="h3" sx={{ color: 'text.primary' }}>방명록</Typography>
               {!loading && (
-                <Typography variant="body2" sx={{ color: '#555555' }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                   총 {entries.length}개
                 </Typography>
               )}
@@ -198,26 +201,39 @@ const ContactSection = () => {
 
             {loading ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-                <CircularProgress size={36} sx={{ color: '#AAAAAA' }} />
+                <CircularProgress size={36} />
               </Box>
             ) : entries.length === 0 ? (
               <Box sx={{ textAlign: 'center', py: 8 }}>
-                <Typography variant="body1" sx={{ color: '#555555' }}>
-                  아직 방명록이 없습니다. 첫 번째 방명록을 남겨주세요! 😊
+                <Typography variant="body1" sx={{ color: 'text.secondary' }}>
+                  아직 방명록이 없습니다. 첫 번째 방명록을 남겨주세요!
                 </Typography>
               </Box>
             ) : (
-              <Grid container spacing={2.5}>
-                {entries.map((entry) => (
-                  <Grid item xs={12} sm={6} md={4} key={entry.id}>
-                    <GuestbookCard
-                      entry={entry}
-                      onDeleted={handleDeleted}
-                      onUpdated={handleUpdated}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
+              <>
+                <Grid container spacing={2.5}>
+                  {visibleEntries.map((entry) => (
+                    <Grid item xs={12} sm={6} md={4} key={entry.id}>
+                      <GuestbookCard
+                        entry={entry}
+                        onDeleted={handleDeleted}
+                        onUpdated={handleUpdated}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+                {hasMore && (
+                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => setVisibleCount((prev) => prev + GUESTBOOK_PAGE_SIZE)}
+                      sx={{ minHeight: 44, px: 4 }}
+                    >
+                      더보기
+                    </Button>
+                  </Box>
+                )}
+              </>
             )}
           </Box>
         </RevealOnScroll>

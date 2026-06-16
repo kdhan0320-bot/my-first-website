@@ -16,35 +16,18 @@ import {
 } from '../../hooks/useScrollNav';
 import ThemeToggle from '../common/ThemeToggle';
 import { useThemeMode } from '../../context/ThemeModeContext';
+import LogoSymbol from '../common/LogoSymbol';
 
 const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 
 const NAV_ITEMS = [
-  { label: 'Home',     sectionId: 'home',     path: '/'         },
-  { label: 'About Me', sectionId: 'about',    path: '/about'    },
-  { label: 'Skills',   sectionId: 'skills',   path: null        },
-  { label: 'Projects', sectionId: 'projects', path: '/projects' },
-  { label: 'Contact',  sectionId: 'contact',  path: null        },
+  { label: '처음',   sectionId: 'home',      path: '/'         },
+  { label: '소개',   sectionId: 'about',     path: '/about'    },
+  { label: '기술',   sectionId: 'skills',    path: null        },
+  { label: '프로젝트', sectionId: 'projects', path: '/projects' },
+  { label: '방명록', sectionId: 'guestbook', path: null        },
+  { label: '연락',   sectionId: 'contact',   path: null        },
 ];
-
-const LogoSymbol = () => (
-  <Box
-    aria-hidden="true"
-    sx={{
-      width: 32, height: 32,
-      borderRadius: '10px',
-      bgcolor: 'primary.main',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-    }}
-  >
-    <Typography sx={{ color: '#FFF', fontSize: '0.75rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
-      DK
-    </Typography>
-  </Box>
-);
 
 const Navbar = () => {
   const location = useLocation();
@@ -186,20 +169,17 @@ const Navbar = () => {
                       color: isActive ? theme.palette.primary.main : theme.palette.text.secondary,
                       fontWeight: isActive ? 700 : 500,
                       fontSize: '0.875rem',
-                      borderBottom: isActive
-                        ? `2px solid ${theme.palette.primary.main}`
-                        : '2px solid transparent',
-                      borderRadius: 0,
+                      bgcolor: isActive ? theme.palette.highlight.background : 'transparent',
+                      borderRadius: '999px',
                       px: 2,
                       py: 1,
                       minHeight: 44,
-                      transition: 'color 0.2s, border-color 0.2s',
+                      transition: 'color 0.2s, background-color 0.2s',
                       '&:hover': {
                         color: theme.palette.primary.main,
-                        backgroundColor: 'transparent',
-                        borderBottom: isActive
-                          ? `2px solid ${theme.palette.primary.main}`
-                          : `2px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.4)' : 'rgba(21,120,170,0.4)'}`,
+                        bgcolor: isActive
+                          ? theme.palette.highlight.background
+                          : theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.08)' : 'rgba(37,99,235,0.06)',
                       },
                       '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
                     })}
@@ -314,7 +294,7 @@ const Navbar = () => {
                     minHeight: 52,
                     '&:hover': {
                       color: theme.palette.primary.main,
-                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EAF6FC',
+                      bgcolor: theme.palette.highlight.background,
                     },
                   })}
                 >

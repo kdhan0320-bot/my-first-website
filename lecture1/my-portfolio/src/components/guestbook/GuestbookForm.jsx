@@ -20,18 +20,6 @@ const DEFAULT_FORM = {
   star_rating: 5,
 };
 
-const darkFieldSx = {
-  '& .MuiOutlinedInput-root': {
-    color: '#FFFFFF',
-    '& fieldset': { borderColor: '#333333' },
-    '&:hover fieldset': { borderColor: '#666666' },
-    '&.Mui-focused fieldset': { borderColor: '#AAAAAA' },
-  },
-  '& .MuiInputLabel-root': { color: '#666666' },
-  '& .MuiInputLabel-root.Mui-focused': { color: '#AAAAAA' },
-  '& .MuiInputBase-input::placeholder': { color: '#555555', opacity: 1 },
-};
-
 const GuestbookForm = ({ onSuccess }) => {
   const [form, setForm] = useState(DEFAULT_FORM);
   const [submitting, setSubmitting] = useState(false);
@@ -75,7 +63,7 @@ const GuestbookForm = ({ onSuccess }) => {
       setForm(DEFAULT_FORM);
       onSuccess?.();
     } catch {
-      setError('등록 중 오류가 발생했습니다. 다시 시도해주세요.');
+      setError('데이터를 등록하지 못했습니다. 잠시 후 다시 시도해주세요.');
     } finally {
       setSubmitting(false);
     }
@@ -83,57 +71,33 @@ const GuestbookForm = ({ onSuccess }) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Typography variant="h4" sx={{ color: '#FFFFFF', mb: 1 }}>방명록 남기기</Typography>
+      <Typography variant="h4" sx={{ color: 'text.primary', mb: 1 }}>방명록 남기기</Typography>
 
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <TextField
-          name="author_name"
-          label="이름 (비워두면 익명)"
-          value={form.author_name}
-          onChange={handleChange}
-          variant="outlined"
-          fullWidth
-          sx={darkFieldSx}
-        />
-        <TextField
-          name="affiliation"
-          label="소속/직업 (선택)"
-          value={form.affiliation}
-          onChange={handleChange}
-          variant="outlined"
-          fullWidth
-          sx={darkFieldSx}
-        />
-      </Box>
+      <TextField
+        name="author_name"
+        label="이름"
+        helperText="비워두면 익명으로 등록됩니다"
+        value={form.author_name}
+        onChange={handleChange}
+        fullWidth
+      />
 
-      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <TextField
-          name="email"
-          label="이메일 (선택, 기본 비공개)"
-          value={form.email}
-          onChange={handleChange}
-          variant="outlined"
-          fullWidth
-          sx={darkFieldSx}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="email_public"
-              checked={form.email_public}
-              onChange={handleChange}
-              disabled={!form.email.trim()}
-              sx={{ color: '#555555', '&.Mui-checked': { color: '#AAAAAA' } }}
-            />
-          }
-          label={<Typography variant="caption" sx={{ color: '#888888', whiteSpace: 'nowrap' }}>공개</Typography>}
-          sx={{ flexShrink: 0 }}
-        />
-      </Box>
+      <TextField
+        name="message"
+        label="메시지"
+        helperText={error || '포트폴리오를 보고 느낀 점을 자유롭게 남겨주세요'}
+        error={Boolean(error)}
+        value={form.message}
+        onChange={handleChange}
+        fullWidth
+        multiline
+        rows={3}
+        required
+      />
 
       {/* 이모지 선택 */}
       <Box>
-        <Typography variant="caption" sx={{ color: '#666666', mb: 0.75, display: 'block' }}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.75, display: 'block' }}>
           이모지 선택
         </Typography>
         <ToggleButtonGroup value={form.emoji} exclusive onChange={handleEmojiChange} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
@@ -142,16 +106,16 @@ const GuestbookForm = ({ onSuccess }) => {
               key={emoji}
               value={emoji}
               aria-label={`${emoji} 이모지 선택`}
-              sx={{
-                border: '1px solid #2A2A2A !important',
+              sx={(theme) => ({
+                border: `1px solid ${theme.palette.divider} !important`,
                 borderRadius: '8px !important',
-                minWidth: 40,
-                height: 40,
+                minWidth: 44,
+                height: 44,
                 fontSize: '1.2rem',
                 lineHeight: 1,
-                bgcolor: form.emoji === emoji ? '#FFFFFF !important' : 'transparent',
-                '&:hover': { bgcolor: 'rgba(255,255,255,0.08) !important' },
-              }}
+                bgcolor: form.emoji === emoji ? `${theme.palette.highlight.background} !important` : 'transparent',
+                '&:hover': { bgcolor: theme.palette.highlight.background },
+              })}
             >
               {emoji}
             </ToggleButton>
@@ -159,42 +123,58 @@ const GuestbookForm = ({ onSuccess }) => {
         </ToggleButtonGroup>
       </Box>
 
-      <TextField
-        name="message"
-        label="메시지"
-        value={form.message}
-        onChange={handleChange}
-        variant="outlined"
-        fullWidth
-        multiline
-        rows={3}
-        required
-        sx={darkFieldSx}
-      />
+      <Box>
+        <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.5, display: 'block' }}>
+          포트폴리오 인상 평가 (선택)
+        </Typography>
+        <Rating
+          value={form.star_rating}
+          onChange={(_, val) => setForm(prev => ({ ...prev, star_rating: val ?? 5 }))}
+          getLabelText={(value) => `포트폴리오 인상 평가 ${value}점`}
+          sx={{ color: 'secondary.main' }}
+        />
+      </Box>
 
-      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
+        <TextField
+          name="affiliation"
+          label="소속/직업 (선택)"
+          value={form.affiliation}
+          onChange={handleChange}
+          fullWidth
+        />
         <TextField
           name="keyword"
           label="한마디 키워드 (선택)"
           value={form.keyword}
           onChange={handleChange}
-          variant="outlined"
           fullWidth
-          sx={darkFieldSx}
         />
-        <Box sx={{ flexShrink: 0 }}>
-          <Typography variant="caption" sx={{ color: '#666666', display: 'block', mb: 0.5 }}>별점</Typography>
-          <Rating
-            value={form.star_rating}
-            onChange={(_, val) => setForm(prev => ({ ...prev, star_rating: val ?? 5 }))}
-            sx={{ color: '#FFD700', '& .MuiRating-iconEmpty': { color: '#444444' } }}
-          />
-        </Box>
       </Box>
 
-      {error && (
-        <Typography variant="caption" sx={{ color: '#ff6b6b' }}>{error}</Typography>
-      )}
+      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+        <TextField
+          name="email"
+          label="이메일 (선택 입력)"
+          helperText="비공개가 기본값이며, 등록 후에는 수정할 수 없습니다"
+          value={form.email}
+          onChange={handleChange}
+          fullWidth
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              name="email_public"
+              checked={form.email_public}
+              onChange={handleChange}
+              disabled={!form.email.trim()}
+              sx={{ '&.Mui-checked': { color: 'secondary.main' } }}
+            />
+          }
+          label={<Typography variant="caption" sx={{ color: 'text.secondary', whiteSpace: 'nowrap' }}>이메일을 공개합니다</Typography>}
+          sx={{ flexShrink: 0, alignSelf: 'flex-start', mt: 0.5 }}
+        />
+      </Box>
 
       <Button
         type="submit"
@@ -202,11 +182,10 @@ const GuestbookForm = ({ onSuccess }) => {
         disabled={submitting}
         endIcon={submitting ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
         sx={{
-          bgcolor: '#FFFFFF',
-          color: '#111111',
+          bgcolor: 'primary.main',
+          color: 'primary.contrastText',
           fontWeight: 700,
-          '&:hover': { bgcolor: '#EEEEEE' },
-          '&.Mui-disabled': { bgcolor: '#333333', color: '#666666' },
+          '&:hover': { bgcolor: 'primary.dark' },
           alignSelf: { xs: 'stretch', sm: 'flex-end' },
           px: 4,
           py: 1.25,
