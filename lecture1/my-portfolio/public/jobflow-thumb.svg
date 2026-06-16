@@ -1,142 +1,180 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
-  <!-- 배경 -->
+  <!-- 전체 배경 -->
   <rect width="800" height="450" fill="#F6F8FB"/>
 
-  <!-- 사이드바 -->
-  <rect x="0" y="0" width="180" height="450" fill="#FFFFFF" stroke="#E2EAF0" stroke-width="1"/>
-  <!-- 로고 -->
-  <rect x="16" y="18" width="8" height="20" rx="2" fill="#1E9BD7"/>
-  <rect x="28" y="18" width="8" height="20" rx="2" fill="#1578AA"/>
-  <text x="42" y="33" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#1A1A2E">JobFlow</text>
-  <text x="16" y="50" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8">취업 준비 관리 대시보드</text>
+  <!-- ── 사이드바 ── -->
+  <rect x="0" y="0" width="188" height="450" fill="#FFFFFF" stroke="#E8EDF2" stroke-width="1"/>
 
-  <!-- 사이드바 메뉴 -->
-  <rect x="8" y="64" width="164" height="30" rx="6" fill="#1E9BD7"/>
-  <rect x="20" y="74" width="10" height="10" rx="2" fill="white" opacity="0.8"/>
-  <text x="36" y="83" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="white">Dashboard</text>
-
-  <rect x="20" y="106" width="10" height="10" rx="2" fill="#94A3B8" opacity="0.5"/>
-  <text x="36" y="115" font-family="Arial, sans-serif" font-size="11" fill="#64748B">Applications</text>
-
-  <rect x="20" y="130" width="10" height="10" rx="2" fill="#94A3B8" opacity="0.5"/>
-  <text x="36" y="139" font-family="Arial, sans-serif" font-size="11" fill="#64748B">Kanban</text>
-
-  <rect x="20" y="154" width="10" height="10" rx="2" fill="#94A3B8" opacity="0.5"/>
-  <text x="36" y="163" font-family="Arial, sans-serif" font-size="11" fill="#64748B">Checklist</text>
-
-  <rect x="20" y="178" width="10" height="10" rx="2" fill="#94A3B8" opacity="0.5"/>
-  <text x="36" y="187" font-family="Arial, sans-serif" font-size="11" fill="#64748B">Interview</text>
-
-  <rect x="20" y="202" width="10" height="10" rx="2" fill="#94A3B8" opacity="0.5"/>
-  <text x="36" y="211" font-family="Arial, sans-serif" font-size="11" fill="#64748B">AI Prompt</text>
-
-  <!-- 헤더 -->
-  <rect x="180" y="0" width="620" height="52" fill="#FFFFFF" stroke="#E2EAF0" stroke-width="1"/>
-  <text x="200" y="32" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A2E">Dashboard</text>
-
-  <!-- 요약 카드 4개 -->
-  <!-- 카드1: 총 지원 -->
-  <rect x="196" y="68" width="132" height="78" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
-  <text x="210" y="88" font-family="Arial, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">총 지원</text>
-  <text x="210" y="116" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#1E9BD7">12</text>
-  <text x="210" y="132" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">개 회사</text>
-  <rect x="290" y="76" width="28" height="28" rx="6" fill="#E0F4FF"/>
-  <rect x="299" y="84" width="10" height="12" rx="2" fill="#1E9BD7"/>
-
-  <!-- 카드2: 진행 중 -->
-  <rect x="340" y="68" width="132" height="78" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
-  <text x="354" y="88" font-family="Arial, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">진행 중</text>
-  <text x="354" y="116" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#3B82F6">5</text>
-  <text x="354" y="132" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">전형 진행</text>
-  <rect x="434" y="76" width="28" height="28" rx="6" fill="#EFF6FF"/>
-  <rect x="441" y="84" width="14" height="12" rx="2" fill="#3B82F6"/>
-
-  <!-- 카드3: 면접 예정 -->
-  <rect x="484" y="68" width="132" height="78" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
-  <text x="498" y="88" font-family="Arial, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">면접 예정</text>
-  <text x="498" y="116" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#8B5CF6">2</text>
-  <text x="498" y="132" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">건</text>
-  <rect x="578" y="76" width="28" height="28" rx="6" fill="#F5F3FF"/>
-  <rect x="585" y="84" width="14" height="12" rx="2" fill="#8B5CF6"/>
-
-  <!-- 카드4: 체크리스트 -->
-  <rect x="628" y="68" width="132" height="78" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
-  <text x="642" y="88" font-family="Arial, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">체크리스트</text>
-  <text x="642" y="116" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#22C55E">67%</text>
-  <text x="642" y="132" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">6/9 완료</text>
-  <rect x="722" y="76" width="28" height="28" rx="6" fill="#F0FDF4"/>
-  <rect x="729" y="84" width="14" height="12" rx="2" fill="#22C55E"/>
-
-  <!-- 최근 지원 현황 카드 -->
-  <rect x="196" y="160" width="350" height="200" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
-  <text x="214" y="184" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#1A1A2E">최근 지원 현황</text>
-  <text x="490" y="184" font-family="Arial, sans-serif" font-size="10" fill="#1E9BD7">전체 보기</text>
+  <!-- 로고 영역 -->
+  <rect x="14" y="14" width="30" height="30" rx="6" fill="#1E9BD7"/>
+  <text x="20" y="34" font-family="Arial,sans-serif" font-size="14" font-weight="900" fill="#FFFFFF">J</text>
+  <text x="48" y="27" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#1E9BD7">JobFlow</text>
+  <text x="48" y="40" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">취업 준비 관리 대시보드</text>
 
   <!-- 구분선 -->
-  <line x1="210" y1="192" x2="536" y2="192" stroke="#F1F5F9" stroke-width="1"/>
+  <line x1="0" y1="54" x2="188" y2="54" stroke="#F1F5F9" stroke-width="1"/>
 
-  <!-- 지원 목록 행 1 -->
-  <text x="214" y="212" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A2E">카카오</text>
-  <text x="214" y="226" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8">UX/UI 디자이너</text>
-  <rect x="450" y="202" width="60" height="20" rx="10" fill="#F5F3FF"/>
-  <text x="468" y="216" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#8B5CF6">면접 예정</text>
+  <!-- 사용자 아바타 -->
+  <circle cx="28" cy="76" r="14" fill="#1E9BD7"/>
+  <text x="28" y="81" font-family="Arial,sans-serif" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">G</text>
+  <text x="50" y="72" font-family="Arial,sans-serif" font-size="9" font-weight="600" fill="#1A1A2E">게스트 모드</text>
+  <text x="50" y="84" font-family="Arial,sans-serif" font-size="8" fill="#94A3B8">읽기 전용</text>
 
-  <line x1="210" y1="234" x2="536" y2="234" stroke="#F1F5F9" stroke-width="1"/>
+  <!-- 구분선 -->
+  <line x1="0" y1="98" x2="188" y2="98" stroke="#F1F5F9" stroke-width="1"/>
 
-  <!-- 지원 목록 행 2 -->
-  <text x="214" y="254" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A2E">토스</text>
-  <text x="214" y="268" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8">프로덕트 디자이너</text>
-  <rect x="447" y="244" width="63" height="20" rx="10" fill="#FFFBEB"/>
-  <text x="457" y="258" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#F59E0B">서류 진행</text>
+  <!-- 네비게이션: 대시보드 (활성) -->
+  <rect x="8" y="106" width="172" height="28" rx="7" fill="#1E9BD7"/>
+  <rect x="18" y="115" width="10" height="10" rx="2" fill="rgba(255,255,255,0.8)"/>
+  <text x="34" y="124" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#FFFFFF">대시보드</text>
 
-  <line x1="210" y1="276" x2="536" y2="276" stroke="#F1F5F9" stroke-width="1"/>
+  <!-- 지원 현황 -->
+  <rect x="18" y="143" width="10" height="10" rx="2" fill="#CBD5E1"/>
+  <text x="34" y="152" font-family="Arial,sans-serif" font-size="10" fill="#64748B">지원 현황</text>
 
-  <!-- 지원 목록 행 3 -->
-  <text x="214" y="296" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A2E">네이버</text>
-  <text x="214" y="310" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8">웹 퍼블리셔</text>
-  <rect x="447" y="286" width="63" height="20" rx="10" fill="#E0F4FF"/>
-  <text x="457" y="300" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#1E9BD7">지원 완료</text>
+  <!-- 전형 보드 -->
+  <rect x="18" y="163" width="10" height="10" rx="2" fill="#CBD5E1"/>
+  <text x="34" y="172" font-family="Arial,sans-serif" font-size="10" fill="#64748B">전형 보드</text>
 
-  <line x1="210" y1="318" x2="536" y2="318" stroke="#F1F5F9" stroke-width="1"/>
+  <!-- 체크리스트 -->
+  <rect x="18" y="183" width="10" height="10" rx="2" fill="#CBD5E1"/>
+  <text x="34" y="192" font-family="Arial,sans-serif" font-size="10" fill="#64748B">체크리스트</text>
 
-  <!-- 지원 목록 행 4 -->
-  <text x="214" y="338" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="#1A1A2E">당근마켓</text>
-  <text x="214" y="352" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8">프론트엔드 개발자</text>
-  <rect x="460" y="328" width="50" height="20" rx="10" fill="#F1F5F9"/>
-  <text x="474" y="342" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">관심</text>
+  <!-- 면접 메모 -->
+  <rect x="18" y="203" width="10" height="10" rx="2" fill="#CBD5E1"/>
+  <text x="34" y="212" font-family="Arial,sans-serif" font-size="10" fill="#64748B">면접 메모</text>
 
-  <!-- 상태별 현황 카드 -->
-  <rect x="558" y="160" width="202" height="200" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
-  <text x="574" y="184" font-family="Arial, sans-serif" font-size="12" font-weight="700" fill="#1A1A2E">상태별 현황</text>
+  <!-- AI 프롬프트 -->
+  <rect x="18" y="223" width="10" height="10" rx="2" fill="#CBD5E1"/>
+  <text x="34" y="232" font-family="Arial,sans-serif" font-size="10" fill="#64748B">AI 프롬프트</text>
 
-  <!-- 프로그레스 바들 -->
-  <text x="574" y="210" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#1A1A2E">면접 예정</text>
-  <rect x="574" y="215" width="170" height="6" rx="3" fill="#F1F5F9"/>
-  <rect x="574" y="215" width="40" height="6" rx="3" fill="#8B5CF6"/>
-  <text x="720" y="222" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">2건</text>
+  <!-- 설정 -->
+  <rect x="18" y="243" width="10" height="10" rx="2" fill="#CBD5E1"/>
+  <text x="34" y="252" font-family="Arial,sans-serif" font-size="10" fill="#64748B">설정</text>
 
-  <text x="574" y="238" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#1A1A2E">서류 진행</text>
-  <rect x="574" y="243" width="170" height="6" rx="3" fill="#F1F5F9"/>
-  <rect x="574" y="243" width="55" height="6" rx="3" fill="#F59E0B"/>
-  <text x="720" y="250" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">3건</text>
+  <!-- ── 헤더 ── -->
+  <rect x="188" y="0" width="612" height="48" fill="#FFFFFF" stroke="#E8EDF2" stroke-width="1"/>
+  <text x="206" y="29" font-family="Arial,sans-serif" font-size="14" font-weight="700" fill="#1A1A2E">대시보드</text>
+  <!-- 게스트 모드 Chip -->
+  <rect x="700" y="14" width="70" height="20" rx="10" fill="none" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="735" y="28" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#F59E0B" text-anchor="middle">게스트 모드</text>
 
-  <text x="574" y="266" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#1A1A2E">지원 완료</text>
-  <rect x="574" y="271" width="170" height="6" rx="3" fill="#F1F5F9"/>
-  <rect x="574" y="271" width="75" height="6" rx="3" fill="#1E9BD7"/>
-  <text x="720" y="278" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">4건</text>
+  <!-- ── 게스트 배너 ── -->
+  <rect x="196" y="56" width="592" height="24" rx="6" fill="#FFF8E1" stroke="#F59E0B" stroke-width="1"/>
+  <text x="210" y="72" font-family="Arial,sans-serif" font-size="8.5" fill="#92400E">게스트 모드 — 샘플 데이터로 체험 중입니다. 데이터를 저장하려면 회원가입 후 로그인하세요.</text>
 
-  <text x="574" y="294" font-family="Arial, sans-serif" font-size="9" font-weight="600" fill="#1A1A2E">관심</text>
-  <rect x="574" y="299" width="170" height="6" rx="3" fill="#F1F5F9"/>
-  <rect x="574" y="299" width="30" height="6" rx="3" fill="#94A3B8"/>
-  <text x="720" y="306" font-family="Arial, sans-serif" font-size="8" fill="#94A3B8">1건</text>
+  <!-- ── 요약 카드 4개 ── -->
+  <!-- 카드1: 총 지원 -->
+  <rect x="196" y="90" width="138" height="68" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="210" y="108" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8" letter-spacing="0.5">총 지원</text>
+  <text x="210" y="136" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#1E9BD7">5</text>
+  <text x="210" y="151" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">개 회사</text>
+  <rect x="302" y="100" width="24" height="24" rx="5" fill="#E0F4FF"/>
+  <rect x="309" y="107" width="10" height="10" rx="2" fill="#1E9BD7"/>
+
+  <!-- 카드2: 진행 중 -->
+  <rect x="344" y="90" width="138" height="68" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="358" y="108" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8" letter-spacing="0.5">진행 중</text>
+  <text x="358" y="136" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#3B82F6">3</text>
+  <text x="358" y="151" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">전형 진행</text>
+  <rect x="450" y="100" width="24" height="24" rx="5" fill="#EFF6FF"/>
+  <rect x="457" y="107" width="10" height="10" rx="2" fill="#3B82F6"/>
+
+  <!-- 카드3: 면접 예정 -->
+  <rect x="492" y="90" width="138" height="68" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="506" y="108" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8" letter-spacing="0.5">면접 예정</text>
+  <text x="506" y="136" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#8B5CF6">1</text>
+  <text x="506" y="151" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">건</text>
+  <rect x="598" y="100" width="24" height="24" rx="5" fill="#F5F3FF"/>
+  <rect x="605" y="107" width="10" height="10" rx="2" fill="#8B5CF6"/>
+
+  <!-- 카드4: 체크리스트 -->
+  <rect x="640" y="90" width="148" height="68" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="654" y="108" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#94A3B8" letter-spacing="0.5">체크리스트</text>
+  <text x="654" y="136" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#22C55E">56%</text>
+  <text x="654" y="151" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">5/9 완료</text>
+  <rect x="764" y="100" width="16" height="16" rx="3" fill="#F0FDF4"/>
+  <rect x="767" y="103" width="10" height="10" rx="2" fill="#22C55E"/>
+
+  <!-- ── 최근 지원 현황 카드 ── -->
+  <rect x="196" y="170" width="370" height="200" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="212" y="191" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">최근 지원 현황</text>
+  <text x="508" y="191" font-family="Arial,sans-serif" font-size="9" fill="#1E9BD7">전체 보기</text>
+  <line x1="208" y1="198" x2="558" y2="198" stroke="#F1F5F9" stroke-width="1"/>
+
+  <!-- 행 1: 테크기업 A -->
+  <text x="212" y="216" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A1A2E">테크기업 A</text>
+  <text x="212" y="228" font-family="Arial,sans-serif" font-size="8.5" fill="#94A3B8">UX/UI 디자이너</text>
+  <rect x="466" y="206" width="62" height="18" rx="9" fill="#F5F3FF"/>
+  <text x="497" y="219" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#8B5CF6" text-anchor="middle">면접 예정</text>
+  <line x1="208" y1="236" x2="558" y2="236" stroke="#F1F5F9" stroke-width="1"/>
+
+  <!-- 행 2: UX 스타트업 B -->
+  <text x="212" y="253" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A1A2E">UX 스타트업 B</text>
+  <text x="212" y="265" font-family="Arial,sans-serif" font-size="8.5" fill="#94A3B8">프로덕트 디자이너</text>
+  <rect x="466" y="243" width="62" height="18" rx="9" fill="#FFFBEB"/>
+  <text x="497" y="256" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#F59E0B" text-anchor="middle">서류 진행</text>
+  <line x1="208" y1="273" x2="558" y2="273" stroke="#F1F5F9" stroke-width="1"/>
+
+  <!-- 행 3: 플랫폼 기업 C -->
+  <text x="212" y="290" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A1A2E">플랫폼 기업 C</text>
+  <text x="212" y="302" font-family="Arial,sans-serif" font-size="8.5" fill="#94A3B8">웹 퍼블리셔</text>
+  <rect x="466" y="280" width="62" height="18" rx="9" fill="#E0F4FF"/>
+  <text x="497" y="293" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#1E9BD7" text-anchor="middle">지원 완료</text>
+  <line x1="208" y1="310" x2="558" y2="310" stroke="#F1F5F9" stroke-width="1"/>
+
+  <!-- 행 4: 커머스 기업 D -->
+  <text x="212" y="327" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A1A2E">커머스 기업 D</text>
+  <text x="212" y="339" font-family="Arial,sans-serif" font-size="8.5" fill="#94A3B8">프론트엔드 개발자</text>
+  <rect x="480" y="317" width="48" height="18" rx="9" fill="#F1F5F9"/>
+  <text x="504" y="330" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#94A3B8" text-anchor="middle">관심</text>
+  <line x1="208" y1="347" x2="558" y2="347" stroke="#F1F5F9" stroke-width="1"/>
+
+  <!-- 행 5: 에듀테크 기업 E -->
+  <text x="212" y="363" font-family="Arial,sans-serif" font-size="10" font-weight="700" fill="#1A1A2E">에듀테크 기업 E</text>
+  <text x="212" y="375" font-family="Arial,sans-serif" font-size="8.5" fill="#94A3B8">UI 디자이너</text>
+  <rect x="466" y="354" width="62" height="18" rx="9" fill="#FEF2F2"/>
+  <text x="497" y="367" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#EF4444" text-anchor="middle">불합격</text>
+
+  <!-- ── 우측 카드 영역 ── -->
+  <!-- 상태별 현황 -->
+  <rect x="578" y="170" width="210" height="170" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="594" y="191" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">상태별 현황</text>
+
+  <text x="594" y="212" font-family="Arial,sans-serif" font-size="8.5" font-weight="600" fill="#1A1A2E">면접 예정</text>
+  <text x="756" y="212" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">1건 (20%)</text>
+  <rect x="594" y="216" width="168" height="5" rx="2.5" fill="#EDE9FE"/>
+  <rect x="594" y="216" width="34" height="5" rx="2.5" fill="#8B5CF6"/>
+
+  <text x="594" y="234" font-family="Arial,sans-serif" font-size="8.5" font-weight="600" fill="#1A1A2E">서류 진행</text>
+  <text x="756" y="234" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">1건 (20%)</text>
+  <rect x="594" y="238" width="168" height="5" rx="2.5" fill="#FEF3C7"/>
+  <rect x="594" y="238" width="34" height="5" rx="2.5" fill="#F59E0B"/>
+
+  <text x="594" y="256" font-family="Arial,sans-serif" font-size="8.5" font-weight="600" fill="#1A1A2E">지원 완료</text>
+  <text x="756" y="256" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">1건 (20%)</text>
+  <rect x="594" y="260" width="168" height="5" rx="2.5" fill="#E0F4FF"/>
+  <rect x="594" y="260" width="34" height="5" rx="2.5" fill="#1E9BD7"/>
+
+  <text x="594" y="278" font-family="Arial,sans-serif" font-size="8.5" font-weight="600" fill="#1A1A2E">관심</text>
+  <text x="756" y="278" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">1건 (20%)</text>
+  <rect x="594" y="282" width="168" height="5" rx="2.5" fill="#F1F5F9"/>
+  <rect x="594" y="282" width="34" height="5" rx="2.5" fill="#94A3B8"/>
+
+  <text x="594" y="300" font-family="Arial,sans-serif" font-size="8.5" font-weight="600" fill="#1A1A2E">불합격</text>
+  <text x="756" y="300" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">1건 (20%)</text>
+  <rect x="594" y="304" width="168" height="5" rx="2.5" fill="#FEE2E2"/>
+  <rect x="594" y="304" width="34" height="5" rx="2.5" fill="#EF4444"/>
 
   <!-- 체크리스트 진행률 -->
-  <text x="574" y="330" font-family="Arial, sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">체크리스트</text>
-  <rect x="574" y="338" width="170" height="10" rx="5" fill="#F1F5F9"/>
-  <rect x="574" y="338" width="114" height="10" rx="5" fill="#22C55E"/>
-  <text x="574" y="362" font-family="Arial, sans-serif" font-size="9" fill="#94A3B8">6/9 항목 완료 (67%)</text>
+  <rect x="578" y="350" width="210" height="80" rx="8" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="594" y="370" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">체크리스트 진행률</text>
+  <text x="760" y="370" font-family="Arial,sans-serif" font-size="9" fill="#1E9BD7" text-anchor="end">보기</text>
+  <rect x="594" y="378" width="178" height="10" rx="5" fill="#F1F5F9"/>
+  <rect x="594" y="378" width="100" height="10" rx="5" fill="#22C55E"/>
+  <text x="594" y="402" font-family="Arial,sans-serif" font-size="8" fill="#94A3B8">5/9 항목 완료 (56%)</text>
 
-  <!-- 하단 브랜딩 -->
-  <rect x="0" y="430" width="800" height="20" fill="#1E9BD7" opacity="0.08"/>
-  <text x="400" y="443" font-family="Arial, sans-serif" font-size="9" fill="#1E9BD7" text-anchor="middle" font-weight="600">JobFlow Dashboard · React + Vite + MUI + Supabase</text>
+  <!-- 하단 브랜딩 바 -->
+  <rect x="0" y="432" width="800" height="18" fill="#1E9BD7" opacity="0.07"/>
+  <text x="400" y="444" font-family="Arial,sans-serif" font-size="8.5" fill="#1578AA" text-anchor="middle" font-weight="600">JobFlow Dashboard · React + Vite + MUI + Supabase · 취업 준비 관리 대시보드</text>
 </svg>
