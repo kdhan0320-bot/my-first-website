@@ -18,15 +18,15 @@ const LogoSymbol = ({ size = 32 }) => (
     <path
       d="M22 18H32C41 18 47 24 47 32C47 40 41 46 32 46H22V18Z"
       stroke="white"
-      strokeWidth="5"
+      strokeWidth="4.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
-    <path d="M19 42C29 40 39 33 45 23" stroke="#DFFDF8" strokeWidth="4" strokeLinecap="round" />
+    <path d="M19 42C29 40 39 33 45 23" stroke="#DFFDF8" strokeWidth="3.5" strokeLinecap="round" />
     <path
-      d="M45 23L44 31L37 28"
+      d="M45 23L44.5 30L38 27.5"
       stroke="#DFFDF8"
-      strokeWidth="4"
+      strokeWidth="3.5"
       strokeLinecap="round"
       strokeLinejoin="round"
     />

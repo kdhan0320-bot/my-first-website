@@ -7,7 +7,14 @@ import SendIcon from '@mui/icons-material/Send';
 import { supabase } from '../../lib/supabase';
 import { saveToken } from '../../lib/guestbookTokens';
 
-const EMOJI_OPTIONS = ['👍', '✨', '💡', '🙌', '🚀', '😊'];
+const EMOJI_OPTIONS = [
+  { value: '👍', label: '좋아요' },
+  { value: '✨', label: '반짝임' },
+  { value: '💡', label: '아이디어' },
+  { value: '🙌', label: '응원' },
+  { value: '🚀', label: '성장' },
+  { value: '😊', label: '미소' },
+];
 
 const DEFAULT_FORM = {
   author_name: '',
@@ -117,12 +124,18 @@ const GuestbookForm = ({ onSuccess }) => {
         <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.75, display: 'block' }}>
           이모지 선택 (선택)
         </Typography>
-        <ToggleButtonGroup value={form.emoji} exclusive onChange={handleEmojiChange} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
-          {EMOJI_OPTIONS.map((emoji) => (
+        <ToggleButtonGroup
+          value={form.emoji}
+          exclusive
+          onChange={handleEmojiChange}
+          aria-label="이모지 선택"
+          sx={{ flexWrap: 'wrap', gap: 0.5 }}
+        >
+          {EMOJI_OPTIONS.map(({ value, label }) => (
             <ToggleButton
-              key={emoji}
-              value={emoji}
-              aria-label={`${emoji} 이모지 선택`}
+              key={value}
+              value={value}
+              aria-label={`${label} 이모지 선택`}
               sx={(theme) => ({
                 border: `1px solid ${theme.palette.divider} !important`,
                 borderRadius: '8px !important',
@@ -130,11 +143,13 @@ const GuestbookForm = ({ onSuccess }) => {
                 height: 44,
                 fontSize: '1.2rem',
                 lineHeight: 1,
-                bgcolor: form.emoji === emoji ? `${theme.palette.highlight.background} !important` : 'transparent',
+                bgcolor: form.emoji === value ? `${theme.palette.highlight.background} !important` : 'transparent',
+                outline: form.emoji === value ? `2px solid ${theme.palette.primary.main}` : 'none',
+                outlineOffset: '-2px',
                 '&:hover': { bgcolor: theme.palette.highlight.background },
               })}
             >
-              {emoji}
+              {value}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
