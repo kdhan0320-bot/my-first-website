@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { supabase } from '../../lib/supabase';
 import { saveToken } from '../../lib/guestbookTokens';
 
-const EMOJI_OPTIONS = ['😊', '👍', '🎉', '💡', '🌟'];
+const EMOJI_OPTIONS = ['👍', '✨', '💡', '🙌', '🚀', '😊'];
 
 const DEFAULT_FORM = {
   author_name: '',

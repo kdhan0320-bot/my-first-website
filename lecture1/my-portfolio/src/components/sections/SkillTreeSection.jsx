@@ -141,6 +141,16 @@ const SkillTreeSection = () => {
           ))}
         </Grid>
 
+        {/* 보조 활용 도구 */}
+        <RevealOnScroll delay={0.3}>
+          <Typography
+            variant="body2"
+            sx={{ color: 'text.secondary', textAlign: 'center', mt: 4, fontSize: '0.82rem' }}
+          >
+            보조 활용 도구: <Box component="span" sx={{ fontWeight: 600 }}>AI Tools</Box>(Claude, ChatGPT) — 아이디어 정리와 코드 보조에 활용합니다.
+          </Typography>
+        </RevealOnScroll>
+
         {/* 전체 스킬 보기 CTA */}
         <RevealOnScroll delay={0.35}>
           <Box sx={{ textAlign: 'center', mt: 5 }}>

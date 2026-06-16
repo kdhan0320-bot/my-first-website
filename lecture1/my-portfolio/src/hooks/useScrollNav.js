@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'contact', 'guestbook'];
+const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'contact'];
 const HIDE_THRESHOLD = 80; // 이 위치 이하에서만 헤더 숨김 트리거
 
 // ── 1. 스크롤 방향 감지 ──────────────────────────────────────────────

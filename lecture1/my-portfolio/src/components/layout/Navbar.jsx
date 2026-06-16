@@ -25,7 +25,6 @@ const NAV_ITEMS = [
   { label: '소개',   sectionId: 'about'    },
   { label: '기술',   sectionId: 'skills'   },
   { label: '프로젝트', sectionId: 'projects' },
-  { label: '방명록', sectionId: 'guestbook' },
   { label: '연락',   sectionId: 'contact'  },
 ];
 

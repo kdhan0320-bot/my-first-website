@@ -2,13 +2,14 @@ import { Box, Container, Typography, Avatar, Button, Grid, Chip } from '@mui/mat
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useNavigate } from 'react-router-dom';
 import { usePortfolio } from '../../context/PortfolioContext';
-import { ICON_MAP } from '../../constants/iconMap';
 import RevealOnScroll from '../common/RevealOnScroll';
+
+const STRENGTHS = ['사용자 흐름 정리', '보기 쉬운 화면 구성', '실제 작동하는 웹서비스 구현 경험'];
 
 const AboutSection = () => {
   const navigate = useNavigate();
   const { homeData } = usePortfolio();
-  const { basicInfo, sections, skills } = homeData;
+  const { basicInfo, sections } = homeData;
 
   return (
     <Box id="about" sx={{ bgcolor: 'background.paper', py: { xs: 8, md: 12 } }}>
@@ -121,50 +122,24 @@ const AboutSection = () => {
                   </Box>
                 ))}
 
-                {/* 주요 스킬 배지 (상위 4개) */}
+                {/* 강점 */}
                 <Box>
                   <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 2, textTransform: 'uppercase', display: 'block', mb: 1.5 }}>
-                    주요 기술
+                    강점
                   </Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5 }}>
-                    {skills.map((skill) => {
-                      const icon = ICON_MAP[skill.icon] ?? { text: skill.name.slice(0, 2), color: '#1578AA', bg: '#EAF6FC' };
-                      return (
-                        <Box
-                          key={skill.id}
-                          sx={(theme) => ({
-                            display: 'flex', alignItems: 'center', gap: 1,
-                            bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF',
-                            border: `1px solid ${theme.palette.divider}`,
-                            borderRadius: 2, px: 1.5, py: 0.75,
-                            transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-                            '&:hover': {
-                              borderColor: theme.palette.mode === 'dark'
-                                ? 'rgba(56,189,248,0.3)'
-                                : 'rgba(30,155,215,0.3)',
-                              boxShadow: theme.palette.mode === 'dark'
-                                ? '0 2px 8px rgba(0,0,0,0.2)'
-                                : '0 2px 8px rgba(26,26,46,0.06)',
-                            },
-                          })}
-                        >
-                          <Box
-                            aria-hidden="true"
-                            sx={{
-                              width: 24, height: 24, borderRadius: 1,
-                              bgcolor: icon.bg, color: icon.color,
-                              display: 'flex', alignItems: 'center', justifyContent: 'center',
-                              fontSize: '0.6rem', fontWeight: 700,
-                            }}
-                          >
-                            {icon.text}
-                          </Box>
-                          <Typography variant="caption" sx={{ color: 'text.primary', fontWeight: 600 }}>
-                            {skill.name}
-                          </Typography>
-                        </Box>
-                      );
-                    })}
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {STRENGTHS.map((strength) => (
+                      <Chip
+                        key={strength}
+                        label={strength}
+                        sx={(theme) => ({
+                          bgcolor: theme.palette.highlight.background,
+                          color: 'primary.main',
+                          fontWeight: 600,
+                          border: `1px solid ${theme.palette.divider}`,
+                        })}
+                      />
+                    ))}
                   </Box>
                 </Box>
 
