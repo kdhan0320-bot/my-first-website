@@ -56,6 +56,18 @@ jobs:
           VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
         run: npm run build
 
+      - name: Install dependencies (jobflow-dashboard)
+        working-directory: lecture1/jobflow-dashboard
+        run: npm install
+
+      - name: Build jobflow-dashboard
+        working-directory: lecture1/jobflow-dashboard
+        env:
+          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
+          NODE_ENV: production
+        run: npm run build
+
       - name: Prepare site directory
         run: |
           mkdir -p _site
@@ -66,6 +78,8 @@ jobs:
           cp _site/my-portfolio/index.html _site/my-portfolio/404.html
           cp -r lecture1/my-community/dist/. _site/my-community
           cp _site/my-community/index.html _site/my-community/404.html
+          cp -r lecture1/jobflow-dashboard/dist/. _site/jobflow-dashboard
+          cp _site/jobflow-dashboard/index.html _site/jobflow-dashboard/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
