@@ -10,7 +10,7 @@ const Layout = () => {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Sidebar mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', width: { md: `calc(100% - ${DRAWER_WIDTH}px)` } }}>
+      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', ml: { md: `${DRAWER_WIDTH}px` }, width: { md: `calc(100% - ${DRAWER_WIDTH}px)` }, minWidth: 0 }}>
         <Header onMenuClick={() => setMobileOpen(true)} />
         <Box component="main" sx={{ flex: 1, p: { xs: 2, sm: 3 }, mt: { xs: '56px', sm: '64px' } }}>
           <Outlet />

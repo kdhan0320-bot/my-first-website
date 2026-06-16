@@ -82,7 +82,7 @@ const ApplicationFormPage = () => {
         <CardContent>
           <Box component="form" onSubmit={handleSubmit} noValidate>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   label="회사명 *"
                   fullWidth
@@ -92,7 +92,7 @@ const ApplicationFormPage = () => {
                   helperText={errors.company_name}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   label="직무"
                   fullWidth
@@ -101,7 +101,7 @@ const ApplicationFormPage = () => {
                   placeholder="예: UX/UI 디자이너"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   label="지역"
                   fullWidth
@@ -110,7 +110,7 @@ const ApplicationFormPage = () => {
                   placeholder="예: 서울 강남구"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <FormControl fullWidth>
                   <InputLabel>회사 규모</InputLabel>
                   <Select value={form.company_size} label="회사 규모" onChange={handleChange('company_size')}>
@@ -119,7 +119,7 @@ const ApplicationFormPage = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <FormControl fullWidth>
                   <InputLabel>지원 상태 *</InputLabel>
                   <Select value={form.status} label="지원 상태 *" onChange={handleChange('status')}>
@@ -127,7 +127,7 @@ const ApplicationFormPage = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <FormControl fullWidth>
                   <InputLabel>우선순위</InputLabel>
                   <Select value={form.priority} label="우선순위" onChange={handleChange('priority')}>
@@ -135,7 +135,7 @@ const ApplicationFormPage = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   label="지원일"
                   type="date"
@@ -145,7 +145,7 @@ const ApplicationFormPage = () => {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <TextField
                   label="마감일"
                   type="date"
@@ -155,7 +155,7 @@ const ApplicationFormPage = () => {
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label="공고 링크"
                   fullWidth
@@ -165,7 +165,7 @@ const ApplicationFormPage = () => {
                   type="url"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label="메모"
                   fullWidth
@@ -176,7 +176,7 @@ const ApplicationFormPage = () => {
                   placeholder="면접 일정, 특이사항 등을 기록하세요"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Stack direction="row" spacing={2}>
                   <FormControlLabel
                     control={<Switch checked={form.resume_submitted} onChange={handleChange('resume_submitted')} />}
