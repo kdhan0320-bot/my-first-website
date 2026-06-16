@@ -149,10 +149,10 @@ const HeroSection = () => {
       })}
     >
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <Grid container spacing={{ xs: 4, md: 8 }} alignItems="center">
+        <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: 'center' }}>
 
           {/* ── 왼쪽: 텍스트 영역 ── */}
-          <Grid item xs={12} md={7}>
+          <Grid size={{ xs: 12, md: 7 }}>
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left' },
@@ -339,7 +339,7 @@ const HeroSection = () => {
           </Grid>
 
           {/* ── 오른쪽: 시각 요소 ── */}
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <Box
               aria-hidden="true"
               sx={{

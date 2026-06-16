@@ -133,7 +133,7 @@ const SkillTreeSection = () => {
         {/* 스킬 카드 4개 — stagger */}
         <Grid container spacing={3}>
           {skills.map((skill, i) => (
-            <Grid item xs={12} sm={6} md={3} key={skill.id} sx={{ display: 'flex' }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={skill.id} sx={{ display: 'flex' }}>
               <RevealOnScroll delay={i * 0.1} y={16} sx={{ flex: 1 }}>
                 <HomeSkillCard skill={skill} />
               </RevealOnScroll>

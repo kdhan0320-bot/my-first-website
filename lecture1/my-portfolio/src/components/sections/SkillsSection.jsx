@@ -192,7 +192,7 @@ const SkillsSection = () => {
 
       <Grid container spacing={3}>
         {aboutMeData.skills.map((skill, i) => (
-          <Grid item xs={12} sm={6} md={4} key={skill.id} sx={{ display: 'flex' }}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={skill.id} sx={{ display: 'flex' }}>
             <RevealOnScroll
               delay={Math.min(i * 0.08, 0.4)}
               y={16}

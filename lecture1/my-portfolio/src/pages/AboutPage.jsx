@@ -82,11 +82,11 @@ const AboutPage = () => {
             mb: 4,
           })}
         >
-          <Grid container spacing={{ xs: 3, md: 5 }} alignItems="flex-start">
+          <Grid container spacing={{ xs: 3, md: 5 }} sx={{ alignItems: 'flex-start' }}>
 
             {/* 프로필 이미지 */}
             <Grid
-              item xs={12} sm={4}
+              size={{ xs: 12, sm: 4 }}
               sx={{ display: 'flex', justifyContent: { xs: 'center', sm: 'flex-start' } }}
             >
               <Avatar
@@ -107,7 +107,7 @@ const AboutPage = () => {
             </Grid>
 
             {/* 기본 정보 텍스트 */}
-            <Grid item xs={12} sm={8}>
+            <Grid size={{ xs: 12, sm: 8 }}>
               <Box sx={{ textAlign: { xs: 'center', sm: 'left' }, mb: 3 }}>
                 <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800, mb: 1 }}>
                   {basicInfo.name}

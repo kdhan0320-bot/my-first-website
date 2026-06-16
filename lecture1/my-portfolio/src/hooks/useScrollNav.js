@@ -81,44 +81,42 @@ export const useScrollProgress = () => {
   return progress;
 };
 
-// ── 3. 현재 보이는 섹션 감지 (IntersectionObserver) ─────────────────
+// ── 3. 현재 보이는 섹션 감지 (스크롤 위치 기반) ───────────────────────
+// 화면 상단 기준선(OFFSET)을 통과한 섹션 중 가장 마지막(아래) 섹션을 active로 판단.
+// 섹션 높이가 뷰포트보다 큰 경우(예: Hero)에도 정확하게 동작한다.
+const ACTIVE_OFFSET = 96;
+
 export const useActiveSection = (pathname) => {
   const [activeSection, setActiveSection] = useState('');
-  const visibilityMap = useRef({});
+  const ticking = useRef(false);
 
   useEffect(() => {
-    setActiveSection('');
-    visibilityMap.current = {};
-
-    const observers = [];
-
-    const getTopVisible = () => {
+    const update = () => {
+      let current = '';
       for (const id of SECTION_IDS) {
-        if (visibilityMap.current[id]) return id;
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= ACTIVE_OFFSET) {
+          current = id;
+        }
       }
-      return '';
+      setActiveSection(current);
+      ticking.current = false;
     };
 
-    SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
+    const onScroll = () => {
+      if (!ticking.current) {
+        window.requestAnimationFrame(update);
+        ticking.current = true;
+      }
+    };
 
-      visibilityMap.current[id] = false;
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          visibilityMap.current[id] = entry.isIntersecting;
-          setActiveSection(getTopVisible());
-        },
-        { rootMargin: '-64px 0px -50% 0px', threshold: 0 }
-      );
-
-      observer.observe(el);
-      observers.push(observer);
-    });
-
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     return () => {
-      observers.forEach((obs) => obs.disconnect());
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
     };
   }, [pathname]);
 

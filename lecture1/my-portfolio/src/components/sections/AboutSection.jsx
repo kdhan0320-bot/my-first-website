@@ -29,10 +29,10 @@ const AboutSection = () => {
           </Box>
         </RevealOnScroll>
 
-        <Grid container spacing={{ xs: 4, md: 8 }} alignItems="flex-start">
+        <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: 'flex-start' }}>
 
           {/* 왼쪽: 프로필 카드 */}
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <RevealOnScroll delay={0.1}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' }, gap: 2 }}>
                 <Avatar
@@ -87,7 +87,7 @@ const AboutSection = () => {
           </Grid>
 
           {/* 오른쪽: 섹션 미리보기 + 스킬 배지 + CTA */}
-          <Grid item xs={12} md={8}>
+          <Grid size={{ xs: 12, md: 8 }}>
             <RevealOnScroll delay={0.18}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
 
