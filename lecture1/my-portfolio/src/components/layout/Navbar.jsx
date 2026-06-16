@@ -21,12 +21,12 @@ import LogoSymbol from '../common/LogoSymbol';
 const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 
 const NAV_ITEMS = [
-  { label: '처음',   sectionId: 'home',      path: '/'         },
-  { label: '소개',   sectionId: 'about',     path: '/about'    },
-  { label: '기술',   sectionId: 'skills',    path: null        },
-  { label: '프로젝트', sectionId: 'projects', path: '/projects' },
-  { label: '방명록', sectionId: 'guestbook', path: null        },
-  { label: '연락',   sectionId: 'contact',   path: null        },
+  { label: '처음',   sectionId: 'home'     },
+  { label: '소개',   sectionId: 'about'    },
+  { label: '기술',   sectionId: 'skills'   },
+  { label: '프로젝트', sectionId: 'projects' },
+  { label: '방명록', sectionId: 'guestbook' },
+  { label: '연락',   sectionId: 'contact'  },
 ];
 
 const Navbar = () => {
@@ -43,10 +43,7 @@ const Navbar = () => {
   const activeSection = useActiveSection(location.pathname);
 
   const getActiveLabel = () => {
-    if (!isHome) {
-      const matched = NAV_ITEMS.find((item) => item.path && location.pathname === item.path);
-      return matched?.label ?? '';
-    }
+    if (!isHome) return '';
     const matched = NAV_ITEMS.find((item) => item.sectionId === activeSection);
     return matched?.label ?? '';
   };
@@ -56,10 +53,6 @@ const Navbar = () => {
     setDrawerOpen(false);
     if (isHome) {
       scrollToSection(item.sectionId);
-    } else if (item.path && item.path === location.pathname) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (item.path) {
-      navigate(item.path);
     } else {
       navigate('/', { state: { scrollTo: item.sectionId } });
     }

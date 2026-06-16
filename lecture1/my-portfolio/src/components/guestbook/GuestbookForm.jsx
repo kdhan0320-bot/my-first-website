@@ -1,23 +1,20 @@
 import { useState } from 'react';
 import {
   Box, Typography, TextField, Button, ToggleButton, ToggleButtonGroup,
-  FormControlLabel, Checkbox, CircularProgress, Rating,
+  FormControlLabel, Checkbox, CircularProgress,
 } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { supabase } from '../../lib/supabase';
 import { saveToken } from '../../lib/guestbookTokens';
 
-const EMOJI_OPTIONS = ['😊', '😄', '🎉', '👍', '💪', '🌟', '✨', '🚀', '💡', '🎨', '🌈', '🤝', '💖', '🍀', '🏆'];
+const EMOJI_OPTIONS = ['😊', '👍', '🎉', '💡', '🌟'];
 
 const DEFAULT_FORM = {
   author_name: '',
-  affiliation: '',
   email: '',
   email_public: false,
   emoji: '😊',
   message: '',
-  keyword: '',
-  star_rating: 5,
 };
 
 const GuestbookForm = ({ onSuccess }) => {
@@ -46,12 +43,9 @@ const GuestbookForm = ({ onSuccess }) => {
       const payload = {
         author_name: form.author_name.trim() || '익명',
         message: form.message.trim(),
-        affiliation: form.affiliation.trim() || null,
         email: form.email.trim() || null,
         email_public: form.email.trim() ? form.email_public : false,
         emoji: form.emoji,
-        keyword: form.keyword.trim() || null,
-        star_rating: form.star_rating,
       };
       const { data, error: err } = await supabase
         .from('guestbook')
@@ -95,63 +89,6 @@ const GuestbookForm = ({ onSuccess }) => {
         required
       />
 
-      {/* 이모지 선택 */}
-      <Box>
-        <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.75, display: 'block' }}>
-          이모지 선택
-        </Typography>
-        <ToggleButtonGroup value={form.emoji} exclusive onChange={handleEmojiChange} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
-          {EMOJI_OPTIONS.map((emoji) => (
-            <ToggleButton
-              key={emoji}
-              value={emoji}
-              aria-label={`${emoji} 이모지 선택`}
-              sx={(theme) => ({
-                border: `1px solid ${theme.palette.divider} !important`,
-                borderRadius: '8px !important',
-                minWidth: 44,
-                height: 44,
-                fontSize: '1.2rem',
-                lineHeight: 1,
-                bgcolor: form.emoji === emoji ? `${theme.palette.highlight.background} !important` : 'transparent',
-                '&:hover': { bgcolor: theme.palette.highlight.background },
-              })}
-            >
-              {emoji}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-      </Box>
-
-      <Box>
-        <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.5, display: 'block' }}>
-          포트폴리오 인상 평가 (선택)
-        </Typography>
-        <Rating
-          value={form.star_rating}
-          onChange={(_, val) => setForm(prev => ({ ...prev, star_rating: val ?? 5 }))}
-          getLabelText={(value) => `포트폴리오 인상 평가 ${value}점`}
-          sx={{ color: 'secondary.main' }}
-        />
-      </Box>
-
-      <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
-        <TextField
-          name="affiliation"
-          label="소속/직업 (선택)"
-          value={form.affiliation}
-          onChange={handleChange}
-          fullWidth
-        />
-        <TextField
-          name="keyword"
-          label="한마디 키워드 (선택)"
-          value={form.keyword}
-          onChange={handleChange}
-          fullWidth
-        />
-      </Box>
-
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
         <TextField
           name="email"
@@ -174,6 +111,34 @@ const GuestbookForm = ({ onSuccess }) => {
           label={<Typography variant="caption" sx={{ color: 'text.secondary', whiteSpace: 'nowrap' }}>이메일을 공개합니다</Typography>}
           sx={{ flexShrink: 0, alignSelf: 'flex-start', mt: 0.5 }}
         />
+      </Box>
+
+      {/* 이모지 선택 (선택사항) */}
+      <Box>
+        <Typography variant="caption" sx={{ color: 'text.secondary', mb: 0.75, display: 'block' }}>
+          이모지 선택 (선택)
+        </Typography>
+        <ToggleButtonGroup value={form.emoji} exclusive onChange={handleEmojiChange} sx={{ flexWrap: 'wrap', gap: 0.5 }}>
+          {EMOJI_OPTIONS.map((emoji) => (
+            <ToggleButton
+              key={emoji}
+              value={emoji}
+              aria-label={`${emoji} 이모지 선택`}
+              sx={(theme) => ({
+                border: `1px solid ${theme.palette.divider} !important`,
+                borderRadius: '8px !important',
+                minWidth: 44,
+                height: 44,
+                fontSize: '1.2rem',
+                lineHeight: 1,
+                bgcolor: form.emoji === emoji ? `${theme.palette.highlight.background} !important` : 'transparent',
+                '&:hover': { bgcolor: theme.palette.highlight.background },
+              })}
+            >
+              {emoji}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
       </Box>
 
       <Button

@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import { useNavigate } from 'react-router-dom';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { supabase } from '../../lib/supabase';
 import useInViewOnce from '../../hooks/useInViewOnce';
 import useCountUp from '../../hooks/useCountUp';
 import MorphingKeyword from '../common/MorphingKeyword';
+import { scrollToSection } from '../../hooks/useScrollNav';
 
 const WORKFLOW = [
   { label: '기획',  sub: 'UX 분석'  },
@@ -17,7 +17,7 @@ const WORKFLOW = [
   { label: '개선',  sub: 'AI Tools' },
 ];
 
-const SKILL_CHIPS = ['UX/UI', 'React', 'MUI', 'Figma', 'AI Tools'];
+const SKILL_CHIPS = ['UX/UI', 'React', 'MUI', 'Figma'];
 
 /* ── Portfolio Stats 인라인 컴포넌트 ── */
 const PortfolioStats = () => {
@@ -258,8 +258,8 @@ const HeroSection = () => {
                 <Button
                   variant="outlined"
                   size="large"
-                  onClick={() => navigate('/about')}
-                  aria-label="About Me 페이지로 이동"
+                  onClick={() => scrollToSection('about')}
+                  aria-label="소개 섹션으로 이동"
                   sx={(theme) => ({
                     color: 'primary.main',
                     borderColor: theme.palette.mode === 'dark'
@@ -279,37 +279,7 @@ const HeroSection = () => {
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   })}
                 >
-                  About Me
-                </Button>
-                <Button
-                  component="a"
-                  href="https://github.com/kdhan0320-bot"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="outlined"
-                  size="large"
-                  startIcon={<GitHubIcon />}
-                  aria-label="GitHub 프로필 새 탭에서 열기"
-                  sx={(theme) => ({
-                    color: 'primary.main',
-                    borderColor: theme.palette.mode === 'dark'
-                      ? 'rgba(56,189,248,0.4)'
-                      : 'rgba(21,120,170,0.4)',
-                    px: 3,
-                    minHeight: 44,
-                    fontWeight: 600,
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
-                    '&:hover': {
-                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : 'rgba(21,120,170,0.05)',
-                      borderColor: 'primary.main',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 12px rgba(21,120,170,0.1)',
-                    },
-                    '&:active': { transform: 'translateY(0)', boxShadow: 'none' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
-                  })}
-                >
-                  GitHub 보기
+                  소개 보기
                 </Button>
               </Stack>
 

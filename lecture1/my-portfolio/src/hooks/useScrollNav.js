@@ -84,7 +84,7 @@ export const useScrollProgress = () => {
 // ── 3. 현재 보이는 섹션 감지 (스크롤 위치 기반) ───────────────────────
 // 화면 상단 기준선(OFFSET)을 통과한 섹션 중 가장 마지막(아래) 섹션을 active로 판단.
 // 섹션 높이가 뷰포트보다 큰 경우(예: Hero)에도 정확하게 동작한다.
-const ACTIVE_OFFSET = 96;
+const ACTIVE_OFFSET = 140;
 
 export const useActiveSection = (pathname) => {
   const [activeSection, setActiveSection] = useState('');

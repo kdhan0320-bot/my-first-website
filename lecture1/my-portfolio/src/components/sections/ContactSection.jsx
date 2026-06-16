@@ -25,11 +25,6 @@ const CONTACT_CARDS = [
   },
 ];
 
-const SNS_BUTTONS = [
-  { icon: <GitHubIcon />, label: 'GitHub', href: 'https://github.com/kdhan0320-bot' },
-  { icon: <EmailIcon />,  label: 'Email',  href: 'mailto:kdhan0320@gmail.com' },
-];
-
 const GUESTBOOK_PAGE_SIZE = 3;
 
 const ContactSection = () => {
@@ -142,42 +137,9 @@ const ContactSection = () => {
                 ))}
               </Box>
 
-              {/* SNS 버튼 그리드 */}
-              <Typography variant="h6" sx={{ color: 'text.primary', mb: 1.5, fontSize: '0.9rem', letterSpacing: 0.5 }}>
-                소셜 미디어
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
+                이메일이나 GitHub로 편하게 연락 주세요.
               </Typography>
-              <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.25 }}>
-                {SNS_BUTTONS.map(({ icon, label, href }) => (
-                  <Button
-                    key={label}
-                    component="a"
-                    href={href}
-                    target={href.startsWith('mailto') ? '_self' : '_blank'}
-                    rel="noopener noreferrer"
-                    variant="outlined"
-                    startIcon={icon}
-                    sx={(theme) => ({
-                      color: 'text.secondary',
-                      borderColor: theme.palette.divider,
-                      py: 1.25,
-                      minHeight: 44,
-                      justifyContent: 'flex-start',
-                      fontSize: '0.875rem',
-                      transition: 'border-color 0.2s, color 0.2s, background-color 0.2s, transform 0.2s',
-                      '&:hover': {
-                        borderColor: theme.palette.primary.main,
-                        color: theme.palette.primary.main,
-                        bgcolor: theme.palette.highlight.background,
-                        transform: 'translateY(-1px)',
-                      },
-                      '&:active': { transform: 'translateY(0)' },
-                      '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
-                    })}
-                  >
-                    {label}
-                  </Button>
-                ))}
-              </Box>
             </Grid>
 
             {/* 오른쪽: 방명록 폼 */}

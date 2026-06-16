@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Box, Typography, Card, CardContent, IconButton,
-  TextField, Rating, Chip, Dialog, DialogTitle, DialogContent,
+  TextField, Dialog, DialogTitle, DialogContent,
   DialogContentText, DialogActions, Button,
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -21,7 +21,6 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
   const isOwner = Boolean(token);
   const [editing, setEditing] = useState(false);
   const [editMessage, setEditMessage] = useState(entry.message);
-  const [editKeyword, setEditKeyword] = useState(entry.keyword || '');
   const [saving, setSaving] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -43,12 +42,12 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
     setSaving(true);
     const { error } = await supabase
       .from('guestbook')
-      .update({ message: editMessage.trim(), keyword: editKeyword.trim() || null })
+      .update({ message: editMessage.trim() })
       .eq('id', entry.id)
       .eq('edit_token', token);
     if (!error) {
       setEditing(false);
-      onUpdated(entry.id, { message: editMessage.trim(), keyword: editKeyword.trim() || null });
+      onUpdated(entry.id, { message: editMessage.trim() });
     }
     setSaving(false);
   };
@@ -56,7 +55,6 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
   const handleCancelEdit = () => {
     setEditing(false);
     setEditMessage(entry.message);
-    setEditKeyword(entry.keyword || '');
   };
 
   return (
@@ -156,50 +154,18 @@ const GuestbookCard = ({ entry, onDeleted, onUpdated }) => {
           </Typography>
         )}
 
-        {/* 하단: 키워드 + 이메일 + 별점 + 날짜 */}
+        {/* 하단: 이메일 + 날짜 */}
         <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 1 }}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-            {editing ? (
-              <TextField
-                value={editKeyword}
-                onChange={(e) => setEditKeyword(e.target.value)}
-                label="키워드"
-                size="small"
-                sx={{ width: 110 }}
-              />
-            ) : (
-              entry.keyword && (
-                <Chip
-                  label={entry.keyword}
-                  size="small"
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.highlight.background,
-                    color: 'text.secondary',
-                    fontSize: '0.7rem',
-                    height: 20,
-                    border: `1px solid ${theme.palette.divider}`,
-                  })}
-                />
-              )
-            )}
+          <Box>
             {entry.email_public && entry.email && (
               <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.7rem' }}>
                 {entry.email}
               </Typography>
             )}
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.25 }}>
-            <Rating
-              value={entry.star_rating}
-              readOnly
-              size="small"
-              aria-label={`포트폴리오 인상 평가 ${entry.star_rating ?? 0}점`}
-              sx={{ color: 'secondary.main' }}
-            />
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.7rem' }}>
-              {formatDate(entry.created_at)}
-            </Typography>
-          </Box>
+          <Typography variant="caption" sx={{ color: 'text.disabled', fontSize: '0.7rem' }}>
+            {formatDate(entry.created_at)}
+          </Typography>
         </Box>
       </CardContent>
 
