@@ -10,6 +10,19 @@ import RevealOnScroll from '../common/RevealOnScroll';
 
 const SKELETON_COUNT = 4;
 
+// 정적 고정 프로젝트 (Supabase DB 외 추가)
+const STATIC_PROJECTS = [
+  {
+    id: 'static-ott-service',
+    title: 'OTT Service',
+    description:
+      '프리미엄 스트리밍 서비스를 콘셉트로 제작한 OTT 웹 UI입니다. 시네마틱 히어로, 트렌딩 콘텐츠, 장르 필터, 추천 콘텐츠 섹션을 구성해 실제 서비스형 랜딩페이지처럼 완성했습니다.',
+    tech_stack: ['HTML', 'CSS', 'JavaScript', 'Responsive', 'UI Design'],
+    thumbnail_url: `${import.meta.env.BASE_URL}thumbnails/ott-service.png`,
+    detail_url: 'https://kdhan0320-bot.github.io/my-first-website/ott-service/',
+  },
+];
+
 const ProjectCardSkeleton = () => (
   <Card sx={{ display: 'flex', flexDirection: 'column' }}>
     <Box sx={{ position: 'relative', paddingTop: '56.25%', overflow: 'hidden', flexShrink: 0 }}>
@@ -44,7 +57,11 @@ const ProjectsSection = () => {
         .eq('is_published', true)
         .order('sort_order')
         .limit(4);
-      if (data) setProjects(data);
+      const fetched = data ?? [];
+      // OTT Service 중복 여부 확인 후 정적 카드 병합
+      const hasOtt = fetched.some((p) => p.title.toLowerCase().includes('ott'));
+      const merged = hasOtt ? fetched : [...fetched, ...STATIC_PROJECTS].slice(0, 4);
+      setProjects(merged);
       setLoading(false);
     };
     fetchProjects();
@@ -86,7 +103,7 @@ const ProjectsSection = () => {
             ? Array.from({ length: SKELETON_COUNT }).map((_, i) => (
                 <ProjectCardSkeleton key={i} />
               ))
-            : projects.map(({ id, title, description, tech_stack, thumbnail_url }, idx) => (
+            : projects.map(({ id, title, description, tech_stack, thumbnail_url, detail_url }, idx) => (
                 <RevealOnScroll
                   key={id}
                   delay={Math.min(idx, 3) * 0.1}
@@ -94,14 +111,18 @@ const ProjectsSection = () => {
                   sx={{ display: 'flex', flexDirection: 'column' }}
                 >
                   <Card
-                    onClick={() => navigate('/projects')}
+                    onClick={() => {
+                      if (detail_url) window.open(detail_url, '_blank', 'noopener,noreferrer');
+                      else navigate('/projects');
+                    }}
                     tabIndex={0}
                     role="button"
                     aria-label={`${title} 프로젝트 자세히 보기`}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        navigate('/projects');
+                        if (detail_url) window.open(detail_url, '_blank', 'noopener,noreferrer');
+                        else navigate('/projects');
                       }
                     }}
                     sx={(theme) => ({

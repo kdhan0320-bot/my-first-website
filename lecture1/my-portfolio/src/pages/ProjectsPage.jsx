@@ -9,6 +9,21 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import { supabase } from '../lib/supabase';
 
+// 정적 고정 프로젝트
+const STATIC_PROJECTS = [
+  {
+    id: 'static-ott-service',
+    title: 'OTT Service',
+    description:
+      '프리미엄 스트리밍 서비스를 콘셉트로 제작한 OTT 웹 UI입니다. 시네마틱 히어로, 트렌딩 콘텐츠, 장르 필터, 추천 콘텐츠 섹션을 구성해 실제 서비스형 랜딩페이지처럼 완성했습니다.',
+    tech_stack: ['HTML', 'CSS', 'JavaScript', 'Responsive', 'UI Design'],
+    thumbnail_url: `${import.meta.env.BASE_URL}thumbnails/ott-service.png`,
+    detail_url: 'https://kdhan0320-bot.github.io/my-first-website/ott-service/',
+    github_url: 'https://github.com/kdhan0320-bot/my-first-website',
+    created_at: '2026-06-18',
+  },
+];
+
 const formatDate = (dateStr) => {
   if (!dateStr) return '';
   const d = new Date(dateStr);
@@ -188,7 +203,7 @@ const ProjectCard = ({ project, index }) => (
               '&:hover': { bgcolor: 'primary.dark' },
             }}
           >
-            데모 보기
+            프로젝트 보기
           </Button>
         )}
         {project.github_url && (
@@ -297,7 +312,11 @@ const ProjectsPage = () => {
         .eq('is_published', true)
         .order('sort_order');
       if (error) setError(error.message);
-      else setProjects(data ?? []);
+      else {
+        const fetched = data ?? [];
+        const hasOtt = fetched.some((p) => p.title.toLowerCase().includes('ott'));
+        setProjects(hasOtt ? fetched : [...fetched, ...STATIC_PROJECTS]);
+      }
       setLoading(false);
     };
     fetchProjects();
