@@ -96,7 +96,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 32px;
+  padding: 0 40px;
 }
 
 .section { padding: 88px 0; }
@@ -207,8 +207,11 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
   display: flex;
   align-items: center;
   gap: 40px;
+  max-width: 1280px;
+  margin-inline: auto;
   padding: 0 40px;
   height: var(--header-h);
+  width: 100%;
 }
 
 .header__logo { flex-shrink: 0; }
@@ -337,12 +340,21 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
     linear-gradient(180deg, var(--bg-main) 0%, rgba(7,11,20,0.85) 100%);
 }
 
-.hero__content {
+.hero__inner {
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding: 64px 40px;
+  gap: clamp(40px, 5vw, 80px);
+}
+
+.hero__content {
   flex: 1;
   max-width: 580px;
-  padding: 64px 0 64px 80px;
 }
 
 .hero__badge { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
@@ -396,11 +408,8 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
 
 /* Hero Visual */
 .hero__visual {
-  position: relative;
   flex: 1;
   max-width: 520px;
-  padding: 64px 80px 64px 0;
-  z-index: 2;
 }
 
 .hero__poster {
@@ -1226,8 +1235,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
   .header__inner { padding: 0 24px; gap: 24px; }
   .container { padding: 0 24px; }
 
-  .hero__content { padding: 60px 0 60px 40px; }
-  .hero__visual  { padding: 60px 40px 60px 0; }
+  .hero__inner { padding: 60px 24px; gap: 40px; }
 
   .cards-grid      { grid-template-columns: repeat(2, 1fr); }
   .recommend-grid  { grid-template-columns: repeat(2, 1fr); }
@@ -1255,13 +1263,15 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
 
   /* Hero */
   .hero {
-    flex-direction: column;
     min-height: auto;
-    padding-top: calc(var(--header-h) + 16px);
-    padding-bottom: 40px;
+    padding-top: var(--header-h);
+  }
+  .hero__inner {
+    flex-direction: column;
+    padding: 24px 16px 40px;
+    gap: 24px;
   }
   .hero__content {
-    padding: 32px 16px 20px;
     max-width: 100%;
     text-align: center;
   }
@@ -1273,7 +1283,6 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
   }
   .hero__actions .btn { width: 100%; justify-content: center; }
   .hero__visual {
-    padding: 0 20px 36px;
     max-width: 340px;
     width: 100%;
     margin: 0 auto;
