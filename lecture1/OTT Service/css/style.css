@@ -1,6 +1,46 @@
 /* ==============================================
    CSS CUSTOM PROPERTIES (COLOR SYSTEM)
    ============================================== */
+/* ─── 찜하기 heart pop animation ─── */
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.4); }
+  65%  { transform: scale(0.88); }
+  100% { transform: scale(1); }
+}
+
+/* ─── 찜하기 liked state ─── */
+.btn--glass.liked {
+  background: linear-gradient(135deg, rgba(0,209,255,0.14), rgba(139,92,246,0.14));
+  border-color: rgba(0,209,255,0.45);
+  box-shadow: 0 0 18px rgba(0,209,255,0.18);
+}
+.btn--glass.liked .btn__icon {
+  fill: var(--primary);
+  stroke: var(--primary);
+  animation: heartPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* detail 내 리스트 liked state */
+#listAddBtn.liked {
+  background: linear-gradient(135deg, rgba(139,92,246,0.18), rgba(0,209,255,0.12));
+  border-color: rgba(139,92,246,0.5);
+}
+#listAddBtn.liked .btn__icon {
+  stroke: var(--secondary);
+  animation: heartPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* card 찜하기 icon liked */
+.card__icon-btn.liked {
+  background: rgba(224,96,245,0.18);
+  border-color: rgba(224,96,245,0.45);
+}
+.card__icon-btn.liked svg {
+  fill: #e060f5;
+  stroke: #e060f5;
+  animation: heartPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
 :root {
   --bg-main:    #070B14;
   --bg-section: #101827;
@@ -531,35 +571,47 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
 
 /* Card gradient placeholders */
 .card__poster { position: absolute; inset: 0; }
+/* Night Signal — dark navy + cyan + violet */
 .card__poster--1 {
   background:
-    radial-gradient(ellipse at 30% 40%, rgba(0,209,255,0.18) 0%, transparent 55%),
-    linear-gradient(145deg, #0a1520 0%, #1c0a2c 50%, #040a14 100%);
+    radial-gradient(ellipse at 28% 35%, rgba(0,209,255,0.32) 0%, transparent 45%),
+    radial-gradient(ellipse at 72% 68%, rgba(139,92,246,0.28) 0%, transparent 45%),
+    linear-gradient(150deg, #060e1c 0%, #0d0b22 50%, #050c14 100%);
 }
+/* Blue Hour — deep blue + rose pink */
 .card__poster--2 {
   background:
-    radial-gradient(ellipse at 70% 60%, rgba(139,92,246,0.2) 0%, transparent 55%),
-    linear-gradient(145deg, #150828 0%, #28164a 50%, #080e1e 100%);
+    radial-gradient(ellipse at 65% 28%, rgba(230,100,180,0.28) 0%, transparent 45%),
+    radial-gradient(ellipse at 28% 72%, rgba(40,100,220,0.32) 0%, transparent 45%),
+    linear-gradient(150deg, #070820 0%, #130628 50%, #050618 100%);
 }
+/* Zero City — electric cyan + neon purple */
 .card__poster--3 {
   background:
-    radial-gradient(ellipse at 50% 30%, rgba(0,209,255,0.22) 0%, transparent 55%),
-    linear-gradient(145deg, #001624 0%, #002e4a 50%, #000e18 100%);
+    radial-gradient(ellipse at 50% 22%, rgba(0,220,255,0.38) 0%, transparent 42%),
+    radial-gradient(ellipse at 18% 78%, rgba(90,40,255,0.28) 0%, transparent 45%),
+    linear-gradient(150deg, #010b18 0%, #001628 50%, #030d1c 100%);
 }
+/* Quiet Room — deep charcoal + dim violet */
 .card__poster--4 {
   background:
-    radial-gradient(ellipse at 40% 70%, rgba(139,92,246,0.18) 0%, transparent 55%),
-    linear-gradient(145deg, #140f20 0%, #26224c 50%, #0b0818 100%);
+    radial-gradient(ellipse at 68% 40%, rgba(90,50,160,0.28) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 70%, rgba(50,20,90,0.22) 0%, transparent 50%),
+    linear-gradient(150deg, #0a0a12 0%, #12101e 50%, #07070f 100%);
 }
+/* Last Archive — dark amber + warm brown */
 .card__poster--5 {
   background:
-    radial-gradient(ellipse at 60% 40%, rgba(0,209,100,0.14) 0%, transparent 55%),
-    linear-gradient(145deg, #071810 0%, #183420 50%, #040c08 100%);
+    radial-gradient(ellipse at 40% 38%, rgba(245,158,11,0.26) 0%, transparent 45%),
+    radial-gradient(ellipse at 68% 70%, rgba(180,70,10,0.2) 0%, transparent 45%),
+    linear-gradient(150deg, #0e0a04 0%, #1a1006 50%, #090700 100%);
 }
+/* Runway 404 — dark navy + mint/teal */
 .card__poster--6 {
   background:
-    radial-gradient(ellipse at 35% 55%, rgba(245,158,11,0.14) 0%, transparent 55%),
-    linear-gradient(145deg, #160716 0%, #361628 50%, #080408 100%);
+    radial-gradient(ellipse at 50% 28%, rgba(0,210,160,0.28) 0%, transparent 45%),
+    radial-gradient(ellipse at 28% 70%, rgba(0,80,140,0.28) 0%, transparent 45%),
+    linear-gradient(150deg, #040c12 0%, #080e1a 50%, #020a0e 100%);
 }
 
 /* Scanline texture */
@@ -854,25 +906,33 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
   overflow: hidden;
 }
 .rec-poster { position: absolute; inset: 0; }
+/* Deep Focus — Drama: warm violet */
 .rec-poster--1 {
   background:
-    radial-gradient(ellipse at 40% 50%, rgba(139,92,246,0.22) 0%, transparent 60%),
-    linear-gradient(135deg, #160826 0%, #280c46 55%, #0c041c 100%);
+    radial-gradient(ellipse at 38% 42%, rgba(160,80,255,0.32) 0%, transparent 52%),
+    radial-gradient(ellipse at 72% 68%, rgba(220,90,255,0.2) 0%, transparent 48%),
+    linear-gradient(135deg, #0e0618 0%, #1c0c30 55%, #080410 100%);
 }
+/* After Midnight — Thriller: dark blue + silver */
 .rec-poster--2 {
   background:
-    radial-gradient(ellipse at 60% 40%, rgba(0,209,255,0.18) 0%, transparent 60%),
-    linear-gradient(135deg, #0a1424 0%, #162c48 55%, #040a14 100%);
+    radial-gradient(ellipse at 55% 32%, rgba(0,160,255,0.26) 0%, transparent 50%),
+    radial-gradient(ellipse at 25% 72%, rgba(140,190,255,0.14) 0%, transparent 48%),
+    linear-gradient(135deg, #030c1c 0%, #0b1a2e 55%, #020810 100%);
 }
+/* Signal Room — Mystery: teal + dark */
 .rec-poster--3 {
   background:
-    radial-gradient(ellipse at 35% 60%, rgba(0,209,255,0.16) 0%, transparent 60%),
-    linear-gradient(135deg, #001c16 0%, #00362a 55%, #000f0c 100%);
+    radial-gradient(ellipse at 32% 48%, rgba(0,190,190,0.28) 0%, transparent 52%),
+    radial-gradient(ellipse at 70% 30%, rgba(0,130,160,0.2) 0%, transparent 48%),
+    linear-gradient(135deg, #011614 0%, #032e2a 55%, #010e0c 100%);
 }
+/* Ocean Code — Sci-Fi: deep ocean + neon */
 .rec-poster--4 {
   background:
-    radial-gradient(ellipse at 65% 45%, rgba(139,92,246,0.2) 0%, transparent 60%),
-    linear-gradient(135deg, #140816 0%, #2a1646 55%, #080410 100%);
+    radial-gradient(ellipse at 60% 38%, rgba(0,100,210,0.32) 0%, transparent 50%),
+    radial-gradient(ellipse at 28% 72%, rgba(70,0,190,0.24) 0%, transparent 48%),
+    linear-gradient(135deg, #01071a 0%, #050e28 55%, #010518 100%);
 }
 
 .rec-card__overlay {
@@ -1256,4 +1316,139 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
   .modal__container { border-radius: var(--radius-lg); }
   .modal__footer { flex-direction: column; }
   .modal__footer .btn { width: 100%; justify-content: center; }
+
+  /* Login modal mobile */
+  .login-modal__body { padding: 20px 16px; }
+  .login-modal__title { font-size: 1.1rem; }
+}
+
+/* ==============================================
+   LOGIN MODAL
+   ============================================== */
+.login-modal__box { max-width: 440px; }
+
+.login-modal__logo {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.login-modal__body { padding: 24px 28px 28px; }
+
+.login-modal__title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.login-modal__desc {
+  font-size: 0.875rem;
+  color: var(--text-sub);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* Form */
+.login-form { display: flex; flex-direction: column; gap: 0; }
+
+.form-group { margin-bottom: 14px; }
+
+.form-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-sub);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  min-height: 48px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+}
+.form-input::placeholder { color: var(--text-sub); opacity: 0.65; }
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,209,255,0.12);
+}
+
+.login-form__submit {
+  margin-top: 4px;
+  min-height: 50px;
+  font-size: 1rem;
+}
+
+/* Divider */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: var(--text-sub);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Google button */
+.login-google-btn {
+  min-height: 50px;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+.login-google-btn .btn__icon { width: 20px; height: 20px; }
+
+/* Signup & note */
+.login-modal__signup {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-sub);
+  margin-bottom: 16px;
+}
+.login-modal__link {
+  color: var(--primary);
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.login-modal__link:hover { opacity: 0.8; }
+.login-modal__link:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: 2px; }
+
+.login-modal__note {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text-sub);
+  opacity: 0.55;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  line-height: 1.6;
 }
