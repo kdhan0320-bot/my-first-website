@@ -80,6 +80,8 @@ jobs:
           cp _site/my-community/index.html _site/my-community/404.html
           cp -r lecture1/jobflow-dashboard/dist/. _site/jobflow-dashboard
           cp _site/jobflow-dashboard/index.html _site/jobflow-dashboard/404.html
+          mkdir -p _site/ott-service
+          cp -r "lecture1/OTT Service/." _site/ott-service
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
