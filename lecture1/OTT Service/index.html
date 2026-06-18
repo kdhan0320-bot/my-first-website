@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="STREAMIX - 프리미엄 시네마틱 OTT 스트리밍 서비스. 최고의 오리지널 콘텐츠를 4K UHD로 즐기세요." />
+  <title>STREAMIX — 프리미엄 OTT 서비스</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a href="#home" class="header__logo" aria-label="STREAMIX 홈으로 이동">
+        <span class="logo-text">STREAMIX</span>
+      </a>
+
+      <nav class="header__nav" aria-label="메인 네비게이션">
+        <ul class="nav__list">
+          <li><a href="#home"      class="nav__link active">Home</a></li>
+          <li><a href="#trending"  class="nav__link">Trending</a></li>
+          <li><a href="#original"  class="nav__link">Original</a></li>
+          <li><a href="#recommend" class="nav__link">Recommend</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__cta">
+        <button class="btn btn--primary" aria-label="무료로 시작하기">무료로 시작하기</button>
+      </div>
+
+      <button class="header__hamburger" id="hamburger"
+              aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu" aria-hidden="true" role="navigation" aria-label="모바일 메뉴">
+      <ul class="mobile-nav__list">
+        <li><a href="#home"      class="mobile-nav__link">Home</a></li>
+        <li><a href="#trending"  class="mobile-nav__link">Trending</a></li>
+        <li><a href="#original"  class="mobile-nav__link">Original</a></li>
+        <li><a href="#recommend" class="mobile-nav__link">Recommend</a></li>
+        <li><button class="btn btn--primary btn--full" aria-label="무료로 시작하기">무료로 시작하기</button></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home" aria-label="메인 콘텐츠 배너">
+      <div class="hero__bg" aria-hidden="true"></div>
+
+      <div class="hero__content">
+        <div class="hero__badge">
+          <span class="badge badge--original">STREAMIX ORIGINAL</span>
+          <span class="badge badge--genre">Mystery Thriller</span>
+        </div>
+
+        <h1 class="hero__title">NIGHT<br>SIGNAL</h1>
+
+        <p class="hero__desc">
+          도시의 불빛이 꺼지는 순간,<br>숨겨진 신호가 깨어난다.
+        </p>
+
+        <div class="hero__meta" aria-label="콘텐츠 정보">
+          <span class="meta-item">2026</span>
+          <span class="meta-div" aria-hidden="true">·</span>
+          <span class="meta-item">12 Episodes</span>
+          <span class="meta-div" aria-hidden="true">·</span>
+          <span class="meta-item">4K UHD</span>
+          <span class="meta-div" aria-hidden="true">·</span>
+          <span class="meta-item">15+</span>
+          <span class="meta-div" aria-hidden="true">·</span>
+          <span class="meta-item">Original Series</span>
+        </div>
+
+        <div class="hero__actions">
+          <button class="btn btn--primary btn--lg" aria-label="지금 시청하기">
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            지금 시청하기
+          </button>
+          <button class="btn btn--glass btn--lg" aria-label="찜하기">
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            찜하기
+          </button>
+          <button class="btn btn--outline btn--lg" id="heroTrailerBtn" aria-label="예고편 보기">
+            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            예고편 보기
+          </button>
+        </div>
+
+        <div class="hero__rating" aria-label="평점 4.8점 / 5점, 12,400개 리뷰">
+          <div class="stars" aria-hidden="true">
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star filled">★</span>
+            <span class="star half">★</span>
+          </div>
+          <span class="rating-score">4.8</span>
+          <span class="rating-count">(12.4K 리뷰)</span>
+        </div>
+      </div>
+
+      <div class="hero__visual" aria-hidden="true">
+        <div class="hero__poster">
+          <div class="poster__gradient"></div>
+          <div class="poster__label">
+            <span>NIGHT SIGNAL</span>
+          </div>
+          <div class="poster__play">
+            <div class="play-pulse"></div>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TRENDING / MAIN CONTENTS SECTION ===== -->
+    <section class="section section--contents" id="trending" aria-label="인기 콘텐츠">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <p class="section__label">TRENDING NOW</p>
+            <h2 class="section__title">지금 뜨는 콘텐츠</h2>
+          </div>
+        </div>
+
+        <!-- Genre Filter -->
+        <div class="filter-bar" role="group" aria-label="장르 필터">
+          <button class="filter-btn active" data-filter="all"           aria-pressed="true">전체</button>
+          <button class="filter-btn"        data-filter="thriller"      aria-pressed="false">Thriller</button>
+          <button class="filter-btn"        data-filter="drama"         aria-pressed="false">Drama</button>
+          <button class="filter-btn"        data-filter="sci-fi"        aria-pressed="false">Sci-Fi</button>
+          <button class="filter-btn"        data-filter="psychological" aria-pressed="false">Psychological</button>
+          <button class="filter-btn"        data-filter="documentary"   aria-pressed="false">Documentary</button>
+        </div>
+
+        <!-- Content Cards Grid -->
+        <div class="cards-grid" id="contentsGrid" role="list">
+
+          <!-- Card 1: Night Signal -->
+          <article class="card" data-genre="thriller" role="listitem" tabindex="0"
+                   aria-label="Night Signal - Mystery Thriller">
+            <div class="card__image">
+              <div class="card__poster card__poster--1" aria-hidden="true"></div>
+              <span class="card__badge">ORIGINAL</span>
+              <div class="card__hover-overlay">
+                <button class="card__play-btn" aria-label="Night Signal 재생">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="card__actions">
+                  <button class="card__icon-btn" aria-label="찜하기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </button>
+                  <button class="card__icon-btn" aria-label="정보 보기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Night Signal</h3>
+              <p class="card__genre">Mystery Thriller</p>
+              <div class="card__meta">
+                <span>2026</span><span aria-hidden="true">·</span>
+                <span>12 Ep.</span><span aria-hidden="true">·</span>
+                <span class="card__rating" aria-label="평점 4.8">★ 4.8</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2: Blue Hour -->
+          <article class="card" data-genre="drama" role="listitem" tabindex="0"
+                   aria-label="Blue Hour - Romance Drama">
+            <div class="card__image">
+              <div class="card__poster card__poster--2" aria-hidden="true"></div>
+              <div class="card__hover-overlay">
+                <button class="card__play-btn" aria-label="Blue Hour 재생">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="card__actions">
+                  <button class="card__icon-btn" aria-label="찜하기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </button>
+                  <button class="card__icon-btn" aria-label="정보 보기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Blue Hour</h3>
+              <p class="card__genre">Romance Drama</p>
+              <div class="card__meta">
+                <span>2025</span><span aria-hidden="true">·</span>
+                <span>8 Ep.</span><span aria-hidden="true">·</span>
+                <span class="card__rating" aria-label="평점 4.6">★ 4.6</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3: Zero City -->
+          <article class="card" data-genre="sci-fi" role="listitem" tabindex="0"
+                   aria-label="Zero City - Sci-Fi Action">
+            <div class="card__image">
+              <div class="card__poster card__poster--3" aria-hidden="true"></div>
+              <span class="card__badge card__badge--new">NEW</span>
+              <div class="card__hover-overlay">
+                <button class="card__play-btn" aria-label="Zero City 재생">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="card__actions">
+                  <button class="card__icon-btn" aria-label="찜하기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </button>
+                  <button class="card__icon-btn" aria-label="정보 보기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Zero City</h3>
+              <p class="card__genre">Sci-Fi Action</p>
+              <div class="card__meta">
+                <span>2026</span><span aria-hidden="true">·</span>
+                <span>10 Ep.</span><span aria-hidden="true">·</span>
+                <span class="card__rating" aria-label="평점 4.9">★ 4.9</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4: Quiet Room -->
+          <article class="card" data-genre="psychological" role="listitem" tabindex="0"
+                   aria-label="Quiet Room - Psychological">
+            <div class="card__image">
+              <div class="card__poster card__poster--4" aria-hidden="true"></div>
+              <div class="card__hover-overlay">
+                <button class="card__play-btn" aria-label="Quiet Room 재생">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="card__actions">
+                  <button class="card__icon-btn" aria-label="찜하기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </button>
+                  <button class="card__icon-btn" aria-label="정보 보기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Quiet Room</h3>
+              <p class="card__genre">Psychological</p>
+              <div class="card__meta">
+                <span>2025</span><span aria-hidden="true">·</span>
+                <span>6 Ep.</span><span aria-hidden="true">·</span>
+                <span class="card__rating" aria-label="평점 4.7">★ 4.7</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5: Last Archive -->
+          <article class="card" data-genre="documentary" role="listitem" tabindex="0"
+                   aria-label="Last Archive - Documentary">
+            <div class="card__image">
+              <div class="card__poster card__poster--5" aria-hidden="true"></div>
+              <div class="card__hover-overlay">
+                <button class="card__play-btn" aria-label="Last Archive 재생">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="card__actions">
+                  <button class="card__icon-btn" aria-label="찜하기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </button>
+                  <button class="card__icon-btn" aria-label="정보 보기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Last Archive</h3>
+              <p class="card__genre">Documentary</p>
+              <div class="card__meta">
+                <span>2026</span><span aria-hidden="true">·</span>
+                <span>5 Ep.</span><span aria-hidden="true">·</span>
+                <span class="card__rating" aria-label="평점 4.5">★ 4.5</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6: Runway 404 -->
+          <article class="card" data-genre="thriller" role="listitem" tabindex="0"
+                   aria-label="Runway 404 - Tech Thriller">
+            <div class="card__image">
+              <div class="card__poster card__poster--6" aria-hidden="true"></div>
+              <span class="card__badge card__badge--hot">HOT</span>
+              <div class="card__hover-overlay">
+                <button class="card__play-btn" aria-label="Runway 404 재생">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </button>
+                <div class="card__actions">
+                  <button class="card__icon-btn" aria-label="찜하기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  </button>
+                  <button class="card__icon-btn" aria-label="정보 보기">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title">Runway 404</h3>
+              <p class="card__genre">Tech Thriller</p>
+              <div class="card__meta">
+                <span>2026</span><span aria-hidden="true">·</span>
+                <span>9 Ep.</span><span aria-hidden="true">·</span>
+                <span class="card__rating" aria-label="평점 4.8">★ 4.8</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="no-results" id="noResults" role="status" aria-live="polite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <p>해당 장르의 콘텐츠가 없습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== DETAIL / ORIGINAL SECTION ===== -->
+    <section class="section section--detail" id="original" aria-label="오리지널 콘텐츠 상세">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <p class="section__label">STREAMIX ORIGINAL</p>
+            <h2 class="section__title">이 달의 추천 작품</h2>
+          </div>
+        </div>
+
+        <div class="detail__layout">
+          <!-- Poster + Trailer Button -->
+          <div class="detail__poster">
+            <div class="detail__poster-bg" aria-hidden="true"></div>
+            <div class="detail__poster-overlay">
+              <button class="trailer-btn" id="trailerBtn" aria-label="NIGHT SIGNAL 예고편 보기">
+                <div class="trailer-btn__circle" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+                <span>예고편 보기</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Content Info -->
+          <div class="detail__info">
+            <div class="detail__badges">
+              <span class="badge badge--original">STREAMIX ORIGINAL</span>
+              <span class="badge badge--genre">Mystery Thriller</span>
+            </div>
+
+            <h3 class="detail__title">NIGHT SIGNAL</h3>
+
+            <p class="detail__desc">
+              도시의 불빛이 꺼지는 순간, 숨겨진 신호가 깨어난다.<br><br>
+              신호 분석가 '이준'은 도심에서 발생한 대규모 정전 사고를 조사하던 중,
+              기이한 전파 패턴을 발견한다. 그것은 단순한 오류가 아니었다 — 누군가 보내는 메시지였다.
+            </p>
+
+            <div class="detail__meta-grid" aria-label="콘텐츠 메타 정보">
+              <div class="meta-card">
+                <span class="meta-card__label">연도</span>
+                <span class="meta-card__value">2026</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card__label">에피소드</span>
+                <span class="meta-card__value">12 Episodes</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card__label">화질</span>
+                <span class="meta-card__value">4K UHD</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card__label">시청 등급</span>
+                <span class="meta-card__value">15+</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card__label">시리즈</span>
+                <span class="meta-card__value">Original</span>
+              </div>
+              <div class="meta-card">
+                <span class="meta-card__label">평점</span>
+                <span class="meta-card__value card__rating">★ 4.8</span>
+              </div>
+            </div>
+
+            <div class="detail__actions">
+              <button class="btn btn--primary btn--lg" aria-label="지금 시청하기">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                지금 시청하기
+              </button>
+              <button class="btn btn--glass btn--lg" aria-label="내 리스트에 추가">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                내 리스트 추가
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured Banner -->
+        <div class="featured-banner" aria-label="시즌 1 전편 공개 배너">
+          <div class="featured-banner__bg" aria-hidden="true"></div>
+          <div class="featured-banner__content">
+            <span class="featured-banner__chip">🎬 시즌 1 전편 공개</span>
+            <div class="featured-banner__text">
+              <h4 class="featured-banner__title">NIGHT SIGNAL — 지금 바로 시청 가능</h4>
+              <p class="featured-banner__desc">12개 에피소드 전편을 4K UHD로 즐기세요</p>
+            </div>
+            <button class="btn btn--primary" aria-label="시즌 1 시청하기">시즌 1 시청하기</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== RECOMMENDED SECTION ===== -->
+    <section class="section section--recommend" id="recommend" aria-label="추천 콘텐츠">
+      <div class="container">
+        <div class="section__header">
+          <div>
+            <p class="section__label">PICKED FOR YOU</p>
+            <h2 class="section__title">회원님을 위한 추천</h2>
+          </div>
+        </div>
+
+        <div class="recommend-grid" role="list">
+
+          <!-- Recommend Card 1 -->
+          <article class="rec-card" role="listitem" tabindex="0" aria-label="Deep Focus - Drama">
+            <div class="rec-card__image">
+              <div class="rec-poster rec-poster--1" aria-hidden="true"></div>
+              <div class="rec-card__overlay" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="rec-card__body">
+              <span class="rec-card__num" aria-hidden="true">01</span>
+              <div class="rec-card__info">
+                <h3 class="rec-card__title">Deep Focus</h3>
+                <p class="rec-card__genre">Drama</p>
+                <div class="rec-card__meta">
+                  <span aria-label="평점 4.6">★ 4.6</span>
+                  <span aria-hidden="true">·</span>
+                  <span>10 Ep.</span>
+                </div>
+              </div>
+              <button class="rec-card__btn" aria-label="Deep Focus 재생">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Recommend Card 2 -->
+          <article class="rec-card" role="listitem" tabindex="0" aria-label="After Midnight - Thriller">
+            <div class="rec-card__image">
+              <div class="rec-poster rec-poster--2" aria-hidden="true"></div>
+              <div class="rec-card__overlay" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="rec-card__body">
+              <span class="rec-card__num" aria-hidden="true">02</span>
+              <div class="rec-card__info">
+                <h3 class="rec-card__title">After Midnight</h3>
+                <p class="rec-card__genre">Thriller</p>
+                <div class="rec-card__meta">
+                  <span aria-label="평점 4.7">★ 4.7</span>
+                  <span aria-hidden="true">·</span>
+                  <span>8 Ep.</span>
+                </div>
+              </div>
+              <button class="rec-card__btn" aria-label="After Midnight 재생">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Recommend Card 3 -->
+          <article class="rec-card" role="listitem" tabindex="0" aria-label="Signal Room - Mystery">
+            <div class="rec-card__image">
+              <div class="rec-poster rec-poster--3" aria-hidden="true"></div>
+              <div class="rec-card__overlay" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="rec-card__body">
+              <span class="rec-card__num" aria-hidden="true">03</span>
+              <div class="rec-card__info">
+                <h3 class="rec-card__title">Signal Room</h3>
+                <p class="rec-card__genre">Mystery</p>
+                <div class="rec-card__meta">
+                  <span aria-label="평점 4.8">★ 4.8</span>
+                  <span aria-hidden="true">·</span>
+                  <span>7 Ep.</span>
+                </div>
+              </div>
+              <button class="rec-card__btn" aria-label="Signal Room 재생">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </article>
+
+          <!-- Recommend Card 4 -->
+          <article class="rec-card" role="listitem" tabindex="0" aria-label="Ocean Code - Sci-Fi">
+            <div class="rec-card__image">
+              <div class="rec-poster rec-poster--4" aria-hidden="true"></div>
+              <div class="rec-card__overlay" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+            <div class="rec-card__body">
+              <span class="rec-card__num" aria-hidden="true">04</span>
+              <div class="rec-card__info">
+                <h3 class="rec-card__title">Ocean Code</h3>
+                <p class="rec-card__genre">Sci-Fi</p>
+                <div class="rec-card__meta">
+                  <span aria-label="평점 4.5">★ 4.5</span>
+                  <span aria-hidden="true">·</span>
+                  <span>11 Ep.</span>
+                </div>
+              </div>
+              <button class="rec-card__btn" aria-label="Ocean Code 재생">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <div class="footer__logo" aria-label="STREAMIX">STREAMIX</div>
+          <p class="footer__tagline">프리미엄 시네마틱 스트리밍 서비스<br>최고의 콘텐츠를 4K UHD로 즐기세요.</p>
+          <div class="footer__social" aria-label="소셜 미디어">
+            <a href="#" class="social-btn" aria-label="Twitter(X) 팔로우">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="Instagram 팔로우">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" class="social-btn" aria-label="YouTube 구독">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 00-1.94-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.4 19.5C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__col-title">서비스</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">요금제</a></li>
+            <li><a href="#" class="footer__link">디바이스</a></li>
+            <li><a href="#" class="footer__link">다운로드</a></li>
+            <li><a href="#" class="footer__link">공지사항</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__col-title">지원</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">고객센터</a></li>
+            <li><a href="#" class="footer__link">자주 묻는 질문</a></li>
+            <li><a href="#" class="footer__link">계정 관리</a></li>
+            <li><a href="#" class="footer__link">기기 설정</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__col">
+          <h4 class="footer__col-title">법적 정보</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">이용약관</a></li>
+            <li><a href="#" class="footer__link">개인정보처리방침</a></li>
+            <li><a href="#" class="footer__link">쿠키 설정</a></li>
+            <li><a href="#" class="footer__link">저작권 안내</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__divider"></div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">
+          © 2026 STREAMIX. All rights reserved.<br>
+          <small>본 페이지의 모든 이미지 및 리소스는 AI 생성 또는 저작권 문제 없는 리소스를 사용하였습니다.</small>
+        </p>
+        <div class="footer__badges" aria-label="지원 규격">
+          <span class="footer__badge">4K UHD</span>
+          <span class="footer__badge">Dolby Vision</span>
+          <span class="footer__badge">Spatial Audio</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== TRAILER MODAL ===== -->
+  <div class="modal" id="trailerModal"
+       role="dialog" aria-modal="true"
+       aria-label="NIGHT SIGNAL 예고편" aria-hidden="true">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__container">
+      <div class="modal__header">
+        <h3 class="modal__title">NIGHT SIGNAL — 공식 예고편</h3>
+        <button class="modal__close" id="modalClose" aria-label="모달 닫기">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal__body">
+        <div class="modal__video">
+          <div class="modal__play-wrap" aria-hidden="true">
+            <span class="pulse-ring"></span>
+            <span class="pulse-ring pulse-ring--delay"></span>
+            <button class="modal__play-btn" tabindex="-1" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <p class="modal__video-title">NIGHT SIGNAL</p>
+          <p class="modal__video-sub">공식 예고편 · 2026 · Mystery Thriller</p>
+        </div>
+      </div>
+
+      <div class="modal__footer">
+        <p class="modal__hint">예고편 서버가 준비 중입니다. 런칭 후 정식 예고편을 감상하세요.</p>
+        <button class="btn btn--primary" aria-label="지금 시청하기">지금 시청하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
