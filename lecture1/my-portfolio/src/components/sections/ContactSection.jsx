@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import {
-  Box, Container, Typography, Grid, Divider, Card,
+  Box, Container, Typography, Grid, Card,
   Button, CircularProgress, Alert, Snackbar,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import DownloadIcon from '@mui/icons-material/Download';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
@@ -67,7 +68,7 @@ const ContactSection = () => {
   const hasMore = visibleCount < entries.length;
 
   return (
-    <Box sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }} id="contact">
+    <Box component="section" id="contact" aria-label="연락처" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
@@ -79,12 +80,12 @@ const ContactSection = () => {
             >
               CONTACT
             </Typography>
-            <Typography variant="h2" sx={{ mt: 1, color: 'text.primary' }}>
-              함께 이야기해요
+            <Typography variant="h2" sx={{ mt: 1, color: 'text.primary', fontWeight: 800 }}>
+              Contact
             </Typography>
-            <Divider sx={{ width: 48, mx: 'auto', mt: 2, borderColor: 'primary.main', borderWidth: 2 }} />
+            <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
             <Typography variant="body2" sx={{ mt: 2.5, color: 'text.secondary', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
-              언제든 연락 주세요. 방명록도 남겨주시면 큰 힘이 됩니다.
+              언제든 편하게 연락 주세요. 방명록도 남겨주시면 큰 힘이 됩니다.
             </Typography>
           </Box>
         </RevealOnScroll>
@@ -137,9 +138,28 @@ const ContactSection = () => {
                 ))}
               </Box>
 
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7 }}>
-                이메일이나 GitHub로 편하게 연락 주세요.
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, mb: 3 }}>
+                웹디자인과 UX/UI를 기반으로, 사용자가 이해하기 쉬운 디지털 경험을 만드는 디자이너로 성장하고 있습니다.
               </Typography>
+
+              {/* Portfolio PDF 버튼 (준비 중) */}
+              <Button
+                disabled
+                startIcon={<DownloadIcon />}
+                variant="outlined"
+                fullWidth
+                aria-label="포트폴리오 PDF 준비 중"
+                sx={{
+                  fontWeight: 600,
+                  minHeight: 44,
+                  justifyContent: 'flex-start',
+                  pl: 2,
+                  opacity: 0.55,
+                  cursor: 'default',
+                }}
+              >
+                PDF Portfolio — Coming Soon
+              </Button>
             </Grid>
 
             {/* 오른쪽: 방명록 폼 */}

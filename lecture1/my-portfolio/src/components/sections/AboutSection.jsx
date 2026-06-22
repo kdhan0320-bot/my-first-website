@@ -2,14 +2,14 @@ import { Box, Container, Typography, Avatar, Grid, Chip } from '@mui/material';
 import { usePortfolio } from '../../context/PortfolioContext';
 import RevealOnScroll from '../common/RevealOnScroll';
 
-const STRENGTHS = ['사용자 흐름 정리', '보기 쉬운 화면 구성', '실제 작동하는 웹서비스 구현 경험'];
+const STRENGTHS = ['정보 구조화', '사용자 흐름 개선', '깔끔한 UI', '반응형 웹', 'AI 도구 활용'];
 
 const AboutSection = () => {
   const { homeData } = usePortfolio();
   const { basicInfo, sections } = homeData;
 
   return (
-    <Box id="about" sx={{ bgcolor: 'background.paper', py: { xs: 8, md: 12 } }}>
+    <Box component="section" id="about" aria-label="소개" sx={{ bgcolor: 'background.paper', py: { xs: 8, md: 12 } }}>
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}

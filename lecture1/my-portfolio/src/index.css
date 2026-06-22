@@ -11,6 +11,11 @@ body {
   transition: background-color 0.25s ease;
 }
 
+/* 고정 헤더(64px) 아래로 섹션 스크롤 시 오프셋 확보 */
+#home, #about, #projects, #process, #skills, #contact {
+  scroll-margin-top: 72px;
+}
+
 /* 라이트/다크 color-scheme — 스크롤바·인풋 등 OS 네이티브 요소에 반영 */
 :root {
   color-scheme: light;

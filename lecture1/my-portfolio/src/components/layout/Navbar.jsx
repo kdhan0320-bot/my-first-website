@@ -21,11 +21,12 @@ import LogoSymbol from '../common/LogoSymbol';
 const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 
 const NAV_ITEMS = [
-  { label: '처음',   sectionId: 'home'     },
-  { label: '소개',   sectionId: 'about'    },
-  { label: '기술',   sectionId: 'skills'   },
-  { label: '프로젝트', sectionId: 'projects' },
-  { label: '연락',   sectionId: 'contact'  },
+  { label: 'Home',     sectionId: 'home'     },
+  { label: 'About',    sectionId: 'about'    },
+  { label: 'Projects', sectionId: 'projects' },
+  { label: 'Process',  sectionId: 'process'  },
+  { label: 'Skills',   sectionId: 'skills'   },
+  { label: 'Contact',  sectionId: 'contact'  },
 ];
 
 const Navbar = () => {

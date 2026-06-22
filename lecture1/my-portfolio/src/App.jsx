@@ -27,12 +27,14 @@ const ThemedApp = () => {
       <HashRouter>
         <CustomCursor />
         <Navbar />
-        <Box sx={{ height: NAVBAR_HEIGHT }} />
+        <Box sx={{ height: NAVBAR_HEIGHT }} aria-hidden="true" />
+        <Box component="main">
         <Routes>
           <Route path="/"         element={<HomePage />} />
           <Route path="/about"    element={<AboutPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
         </Routes>
+        </Box>
       </HashRouter>
     </ThemeProvider>
   );

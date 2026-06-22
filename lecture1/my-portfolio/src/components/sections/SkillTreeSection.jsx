@@ -1,190 +1,155 @@
-import { Box, Container, Typography, Grid, Card, CardContent, Chip, Button } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useNavigate } from 'react-router-dom';
-import { usePortfolio } from '../../context/PortfolioContext';
-import { ICON_MAP } from '../../constants/iconMap';
+import { Box, Container, Typography, Chip, Grid } from '@mui/material';
 import RevealOnScroll from '../common/RevealOnScroll';
 
-const CATEGORY_COLORS = {
-  'Frontend':     { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE' },
-  'Framework':    { color: '#4338CA', bg: '#EEF2FF', border: '#C7D2FE' },
-  'Design':       { color: '#7C3AED', bg: '#F5F3FF', border: '#DDD6FE' },
-  'Backend / DB': { color: '#059669', bg: '#ECFDF5', border: '#A7F3D0' },
-  'Tool':         { color: '#4B5563', bg: '#F9FAFB', border: '#D1D5DB' },
-  'Workflow':     { color: '#92400E', bg: '#FFFBEB', border: '#FDE68A' },
-};
+const SKILL_GROUPS = [
+  {
+    id: 'design',
+    category: 'Design',
+    tagColor: '#7C3AED',
+    tagBg: '#F5F3FF',
+    tagBorder: '#DDD6FE',
+    darkTagBg: 'rgba(124,58,237,0.12)',
+    darkTagBorder: 'rgba(124,58,237,0.22)',
+    headerColor: '#7C3AED',
+    skills: ['Figma', 'UX/UI Design', 'Wireframe', 'Design System', 'Responsive Web Design'],
+  },
+  {
+    id: 'web',
+    category: 'Web',
+    tagColor: '#1D4ED8',
+    tagBg: '#EFF6FF',
+    tagBorder: '#BFDBFE',
+    darkTagBg: 'rgba(29,78,216,0.12)',
+    darkTagBorder: 'rgba(29,78,216,0.22)',
+    headerColor: '#1D4ED8',
+    skills: ['HTML', 'CSS', 'JavaScript', 'GitHub Pages'],
+  },
+  {
+    id: 'ai',
+    category: 'AI Tools',
+    tagColor: '#0D9488',
+    tagBg: '#F0FDFA',
+    tagBorder: '#99F6E4',
+    darkTagBg: 'rgba(13,148,136,0.12)',
+    darkTagBorder: 'rgba(13,148,136,0.22)',
+    headerColor: '#0D9488',
+    skills: ['Claude', 'ChatGPT', 'AI-assisted Coding', 'Prompt Writing'],
+  },
+  {
+    id: 'soft',
+    category: 'Soft Skills',
+    tagColor: '#64748B',
+    tagBg: '#F8FAFC',
+    tagBorder: '#CBD5E1',
+    darkTagBg: 'rgba(100,116,139,0.12)',
+    darkTagBorder: 'rgba(100,116,139,0.22)',
+    headerColor: '#64748B',
+    skills: ['Problem Solving', 'Structured Thinking', 'Communication', 'Feedback Reflection'],
+  },
+];
 
-const STATUS_COLORS = {
-  '프로젝트 적용':   { color: '#047857', bg: '#ECFDF5', border: '#6EE7B7' },
-  '학습 및 적용 중': { color: '#1578AA', bg: '#EAF6FC', border: '#BAE6FD' },
-  '기초 적용':      { color: '#4B5563', bg: '#F3F4F6', border: '#D1D5DB' },
-  '적극 활용':      { color: '#B45309', bg: '#FFFBEB', border: '#FCD34D' },
-};
-
-const HomeSkillCard = ({ skill }) => {
-  const icon = ICON_MAP[skill.icon] ?? { text: skill.name.slice(0, 2), color: '#1578AA', bg: '#EAF6FC' };
-  const catColor = CATEGORY_COLORS[skill.category] ?? CATEGORY_COLORS['Tool'];
-  const statusColor = STATUS_COLORS[skill.status] ?? STATUS_COLORS['기초 적용'];
-
-  return (
-    <Card
-      tabIndex={0}
+const SkillGroupCard = ({ group, delay }) => (
+  <RevealOnScroll delay={delay} y={16} sx={{ height: '100%' }}>
+    <Box
       sx={(theme) => ({
-        width: '100%',
+        bgcolor: 'background.paper',
+        border: `1px solid ${theme.palette.divider}`,
+        borderRadius: 2,
+        p: { xs: 2.5, md: 3 },
         height: '100%',
-        borderRadius: '16px',
-        transition: 'box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
         '&:hover': {
+          transform: 'translateY(-3px)',
           boxShadow: theme.palette.mode === 'dark'
-            ? '0 6px 20px rgba(0,0,0,0.4)'
-            : '0 6px 20px rgba(26,26,46,0.10)',
-          transform: 'translateY(-2px)',
-          borderColor: theme.palette.mode === 'dark'
-            ? 'rgba(56,189,248,0.25)'
-            : 'rgba(30,155,215,0.25)',
-        },
-        '&:hover .skill-icon': { transform: 'scale(1.05)' },
-        '&:focus-visible': {
-          outline: `2px solid ${theme.palette.primary.main}`,
-          outlineOffset: '2px',
-          borderColor: theme.palette.mode === 'dark'
-            ? 'rgba(56,189,248,0.25)'
-            : 'rgba(30,155,215,0.25)',
+            ? '0 8px 24px rgba(0,0,0,0.3)'
+            : '0 8px 24px rgba(26,26,46,0.08)',
+          borderColor: group.tagColor,
         },
       })}
     >
-      <CardContent sx={{ p: 3, '&:last-child': { pb: 3 } }}>
-
-        {/* 아이콘 + 기술명 + 카테고리 */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-          <Box
-            aria-hidden="true"
-            className="skill-icon"
-            sx={{
-              width: 48, height: 48, borderRadius: 2, flexShrink: 0,
-              bgcolor: icon.bg, color: icon.color,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 700, fontSize: '0.82rem',
-              transition: 'transform 0.2s ease',
-            }}
-          >
-            {icon.text}
-          </Box>
-          <Box>
-            <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700, lineHeight: 1.2 }}>
-              {skill.name}
-            </Typography>
-            <Chip
-              label={skill.category ?? '기타'}
-              size="small"
-              sx={{
-                mt: 0.5, height: 20, fontSize: '0.68rem', fontWeight: 600,
-                color: catColor.color, bgcolor: catColor.bg,
-                border: `1px solid ${catColor.border}`,
-                '& .MuiChip-label': { px: 1 },
-              }}
-            />
-          </Box>
-        </Box>
-
-        {/* 상태 */}
-        <Chip
-          label={skill.status ?? '미분류'}
-          size="small"
+      {/* 카테고리 레이블 */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+        <Box
           sx={{
-            fontSize: '0.72rem', fontWeight: 600,
-            color: statusColor.color, bgcolor: statusColor.bg,
-            border: `1px solid ${statusColor.border}`,
+            width: 4,
+            height: 20,
+            borderRadius: 2,
+            bgcolor: group.headerColor,
+            flexShrink: 0,
           }}
         />
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '0.9rem',
+            color: group.headerColor,
+            letterSpacing: '0.01em',
+          }}
+        >
+          {group.category}
+        </Typography>
+      </Box>
 
-      </CardContent>
-    </Card>
-  );
-};
-
-const SkillTreeSection = () => {
-  const navigate = useNavigate();
-  const { homeData } = usePortfolio();
-  const skills = homeData.skills;
-
-  return (
-    <Box id="skills" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
-      <Container maxWidth="lg">
-
-        {/* 섹션 헤더 */}
-        <RevealOnScroll>
-          <Box sx={{ textAlign: 'center', mb: 7 }}>
-            <Typography
-              sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
-            >
-              SKILLS
-            </Typography>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800, mt: 1 }}>
-              주요 기술
-            </Typography>
-            <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
-            <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
-              현재 학습하고 프로젝트에 적용해본 핵심 기술입니다.
-            </Typography>
-          </Box>
-        </RevealOnScroll>
-
-        {/* 스킬 카드 4개 — stagger */}
-        <Grid container spacing={3}>
-          {skills.map((skill, i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={skill.id} sx={{ display: 'flex' }}>
-              <RevealOnScroll delay={i * 0.1} y={16} sx={{ flex: 1 }}>
-                <HomeSkillCard skill={skill} />
-              </RevealOnScroll>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* 보조 활용 도구 */}
-        <RevealOnScroll delay={0.3}>
-          <Typography
-            variant="body2"
-            sx={{ color: 'text.secondary', textAlign: 'center', mt: 4, fontSize: '0.82rem' }}
-          >
-            보조 활용 도구: <Box component="span" sx={{ fontWeight: 600 }}>AI Tools</Box>(Claude, ChatGPT) — 아이디어 정리와 코드 보조에 활용합니다.
-          </Typography>
-        </RevealOnScroll>
-
-        {/* 전체 스킬 보기 CTA */}
-        <RevealOnScroll delay={0.35}>
-          <Box sx={{ textAlign: 'center', mt: 5 }}>
-            <Button
-              variant="outlined"
-              endIcon={<ArrowForwardIcon />}
-              onClick={() => navigate('/about')}
-              aria-label="About Me 페이지에서 전체 스킬 보기"
-              sx={(theme) => ({
-                borderColor: theme.palette.primary.main,
-                color: 'primary.main',
-                px: 3,
-                minHeight: 44,
-                fontWeight: 600,
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
-                '&:hover': {
-                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EAF6FC',
-                  borderColor: 'primary.light',
-                  color: 'primary.light',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 4px 12px rgba(21,120,170,0.15)',
-                },
-                '&:active': { transform: 'translateY(0)' },
-                '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '3px' },
-              })}
-            >
-              전체 스킬 보기
-            </Button>
-          </Box>
-        </RevealOnScroll>
-
-      </Container>
+      {/* 스킬 칩 목록 */}
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+        {group.skills.map((skill) => (
+          <Chip
+            key={skill}
+            label={skill}
+            size="small"
+            sx={(theme) => ({
+              bgcolor: theme.palette.mode === 'dark' ? group.darkTagBg : group.tagBg,
+              color: group.tagColor,
+              border: `1px solid ${theme.palette.mode === 'dark' ? group.darkTagBorder : group.tagBorder}`,
+              fontWeight: 600,
+              fontSize: '0.75rem',
+              height: 26,
+              '& .MuiChip-label': { px: 1.25 },
+              transition: 'transform 0.15s ease, box-shadow 0.15s ease',
+              '&:hover': {
+                transform: 'scale(1.04)',
+              },
+            })}
+          />
+        ))}
+      </Box>
     </Box>
-  );
-};
+  </RevealOnScroll>
+);
+
+const SkillTreeSection = () => (
+  <Box component="section" id="skills" aria-label="기술" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
+    <Container maxWidth="lg">
+
+      {/* 섹션 헤더 */}
+      <RevealOnScroll>
+        <Box sx={{ textAlign: 'center', mb: 7 }}>
+          <Typography
+            sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
+          >
+            SKILLS
+          </Typography>
+          <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800, mt: 1 }}>
+            주요 기술
+          </Typography>
+          <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
+          <Typography variant="body2" sx={{ color: 'text.secondary', mt: 2 }}>
+            디자인, 웹 구현, AI 도구 활용으로 연결되는 실무형 기술 스택입니다.
+          </Typography>
+        </Box>
+      </RevealOnScroll>
+
+      {/* 2x2 그리드 */}
+      <Grid container spacing={3}>
+        {SKILL_GROUPS.map((group, i) => (
+          <Grid key={group.id} size={{ xs: 12, sm: 6 }} sx={{ display: 'flex' }}>
+            <SkillGroupCard group={group} delay={i * 0.08} />
+          </Grid>
+        ))}
+      </Grid>
+
+    </Container>
+  </Box>
+);
 
 export default SkillTreeSection;
