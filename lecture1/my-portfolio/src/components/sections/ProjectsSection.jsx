@@ -30,6 +30,7 @@ const ALL_PROJECTS = [
     tools: ['React', 'Vite', 'MUI', 'Supabase', 'Claude'],
     tags: ['Dashboard', 'Kanban', 'SaaS', 'Responsive'],
     gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2A5A8F 100%)',
+    thumbnailUrl: 'https://kdhan0320-bot.github.io/my-first-website/my-portfolio/jobflow-thumb.svg',
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/jobflow-dashboard/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/jobflow-dashboard',
     detail: {
@@ -50,6 +51,7 @@ const ALL_PROJECTS = [
     tools: ['React', 'Vite', 'MUI', 'Supabase', 'Claude'],
     tags: ['Community', 'Board', 'Responsive', 'Supabase'],
     gradient: 'linear-gradient(135deg, #0D9488 0%, #2DD4BF 100%)',
+    thumbnailUrl: 'https://image.thum.io/get/fresh/https://kdhan0320-bot.github.io/my-first-website/my-community/?v=20260616',
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/my-community/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/my-community',
     detail: {
@@ -70,6 +72,7 @@ const ALL_PROJECTS = [
     tools: ['React', 'MUI', 'Supabase', 'React Router', 'Claude'],
     tags: ['SNS', 'Community', 'Gaming', 'Responsive'],
     gradient: 'linear-gradient(135deg, #4338CA 0%, #7C3AED 100%)',
+    thumbnailUrl: 'https://image.thum.io/get/https://kdhan0320-bot.github.io/my-first-website/mini-sns/',
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/mini-sns/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/mini_sns',
     detail: {
@@ -90,6 +93,7 @@ const ALL_PROJECTS = [
     tools: ['HTML', 'CSS', 'JavaScript', 'Claude'],
     tags: ['Landing Page', 'UI Design', 'Responsive'],
     gradient: 'linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)',
+    thumbnailUrl: 'https://kdhan0320-bot.github.io/my-first-website/my-portfolio/thumbnails/ott-service.png',
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/ott-service/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website',
     detail: {
@@ -304,15 +308,44 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
   );
 };
 
-/* ── 프로젝트 카드 ── */
-const GradientThumbnail = ({ gradient, title }) => (
-  <Box aria-hidden="true"
-    sx={{ position: 'relative', paddingTop: '52%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
-    <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <Typography sx={{ color: 'rgba(255,255,255,0.2)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', userSelect: 'none' }}>
-        Project Preview
-      </Typography>
-    </Box>
+/* ── 프로젝트 썸네일 (이미지 또는 그라데이션 폴백) ── */
+const ProjectThumbnail = ({ gradient, thumbnailUrl, title }) => (
+  <Box
+    sx={{
+      position: 'relative',
+      paddingTop: '52%',
+      overflow: 'hidden',
+      flexShrink: 0,
+      background: gradient,
+    }}
+  >
+    {thumbnailUrl ? (
+      <Box
+        component="img"
+        src={thumbnailUrl}
+        alt={`${title} 프로젝트 썸네일`}
+        loading="lazy"
+        className="thumb-img"
+        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+        sx={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'top',
+          transition: 'transform 0.35s ease',
+        }}
+      />
+    ) : (
+      <Box
+        aria-hidden="true"
+        sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <Typography sx={{ color: 'rgba(255,255,255,0.2)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', userSelect: 'none' }}>
+          Project Preview
+        </Typography>
+      </Box>
+    )}
   </Box>
 );
 
@@ -327,9 +360,10 @@ const ProjectCard = ({ project, idx, onDetail }) => (
           boxShadow: theme.palette.mode === 'dark' ? '0 12px 32px rgba(0,0,0,0.4)' : '0 12px 32px rgba(0,0,0,0.1)',
           borderColor: theme.palette.primary.main,
         },
+        '&:hover .thumb-img': { transform: 'scale(1.05)' },
         '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
       })}>
-      <GradientThumbnail gradient={project.gradient} title={project.title} />
+      <ProjectThumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} />
 
       <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
         <Box>
