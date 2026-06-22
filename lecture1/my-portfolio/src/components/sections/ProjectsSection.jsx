@@ -51,7 +51,7 @@ const ALL_PROJECTS = [
     tools: ['React', 'Vite', 'MUI', 'Supabase', 'Claude'],
     tags: ['Community', 'Board', 'Responsive', 'Supabase'],
     gradient: 'linear-gradient(135deg, #0D9488 0%, #2DD4BF 100%)',
-    thumbnailUrl: 'https://image.thum.io/get/fresh/https://kdhan0320-bot.github.io/my-first-website/my-community/?v=20260616',
+    thumbnailUrl: `${import.meta.env.BASE_URL}thumbnails/community.png`,
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/my-community/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/my-community',
     detail: {
@@ -72,7 +72,7 @@ const ALL_PROJECTS = [
     tools: ['React', 'MUI', 'Supabase', 'React Router', 'Claude'],
     tags: ['SNS', 'Community', 'Gaming', 'Responsive'],
     gradient: 'linear-gradient(135deg, #4338CA 0%, #7C3AED 100%)',
-    thumbnailUrl: 'https://image.thum.io/get/https://kdhan0320-bot.github.io/my-first-website/mini-sns/',
+    thumbnailUrl: `${import.meta.env.BASE_URL}thumbnails/minisns.png`,
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/mini-sns/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/mini_sns',
     detail: {
