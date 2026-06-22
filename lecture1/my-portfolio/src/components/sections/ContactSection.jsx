@@ -75,13 +75,12 @@ const ContactSection = () => {
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
             <Typography
-              variant="overline"
-              sx={{ color: 'text.secondary', letterSpacing: 4, fontWeight: 600, fontSize: '0.75rem' }}
+              sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
             >
               CONTACT
             </Typography>
             <Typography variant="h2" sx={{ mt: 1, color: 'text.primary', fontWeight: 800 }}>
-              Contact
+              함께 이야기해요
             </Typography>
             <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
             <Typography variant="body2" sx={{ mt: 2.5, color: 'text.secondary', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
