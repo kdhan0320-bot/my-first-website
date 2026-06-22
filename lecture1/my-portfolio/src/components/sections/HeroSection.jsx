@@ -16,7 +16,7 @@ const WORKFLOW = [
   { label: 'Review',   sub: '개선 반영'   },
 ];
 
-const SKILL_CHIPS = ['Figma', 'UX/UI', 'AI Coding', 'HTML/CSS'];
+const SKILL_CHIPS = ['UX/UI', 'Figma', 'Web Design', 'AI-assisted Coding', 'Responsive Web'];
 
 const PortfolioStats = () => {
   const { aboutMeData } = usePortfolio();

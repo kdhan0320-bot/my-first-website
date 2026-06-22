@@ -2,7 +2,7 @@ import { Box, Container, Typography, Avatar, Grid, Chip } from '@mui/material';
 import { usePortfolio } from '../../context/PortfolioContext';
 import RevealOnScroll from '../common/RevealOnScroll';
 
-const STRENGTHS = ['정보 구조화', '사용자 흐름 개선', '깔끔한 UI', '반응형 웹', 'AI 도구 활용'];
+const STRENGTHS = ['정보 구조화', '사용자 흐름 개선', 'Figma 기반 UI 설계', '반응형 웹디자인', 'AI 도구 활용', '피드백 기반 개선'];
 
 const AboutSection = () => {
   const { homeData } = usePortfolio();
