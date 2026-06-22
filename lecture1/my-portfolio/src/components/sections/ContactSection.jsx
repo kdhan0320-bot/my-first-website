@@ -84,7 +84,7 @@ const ContactSection = () => {
             </Typography>
             <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
             <Typography variant="body2" sx={{ mt: 2.5, color: 'text.secondary', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
-              언제든 편하게 연락 주세요. 방명록도 남겨주시면 큰 힘이 됩니다.
+              채용, 협업, 피드백 등 어떤 이야기든 환영합니다. 편하게 연락해 주세요.
             </Typography>
           </Box>
         </RevealOnScroll>

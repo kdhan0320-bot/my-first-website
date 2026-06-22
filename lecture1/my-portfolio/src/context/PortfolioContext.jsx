@@ -9,7 +9,7 @@ const initialAboutMeData = {
     major: "웹디자인 · UX/UI · AI-assisted Web Design 학습 중",
     experience: "신입 / 전환 취업 준비",
     position: "Web Designer & UX/UI Designer",
-    summary: "저는 복잡한 정보를 명확한 구조로 정리하고, 사용자가 자연스럽게 이해할 수 있는 웹 화면을 설계하는 것을 목표로 합니다. Figma 기반의 UX/UI 디자인과 AI-assisted coding을 함께 활용해 디자인 결과물이 실제 웹 환경에서도 작동할 수 있도록 연결하고 있습니다.",
+    summary: "비전공자 출신으로, UX/UI와 웹디자인에 관심을 가지며 전환을 준비하고 있습니다. 사용자가 불편함을 느끼는 지점을 찾고 구조적으로 개선하는 작업에서 가장 큰 보람을 느낍니다.",
     photo: "",
   },
   sections: [
