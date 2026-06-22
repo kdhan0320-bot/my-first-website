@@ -22,9 +22,9 @@ const HomePage = () => {
     <>
       <HeroSection />
       <AboutSection />
-      <ProjectsSection />
       <ProcessSection />
       <SkillTreeSection />
+      <ProjectsSection />
       <ContactSection />
     </>
   );

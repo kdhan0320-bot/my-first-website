@@ -23,9 +23,9 @@ const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 const NAV_ITEMS = [
   { label: 'Home',     sectionId: 'home'     },
   { label: 'About',    sectionId: 'about'    },
-  { label: 'Projects', sectionId: 'projects' },
   { label: 'Process',  sectionId: 'process'  },
   { label: 'Skills',   sectionId: 'skills'   },
+  { label: 'Projects', sectionId: 'projects' },
   { label: 'Contact',  sectionId: 'contact'  },
 ];
 

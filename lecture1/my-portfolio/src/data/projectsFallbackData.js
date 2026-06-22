@@ -257,6 +257,7 @@ export const fallbackProjects = [
     githubUrl: null,
     is_ai_project: false,
     is_figma_project: false,
+    is_redesign_project: true,
     is_featured: true,
     status: 'in_progress',
     overview: '기존 커뮤니티 프로젝트의 구조적 문제를 분석하고 정보 설계와 사용자 흐름을 개선한 리디자인 작업입니다.',
