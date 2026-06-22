@@ -15,7 +15,7 @@ export const ALL_PROJECTS = [
     tools: ['React', 'Vite', 'MUI', 'Supabase', 'Claude'],
     tags: ['Dashboard', 'Kanban', 'SaaS', 'Responsive'],
     gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2A5A8F 100%)',
-    thumbnailUrl: `${import.meta.env.BASE_URL}thumbnails/jobflow-thumb.svg`,
+    thumbnailUrl: `${import.meta.env.BASE_URL}jobflow-thumb.svg`,
     liveUrl: 'https://kdhan0320-bot.github.io/my-first-website/jobflow-dashboard/',
     githubUrl: 'https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/jobflow-dashboard',
     detail: {
