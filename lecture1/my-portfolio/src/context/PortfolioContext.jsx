@@ -9,7 +9,7 @@ const initialAboutMeData = {
     major: "웹디자인 · UX/UI · AI-assisted Web Design 학습 중",
     experience: "신입 / 전환 취업 준비",
     position: "Web Designer & UX/UI Designer",
-    summary: "비전공자 출신으로, UX/UI와 웹디자인에 관심을 가지며 전환을 준비하고 있습니다. 사용자가 불편함을 느끼는 지점을 찾고 구조적으로 개선하는 작업에서 가장 큰 보람을 느낍니다.",
+    summary: "비전공자 출신의 관찰력과 학습력을 바탕으로, 사용자가 불편함을 느끼는 지점을 찾고 구조적으로 개선하는 웹/UX 디자인을 공부하고 있습니다.",
     photo: "",
   },
   sections: [

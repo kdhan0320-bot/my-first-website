@@ -72,7 +72,7 @@ const GuestbookForm = ({ onSuccess }) => {
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Typography variant="h4" sx={{ color: 'text.primary', mb: 1 }}>방명록 남기기</Typography>
+      <Typography variant="h5" sx={{ color: 'text.primary', mb: 1 }}>방명록 남기기</Typography>
 
       <TextField
         name="author_name"
@@ -92,7 +92,7 @@ const GuestbookForm = ({ onSuccess }) => {
         onChange={handleChange}
         fullWidth
         multiline
-        rows={3}
+        rows={2}
       />
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
@@ -139,9 +139,9 @@ const GuestbookForm = ({ onSuccess }) => {
               sx={(theme) => ({
                 border: `1px solid ${theme.palette.divider} !important`,
                 borderRadius: '8px !important',
-                minWidth: 44,
-                height: 44,
-                fontSize: '1.2rem',
+                minWidth: 36,
+                height: 36,
+                fontSize: '1rem',
                 lineHeight: 1,
                 bgcolor: form.emoji === value ? `${theme.palette.highlight.background} !important` : 'transparent',
                 outline: form.emoji === value ? `2px solid ${theme.palette.primary.main}` : 'none',
@@ -166,9 +166,9 @@ const GuestbookForm = ({ onSuccess }) => {
           fontWeight: 700,
           '&:hover': { bgcolor: 'primary.dark' },
           alignSelf: { xs: 'stretch', sm: 'flex-end' },
-          px: 4,
-          py: 1.25,
-          minHeight: 44,
+          px: 3.5,
+          py: 0.875,
+          minHeight: 40,
         }}
       >
         {submitting ? '등록 중...' : '방명록 남기기'}

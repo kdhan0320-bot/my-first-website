@@ -64,10 +64,11 @@ const CursorFollower = () => {
       const ease = 0.12;
       follower.current.x += (mouse.current.x - follower.current.x) * ease;
       follower.current.y += (mouse.current.y - follower.current.y) * ease;
-      /* 원의 중심을 마우스 좌표에 맞추기 위해 반지름만큼 오프셋 */
+      /* 원의 중심을 마우스 좌표에 맞추기 위해 반지름만큼 오프셋, 뷰포트 안에 클램프 */
       const half = active.current ? 20 : 10;
-      el.style.transform =
-        `translate3d(${follower.current.x - half}px, ${follower.current.y - half}px, 0)`;
+      const cx = Math.max(half, Math.min(window.innerWidth  - half, follower.current.x));
+      const cy = Math.max(half, Math.min(window.innerHeight - half, follower.current.y));
+      el.style.transform = `translate3d(${cx - half}px, ${cy - half}px, 0)`;
       raf.current = requestAnimationFrame(tick);
     };
 

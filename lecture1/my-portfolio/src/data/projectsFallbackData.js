@@ -8,7 +8,7 @@ export const fallbackProjects = [
   {
     id: 'jobflow',
     title: 'JobFlow Dashboard',
-    description: '지원 회사와 전형 상태를 칸반 보드로 관리하고, 체크리스트·면접 메모·AI 프롬프트 보관까지 한곳에 정리하는 취업 준비 대시보드',
+    description: '지원 회사와 전형 상태를 칸반 보드로 관리하고, 포트폴리오 체크리스트와 면접 메모를 정리할 수 있는 취업 준비 대시보드입니다.',
     category: 'AI Vibe Coding',
     categories: ['featured', 'ai'],
     categoryLabel: 'AI Vibe Coding',
@@ -40,7 +40,7 @@ export const fallbackProjects = [
   {
     id: 'feedback-hub',
     title: 'Portfolio Feedback Hub',
-    description: '수강생과 취업준비생이 포트폴리오·과제·취업 정보를 공유하고 피드백을 주고받을 수 있는 커뮤니티형 게시판 프로젝트',
+    description: '포트폴리오와 취업 정보를 공유하고 피드백을 주고받는 커뮤니티 게시판 프로젝트입니다.',
     category: 'AI Vibe Coding',
     categories: ['featured', 'ai'],
     categoryLabel: 'AI Vibe Coding',
@@ -72,7 +72,7 @@ export const fallbackProjects = [
   {
     id: 'gamstagram',
     title: '겜스타그램',
-    description: '게임 유저들이 리뷰·댓글·좋아요·모임 정보를 공유할 수 있는 관심사 기반 SNS 프로젝트. 로그인 없이 둘러보기 기능 제공',
+    description: '게임 리뷰, 댓글, 좋아요, 모임 정보를 공유할 수 있는 관심사 기반 SNS 프로젝트입니다.',
     category: 'AI Vibe Coding',
     categories: ['ai'],
     categoryLabel: 'AI Vibe Coding',
