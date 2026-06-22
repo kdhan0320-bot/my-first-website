@@ -168,14 +168,14 @@ const ContactSection = () => {
           </Grid>
         </RevealOnScroll>
 
-        {/* 방명록 목록 */}
+        {/* 방명록 목록 (보조 섹션) */}
         <RevealOnScroll delay={0.05}>
-          <Box>
-            <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 2, mb: 4 }}>
-              <Typography variant="h3" sx={{ color: 'text.primary' }}>방명록</Typography>
-              {!loading && (
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  총 {entries.length}개
+          <Box sx={(theme) => ({ pt: 4, borderTop: `1px solid ${theme.palette.divider}` })}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Guestbook</Typography>
+              {!loading && entries.length > 0 && (
+                <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+                  {entries.length}개
                 </Typography>
               )}
             </Box>
