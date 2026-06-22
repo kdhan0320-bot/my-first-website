@@ -21,7 +21,10 @@ export const ALL_PROJECTS = fallbackProjects.map((p) => ({
     overview:    p.overview,
     problem:     p.problem,
     goal:        p.goal,
+    targetUser:  p.targetUser  ?? null,
     designPoint: p.designPoint,
+    process:     p.process     ?? null,
+    result:      p.result      ?? null,
     nextStep:    p.nextStep,
   },
 }));

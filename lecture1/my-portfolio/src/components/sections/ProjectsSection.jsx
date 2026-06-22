@@ -52,6 +52,11 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         <DetailRow label="Goal">
           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.goal}</Typography>
         </DetailRow>
+        {detail.targetUser && (
+          <DetailRow label="Target User">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.targetUser}</Typography>
+          </DetailRow>
+        )}
         <DetailRow label="Role">
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{role}</Typography>
         </DetailRow>
@@ -71,6 +76,16 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         <DetailRow label="Design Point">
           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
         </DetailRow>
+        {detail.process && (
+          <DetailRow label="UX/UI Process">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.process}</Typography>
+          </DetailRow>
+        )}
+        {detail.result && (
+          <DetailRow label="Result">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
+          </DetailRow>
+        )}
         <DetailRow label="Next Step">
           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.nextStep}</Typography>
         </DetailRow>
