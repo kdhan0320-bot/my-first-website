@@ -313,7 +313,7 @@ const ProjectsPage = () => {
           </Typography>
           <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
           <Typography sx={{ mt: 2.5, color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.8 }}>
-            Figma UX/UI 설계와 AI-assisted coding으로 직접 기획하고 구현한 프로젝트들입니다.
+            Figma UX/UI 설계와 AI-assisted Coding으로 직접 기획하고 구현한 프로젝트들입니다.
           </Typography>
         </Box>
 

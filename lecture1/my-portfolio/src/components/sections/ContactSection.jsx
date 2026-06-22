@@ -94,7 +94,7 @@ const ContactSection = () => {
           <Grid container spacing={{ xs: 4, md: 8 }} sx={{ mb: { xs: 6, md: 10 } }} id="guestbook">
 
             {/* 왼쪽: 연락처 정보 */}
-            <Grid size={{ xs: 12, md: 4 }}>
+            <Grid size={{ xs: 12, md: 5 }}>
               <Typography variant="h4" sx={{ color: 'text.primary', mb: 3 }}>연락처</Typography>
 
               {/* 연락처 카드 */}
@@ -153,7 +153,7 @@ const ContactSection = () => {
                   minHeight: 44,
                   justifyContent: 'flex-start',
                   pl: 2,
-                  opacity: 0.55,
+                  opacity: 0.72,
                   cursor: 'default',
                 }}
               >
@@ -162,7 +162,7 @@ const ContactSection = () => {
             </Grid>
 
             {/* 오른쪽: 방명록 폼 */}
-            <Grid size={{ xs: 12, md: 8 }}>
+            <Grid size={{ xs: 12, md: 7 }}>
               <GuestbookForm onSuccess={handleSuccess} />
             </Grid>
           </Grid>

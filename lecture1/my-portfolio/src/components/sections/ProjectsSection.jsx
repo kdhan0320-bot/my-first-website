@@ -165,7 +165,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title }) => (
         sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.35s ease' }} />
     ) : (
       <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography sx={{ color: 'rgba(255,255,255,0.2)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', userSelect: 'none' }}>
+        <Typography sx={{ color: 'rgba(255,255,255,0.45)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', userSelect: 'none' }}>
           Project Preview
         </Typography>
       </Box>
@@ -174,7 +174,15 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title }) => (
 );
 
 /* ── 프로젝트 카드 ── */
-const ProjectCard = ({ project, idx, onDetail }) => (
+const ProjectCard = ({ project, idx, onDetail }) => {
+  const uniqueTools = [...new Set(project.tools)];
+  const uniqueTags = [...new Set(project.tags)].filter((t) => !uniqueTools.includes(t));
+  const totalChips = uniqueTools.length + uniqueTags.length;
+  const visibleTools = totalChips > 7 ? uniqueTools.slice(0, 7) : uniqueTools;
+  const visibleTags = totalChips > 7 ? uniqueTags.slice(0, Math.max(0, 7 - visibleTools.length)) : uniqueTags;
+  const hasRole = project.role && project.role !== '—';
+
+  return (
   <RevealOnScroll delay={Math.min(idx % 3, 2) * 0.1} y={16} sx={{ display: 'flex', flexDirection: 'column' }}>
     <Card tabIndex={0} aria-label={`${project.title} 프로젝트 카드`}
       sx={(t) => ({
@@ -204,12 +212,14 @@ const ProjectCard = ({ project, idx, onDetail }) => (
           sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {project.description}
         </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-          <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>ROLE</Typography>
-          <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.role}</Typography>
-        </Box>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {project.tools.map((tool) => (
+        {hasRole && (
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>ROLE</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.role}</Typography>
+          </Box>
+        )}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: hasRole ? 0 : 0.25 }}>
+          {visibleTools.map((tool) => (
             <Chip key={tool} label={tool} size="small"
               sx={(t) => ({
                 bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
@@ -219,12 +229,14 @@ const ProjectCard = ({ project, idx, onDetail }) => (
               })} />
           ))}
         </Box>
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {project.tags.map((tag) => (
-            <Chip key={tag} label={tag} size="small"
-              sx={(t) => ({ bgcolor: 'transparent', color: 'text.secondary', border: `1px solid ${t.palette.divider}`, fontSize: '0.6rem', height: 18 })} />
-          ))}
-        </Box>
+        {visibleTags.length > 0 && (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+            {visibleTags.map((tag) => (
+              <Chip key={tag} label={tag} size="small"
+                sx={(t) => ({ bgcolor: 'transparent', color: 'text.secondary', border: `1px solid ${t.palette.divider}`, fontSize: '0.6rem', height: 18 })} />
+            ))}
+          </Box>
+        )}
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
           <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 정보 보기`}
             sx={(t) => ({
@@ -254,7 +266,8 @@ const ProjectCard = ({ project, idx, onDetail }) => (
       </CardContent>
     </Card>
   </RevealOnScroll>
-);
+  );
+};
 
 /* ── 메인 섹션 ── */
 const ProjectsSection = () => {
@@ -290,7 +303,7 @@ const ProjectsSection = () => {
             <Typography variant="h2" sx={{ mt: 1, color: 'text.primary', fontWeight: 800 }}>주요 프로젝트</Typography>
             <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
             <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
-              Figma UX/UI 설계부터 AI-assisted coding 구현까지, 카테고리별로 정리했습니다.
+              Figma UX/UI 설계부터 AI-assisted Coding 구현까지, 카테고리별로 정리했습니다.
             </Typography>
           </Box>
         </RevealOnScroll>

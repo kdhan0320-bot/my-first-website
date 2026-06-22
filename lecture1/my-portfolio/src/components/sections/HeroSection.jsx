@@ -244,7 +244,7 @@ const HeroSection = () => {
                   mb: { xs: 3.5, md: 4.5 },
                 }}
               >
-                Figma 기반의 UX/UI 설계와 AI-assisted web coding을 활용해 기획, 디자인, 구현까지 연결되는 실무형 결과물을 만듭니다.
+                Figma 기반의 UX/UI 설계와 AI-assisted Coding을 활용해 기획, 디자인, 구현까지 연결되는 실무형 결과물을 만듭니다.
               </Typography>
 
               {/* CTA 버튼 */}

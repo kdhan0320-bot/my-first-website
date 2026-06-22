@@ -16,14 +16,14 @@ const initialAboutMeData = {
     {
       id: "dev-story",
       title: "웹디자인을 시작한 이유",
-      content: "정보가 복잡하거나 사용자가 불편한 화면을 볼 때, 단순히 예쁜 디자인보다 사용자가 쉽게 이해하고 행동할 수 있는 구조가 중요하다고 느꼈습니다. Figma를 활용한 랜딩페이지, 서비스 UI, 반응형 웹디자인 작업과 Claude·AI 도구를 통한 웹 구현 경험을 쌓으며, 기획에서 디자인, 구현까지 연결할 수 있는 실무형 디자이너로 성장하고 있습니다.",
+      content: "정보가 복잡하거나 사용자가 불편한 화면을 볼 때, 보기 좋은 디자인보다 사용자가 쉽게 이해하고 행동할 수 있는 구조가 중요하다고 느꼈습니다.",
       showInHome: true,
       priority: 1,
     },
     {
       id: "philosophy",
       title: "디자인 방향성",
-      content: "보기 좋은 화면보다 사용자가 헷갈리지 않는 화면을 먼저 생각합니다. 정보 구조화, 사용자 흐름 개선, 깔끔한 UI, 반응형 웹, AI 도구 활용이 저의 핵심 역량입니다. Figma로 설계하고 AI 도구로 구현하며, 디자인이 실제 웹 환경에서도 작동할 수 있도록 연결하는 과정을 중요하게 생각합니다.",
+      content: "정보 구조화, 사용자 흐름 개선, 깔끔한 UI, 반응형 웹, AI 도구 활용을 중심으로 실무형 웹디자인 역량을 쌓고 있습니다.",
       showInHome: true,
       priority: 2,
     },
@@ -48,8 +48,8 @@ const initialAboutMeData = {
   ],
 };
 
-// ── 요약 문구 생성 (100자 초과 시 말줄임) ────────────────────────────
-const createSummary = (text = '', maxLength = 100) => {
+// ── 요약 문구 생성 (maxLength 초과 시 말줄임) ─────────────────────────
+const createSummary = (text = '', maxLength = 200) => {
   if (!text) return '';
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };
