@@ -1,15 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Card, CardContent,
-  Button, Chip, Tabs, Tab, Stack,
+  Button, Chip, Stack,
   Dialog, DialogTitle, DialogContent, DialogActions,
   IconButton, Divider,
 } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../common/RevealOnScroll';
-import { ALL_PROJECTS, FILTER_TABS } from '../../data/projectsData';
+import { supabase } from '../../lib/supabase';
+import { ALL_PROJECTS } from '../../data/projectsData';
+
+/* 홈 fallback: is_featured === true인 프로젝트 최대 4개 */
+const FEATURED_FALLBACK = ALL_PROJECTS.filter((p) => p.is_featured).slice(0, 4);
+
+/* Supabase row → 공유 포맷 (detail 포함) */
+const fromSupabase = (row) => ({
+  id: String(row.id),
+  title: row.title,
+  description: row.description,
+  categories: ['ai'],
+  categoryLabel: row.category ?? 'AI Vibe Coding',
+  role: row.role ?? '—',
+  tools: row.tech_stack ?? [],
+  tags: (row.tech_stack ?? []).slice(0, 3),
+  gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2A5A8F 100%)',
+  thumbnailUrl: row.thumbnail_url ?? null,
+  liveUrl: row.demo_url ?? null,
+  githubUrl: row.github_url ?? null,
+  is_featured: row.is_featured ?? false,
+  detail: {
+    overview:    row.overview    ?? row.description,
+    problem:     row.problem     ?? '—',
+    goal:        row.goal        ?? '—',
+    targetUser:  row.targetUser  ?? null,
+    designPoint: row.designPoint ?? '—',
+    process:     row.process     ?? null,
+    result:      row.result      ?? null,
+    nextStep:    row.nextStep    ?? '추후 케이스스터디 상세 내용을 추가할 예정입니다.',
+  },
+});
 
 /* ── View Detail 모달 ── */
 const DetailRow = ({ label, children }) => (
@@ -46,12 +78,16 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         <DetailRow label="Project Overview">
           <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
         </DetailRow>
-        <DetailRow label="Problem">
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.problem}</Typography>
-        </DetailRow>
-        <DetailRow label="Goal">
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.goal}</Typography>
-        </DetailRow>
+        {detail.problem && detail.problem !== '—' && (
+          <DetailRow label="Problem">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.problem}</Typography>
+          </DetailRow>
+        )}
+        {detail.goal && detail.goal !== '—' && (
+          <DetailRow label="Goal">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.goal}</Typography>
+          </DetailRow>
+        )}
         {detail.targetUser && (
           <DetailRow label="Target User">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.targetUser}</Typography>
@@ -60,22 +96,26 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         <DetailRow label="Role">
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{role}</Typography>
         </DetailRow>
-        <DetailRow label="Tools">
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-            {tools.map((t) => (
-              <Chip key={t} label={t} size="small"
-                sx={(theme) => ({
-                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
-                  color: 'primary.main',
-                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.2)' : 'rgba(30,58,95,0.18)'}`,
-                  fontWeight: 600, fontSize: '0.72rem',
-                })} />
-            ))}
-          </Box>
-        </DetailRow>
-        <DetailRow label="Design Point">
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
-        </DetailRow>
+        {tools.length > 0 && (
+          <DetailRow label="Tools">
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+              {tools.map((t) => (
+                <Chip key={t} label={t} size="small"
+                  sx={(theme) => ({
+                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
+                    color: 'primary.main',
+                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.2)' : 'rgba(30,58,95,0.18)'}`,
+                    fontWeight: 600, fontSize: '0.72rem',
+                  })} />
+              ))}
+            </Box>
+          </DetailRow>
+        )}
+        {detail.designPoint && detail.designPoint !== '—' && (
+          <DetailRow label="Design Point">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
+          </DetailRow>
+        )}
         {detail.process && (
           <DetailRow label="UX/UI Process">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.process}</Typography>
@@ -218,13 +258,25 @@ const ProjectCard = ({ project, idx, onDetail }) => (
 
 /* ── 메인 섹션 ── */
 const ProjectsSection = () => {
-  const [activeTab, setActiveTab]       = useState('all');
+  const navigate = useNavigate();
+  const [projects, setProjects] = useState(FEATURED_FALLBACK);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [modalOpen, setModalOpen]       = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const filtered = activeTab === 'all'
-    ? ALL_PROJECTS
-    : ALL_PROJECTS.filter((p) => p.categories.includes(activeTab));
+  useEffect(() => {
+    supabase
+      .from('projects')
+      .select('*')
+      .eq('is_published', true)
+      .order('sort_order')
+      .then(({ data, error }) => {
+        if (!error && data && data.length > 0) {
+          setProjects(data.slice(0, 4).map(fromSupabase));
+        }
+        /* error 또는 빈 배열이면 FEATURED_FALLBACK 유지 */
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <Box component="section" id="projects" aria-label="프로젝트" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
@@ -243,29 +295,36 @@ const ProjectsSection = () => {
           </Box>
         </RevealOnScroll>
 
-        <RevealOnScroll delay={0.05}>
-          <Box sx={(t) => ({ mb: 5, borderBottom: `1px solid ${t.palette.divider}` })}>
-            <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}
-              variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile
-              TabIndicatorProps={{ style: { height: 2 } }}
-              sx={{ '& .MuiTab-root': { fontSize: '0.8rem', fontWeight: 600, minHeight: 44, textTransform: 'none', color: 'text.secondary', '&.Mui-selected': { color: 'primary.main' } } }}>
-              {FILTER_TABS.map((tab) => <Tab key={tab.value} label={tab.label} value={tab.value} />)}
-            </Tabs>
-          </Box>
-        </RevealOnScroll>
-
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
-          {filtered.map((project, idx) => (
+          {projects.map((project, idx) => (
             <ProjectCard key={project.id} project={project} idx={idx}
               onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
           ))}
         </Box>
 
-        {filtered.length === 0 && (
-          <Box sx={{ textAlign: 'center', py: 8 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>해당 카테고리의 프로젝트가 없습니다.</Typography>
+        <RevealOnScroll delay={0.1}>
+          <Box sx={{ textAlign: 'center', mt: 6 }}>
+            <Button
+              variant="outlined"
+              size="large"
+              onClick={() => navigate('/projects')}
+              aria-label="전체 프로젝트 페이지로 이동"
+              sx={(t) => ({
+                fontWeight: 600,
+                px: 4,
+                minHeight: 44,
+                color: 'primary.main',
+                borderColor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.4)' : 'rgba(30,58,95,0.35)',
+                '&:hover': {
+                  borderColor: 'primary.main',
+                  bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.06)' : '#EEF4FB',
+                },
+              })}
+            >
+              모든 프로젝트 보기
+            </Button>
           </Box>
-        )}
+        </RevealOnScroll>
 
       </Container>
       <ProjectDetailModal project={selectedProject} open={modalOpen} onClose={() => setModalOpen(false)} />
