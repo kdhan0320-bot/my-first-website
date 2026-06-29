@@ -91,10 +91,10 @@ const ContactSection = () => {
 
         {/* 연락처 + 방명록 폼 */}
         <RevealOnScroll delay={0.1}>
-          <Grid container spacing={{ xs: 4, md: 8 }} sx={{ mb: { xs: 6, md: 10 } }} id="guestbook">
+          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 6, md: 8 } }} id="guestbook">
 
             {/* 왼쪽: 연락처 정보 */}
-            <Grid size={{ xs: 12, md: 5 }}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Typography variant="h4" sx={{ color: 'text.primary', mb: 3 }}>연락처</Typography>
 
               {/* 연락처 카드 */}
@@ -153,7 +153,7 @@ const ContactSection = () => {
                   minHeight: 44,
                   justifyContent: 'flex-start',
                   pl: 2,
-                  opacity: 0.72,
+                  opacity: 0.85,
                   cursor: 'default',
                 }}
               >
@@ -161,9 +161,16 @@ const ContactSection = () => {
               </Button>
             </Grid>
 
-            {/* 오른쪽: 방명록 폼 */}
-            <Grid size={{ xs: 12, md: 7 }}>
-              <GuestbookForm onSuccess={handleSuccess} />
+            {/* 오른쪽: 방명록 폼 (보조 기능) */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box sx={(t) => ({
+                p: { xs: 2.5, sm: 3 },
+                borderRadius: 2,
+                border: `1px solid ${t.palette.divider}`,
+                bgcolor: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
+              })}>
+                <GuestbookForm onSuccess={handleSuccess} />
+              </Box>
             </Grid>
           </Grid>
         </RevealOnScroll>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Card, CardContent,
   Button, Chip, Stack,
@@ -13,8 +13,11 @@ import RevealOnScroll from '../common/RevealOnScroll';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
 
-/* 홈 fallback: is_featured === true인 프로젝트 최대 4개 */
-const FEATURED_FALLBACK = ALL_PROJECTS.filter((p) => p.is_featured).slice(0, 4);
+/* 홈 fallback: is_featured=true → sort_order 오름차순 → 최대 4개 */
+const FEATURED_FALLBACK = [...ALL_PROJECTS]
+  .filter((p) => p.is_featured)
+  .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99))
+  .slice(0, 4);
 
 /* Supabase row → 공유 포맷 (detail 포함) */
 const fromSupabase = (row) => ({
@@ -102,9 +105,9 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
                   sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
+                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
                     color: 'primary.main',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.2)' : 'rgba(30,58,95,0.18)'}`,
+                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(30,58,95,0.18)'}`,
                     fontWeight: 600, fontSize: '0.72rem',
                   })} />
               ))}
@@ -170,6 +173,14 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title }) => (
         </Typography>
       </Box>
     )}
+    {/* hover overlay */}
+    <Box className="thumb-overlay" sx={{
+      position: 'absolute', inset: 0,
+      background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.32) 100%)',
+      opacity: 0,
+      transition: 'opacity 0.3s ease',
+      pointerEvents: 'none',
+    }} />
   </Box>
 );
 
@@ -187,13 +198,20 @@ const ProjectCard = ({ project, idx, onDetail }) => {
     <Card tabIndex={0} aria-label={`${project.title} 프로젝트 카드`}
       sx={(t) => ({
         display: 'flex', flexDirection: 'column', flex: 1,
+        position: 'relative',
+        borderTop: `2px solid`,
+        borderTopColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : 'rgba(30,58,95,0.22)',
         transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: t.palette.mode === 'dark' ? '0 12px 32px rgba(0,0,0,0.4)' : '0 12px 32px rgba(0,0,0,0.1)',
+          boxShadow: t.palette.mode === 'dark'
+            ? '0 12px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.18)'
+            : '0 12px 32px rgba(0,0,0,0.1)',
+          borderTopColor: t.palette.primary.main,
           borderColor: t.palette.primary.main,
         },
         '&:hover .thumb-img': { transform: 'scale(1.05)' },
+        '&:hover .thumb-overlay': { opacity: 1 },
         '&:focus-visible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: '2px' },
       })}>
       <ProjectThumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} />
@@ -222,9 +240,9 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           {visibleTools.map((tool) => (
             <Chip key={tool} label={tool} size="small"
               sx={(t) => ({
-                bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
+                bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
                 color: 'primary.main',
-                border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(91,141,184,0.18)' : 'rgba(30,58,95,0.16)'}`,
+                border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.16)'}`,
                 fontSize: '0.62rem', height: 20, fontWeight: 600,
               })} />
           ))}
@@ -241,8 +259,8 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 정보 보기`}
             sx={(t) => ({
               fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
-              borderColor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.4)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
-              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.06)' : '#EEF4FB' },
+              borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
+              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB' },
             })}>
             View Detail
           </Button>
@@ -257,7 +275,8 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           {project.githubUrl && (
             <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-              aria-label={`${project.title} GitHub`}
+              aria-label={`${project.title} 코드 및 프로젝트 구조를 GitHub에서 확인`}
+              title="작업한 코드와 프로젝트 구조는 GitHub에서 확인할 수 있습니다."
               sx={(t) => ({ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: t.palette.divider, '&:hover': { borderColor: 'primary.main', color: 'primary.main' } })}>
               GitHub
             </Button>
@@ -281,6 +300,7 @@ const ProjectsSection = () => {
       .from('projects')
       .select('*')
       .eq('is_published', true)
+      .eq('is_featured', true)
       .order('sort_order')
       .then(({ data, error }) => {
         if (!error && data && data.length > 0) {
@@ -327,10 +347,10 @@ const ProjectsSection = () => {
                 px: 4,
                 minHeight: 44,
                 color: 'primary.main',
-                borderColor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.4)' : 'rgba(30,58,95,0.35)',
+                borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)',
                 '&:hover': {
                   borderColor: 'primary.main',
-                  bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.06)' : '#EEF4FB',
+                  bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB',
                 },
               })}
             >
@@ -346,3 +366,4 @@ const ProjectsSection = () => {
 };
 
 export default ProjectsSection;
+

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Card, CardContent,
   Chip, Button, Tabs, Tab, Stack, Skeleton,
@@ -93,9 +93,9 @@ const DetailModal = ({ project, open, onClose }) => {
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
                   sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
+                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
                     color: 'primary.main',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(91,141,184,0.2)' : 'rgba(30,58,95,0.18)'}`,
+                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(30,58,95,0.18)'}`,
                     fontWeight: 600, fontSize: '0.72rem',
                   })} />
               ))}
@@ -202,9 +202,9 @@ const ProjectCard = ({ project, onDetail }) => (
         {project.tools.map((tool) => (
           <Chip key={tool} label={tool} size="small"
             sx={(t) => ({
-              bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.1)' : '#EEF4FB',
+              bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
               color: 'primary.main',
-              border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(91,141,184,0.18)' : 'rgba(30,58,95,0.16)'}`,
+              border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.16)'}`,
               fontSize: '0.62rem', height: 20, fontWeight: 600,
             })} />
         ))}
@@ -219,8 +219,8 @@ const ProjectCard = ({ project, onDetail }) => (
         <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
           sx={(t) => ({
             fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
-            borderColor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.4)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
-            '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(91,141,184,0.06)' : '#EEF4FB' },
+            borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
+            '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB' },
           })}>
           View Detail
         </Button>
@@ -354,3 +354,4 @@ const ProjectsPage = () => {
 };
 
 export default ProjectsPage;
+

@@ -71,8 +71,8 @@ const GuestbookForm = ({ onSuccess }) => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <Typography variant="h5" sx={{ color: 'text.primary', mb: 1 }}>방명록 남기기</Typography>
+    <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+      <Typography variant="h6" sx={{ color: 'text.secondary', fontWeight: 600, mb: 0.5 }}>방명록 남기기</Typography>
 
       <TextField
         name="author_name"
@@ -92,7 +92,7 @@ const GuestbookForm = ({ onSuccess }) => {
         onChange={handleChange}
         fullWidth
         multiline
-        rows={2}
+        rows={1}
       />
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>

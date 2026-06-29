@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   AppBar, Toolbar, Typography, Button, Box, Container,
   IconButton, Drawer, List, ListItem, ListItemButton, ListItemText,
-  Divider,
+  Divider, Tooltip,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -183,36 +183,42 @@ const Navbar = () => {
               })}
 
               {/* GitHub 링크 */}
-              <Button
-                component="a"
-                href={GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub 프로필 새 탭에서 열기"
-                startIcon={<GitHubIcon aria-hidden="true" sx={{ fontSize: '1rem !important' }} />}
-                sx={(theme) => ({
-                  ml: 1,
-                  color: theme.palette.text.secondary,
-                  fontWeight: 500,
-                  fontSize: '0.875rem',
-                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.22)' : 'rgba(21,120,170,0.22)'}`,
-                  borderRadius: 2,
-                  px: 2,
-                  py: 0.75,
-                  minHeight: 44,
-                  transition: 'color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s',
-                  '&:hover': {
-                    color: theme.palette.primary.main,
-                    borderColor: theme.palette.primary.main,
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : 'rgba(21,120,170,0.05)',
-                    transform: 'translateY(-1px)',
-                  },
-                  '&:active': { transform: 'translateY(0)' },
-                  '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
-                })}
+              <Tooltip
+                title="작업한 코드와 프로젝트 구조는 GitHub에서 확인할 수 있습니다."
+                placement="bottom"
+                arrow
               >
-                GitHub
-              </Button>
+                <Button
+                  component="a"
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub 프로필 새 탭에서 열기 — 작업한 코드와 프로젝트 구조를 확인할 수 있습니다."
+                  startIcon={<GitHubIcon aria-hidden="true" sx={{ fontSize: '1rem !important' }} />}
+                  sx={(theme) => ({
+                    ml: 1,
+                    color: theme.palette.text.secondary,
+                    fontWeight: 500,
+                    fontSize: '0.875rem',
+                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.22)' : 'rgba(21,120,170,0.22)'}`,
+                    borderRadius: 2,
+                    px: 2,
+                    py: 0.75,
+                    minHeight: 44,
+                    transition: 'color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s',
+                    '&:hover': {
+                      color: theme.palette.primary.main,
+                      borderColor: theme.palette.primary.main,
+                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : 'rgba(21,120,170,0.05)',
+                      transform: 'translateY(-1px)',
+                    },
+                    '&:active': { transform: 'translateY(0)' },
+                    '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
+                  })}
+                >
+                  GitHub
+                </Button>
+              </Tooltip>
 
               {/* 테마 토글 */}
               <ThemeToggle sx={{ ml: 0.5 }} />

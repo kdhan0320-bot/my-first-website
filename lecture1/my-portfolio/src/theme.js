@@ -4,10 +4,10 @@ export const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      main:         mode === 'dark' ? '#5B8DB8' : '#1E3A5F',
-      light:        mode === 'dark' ? '#7AAFD4' : '#2A5A8F',
-      dark:         mode === 'dark' ? '#4A7AA0' : '#162D4A',
-      contrastText: '#FFFFFF',
+      main:         mode === 'dark' ? '#38BDF8' : '#1E3A5F',
+      light:        mode === 'dark' ? '#7DD3FC' : '#2A5A8F',
+      dark:         mode === 'dark' ? '#0EA5E9' : '#162D4A',
+      contrastText: mode === 'dark' ? '#0B1220' : '#FFFFFF',
     },
     secondary: {
       main:         mode === 'dark' ? '#2DD4BF' : '#0D9488',
@@ -20,13 +20,13 @@ export const getDesignTokens = (mode) => ({
       paper:   mode === 'dark' ? '#111827' : '#FFFFFF',
     },
     text: {
-      primary:   mode === 'dark' ? '#E5E7EB' : '#0F172A',
-      secondary: mode === 'dark' ? '#94A3B8' : '#475569',
-      disabled:  mode === 'dark' ? '#4B5563' : '#94A3B8',
+      primary:   mode === 'dark' ? '#F8FAFC' : '#0F172A',
+      secondary: mode === 'dark' ? '#CBD5E1' : '#475569',
+      disabled:  mode === 'dark' ? '#94A3B8' : '#94A3B8',
     },
-    divider: mode === 'dark' ? 'rgba(148,163,184,0.18)' : 'rgba(30,58,95,0.12)',
+    divider: mode === 'dark' ? 'rgba(51,65,85,0.75)' : 'rgba(30,58,95,0.12)',
     highlight: {
-      background: mode === 'dark' ? 'rgba(91,141,184,0.12)' : '#EEF4FB',
+      background: mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
     },
     error:   { main: '#E53935' },
     warning: { main: '#FFB800' },
@@ -103,6 +103,22 @@ export const getDesignTokens = (mode) => ({
     MuiDivider: {
       styleOverrides: {
         root: ({ theme }) => ({ borderColor: theme.palette.divider }),
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: ({ theme }) => ({
+          backgroundColor: theme.palette.mode === 'dark' ? '#1E2D3D' : 'rgba(15,23,42,0.92)',
+          color: theme.palette.mode === 'dark' ? '#F1F5F9' : '#FFFFFF',
+          fontSize: '0.75rem',
+          fontWeight: 500,
+          borderRadius: 6,
+          padding: '5px 10px',
+          border: theme.palette.mode === 'dark' ? '1px solid rgba(51,65,85,0.8)' : 'none',
+        }),
+        arrow: ({ theme }) => ({
+          color: theme.palette.mode === 'dark' ? '#1E2D3D' : 'rgba(15,23,42,0.92)',
+        }),
       },
     },
   },
