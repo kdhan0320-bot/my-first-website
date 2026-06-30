@@ -52,6 +52,9 @@ const filterBtns   = document.querySelectorAll('.filter-btn');
 const contentCards = document.querySelectorAll('#contentsGrid .card');
 const noResults    = document.getElementById('noResults');
 
+// 초기 빈 상태 확실히 숨김 (CSS fallback)
+noResults.style.display = 'none';
+
 filterBtns.forEach((btn) => {
   btn.addEventListener('click', () => {
     const selected = btn.dataset.filter;
@@ -159,11 +162,17 @@ document.querySelectorAll('.js-start-btn').forEach((btn) => {
 loginModalClose.addEventListener('click',    closeLoginModal);
 loginModalBackdrop.addEventListener('click', closeLoginModal);
 
-// 폼 제출 - 목업이므로 새로고침 방지
+// 폼 제출 - 데모이므로 새로고침 방지
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
   closeLoginModal();
 });
+
+// 데모로 둘러보기 버튼
+const demoEnterBtn = document.getElementById('demoEnterBtn');
+if (demoEnterBtn) {
+  demoEnterBtn.addEventListener('click', closeLoginModal);
+}
 
 // 로그인 모달 포커스 트랩
 loginModal.addEventListener('keydown', (e) => {
@@ -256,6 +265,18 @@ sections.forEach((sec) => sectionObserver.observe(sec));
 
 
 // ──────────────────────────────────────────────
+// ──────────────────────────────────────────────
+// Hero 상세 정보 버튼 → Original 섹션으로 스크롤
+// ──────────────────────────────────────────────
+const heroDetailBtn = document.getElementById('heroDetailBtn');
+if (heroDetailBtn) {
+  heroDetailBtn.addEventListener('click', () => {
+    const target = document.getElementById('original');
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+
 // 9. 카드 키보드 접근성 (Enter / Space)
 // ──────────────────────────────────────────────
 document.querySelectorAll('.card, .rec-card').forEach((card) => {
