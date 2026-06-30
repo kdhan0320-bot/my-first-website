@@ -13,6 +13,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
+import { SAMPLE_POSTS, SAMPLE_COMMENTS } from '../constants/samplePosts';
 
 const formatRelativeTime = (dateStr) => {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -303,13 +304,23 @@ const PostDetailPage = () => {
   }, [id, user]);
 
   useEffect(() => {
+    if (String(id).startsWith('sample')) {
+      const samplePost = SAMPLE_POSTS.find(p => p.id === id);
+      if (samplePost) {
+        setPost({ ...samplePost, view_count: samplePost.view_count });
+        setLikeCount(samplePost.like_count);
+        setComments(SAMPLE_COMMENTS[id] || []);
+      }
+      setLoading(false);
+      return;
+    }
     const init = async () => {
       setLoading(true);
       await Promise.all([fetchPost(), fetchLikes(), fetchComments()]);
       setLoading(false);
     };
     init();
-  }, [fetchPost, fetchLikes, fetchComments]);
+  }, [fetchPost, fetchLikes, fetchComments, id]);
 
   // 게시물 삭제
   const handleDeletePost = async () => {
@@ -397,6 +408,17 @@ const PostDetailPage = () => {
           >
             게시물 상세
           </Typography>
+          <Button
+            component="a"
+            href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            size="small"
+            sx={{ fontSize: '0.72rem', color: 'text.secondary', display: { xs: 'none', md: 'inline-flex' }, mr: 1 }}
+            aria-label="포트폴리오로 돌아가기"
+          >
+            ← Portfolio
+          </Button>
           {/* 내 게시물 편집/삭제 */}
           {isPostOwner && (
             <Box sx={{ display: 'flex', gap: 0.5 }}>

@@ -68,11 +68,26 @@ const LoginPage = () => {
             </Typography>
           </Box>
           <Typography variant="body2" color="text.secondary">
-            포트폴리오와 학습 정보를 함께 나누는 커뮤니티
+            포트폴리오 피드백과 취업 준비 정보를 공유하고 피드백을 주고받는 커뮤니티 게시판 데모입니다.
           </Typography>
         </Box>
 
-        {/* 폼 카드 */}
+        {/* 게스트 버튼 — 최상단 Primary CTA */}
+        <Button
+          variant="contained"
+          fullWidth
+          size="large"
+          onClick={handleGuestMode}
+          aria-label="로그인 없이 게스트로 게시판 둘러보기"
+          sx={{ mb: 1, py: 1.6, borderRadius: 2.5, fontWeight: 700, fontSize: '1rem', minHeight: 48 }}
+        >
+          게스트로 둘러보기
+        </Button>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 3 }}>
+          별도 회원가입 없이 샘플 게시글로 주요 화면을 확인할 수 있습니다.
+        </Typography>
+
+        {/* 로그인 폼 */}
         <Box
           component="form"
           onSubmit={handleSubmit}
@@ -82,12 +97,12 @@ const LoginPage = () => {
             p: { xs: 3, sm: 4 },
             border: '1px solid',
             borderColor: 'divider',
-            boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
+            boxShadow: '0 2px 12px rgba(15,23,42,0.06)',
           }}
         >
-          <Typography variant="h2" sx={{ mb: 3, textAlign: 'center', fontWeight: 700, fontSize: '1.25rem' }}>
-            로그인
-          </Typography>
+          <Divider sx={{ mb: 2.5 }}>
+            <Typography variant="caption" color="text.disabled">계정으로 로그인</Typography>
+          </Divider>
 
           {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
@@ -100,6 +115,7 @@ const LoginPage = () => {
             required
             sx={{ mb: 2 }}
             autoComplete="username"
+            inputProps={{ 'aria-label': '아이디' }}
           />
           <TextField
             label="비밀번호"
@@ -109,8 +125,9 @@ const LoginPage = () => {
             onChange={handleChange}
             fullWidth
             required
-            sx={{ mb: 3 }}
+            sx={{ mb: 2.5 }}
             autoComplete="current-password"
+            inputProps={{ 'aria-label': '비밀번호' }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -129,32 +146,14 @@ const LoginPage = () => {
 
           <Button
             type="submit"
-            variant="contained"
+            variant="outlined"
             color="primary"
             fullWidth
             size="large"
             disabled={loading}
-            sx={{ mb: 2, py: 1.4, borderRadius: 2.5, fontWeight: 700, minHeight: 44 }}
+            sx={{ mb: 1.5, py: 1.3, borderRadius: 2.5, fontWeight: 700, minHeight: 44 }}
           >
             {loading ? '로그인 중...' : '로그인'}
-          </Button>
-
-          <Divider sx={{ mb: 2 }}>
-            <Typography variant="caption" color="text.disabled">또는</Typography>
-          </Divider>
-
-          <Button
-            variant="outlined"
-            fullWidth
-            size="large"
-            onClick={handleGuestMode}
-            sx={{
-              mb: 2, py: 1.4, borderRadius: 2.5, fontWeight: 600,
-              borderColor: 'divider', color: 'text.secondary', minHeight: 44,
-              '&:hover': { borderColor: 'primary.main', color: 'primary.main', bgcolor: 'transparent' },
-            }}
-          >
-            데모로 둘러보기
           </Button>
 
           <Box sx={{ textAlign: 'center' }}>

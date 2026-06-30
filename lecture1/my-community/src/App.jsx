@@ -23,9 +23,9 @@ const AppRoutes = () => (
   <Routes>
     <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
     <Route path="/signup" element={<PublicRoute><SignupPage /></PublicRoute>} />
-    <Route path="/" element={<PrivateRoute><PostListPage /></PrivateRoute>} />
+    <Route path="/" element={<PostListPage />} />
+    <Route path="/posts/:id" element={<PostDetailPage />} />
     <Route path="/write" element={<PrivateRoute><PostWritePage /></PrivateRoute>} />
-    <Route path="/posts/:id" element={<PrivateRoute><PostDetailPage /></PrivateRoute>} />
     <Route path="/posts/:id/edit" element={<PrivateRoute><PostEditPage /></PrivateRoute>} />
   </Routes>
 );
