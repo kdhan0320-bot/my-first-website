@@ -144,16 +144,28 @@ const Login = () => {
         >
           <SportsEsportsIcon sx={{ fontSize: 32, color: '#1578AA' }} />
         </Box>
-        <Typography sx={{ color: '#1A1A2E', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.4px', lineHeight: 1.2 }}>
-          겜스타그램
+        <Typography sx={{ color: '#0F172A', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.4px', lineHeight: 1.2 }}>
+          Mini SNS
         </Typography>
-        <Typography variant="body2" sx={{ color: '#7F8FA4', mt: 0.5 }}>
-          게임 리뷰 &amp; 모임 SNS
+        <Typography variant="body2" sx={{ color: '#475569', mt: 0.5 }}>
+          관심사 기반 게시글, 모임, 채팅 흐름을 체험할 수 있는 프론트엔드 SNS 데모입니다.
         </Typography>
       </Box>
 
-      {/* 피드 미리보기 */}
-      <FeedPreview />
+      {/* 게스트 체험 — 최상단 Primary CTA */}
+      <Button
+        variant="contained"
+        fullWidth
+        size="large"
+        onClick={handleGuestMode}
+        aria-label="로그인 없이 게스트로 데모 체험하기"
+        sx={{ py: 1.6, borderRadius: 2.5, fontWeight: 700, fontSize: '1rem', mb: 1 }}
+      >
+        게스트로 둘러보기
+      </Button>
+      <Typography variant="caption" sx={{ color: '#475569', display: 'block', textAlign: 'center', mb: 3 }}>
+        별도 회원가입 없이 샘플 데이터로 주요 화면을 확인할 수 있습니다.
+      </Typography>
 
       {/* 로그인 폼 */}
       <Box
@@ -163,11 +175,15 @@ const Login = () => {
           width: '100%',
           bgcolor: '#FFFFFF',
           borderRadius: 3,
-          p: 3.5,
-          border: '1px solid #E0E4EA',
-          boxShadow: '0 2px 16px rgba(26,26,46,0.06)',
+          p: 3,
+          border: '1px solid #E2E8F0',
+          boxShadow: '0 2px 12px rgba(15,23,42,0.06)',
         }}
       >
+        <Divider sx={{ mb: 2.5 }}>
+          <Typography variant="caption" sx={{ color: '#94A3B8' }}>계정으로 로그인</Typography>
+        </Divider>
+
         {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
 
         <TextField
@@ -178,6 +194,7 @@ const Login = () => {
           onChange={(e) => setUsername(e.target.value)}
           sx={{ mb: 2 }}
           autoComplete="username"
+          inputProps={{ 'aria-label': '아이디' }}
         />
         <TextField
           label="비밀번호"
@@ -186,53 +203,30 @@ const Login = () => {
           fullWidth
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          sx={{ mb: 3 }}
+          sx={{ mb: 2.5 }}
           autoComplete="current-password"
+          inputProps={{ 'aria-label': '비밀번호' }}
         />
 
         <Button
           type="submit"
-          variant="contained"
+          variant="outlined"
           fullWidth
           size="large"
           disabled={loading}
-          sx={{ mb: 1.5, py: 1.4, borderRadius: 2.5, fontWeight: 700, fontSize: '0.95rem' }}
+          sx={{ mb: 1.5, py: 1.3, borderRadius: 2.5, fontWeight: 700, fontSize: '0.95rem' }}
         >
           {loading ? <CircularProgress size={22} color="inherit" /> : '로그인'}
         </Button>
 
         <Button
-          variant="outlined"
-          fullWidth
-          size="large"
-          onClick={() => navigate(ROUTES.SIGNUP)}
-          sx={{ py: 1.4, borderRadius: 2.5, fontWeight: 600, fontSize: '0.95rem' }}
-        >
-          회원가입
-        </Button>
-      </Box>
-
-      {/* 게스트 체험 */}
-      <Box sx={{ width: '100%', mt: 2 }}>
-        <Divider sx={{ mb: 2 }}>
-          <Typography variant="caption" sx={{ color: '#B0B8C1' }}>또는</Typography>
-        </Divider>
-        <Button
           variant="text"
           fullWidth
           size="large"
-          onClick={handleGuestMode}
-          sx={{
-            py: 1.2,
-            borderRadius: 2.5,
-            fontWeight: 600,
-            fontSize: '0.9rem',
-            color: '#7F8FA4',
-            border: '1px dashed #D0D7DE',
-            '&:hover': { bgcolor: '#F0F4F8', borderColor: '#A8B4C0' },
-          }}
+          onClick={() => navigate(ROUTES.SIGNUP)}
+          sx={{ py: 1.2, borderRadius: 2.5, fontWeight: 600, fontSize: '0.9rem', color: '#475569' }}
         >
-          🔍 로그인 없이 구경하기
+          회원가입
         </Button>
       </Box>
     </Box>

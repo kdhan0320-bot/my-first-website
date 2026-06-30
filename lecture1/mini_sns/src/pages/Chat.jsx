@@ -10,18 +10,18 @@ import SendIcon from '@mui/icons-material/Send';
 import MainLayout from '../components/layout/MainLayout';
 
 const MOCK_ROOMS = [
-  { id: 1, name: '롤 내전 파티방', type: 'group', members: 5, lastMsg: '오늘 9시에 봐요!', time: '방금 전', unread: 3, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room1' },
-  { id: 2, name: '발로란트팀#1', type: 'group', members: 5, lastMsg: '맵 선택 어떻게 할까요', time: '5분 전', unread: 1, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room2' },
-  { id: 3, name: 'GamerPro123', type: 'dm', members: 2, lastMsg: '게임 같이 해요!', time: '1시간 전', unread: 0, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=user1' },
-  { id: 4, name: '마크 서버방', type: 'group', members: 3, lastMsg: '접속 가능하신가요?', time: '어제', unread: 0, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room4' },
+  { id: 1, name: '포트폴리오 피드백방', type: 'group', members: 6, lastMsg: '피드백 감사해요! 수정해볼게요.', time: '방금 전', unread: 3, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room1' },
+  { id: 2, name: 'Figma UI 스터디', type: 'group', members: 5, lastMsg: '오늘 컴포넌트 정리 공유드려요', time: '5분 전', unread: 1, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room2' },
+  { id: 3, name: '디자인러너', type: 'dm', members: 2, lastMsg: '혹시 JobFlow 데모 링크 있나요?', time: '1시간 전', unread: 0, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=user1' },
+  { id: 4, name: '취업준비 정보방', type: 'group', members: 12, lastMsg: '서류 합격 소식 공유합니다!', time: '어제', unread: 0, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room4' },
 ];
 
 const MOCK_MESSAGES = {
   1: [
-    { id: 1, sender: '롤마스터', content: '오늘 내전 어때요?', time: '20:30', mine: false },
-    { id: 2, sender: 'me', content: '좋아요! 9시에 모여요', time: '20:31', mine: true },
-    { id: 3, sender: '다이아나', content: '저도 참가할게요', time: '20:32', mine: false },
-    { id: 4, sender: 'me', content: '오늘 9시에 봐요!', time: '20:33', mine: true },
+    { id: 1, sender: 'UX학습자', content: '포트폴리오 Hero 문구 어떻게 쓰셨어요?', time: '14:20', mine: false },
+    { id: 2, sender: 'me', content: '저는 "Figma로 설계하고 Claude로 구현했습니다" 로 했어요', time: '14:21', mine: true },
+    { id: 3, sender: '디자인멘토', content: '명확하고 좋네요! 포트폴리오 링크도 공유해주세요', time: '14:22', mine: false },
+    { id: 4, sender: 'me', content: '피드백 감사해요! 수정해볼게요.', time: '14:23', mine: true },
   ],
 };
 
@@ -119,7 +119,10 @@ const Chat = () => {
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h3">채팅</Typography>
+          <Typography variant="h3">데모 채팅</Typography>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.25 }}>
+            실시간 서버 연동 없이 화면 흐름을 보여주는 프론트엔드 데모입니다.
+          </Typography>
         </Box>
 
         <List sx={{ p: 0, bgcolor: 'background.paper' }}>

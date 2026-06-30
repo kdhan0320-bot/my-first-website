@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Avatar, Button, Grid, CircularProgress,
-  IconButton, Modal, Backdrop, Fade,
+  IconButton, Modal, Backdrop, Fade, Chip,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -13,7 +13,7 @@ import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes';
 
 const Profile = () => {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, isGuest } = useAuth();
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,6 +57,56 @@ const Profile = () => {
     setPosts((prev) => prev.filter((p) => p.id !== postId));
     setSelectedPost(null);
   };
+
+  if (isGuest) {
+    const GUEST_INTEREST_TAGS = ['UX/UI', 'Figma', 'Web Design', 'Portfolio'];
+    return (
+      <MainLayout>
+        <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
+          <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
+              <Avatar
+                src="https://api.dicebear.com/7.x/pixel-art/svg?seed=guestdesigner"
+                sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
+              />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="h3" sx={{ mb: 0.5 }}>Guest Designer</Typography>
+                <Typography variant="caption" color="text.secondary">@guest_user</Typography>
+                <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+                  UX/UI와 웹디자인 프로젝트를 정리하는 학습자입니다.
+                </Typography>
+              </Box>
+            </Box>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 2 }}>
+              {GUEST_INTEREST_TAGS.map((tag) => (
+                <Chip key={tag} label={`#${tag}`} size="small"
+                  sx={{ bgcolor: 'secondary.main', color: 'primary.main', fontSize: '0.72rem' }} />
+              ))}
+            </Box>
+            <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', py: 1.5, bgcolor: 'background.default', borderRadius: 2 }}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" color="primary.main">4</Typography>
+                <Typography variant="caption" color="text.secondary">게시물</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" color="primary.main">2</Typography>
+                <Typography variant="caption" color="text.secondary">참여 모임</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" color="primary.main">7</Typography>
+                <Typography variant="caption" color="text.secondary">저장한 글</Typography>
+              </Box>
+            </Box>
+          </Box>
+          <Box sx={{ textAlign: 'center', pt: 6, px: 3 }}>
+            <Typography variant="body2" color="text.secondary">
+              게스트 모드에서는 프로필 수정이 제한됩니다.
+            </Typography>
+          </Box>
+        </Box>
+      </MainLayout>
+    );
+  }
 
   if (!user || !profile) {
     return (

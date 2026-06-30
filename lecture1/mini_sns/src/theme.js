@@ -3,25 +3,25 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1578AA',
-      light: '#1E9BD7',
-      dark: '#1A1A2E',
+      main: '#2563EB',
+      light: '#60A5FA',
+      dark: '#1D4ED8',
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#EAF6FC',
-      light: '#F6FBFE',
-      dark: '#B8DFF2',
-      contrastText: '#1578AA',
+      main: '#EFF6FF',
+      light: '#F8FAFC',
+      dark: '#BFDBFE',
+      contrastText: '#2563EB',
     },
     background: {
-      default: '#F6F8FB',
+      default: '#F8FAFC',
       paper:   '#FFFFFF',
     },
     text: {
-      primary:   '#1A1A2E',
-      secondary: '#7F8FA4',
-      disabled:  '#B0BAC8',
+      primary:   '#0F172A',
+      secondary: '#475569',
+      disabled:  '#94A3B8',
     },
     divider: '#E0E4EA',
     error:   { main: '#E53935' },
@@ -57,8 +57,8 @@ const theme = createTheme({
           fontSize: '0.875rem',
         },
         containedPrimary: {
-          backgroundColor: '#1578AA',
-          '&:hover': { backgroundColor: '#1E9BD7' },
+          backgroundColor: '#2563EB',
+          '&:hover': { backgroundColor: '#1D4ED8' },
         },
       },
     },
@@ -96,7 +96,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           color: '#B0BAC8',
-          '&.Mui-selected': { color: '#1578AA' },
+          '&.Mui-selected': { color: '#2563EB' },
         },
       },
     },
@@ -107,8 +107,8 @@ const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: 12,
             backgroundColor: '#FFFFFF',
-            '&:hover fieldset': { borderColor: '#1578AA' },
-            '&.Mui-focused fieldset': { borderColor: '#1578AA', borderWidth: 2 },
+            '&:hover fieldset': { borderColor: '#2563EB' },
+            '&.Mui-focused fieldset': { borderColor: '#2563EB', borderWidth: 2 },
           },
         },
       },

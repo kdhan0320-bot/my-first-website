@@ -7,44 +7,51 @@ import {
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PeopleIcon from '@mui/icons-material/People';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import GroupsIcon from '@mui/icons-material/Groups';
 import MainLayout from '../components/layout/MainLayout';
 
 const MOCK_MEETUPS = [
   {
-    id: 1, title: '롤 칼바람 내전 파티', game: 'League of Legends',
-    time: '오늘 오후 9시', location: '서울 강남구 1.2km',
-    current: 3, max: 5, tags: ['#롤', '#내전', '#칼바람'],
+    id: 1, title: '포트폴리오 피드백 모임', game: 'Web Design / UX·UI',
+    time: '이번 주 토요일 오후 2시', location: '온라인 (Zoom)',
+    current: 4, max: 6, tags: ['#포트폴리오', '#피드백', '#웹디자인'],
     avatars: [
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=a1',
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=b2',
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=c3',
-    ],
-  },
-  {
-    id: 2, title: '발로란트 대회 팀원 구함', game: 'Valorant',
-    time: '내일 오후 3시', location: '온라인 (Discord)',
-    current: 2, max: 5, tags: ['#발로란트', '#팀원모집', '#대회'],
-    avatars: [
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=d4',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=e5',
     ],
   },
   {
-    id: 3, title: '마인크래프트 서버 같이해요', game: 'Minecraft',
-    time: '주말 오후 7시', location: '서울 마포구 2.1km',
-    current: 1, max: 8, tags: ['#마크', '#서바이벌', '#건축'],
-    avatars: ['https://api.dicebear.com/7.x/pixel-art/svg?seed=f6'],
+    id: 2, title: 'Figma 모바일 UI 스터디', game: 'Figma / UX·UI',
+    time: '매주 수요일 저녁 8시', location: '온라인 (Discord)',
+    current: 3, max: 5, tags: ['#Figma', '#모바일UI', '#스터디'],
+    avatars: [
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=e5',
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=f6',
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=g7',
+    ],
   },
   {
-    id: 4, title: '스팀 멀티 게임 친구 구해요', game: 'Steam',
-    time: '오늘 자정', location: '온라인',
-    current: 4, max: 4, tags: ['#스팀', '#인디게임', '#협동'],
+    id: 3, title: '웹디자인 취업 준비방', game: '취업 준비',
+    time: '상시 운영', location: '온라인 (카카오톡)',
+    current: 12, max: 15, tags: ['#취업준비', '#웹디자인', '#포트폴리오'],
     avatars: [
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=g7',
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=h8',
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=i9',
       'https://api.dicebear.com/7.x/pixel-art/svg?seed=j10',
+    ],
+  },
+  {
+    id: 4, title: 'AI-assisted Coding 연습 모임', game: 'AI Tools / React',
+    time: '격주 일요일 오후 3시', location: '온라인 (Zoom)',
+    current: 5, max: 5, tags: ['#AIassisted', '#React', '#코딩'],
+    avatars: [
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=k11',
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=l12',
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=m13',
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=n14',
+      'https://api.dicebear.com/7.x/pixel-art/svg?seed=o15',
     ],
   },
 ];
@@ -58,6 +65,7 @@ const MeetupCard = ({ meetup, onJoin }) => {
           <Box sx={{ flex: 1 }}>
             <Typography variant="h4" sx={{ mb: 0.3 }}>{meetup.title}</Typography>
             <Typography variant="caption" color="primary.main" fontWeight={600}>{meetup.game}</Typography>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontSize: '0.68rem' }}>데모 모임</Typography>
           </Box>
           <Chip
             label={isFull ? '마감' : '모집중'}
@@ -135,11 +143,10 @@ const Meetup = () => {
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h3">내 주변 모임 찾기</Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 0.5 }}>
-            <LocationOnIcon sx={{ fontSize: 14, color: 'primary.main', mr: 0.5 }} />
-            <Typography variant="caption" color="text.secondary">서울 강남구 기준 5km 이내</Typography>
-          </Box>
+          <Typography variant="h3">관심사 기반 모임</Typography>
+          <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
+            포트폴리오, UX/UI, 취업 준비 등 관심사별 모임을 찾아보세요.
+          </Typography>
         </Box>
 
         <Box sx={{ pt: 2 }}>
@@ -165,7 +172,7 @@ const Meetup = () => {
       >
         <DialogTitle sx={{ pb: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SportsEsportsIcon color="primary" />
+            <GroupsIcon color="primary" />
             <Typography variant="h4">모임 참가하기</Typography>
           </Box>
         </DialogTitle>
