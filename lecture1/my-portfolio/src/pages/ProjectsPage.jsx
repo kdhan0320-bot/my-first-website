@@ -117,6 +117,18 @@ const DetailModal = ({ project, open, onClose }) => {
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
           </DetailRow>
         )}
+        {detail.aiContribution && (
+          <DetailRow label="AI Contribution">
+            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
+            </Box>
+          </DetailRow>
+        )}
+        {detail.limitation && (
+          <DetailRow label="Limitation & Improvement">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.limitation}</Typography>
+          </DetailRow>
+        )}
         <DetailRow label="Next Step">
           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.nextStep}</Typography>
         </DetailRow>
@@ -279,10 +291,14 @@ const ProjectsPage = () => {
       .then(({ data }) => {
         if (data && data.length > 0) {
           const supabaseProjects = data.map(fromSupabase);
-          const localIds = ALL_PROJECTS.map((p) => p.title.toLowerCase());
-          const newFromDb = supabaseProjects.filter(
-            (sp) => !localIds.some((id) => sp.title.toLowerCase().includes(id.split(' ')[0]))
-          );
+          const localTitles = ALL_PROJECTS.map((p) => p.title.toLowerCase());
+          /* 로컬에 이미 있는 프로젝트와 구 버전 항목은 제외 */
+          const OLD_TITLES = ['portfolio feedback hub', '겜스타그램', 'gamstagram', 'mini sns'];
+          const newFromDb = supabaseProjects.filter((sp) => {
+            const t = sp.title.toLowerCase();
+            if (OLD_TITLES.some((old) => t.includes(old))) return false;
+            return !localTitles.some((local) => t.includes(local.split(' ')[0]) || local.includes(t.split(' ')[0]));
+          });
           setProjects([...ALL_PROJECTS, ...newFromDb]);
         } else {
           setProjects(ALL_PROJECTS);
