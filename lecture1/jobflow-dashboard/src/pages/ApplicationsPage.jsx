@@ -30,7 +30,7 @@ const ApplicationsPage = () => {
 
   const filtered = useMemo(() => {
     let list = [...applications];
-    if (search) list = list.filter((a) => a.company_name.includes(search) || a.position?.includes(search));
+    if (search) list = list.filter((a) => a.company_name.includes(search) || a.position?.includes(search) || a.memo?.includes(search));
     if (statusFilter) list = list.filter((a) => a.status === statusFilter);
     if (sortBy === 'newest') list.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
     if (sortBy === 'oldest') list.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
@@ -100,9 +100,9 @@ const ApplicationsPage = () => {
         </Stack>
       ) : filtered.length === 0 ? (
         <EmptyState
-          title="지원 내역이 없습니다"
-          description="첫 번째 지원 회사를 등록해보세요"
-          action={!isGuest ? () => navigate('/applications/new') : undefined}
+          title={search || statusFilter ? '해당 조건의 지원 내역이 없습니다' : '지원 내역이 없습니다'}
+          description={search || statusFilter ? '다른 검색어나 필터를 선택해보세요.' : '첫 번째 지원 회사를 등록해보세요.'}
+          action={!isGuest && !search && !statusFilter ? () => navigate('/applications/new') : undefined}
           actionLabel="지원 회사 추가"
         />
       ) : isMobile ? (

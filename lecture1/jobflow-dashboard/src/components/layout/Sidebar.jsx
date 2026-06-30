@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText,
-  Typography, Divider, Avatar, Tooltip,
+  Typography, Divider, Avatar, Tooltip, Link,
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import WorkIcon from '@mui/icons-material/Work';
@@ -90,6 +90,38 @@ const SidebarContent = () => {
           );
         })}
       </List>
+
+      <Divider />
+      <Box sx={{ p: 2 }}>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontWeight: 600, mb: 0.5 }}>
+          AI-assisted Coding Project
+        </Typography>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', lineHeight: 1.5, mb: 1 }}>
+          Claude를 활용해 UI 구조와 기능 구현을 보조받은 학습 목적의 프론트엔드 프로젝트입니다.
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+          <Link
+            href="https://github.com/kdhan0320-bot/my-first-website"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="caption"
+            underline="hover"
+            sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+          >
+            GitHub →
+          </Link>
+          <Link
+            href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="caption"
+            underline="hover"
+            sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
+          >
+            ← 포트폴리오로 돌아가기
+          </Link>
+        </Box>
+      </Box>
     </Box>
   );
 };

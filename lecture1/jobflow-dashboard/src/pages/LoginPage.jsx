@@ -70,6 +70,21 @@ const LoginPage = () => {
           </Typography>
         </Box>
 
+        {/* 데모 버튼 - 최상단 CTA */}
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleGuest}
+          size="large"
+          sx={{ py: 1.75, mb: 2, fontSize: '1rem', fontWeight: 700, borderRadius: 2 }}
+          aria-label="로그인 없이 데모 대시보드 체험하기"
+        >
+          데모로 둘러보기 (로그인 불필요)
+        </Button>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 3 }}>
+          회원가입 없이 샘플 데이터로 대시보드를 바로 체험할 수 있습니다
+        </Typography>
+
         <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
           <Tabs value={tab} onChange={(_, v) => { setTab(v); setError(''); }} sx={{ mb: 3 }}>
             <Tab label="로그인" sx={{ flex: 1, fontWeight: 600 }} />
@@ -98,6 +113,7 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               sx={{ mb: 2 }}
               placeholder="example@email.com"
+              inputProps={{ 'aria-label': '이메일' }}
             />
             <TextField
               label="비밀번호"
@@ -108,33 +124,18 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               sx={{ mb: 3 }}
               placeholder="6자 이상"
+              inputProps={{ 'aria-label': '비밀번호' }}
             />
             <Button
               type="submit"
               fullWidth
-              variant="contained"
+              variant="outlined"
               disabled={loading}
               sx={{ mb: 2, py: 1.5 }}
             >
               {loading ? '처리 중...' : tab === 0 ? '로그인' : '회원가입'}
             </Button>
           </Box>
-
-          <Divider sx={{ my: 2 }}>
-            <Chip label="또는" size="small" />
-          </Divider>
-
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={handleGuest}
-            sx={{ py: 1.5, borderStyle: 'dashed' }}
-          >
-            데모로 둘러보기 (게스트 모드)
-          </Button>
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mt: 1 }}>
-            회원가입 없이 샘플 데이터로 체험할 수 있습니다
-          </Typography>
         </Paper>
       </Container>
     </Box>
