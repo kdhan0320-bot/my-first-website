@@ -14,21 +14,23 @@ const THUMB_MAP = {
   'ott-service': `${BASE}thumbnails/ott-service.png`,
 };
 
-export const ALL_PROJECTS = fallbackProjects.map((p) => ({
-  ...p,
-  thumbnailUrl: THUMB_MAP[p.id] ?? p.thumbnailUrl ?? null,
-  detail: {
-    overview:       p.overview,
-    problem:        p.problem,
-    goal:           p.goal,
-    targetUser:     p.targetUser     ?? null,
-    designPoint:    p.designPoint,
-    process:        p.process        ?? null,
-    result:         p.result         ?? null,
-    aiContribution: p.aiContribution ?? null,
-    limitation:     p.limitation     ?? null,
-    nextStep:       p.nextStep,
-  },
-}));
+export const ALL_PROJECTS = [...fallbackProjects]
+  .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99))
+  .map((p) => ({
+    ...p,
+    thumbnailUrl: THUMB_MAP[p.id] ?? p.thumbnailUrl ?? null,
+    detail: {
+      overview:       p.overview,
+      problem:        p.problem,
+      goal:           p.goal,
+      targetUser:     p.targetUser     ?? null,
+      designPoint:    p.designPoint,
+      process:        p.process        ?? null,
+      result:         p.result         ?? null,
+      aiContribution: p.aiContribution ?? null,
+      limitation:     p.limitation     ?? null,
+      nextStep:       p.nextStep,
+    },
+  }));
 
 export const FILTER_TABS = FALLBACK_FILTER_TABS;
