@@ -115,7 +115,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           </DetailRow>
         )}
         {detail.designPoint && detail.designPoint !== '—' && (
-          <DetailRow label="Design Point">
+          <DetailRow label="UX/UI Point">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
           </DetailRow>
         )}
@@ -127,6 +127,18 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         {detail.result && (
           <DetailRow label="Result">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
+          </DetailRow>
+        )}
+        {detail.aiContribution && (
+          <DetailRow label="AI Contribution">
+            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
+            </Box>
+          </DetailRow>
+        )}
+        {detail.limitation && (
+          <DetailRow label="Limitation & Improvement">
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.limitation}</Typography>
           </DetailRow>
         )}
         <DetailRow label="Next Step">
@@ -217,13 +229,31 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       <ProjectThumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} />
       <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
         <Box>
-          <Typography variant="caption"
-            sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
-            {project.categoryLabel}
-            {project.isPlaceholder && (
-              <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(Figma 준비 중)</Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap', mb: 0.5 }}>
+            <Typography variant="caption"
+              sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              {project.categoryLabel}
+              {project.isPlaceholder && (
+                <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(Figma 준비 중)</Box>
+              )}
+            </Typography>
+            {project.is_ai_project && (
+              <Chip
+                label="AI-assisted"
+                size="small"
+                sx={(t) => ({
+                  height: 16,
+                  fontSize: '0.58rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
+                  bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : '#DBEAFE',
+                  color: t.palette.mode === 'dark' ? '#7DD3FC' : '#1D4ED8',
+                  border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : 'rgba(37,99,235,0.2)'}`,
+                  '& .MuiChip-label': { px: 0.75 },
+                })}
+              />
             )}
-          </Typography>
+          </Box>
           <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3 }}>{project.title}</Typography>
         </Box>
         <Typography variant="body2"
