@@ -18,71 +18,162 @@ const PROCESS_STEPS = [
   { label: '개선', sub: '피드백을 반영해 구조와 UI를 수정합니다.',            num: '04', color: '#F59E0B', lightColor: '#D97706' },
 ];
 
-const CosmicOverlay = () => {
+const CosmicHeroIllustration = () => {
   const theme = useTheme();
   const dark = theme.palette.mode === 'dark';
-  const starA = dark ? 'rgba(255,255,255,0.52)' : 'rgba(37,99,235,0.38)';
-  const starB = dark ? 'rgba(255,255,255,0.35)' : 'rgba(124,58,237,0.28)';
-  const o1 = dark ? 'rgba(56,189,248,0.22)' : 'rgba(37,99,235,0.16)';
-  const o2 = dark ? 'rgba(167,139,250,0.17)' : 'rgba(124,58,237,0.13)';
-  const gx = dark ? 'rgba(56,189,248,0.09)' : 'rgba(37,99,235,0.07)';
+
+  const oc1    = dark ? 'rgba(56,189,248,0.44)'  : 'rgba(37,99,235,0.30)';
+  const oc2    = dark ? 'rgba(167,139,250,0.36)' : 'rgba(124,58,237,0.24)';
+  const star   = dark ? 'rgba(255,255,255,0.65)' : 'rgba(37,99,235,0.50)';
+  const starB  = dark ? 'rgba(255,255,255,0.42)' : 'rgba(124,58,237,0.36)';
+  const gx     = dark ? 'rgba(56,189,248,0.16)'  : 'rgba(37,99,235,0.10)';
+  const pFill  = dark ? 'rgba(15,23,42,0.92)'    : 'rgba(255,255,255,0.97)';
+  const pStroke= dark ? 'rgba(56,189,248,0.55)'  : 'rgba(37,99,235,0.40)';
+  const tBar   = dark ? 'rgba(30,41,59,0.98)'    : 'rgba(241,245,249,1)';
+  const lnA    = dark ? 'rgba(255,255,255,0.22)' : 'rgba(37,99,235,0.22)';
+  const lnB    = dark ? 'rgba(255,255,255,0.11)' : 'rgba(37,99,235,0.11)';
+  const cFill  = dark ? 'rgba(20,30,50,0.88)'    : 'rgba(255,255,255,0.94)';
+
   return (
-    <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
-      style={{ position: 'absolute', top: '-14%', left: '-14%', width: '128%', height: '128%', pointerEvents: 'none', zIndex: 0 }}>
-      {/* 궤도 타원 2개 */}
-      <ellipse cx="220" cy="180" rx="208" ry="168" fill="none" stroke={o1} strokeWidth="1" />
-      <ellipse cx="220" cy="180" rx="148" ry="118" fill="none" stroke={o2} strokeWidth="0.8" strokeDasharray="6 9" />
-      {/* 행성 노드 4개 (각 프로세스 단계 색) */}
-      <circle cx="19" cy="124" r="6" fill="#A78BFA" opacity={dark ? 0.65 : 0.45} />
-      <circle cx="19" cy="124" r="11" fill="#A78BFA" opacity="0.1" />
-      <circle cx="429" cy="82" r="5" fill="#38BDF8" opacity={dark ? 0.6 : 0.42} />
-      <circle cx="429" cy="82" r="9" fill="#38BDF8" opacity="0.1" />
-      <circle cx="432" cy="298" r="7" fill="#22D3EE" opacity={dark ? 0.55 : 0.4} />
-      <circle cx="432" cy="298" r="12" fill="#22D3EE" opacity="0.09" />
-      <circle cx="22" cy="265" r="5" fill="#F59E0B" opacity={dark ? 0.6 : 0.42} />
-      <circle cx="22" cy="265" r="9" fill="#F59E0B" opacity="0.1" />
-      {/* 별자리 점 */}
-      <circle cx="38" cy="36" r="1.5" fill={starA} />
-      <circle cx="96" cy="16" r="1" fill={starB} />
-      <circle cx="162" cy="7" r="1.5" fill={starA} />
-      <circle cx="377" cy="26" r="1.5" fill={starB} />
-      <circle cx="407" cy="54" r="1" fill={starA} />
-      <circle cx="430" cy="188" r="1" fill={starB} />
-      <circle cx="8" cy="198" r="1" fill={starB} />
-      <circle cx="56" cy="328" r="1.5" fill={starA} />
-      <circle cx="114" cy="348" r="1" fill={starB} />
-      <circle cx="336" cy="342" r="1.5" fill={starA} />
-      <circle cx="400" cy="316" r="1" fill={starB} />
-      {/* 별자리 연결선 */}
-      <line x1="38" y1="36" x2="96" y2="16" stroke={starA} strokeWidth="0.5" opacity="0.4" />
-      <line x1="96" y1="16" x2="162" y2="7" stroke={starA} strokeWidth="0.5" opacity="0.3" />
-      <line x1="377" y1="26" x2="407" y2="54" stroke={starA} strokeWidth="0.5" opacity="0.35" />
-      <line x1="56" y1="328" x2="114" y2="348" stroke={starA} strokeWidth="0.5" opacity="0.4" />
-      <line x1="114" y1="348" x2="336" y2="342" stroke={starA} strokeWidth="0.5" opacity="0.25" />
-      {/* 은하수 곡선 */}
-      <path d="M 28 268 Q 220 318 424 198" fill="none" stroke={gx} strokeWidth="2" />
-      {/* 떠 있는 UI 패널 — 우상단 */}
-      <g opacity={dark ? 0.5 : 0.28}>
-        <rect x="346" y="22" width="76" height="52" rx="5" fill={dark ? 'rgba(15,23,42,0.78)' : 'rgba(255,255,255,0.85)'} stroke={o1} strokeWidth="0.9"/>
-        <rect x="353" y="30" width="30" height="3.5" rx="1.5" fill={dark ? 'rgba(255,255,255,0.38)' : 'rgba(37,99,235,0.38)'}/>
-        <rect x="353" y="39" width="60" height="2.5" rx="1.2" fill={dark ? 'rgba(255,255,255,0.18)' : 'rgba(37,99,235,0.2)'}/>
-        <rect x="353" y="46" width="45" height="2.5" rx="1.2" fill={dark ? 'rgba(255,255,255,0.12)' : 'rgba(37,99,235,0.14)'}/>
-        <circle cx="356" cy="61" r="2.5" fill="#38BDF8" opacity={dark ? 0.8 : 0.55}/>
-        <circle cx="365" cy="61" r="2.5" fill="#A78BFA" opacity={dark ? 0.7 : 0.5}/>
-        <circle cx="374" cy="61" r="2.5" fill="#F59E0B" opacity={dark ? 0.7 : 0.5}/>
-      </g>
-      <line x1="422" y1="77" x2="416" y2="70" stroke={o1} strokeWidth="0.5" strokeDasharray="2 2.5" opacity="0.5"/>
-      {/* 떠 있는 지표 카드 — 좌하단 */}
-      <g opacity={dark ? 0.4 : 0.22}>
-        <rect x="26" y="237" width="64" height="40" rx="4" fill={dark ? 'rgba(15,23,42,0.75)' : 'rgba(255,255,255,0.82)'} stroke={o2} strokeWidth="0.7"/>
-        <rect x="32" y="244" width="22" height="3" rx="1.5" fill={dark ? 'rgba(255,255,255,0.3)' : 'rgba(124,58,237,0.3)'}/>
-        <rect x="32" y="253" width="6" height="15" rx="1.5" fill="#38BDF8" opacity={dark ? 0.65 : 0.45}/>
-        <rect x="41" y="258" width="6" height="10" rx="1.5" fill="#A78BFA" opacity={dark ? 0.58 : 0.4}/>
-        <rect x="50" y="255" width="6" height="13" rx="1.5" fill="#22D3EE" opacity={dark ? 0.6 : 0.42}/>
-        <rect x="59" y="250" width="6" height="18" rx="1.5" fill="#F59E0B" opacity={dark ? 0.62 : 0.44}/>
-        <rect x="68" y="256" width="6" height="12" rx="1.5" fill="#38BDF8" opacity={dark ? 0.58 : 0.4}/>
-      </g>
-    </svg>
+    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <svg
+        viewBox="0 0 460 400"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="UI 설계 프로세스 일러스트 — 조사, 설계, 구현, 개선"
+        style={{ width: '100%', maxWidth: 500, height: 'auto', display: 'block' }}
+      >
+        {/* 은하수 곡선 */}
+        <path d="M 18 375 Q 230 405 445 222" fill="none" stroke={gx} strokeWidth="2.5"/>
+
+        {/* 외부 궤도 */}
+        <ellipse cx="230" cy="195" rx="195" ry="153" fill="none" stroke={oc1} strokeWidth="1.4"/>
+        {/* 내부 궤도 (점선) — 노트북을 감싸듯 */}
+        <ellipse cx="230" cy="195" rx="138" ry="100" fill="none" stroke={oc2} strokeWidth="0.9" strokeDasharray="7 12"/>
+
+        {/* 배경 별 */}
+        <circle cx="32"  cy="42"  r="1.8" fill={star}/>
+        <circle cx="90"  cy="18"  r="1.2" fill={starB}/>
+        <circle cx="164" cy="7"   r="1.8" fill={star}/>
+        <circle cx="400" cy="22"  r="1.8" fill={starB}/>
+        <circle cx="444" cy="64"  r="1.2" fill={star}/>
+        <circle cx="452" cy="210" r="1.2" fill={starB}/>
+        <circle cx="8"   cy="230" r="1.2" fill={starB}/>
+        <circle cx="52"  cy="370" r="1.8" fill={star}/>
+        <circle cx="116" cy="388" r="1.2" fill={starB}/>
+        <circle cx="362" cy="382" r="1.8" fill={star}/>
+        <circle cx="430" cy="348" r="1.2" fill={starB}/>
+
+        {/* 별자리 연결선 */}
+        <line x1="32"  y1="42"  x2="90"  y2="18"  stroke={star} strokeWidth="0.5" opacity="0.45"/>
+        <line x1="90"  y1="18"  x2="164" y2="7"   stroke={star} strokeWidth="0.5" opacity="0.35"/>
+        <line x1="400" y1="22"  x2="444" y2="64"  stroke={star} strokeWidth="0.5" opacity="0.40"/>
+        <line x1="52"  y1="370" x2="116" y2="388" stroke={star} strokeWidth="0.5" opacity="0.45"/>
+        <line x1="116" y1="388" x2="362" y2="382" stroke={star} strokeWidth="0.5" opacity="0.28"/>
+
+        {/* ── 중앙 UI 패널 (브라우저/대시보드 창) ── */}
+        <rect x="84" y="65" width="292" height="188" rx="10" fill={pFill} stroke={pStroke} strokeWidth="1.8"/>
+        {/* 타이틀 바 */}
+        <rect x="84" y="65" width="292" height="22" rx="10" fill={tBar}/>
+        <rect x="84" y="77" width="292" height="10" fill={tBar}/>
+        {/* 창 컨트롤 (맥 스타일) */}
+        <circle cx="100" cy="76" r="4" fill="#EF4444" opacity={dark ? 0.75 : 0.68}/>
+        <circle cx="115" cy="76" r="4" fill="#F59E0B" opacity={dark ? 0.75 : 0.68}/>
+        <circle cx="130" cy="76" r="4" fill="#22C55E" opacity={dark ? 0.75 : 0.68}/>
+        {/* URL 바 */}
+        <rect x="148" y="68" width="88" height="14" rx="3" fill={dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}/>
+        <rect x="155" y="73" width="55" height="4"  rx="2" fill={lnB}/>
+
+        {/* KPI 카드 1 — 청록 */}
+        <rect x="96"  y="96" width="82" height="46" rx="5" fill={dark ? 'rgba(56,189,248,0.11)'  : 'rgba(37,99,235,0.07)'}/>
+        <rect x="104" y="104" width="32" height="4"  rx="2" fill={lnB}/>
+        <rect x="104" y="113" width="60" height="9"  rx="2" fill={dark ? 'rgba(56,189,248,0.52)'  : 'rgba(37,99,235,0.45)'}/>
+        <rect x="104" y="129" width="26" height="3.5" rx="1.5" fill={lnB}/>
+
+        {/* KPI 카드 2 — 보라 */}
+        <rect x="187" y="96" width="82" height="46" rx="5" fill={dark ? 'rgba(167,139,250,0.11)' : 'rgba(124,58,237,0.07)'}/>
+        <rect x="195" y="104" width="32" height="4"  rx="2" fill={lnB}/>
+        <rect x="195" y="113" width="60" height="9"  rx="2" fill={dark ? 'rgba(167,139,250,0.52)' : 'rgba(124,58,237,0.45)'}/>
+        <rect x="195" y="129" width="26" height="3.5" rx="1.5" fill={lnB}/>
+
+        {/* KPI 카드 3 — 시안 */}
+        <rect x="278" y="96" width="82" height="46" rx="5" fill={dark ? 'rgba(34,211,238,0.11)'  : 'rgba(8,145,178,0.07)'}/>
+        <rect x="286" y="104" width="32" height="4"  rx="2" fill={lnB}/>
+        <rect x="286" y="113" width="60" height="9"  rx="2" fill={dark ? 'rgba(34,211,238,0.52)'  : 'rgba(8,145,178,0.45)'}/>
+        <rect x="286" y="129" width="26" height="3.5" rx="1.5" fill={lnB}/>
+
+        {/* 바 차트 영역 */}
+        <rect x="96"  y="152" width="162" height="90" rx="5" fill={dark ? 'rgba(255,255,255,0.03)' : 'rgba(37,99,235,0.03)'}/>
+        <rect x="103" y="160" width="55"  height="4"  rx="2" fill={lnA}/>
+        <rect x="108" y="199" width="14" height="28" rx="2" fill="#38BDF8" opacity={dark ? 0.60 : 0.50}/>
+        <rect x="126" y="184" width="14" height="43" rx="2" fill="#A78BFA" opacity={dark ? 0.55 : 0.46}/>
+        <rect x="144" y="192" width="14" height="35" rx="2" fill="#22D3EE" opacity={dark ? 0.57 : 0.48}/>
+        <rect x="162" y="178" width="14" height="49" rx="2" fill="#38BDF8" opacity={dark ? 0.60 : 0.50}/>
+        <rect x="180" y="189" width="14" height="38" rx="2" fill="#F59E0B" opacity={dark ? 0.55 : 0.46}/>
+        <rect x="198" y="195" width="14" height="32" rx="2" fill="#A78BFA" opacity={dark ? 0.52 : 0.44}/>
+
+        {/* 작업 목록 영역 */}
+        <rect x="268" y="152" width="96" height="90" rx="5" fill={dark ? 'rgba(255,255,255,0.03)' : 'rgba(37,99,235,0.03)'}/>
+        <rect x="275" y="160" width="40" height="4"  rx="2" fill={lnA}/>
+        <rect x="275" y="172" width="80" height="13" rx="3" fill={dark ? 'rgba(56,189,248,0.15)'  : 'rgba(37,99,235,0.10)'}/>
+        <rect x="275" y="190" width="80" height="13" rx="3" fill={dark ? 'rgba(167,139,250,0.13)' : 'rgba(124,58,237,0.08)'}/>
+        <rect x="275" y="208" width="80" height="13" rx="3" fill={dark ? 'rgba(34,211,238,0.12)'  : 'rgba(8,145,178,0.08)'}/>
+        <rect x="275" y="226" width="58" height="11" rx="3" fill={dark ? 'rgba(245,158,11,0.12)'  : 'rgba(180,83,9,0.08)'}/>
+
+        {/* 모니터 스탠드 */}
+        <rect x="214" y="253" width="32" height="12" rx="0" fill={dark ? 'rgba(51,65,85,0.58)'  : 'rgba(203,213,225,0.78)'}/>
+        <rect x="192" y="265" width="76" height="5"  rx="2.5" fill={dark ? 'rgba(51,65,85,0.46)' : 'rgba(203,213,225,0.66)'}/>
+
+        {/* ── 프로세스 노드 4개 (궤도 극점) ── */}
+
+        {/* 01 조사 — 상단 cx=230 cy=42 */}
+        <circle cx="230" cy="42" r="29" fill={pFill} stroke="#A78BFA" strokeWidth="2.0"/>
+        <circle cx="230" cy="42" r="37" fill="none" stroke="#A78BFA" strokeWidth="0.6" opacity={dark ? 0.32 : 0.20}/>
+        <text x="230" y="37" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#A78BFA"                       fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">01</text>
+        <text x="230" y="52" textAnchor="middle" fontSize="13" fontWeight="700" fill={dark ? '#C4B5FD' : '#7C3AED'} fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">조사</text>
+
+        {/* 02 설계 — 우측 cx=425 cy=195 */}
+        <circle cx="425" cy="195" r="29" fill={pFill} stroke="#38BDF8" strokeWidth="2.0"/>
+        <circle cx="425" cy="195" r="37" fill="none" stroke="#38BDF8" strokeWidth="0.6" opacity={dark ? 0.32 : 0.20}/>
+        <text x="425" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#38BDF8"                       fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">02</text>
+        <text x="425" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill={dark ? '#7DD3FC' : '#2563EB'} fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">설계</text>
+
+        {/* 03 구현 — 하단 cx=230 cy=348 */}
+        <circle cx="230" cy="348" r="29" fill={pFill} stroke="#22D3EE" strokeWidth="2.0"/>
+        <circle cx="230" cy="348" r="37" fill="none" stroke="#22D3EE" strokeWidth="0.6" opacity={dark ? 0.32 : 0.20}/>
+        <text x="230" y="343" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#22D3EE"                       fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">03</text>
+        <text x="230" y="358" textAnchor="middle" fontSize="13" fontWeight="700" fill={dark ? '#67E8F9' : '#0891B2'} fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">구현</text>
+
+        {/* 04 개선 — 좌측 cx=35 cy=195 */}
+        <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
+        <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity={dark ? 0.32 : 0.20}/>
+        <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"                        fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
+        <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill={dark ? '#FCD34D' : '#D97706'}  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
+
+        {/* ── 떠 있는 UI 카드 (코너 장식) ── */}
+
+        {/* 좌상단 */}
+        <g opacity={dark ? 0.68 : 0.44}>
+          <rect x="2"   y="34" width="68" height="46" rx="5" fill={cFill} stroke={oc1} strokeWidth="0.9"/>
+          <rect x="8"   y="41" width="28" height="3.5" rx="1.5" fill={lnA}/>
+          <rect x="8"   y="50" width="56" height="2.5" rx="1.2" fill={lnB}/>
+          <rect x="8"   y="57" width="42" height="2.5" rx="1.2" fill={lnB}/>
+          <circle cx="13" cy="70" r="2.5" fill="#38BDF8" opacity={dark ? 0.85 : 0.62}/>
+          <circle cx="22" cy="70" r="2.5" fill="#A78BFA" opacity={dark ? 0.75 : 0.55}/>
+          <circle cx="31" cy="70" r="2.5" fill="#F59E0B" opacity={dark ? 0.75 : 0.55}/>
+        </g>
+
+        {/* 우하단 */}
+        <g opacity={dark ? 0.60 : 0.38}>
+          <rect x="390" y="290" width="68" height="48" rx="5" fill={cFill} stroke={oc2} strokeWidth="0.9"/>
+          <rect x="396" y="297" width="30" height="3.5" rx="1.5" fill={lnA}/>
+          <rect x="396" y="306" width="56" height="2.5" rx="1.2" fill={lnB}/>
+          <rect x="396" y="313" width="42" height="2.5" rx="1.2" fill={lnB}/>
+          <rect x="396" y="321" width="35" height="12" rx="2" fill={dark ? 'rgba(56,189,248,0.20)'  : 'rgba(37,99,235,0.15)'}/>
+          <rect x="434" y="324" width="18" height="9"  rx="2" fill={dark ? 'rgba(167,139,250,0.17)' : 'rgba(124,58,237,0.13)'}/>
+        </g>
+      </svg>
+    </Box>
   );
 };
 
@@ -421,155 +512,13 @@ const HeroSection = () => {
             </Box>
           </Grid>
 
-          {/* 오른쪽: Design Process 미션 패널 + 우주 일러스트 */}
+          {/* 오른쪽: 우주형 UI 일러스트 + 프로세스 다이어그램 */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Box
               aria-hidden="true"
-              sx={{ position: 'relative', animation: 'fadeInUp 0.6s ease 0.18s both' }}
+              sx={{ animation: 'fadeInUp 0.6s ease 0.18s both' }}
             >
-              {/* 우주 SVG 오버레이 */}
-              <CosmicOverlay />
-
-              <Box
-                sx={(theme) => ({
-                  position: 'relative',
-                  zIndex: 1,
-                  bgcolor: theme.palette.mode === 'dark'
-                    ? 'rgba(255,255,255,0.04)'
-                    : 'rgba(255,255,255,0.88)',
-                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0'}`,
-                  borderRadius: 3,
-                  p: { xs: 2.5, md: 3 },
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  boxShadow: theme.palette.mode === 'dark'
-                    ? '0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)'
-                    : '0 4px 24px rgba(15,23,42,0.08)',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: theme.palette.mode === 'dark'
-                      ? '0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)'
-                      : '0 16px 40px rgba(15,23,42,0.12)',
-                  },
-                })}
-              >
-                {/* 패널 헤더 */}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
-                  <Box
-                    sx={(theme) => ({
-                      width: 8,
-                      height: 8,
-                      borderRadius: '50%',
-                      bgcolor: theme.palette.mode === 'dark' ? '#38BDF8' : '#2563EB',
-                      boxShadow: theme.palette.mode === 'dark' ? '0 0 6px rgba(56,189,248,0.7)' : 'none',
-                    })}
-                  />
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      color: 'primary.main',
-                      fontWeight: 700,
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      fontSize: '0.65rem',
-                    }}
-                  >
-                    작업 흐름
-                  </Typography>
-                </Box>
-
-                {/* 프로세스 스텝 */}
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                  {PROCESS_STEPS.map((step, i) => (
-                    <Box key={step.label}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5 }}>
-                        {/* 번호 + 노드 */}
-                        <Box sx={{ flexShrink: 0 }}>
-                          <Box
-                            sx={(theme) => ({
-                              width: 36,
-                              height: 36,
-                              borderRadius: '50%',
-                              border: `1.5px solid ${theme.palette.mode === 'dark' ? step.color : step.lightColor}`,
-                              bgcolor: theme.palette.mode === 'dark'
-                                ? `${step.color}14`
-                                : `${step.lightColor}0D`,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              boxShadow: theme.palette.mode === 'dark'
-                                ? `0 0 8px ${step.color}22`
-                                : 'none',
-                            })}
-                          >
-                            <Typography
-                              sx={(theme) => ({
-                                fontSize: '0.6rem',
-                                fontWeight: 700,
-                                color: theme.palette.mode === 'dark' ? step.color : step.lightColor,
-                                letterSpacing: '0.05em',
-                              })}
-                            >
-                              {step.num}
-                            </Typography>
-                          </Box>
-                        </Box>
-
-                        {/* 텍스트 */}
-                        <Box sx={{ flex: 1 }}>
-                          <Typography
-                            sx={(theme) => ({
-                              fontWeight: 600,
-                              fontSize: '0.875rem',
-                              color: theme.palette.mode === 'dark' ? step.color : step.lightColor,
-                              lineHeight: 1.2,
-                            })}
-                          >
-                            {step.label}
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            sx={{ color: 'text.secondary', fontSize: '0.72rem' }}
-                          >
-                            {step.sub}
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      {/* 연결선 (dotted) */}
-                      {i < PROCESS_STEPS.length - 1 && (
-                        <Box
-                          sx={(theme) => ({
-                            ml: '17px',
-                            width: 2,
-                            height: 14,
-                            background: theme.palette.mode === 'dark'
-                              ? `linear-gradient(180deg, ${step.color}40, ${PROCESS_STEPS[i + 1].color}40)`
-                              : `linear-gradient(180deg, ${step.lightColor}30, ${PROCESS_STEPS[i + 1].lightColor}30)`,
-                          })}
-                        />
-                      )}
-                    </Box>
-                  ))}
-                </Box>
-
-                {/* 하단 키워드 */}
-                <Box
-                  sx={(theme) => ({
-                    mt: 2.5,
-                    pt: 2,
-                    borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.1)' : '#F1F5F9'}`,
-                  })}
-                >
-                  <Typography
-                    variant="caption"
-                    sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.6 }}
-                  >
-                    Figma · React · AI 도구 활용
-                  </Typography>
-                </Box>
-              </Box>
+              <CosmicHeroIllustration />
             </Box>
           </Grid>
         </Grid>
