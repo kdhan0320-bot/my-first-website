@@ -13,11 +13,11 @@ import RevealOnScroll from '../common/RevealOnScroll';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
 
-/* 홈 fallback: is_featured=true → sort_order 오름차순 → 최대 4개 */
+/* 홈 fallback: is_featured=true → sort_order 오름차순 → 최대 3개 */
 const FEATURED_FALLBACK = [...ALL_PROJECTS]
   .filter((p) => p.is_featured)
   .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99))
-  .slice(0, 4);
+  .slice(0, 3);
 
 /* Supabase row → 공유 포맷 (detail 포함) */
 const fromSupabase = (row) => ({
@@ -173,7 +173,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
 
 /* ── 썸네일 (이미지 우선, 그라데이션 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title }) => (
-  <Box sx={{ position: 'relative', paddingTop: '52%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', paddingTop: '65%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
       <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -286,13 +286,13 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           </Box>
         )}
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
-          <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 정보 보기`}
+          <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 케이스 스터디 보기`}
             sx={(t) => ({
               fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
-              borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
-              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB' },
+              borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(37,99,235,0.35)', fontWeight: 600,
+              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EFF6FF' },
             })}>
-            View Detail
+            Case Study 보기
           </Button>
           {project.liveUrl && (
             <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
@@ -334,7 +334,7 @@ const ProjectsSection = () => {
       .order('sort_order')
       .then(({ data, error }) => {
         if (!error && data && data.length > 0) {
-          setProjects(data.slice(0, 4).map(fromSupabase));
+          setProjects(data.slice(0, 3).map(fromSupabase));
         }
         /* error 또는 빈 배열이면 FEATURED_FALLBACK 유지 */
       })
@@ -347,13 +347,27 @@ const ProjectsSection = () => {
 
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}>
-              PROJECTS
+            <Typography
+              sx={(theme) => ({
+                color: 'primary.main',
+                fontWeight: 700,
+                fontSize: '0.72rem',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                mb: 1.5,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1.5,
+                '&::before': { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
+                '&::after':  { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
+              })}
+            >
+              02 Projects
             </Typography>
-            <Typography variant="h2" sx={{ mt: 1, color: 'text.primary', fontWeight: 800 }}>주요 프로젝트</Typography>
-            <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
-            <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary' }}>
-              Figma UX/UI 설계부터 AI-assisted Coding 구현까지, 카테고리별로 정리했습니다.
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>주요 프로젝트</Typography>
+            <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', maxWidth: 480, mx: 'auto' }}>
+              Figma UX/UI 설계부터 AI 도구를 활용한 웹 구현까지, 작업 과정을 담은 프로젝트입니다.
             </Typography>
           </Box>
         </RevealOnScroll>

@@ -75,14 +75,26 @@ const ContactSection = () => {
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
             <Typography
-              sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}
+              sx={(theme) => ({
+                color: 'primary.main',
+                fontWeight: 700,
+                fontSize: '0.72rem',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                mb: 1.5,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1.5,
+                '&::before': { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
+                '&::after':  { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
+              })}
             >
-              CONTACT
+              03 Contact
             </Typography>
-            <Typography variant="h2" sx={{ mt: 1, color: 'text.primary', fontWeight: 800 }}>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
               함께 이야기해요
             </Typography>
-            <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
             <Typography variant="body2" sx={{ mt: 2.5, color: 'text.secondary', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
               채용, 협업, 피드백 등 어떤 이야기든 환영합니다. 편하게 연락해 주세요.
             </Typography>

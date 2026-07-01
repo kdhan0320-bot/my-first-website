@@ -4,15 +4,15 @@ export const getDesignTokens = (mode) => ({
   palette: {
     mode,
     primary: {
-      main:         mode === 'dark' ? '#38BDF8' : '#1E3A5F',
-      light:        mode === 'dark' ? '#7DD3FC' : '#2A5A8F',
-      dark:         mode === 'dark' ? '#0EA5E9' : '#162D4A',
+      main:         mode === 'dark' ? '#38BDF8' : '#2563EB',
+      light:        mode === 'dark' ? '#7DD3FC' : '#3B82F6',
+      dark:         mode === 'dark' ? '#0EA5E9' : '#1D4ED8',
       contrastText: mode === 'dark' ? '#0B1220' : '#FFFFFF',
     },
     secondary: {
-      main:         mode === 'dark' ? '#2DD4BF' : '#0D9488',
-      light:        mode === 'dark' ? '#5EEAD4' : '#2DD4BF',
-      dark:         mode === 'dark' ? '#14B8A6' : '#0F766E',
+      main:         mode === 'dark' ? '#A78BFA' : '#7C3AED',
+      light:        mode === 'dark' ? '#C4B5FD' : '#8B5CF6',
+      dark:         mode === 'dark' ? '#7C3AED' : '#6D28D9',
       contrastText: mode === 'dark' ? '#0B1220' : '#FFFFFF',
     },
     background: {
@@ -21,15 +21,15 @@ export const getDesignTokens = (mode) => ({
     },
     text: {
       primary:   mode === 'dark' ? '#F8FAFC' : '#0F172A',
-      secondary: mode === 'dark' ? '#CBD5E1' : '#475569',
+      secondary: mode === 'dark' ? '#CBD5E1' : '#64748B',
       disabled:  mode === 'dark' ? '#94A3B8' : '#94A3B8',
     },
-    divider: mode === 'dark' ? 'rgba(51,65,85,0.75)' : 'rgba(30,58,95,0.12)',
+    divider: mode === 'dark' ? 'rgba(51,65,85,0.75)' : '#E2E8F0',
     highlight: {
-      background: mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
+      background: mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EFF6FF',
     },
     error:   { main: '#E53935' },
-    warning: { main: '#FFB800' },
+    warning: { main: '#F59E0B' },
     success: { main: '#2E7D32' },
     info:    { main: mode === 'dark' ? '#60A5FA' : '#2563EB' },
   },
