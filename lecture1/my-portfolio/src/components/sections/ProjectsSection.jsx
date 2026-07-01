@@ -173,7 +173,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
 
 /* ── 프로젝트별 SVG 썸네일 ── */
 const THUMB_SVG = {
-  'bus-redesign': (
+  'bus-redesign': ( // eslint-disable-line no-unused-vars
     <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
       {/* Before 폰 */}
       <rect x="58" y="16" width="76" height="132" rx="10" fill="none" stroke="white" strokeWidth="1.5" opacity="0.28"/>
@@ -224,7 +224,7 @@ const THUMB_SVG = {
       <rect x="212" y="106" width="50" height="4" rx="2" fill="white" opacity="0.12"/>
     </svg>
   ),
-  'ai-prototype': (
+  'jobflow': (
     <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
       {/* 사이드바 */}
       <rect x="10" y="10" width="52" height="160" rx="4" fill="white" opacity="0.07"/>
@@ -263,7 +263,7 @@ const THUMB_SVG = {
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', paddingTop: '65%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', paddingTop: '70%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
       <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
@@ -296,7 +296,7 @@ const CARD_BADGES = [
 
 /* ── 프로젝트 카드 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
-  const uniqueTools = [...new Set(project.tools)].slice(0, 4);
+  const uniqueTools = [...new Set(project.tools)].slice(0, 3);
   const hasRole = project.role && project.role !== '—';
   const badge = CARD_BADGES[idx] ?? CARD_BADGES[1];
 
@@ -324,6 +324,25 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         '&:hover .thumb-overlay': { opacity: 1 },
         '&:focus-visible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: '2px' },
       })}>
+
+      {/* 배경 번호 */}
+      <Typography component="span" aria-hidden="true"
+        sx={(t) => ({
+          position: 'absolute',
+          bottom: 8,
+          right: 14,
+          fontSize: '5rem',
+          fontWeight: 900,
+          lineHeight: 1,
+          color: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.028)' : 'rgba(0,0,0,0.038)',
+          pointerEvents: 'none',
+          userSelect: 'none',
+          zIndex: 0,
+          letterSpacing: '-0.04em',
+        })}
+      >
+        0{idx + 1}
+      </Typography>
 
       {/* 배지 */}
       <Box
@@ -458,7 +477,7 @@ const ProjectsSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: theme.palette.mode === 'dark' ? '#0F172A' : 'background.default',
-        py: { xs: 8, md: 12 },
+        py: { xs: 7, md: 9 },
       })}
     >
       {/* 상단 구분선 */}
@@ -475,6 +494,26 @@ const ProjectsSection = () => {
             : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.15), rgba(124,58,237,0.15), transparent)',
         })}
       />
+
+      {/* 배경 orbit ring */}
+      <Box
+        component="svg"
+        viewBox="0 0 900 560"
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '105%',
+          height: 'auto',
+          pointerEvents: 'none',
+          opacity: theme.palette.mode === 'dark' ? 0.055 : 0.04,
+        })}
+      >
+        <ellipse cx="450" cy="280" rx="430" ry="250" fill="none" stroke="#38BDF8" strokeWidth="1.5" />
+        <ellipse cx="450" cy="280" rx="300" ry="175" fill="none" stroke="#A78BFA" strokeWidth="1" strokeDasharray="8 14" />
+      </Box>
 
       <Container maxWidth="lg">
 

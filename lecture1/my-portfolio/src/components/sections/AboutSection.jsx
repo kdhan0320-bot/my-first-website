@@ -40,7 +40,7 @@ const AboutSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
-        py: { xs: 8, md: 12 },
+        py: { xs: 7, md: 9 },
       })}
     >
       {/* 섹션 구분 gradient line */}
@@ -156,8 +156,32 @@ const AboutSection = () => {
             <Grid container spacing={3} sx={{ position: 'relative', zIndex: 2 }}>
               {SKILL_CARDS.map((card) => (
                 <Grid key={card.title} size={{ xs: 12, sm: 4 }}>
+                  <Box sx={{ position: 'relative', height: '100%' }}>
+                    {/* 카드 뒤 orbit ring */}
+                    <Box
+                      component="svg"
+                      viewBox="0 0 120 120"
+                      aria-hidden="true"
+                      sx={(theme) => ({
+                        position: 'absolute',
+                        top: -18,
+                        right: -18,
+                        width: 110,
+                        height: 110,
+                        pointerEvents: 'none',
+                        opacity: theme.palette.mode === 'dark' ? 0.18 : 0.1,
+                        zIndex: 0,
+                        color: theme.palette.mode === 'dark' ? card.color : card.lightColor,
+                      })}
+                    >
+                      <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5 8" />
+                      <circle cx="60" cy="60" r="36" fill="none" stroke="currentColor" strokeWidth="0.6" />
+                    </Box>
+
                   <Box
                     sx={(theme) => ({
+                      position: 'relative',
+                      zIndex: 1,
                       height: '100%',
                       p: { xs: 3, md: 3.5 },
                       bgcolor: theme.palette.mode === 'dark'
@@ -224,6 +248,7 @@ const AboutSection = () => {
                         </Box>
                       ))}
                     </Box>
+                  </Box>
                   </Box>
                 </Grid>
               ))}

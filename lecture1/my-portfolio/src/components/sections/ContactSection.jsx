@@ -5,7 +5,6 @@ import {
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
@@ -61,7 +60,7 @@ const ContactSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
-        py: { xs: 8, md: 12 },
+        py: { xs: 7, md: 9 },
       })}
     >
       {/* 상단 구분선 */}
@@ -229,26 +228,6 @@ const ContactSection = () => {
                 GitHub
               </Button>
 
-              <Button
-                disabled
-                variant="outlined"
-                startIcon={<PictureAsPdfIcon />}
-                aria-label="PDF 포트폴리오 준비 중"
-                sx={(theme) => ({
-                  color: 'text.disabled',
-                  borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0',
-                  minHeight: 48,
-                  fontWeight: 600,
-                  px: 3,
-                  whiteSpace: 'nowrap',
-                  '&.Mui-disabled': {
-                    color: 'text.disabled',
-                    borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0',
-                  },
-                })}
-              >
-                PDF Portfolio — Coming Soon
-              </Button>
             </Stack>
           </Box>
         </RevealOnScroll>

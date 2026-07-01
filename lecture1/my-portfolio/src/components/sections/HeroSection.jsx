@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { supabase } from '../../lib/supabase';
@@ -15,6 +17,53 @@ const PROCESS_STEPS = [
   { label: 'Build',    sub: 'React',     num: '03', color: '#22D3EE', lightColor: '#0891B2' },
   { label: 'Review',   sub: '개선 반영', num: '04', color: '#F59E0B', lightColor: '#D97706' },
 ];
+
+const CosmicOverlay = () => {
+  const theme = useTheme();
+  const dark = theme.palette.mode === 'dark';
+  const starA = dark ? 'rgba(255,255,255,0.52)' : 'rgba(37,99,235,0.38)';
+  const starB = dark ? 'rgba(255,255,255,0.35)' : 'rgba(124,58,237,0.28)';
+  const o1 = dark ? 'rgba(56,189,248,0.22)' : 'rgba(37,99,235,0.16)';
+  const o2 = dark ? 'rgba(167,139,250,0.17)' : 'rgba(124,58,237,0.13)';
+  const gx = dark ? 'rgba(56,189,248,0.09)' : 'rgba(37,99,235,0.07)';
+  return (
+    <svg viewBox="0 0 440 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+      style={{ position: 'absolute', top: '-14%', left: '-14%', width: '128%', height: '128%', pointerEvents: 'none', zIndex: 0 }}>
+      {/* 궤도 타원 2개 */}
+      <ellipse cx="220" cy="180" rx="208" ry="168" fill="none" stroke={o1} strokeWidth="1" />
+      <ellipse cx="220" cy="180" rx="148" ry="118" fill="none" stroke={o2} strokeWidth="0.8" strokeDasharray="6 9" />
+      {/* 행성 노드 4개 (각 프로세스 단계 색) */}
+      <circle cx="19" cy="124" r="6" fill="#A78BFA" opacity={dark ? 0.65 : 0.45} />
+      <circle cx="19" cy="124" r="11" fill="#A78BFA" opacity="0.1" />
+      <circle cx="429" cy="82" r="5" fill="#38BDF8" opacity={dark ? 0.6 : 0.42} />
+      <circle cx="429" cy="82" r="9" fill="#38BDF8" opacity="0.1" />
+      <circle cx="432" cy="298" r="7" fill="#22D3EE" opacity={dark ? 0.55 : 0.4} />
+      <circle cx="432" cy="298" r="12" fill="#22D3EE" opacity="0.09" />
+      <circle cx="22" cy="265" r="5" fill="#F59E0B" opacity={dark ? 0.6 : 0.42} />
+      <circle cx="22" cy="265" r="9" fill="#F59E0B" opacity="0.1" />
+      {/* 별자리 점 */}
+      <circle cx="38" cy="36" r="1.5" fill={starA} />
+      <circle cx="96" cy="16" r="1" fill={starB} />
+      <circle cx="162" cy="7" r="1.5" fill={starA} />
+      <circle cx="377" cy="26" r="1.5" fill={starB} />
+      <circle cx="407" cy="54" r="1" fill={starA} />
+      <circle cx="430" cy="188" r="1" fill={starB} />
+      <circle cx="8" cy="198" r="1" fill={starB} />
+      <circle cx="56" cy="328" r="1.5" fill={starA} />
+      <circle cx="114" cy="348" r="1" fill={starB} />
+      <circle cx="336" cy="342" r="1.5" fill={starA} />
+      <circle cx="400" cy="316" r="1" fill={starB} />
+      {/* 별자리 연결선 */}
+      <line x1="38" y1="36" x2="96" y2="16" stroke={starA} strokeWidth="0.5" opacity="0.4" />
+      <line x1="96" y1="16" x2="162" y2="7" stroke={starA} strokeWidth="0.5" opacity="0.3" />
+      <line x1="377" y1="26" x2="407" y2="54" stroke={starA} strokeWidth="0.5" opacity="0.35" />
+      <line x1="56" y1="328" x2="114" y2="348" stroke={starA} strokeWidth="0.5" opacity="0.4" />
+      <line x1="114" y1="348" x2="336" y2="342" stroke={starA} strokeWidth="0.5" opacity="0.25" />
+      {/* 은하수 곡선 */}
+      <path d="M 28 268 Q 220 318 424 198" fill="none" stroke={gx} strokeWidth="2" />
+    </svg>
+  );
+};
 
 const PortfolioStats = () => {
   const { aboutMeData } = usePortfolio();
@@ -264,7 +313,7 @@ const HeroSection = () => {
                 spacing={2}
                 alignItems={{ xs: 'stretch', sm: 'center' }}
                 justifyContent={{ xs: 'center', md: 'flex-start' }}
-                sx={{ mb: 3 }}
+                sx={{ mb: 1.5 }}
               >
                 <Button
                   variant="contained"
@@ -321,18 +370,49 @@ const HeroSection = () => {
                 </Button>
               </Stack>
 
+              {/* PDF 준비 중 버튼 */}
+              <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' }, mb: 2.5 }}>
+                <Button
+                  disabled
+                  size="small"
+                  startIcon={<PictureAsPdfIcon sx={{ fontSize: '0.8rem !important' }} />}
+                  aria-label="PDF 포트폴리오 준비 중"
+                  sx={(theme) => ({
+                    color: 'text.disabled',
+                    fontSize: '0.78rem',
+                    fontWeight: 500,
+                    px: 2,
+                    minHeight: 32,
+                    whiteSpace: 'nowrap',
+                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.14)' : '#E2E8F0'}`,
+                    borderRadius: 2,
+                    '&.Mui-disabled': {
+                      color: 'text.disabled',
+                      borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.12)' : '#EDF2F7',
+                    },
+                  })}
+                >
+                  PDF Portfolio — Coming Soon
+                </Button>
+              </Box>
+
               <PortfolioStats />
             </Box>
           </Grid>
 
-          {/* 오른쪽: Design Process 미션 패널 */}
+          {/* 오른쪽: Design Process 미션 패널 + 우주 일러스트 */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Box
               aria-hidden="true"
-              sx={{ animation: 'fadeInUp 0.6s ease 0.18s both' }}
+              sx={{ position: 'relative', animation: 'fadeInUp 0.6s ease 0.18s both' }}
             >
+              {/* 우주 SVG 오버레이 */}
+              <CosmicOverlay />
+
               <Box
                 sx={(theme) => ({
+                  position: 'relative',
+                  zIndex: 1,
                   bgcolor: theme.palette.mode === 'dark'
                     ? 'rgba(255,255,255,0.04)'
                     : 'rgba(255,255,255,0.88)',
