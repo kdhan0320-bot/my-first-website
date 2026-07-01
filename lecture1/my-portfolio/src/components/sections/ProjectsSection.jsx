@@ -196,14 +196,17 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title }) => (
   </Box>
 );
 
+const CARD_BADGES = [
+  { label: 'Main Mission', color: '#F59E0B', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.3)' },
+  { label: 'Case Study',   color: '#38BDF8', bg: 'rgba(56,189,248,0.12)', border: 'rgba(56,189,248,0.3)' },
+  { label: 'Prototype',    color: '#A78BFA', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)' },
+];
+
 /* ── 프로젝트 카드 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
-  const uniqueTools = [...new Set(project.tools)];
-  const uniqueTags = [...new Set(project.tags)].filter((t) => !uniqueTools.includes(t));
-  const totalChips = uniqueTools.length + uniqueTags.length;
-  const visibleTools = totalChips > 7 ? uniqueTools.slice(0, 7) : uniqueTools;
-  const visibleTags = totalChips > 7 ? uniqueTags.slice(0, Math.max(0, 7 - visibleTools.length)) : uniqueTags;
+  const uniqueTools = [...new Set(project.tools)].slice(0, 4);
   const hasRole = project.role && project.role !== '—';
+  const badge = CARD_BADGES[idx] ?? CARD_BADGES[1];
 
   return (
   <RevealOnScroll delay={Math.min(idx % 3, 2) * 0.1} y={16} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -211,86 +214,92 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={(t) => ({
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
-        borderTop: `2px solid`,
-        borderTopColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : 'rgba(30,58,95,0.22)',
+        bgcolor: t.palette.mode === 'dark' ? 'rgba(30,41,59,0.85)' : '#FFFFFF',
+        backdropFilter: t.palette.mode === 'dark' ? 'blur(12px)' : 'none',
+        WebkitBackdropFilter: t.palette.mode === 'dark' ? 'blur(12px)' : 'none',
+        border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(148,163,184,0.14)' : '#E2E8F0'}`,
+        borderTop: `2px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : 'rgba(37,99,235,0.25)'}`,
         transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          boxShadow: t.palette.mode === 'dark'
-            ? '0 12px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.18)'
-            : '0 12px 32px rgba(0,0,0,0.1)',
           borderTopColor: t.palette.primary.main,
-          borderColor: t.palette.primary.main,
+          borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : 'rgba(37,99,235,0.3)',
+          boxShadow: t.palette.mode === 'dark'
+            ? '0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56,189,248,0.08)'
+            : '0 16px 40px rgba(15,23,42,0.12)',
         },
         '&:hover .thumb-img': { transform: 'scale(1.05)' },
         '&:hover .thumb-overlay': { opacity: 1 },
         '&:focus-visible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: '2px' },
       })}>
+
+      {/* 배지 */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 12,
+          right: 12,
+          zIndex: 2,
+          px: 1.25,
+          py: 0.4,
+          borderRadius: '999px',
+          bgcolor: badge.bg,
+          border: `1px solid ${badge.border}`,
+          backdropFilter: 'blur(8px)',
+        }}
+      >
+        <Typography sx={{ color: badge.color, fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          {badge.label}
+        </Typography>
+      </Box>
+
       <ProjectThumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} />
+
       <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
         <Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, flexWrap: 'wrap', mb: 0.5 }}>
-            <Typography variant="caption"
-              sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-              {project.categoryLabel}
-              {project.isPlaceholder && (
-                <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(Figma 준비 중)</Box>
-              )}
-            </Typography>
-            {project.is_ai_project && (
-              <Chip
-                label="AI-assisted"
-                size="small"
-                sx={(t) => ({
-                  height: 16,
-                  fontSize: '0.58rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : '#DBEAFE',
-                  color: t.palette.mode === 'dark' ? '#7DD3FC' : '#1D4ED8',
-                  border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : 'rgba(37,99,235,0.2)'}`,
-                  '& .MuiChip-label': { px: 0.75 },
-                })}
-              />
+          <Typography variant="caption"
+            sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+            {project.categoryLabel}
+            {project.isPlaceholder && (
+              <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(준비 중)</Box>
             )}
-          </Box>
-          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3 }}>{project.title}</Typography>
+          </Typography>
+          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3 }}>
+            {project.title}
+          </Typography>
         </Box>
+
         <Typography variant="body2"
           sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {project.description}
         </Typography>
+
         {hasRole && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
             <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>ROLE</Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.role}</Typography>
           </Box>
         )}
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: hasRole ? 0 : 0.25 }}>
-          {visibleTools.map((tool) => (
+
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+          {uniqueTools.map((tool) => (
             <Chip key={tool} label={tool} size="small"
               sx={(t) => ({
-                bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
-                color: 'primary.main',
-                border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.16)'}`,
-                fontSize: '0.62rem', height: 20, fontWeight: 600,
+                bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : 'rgba(37,99,235,0.06)',
+                color: t.palette.mode === 'dark' ? '#38BDF8' : '#2563EB',
+                border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
+                fontSize: '0.62rem', height: 22, fontWeight: 600, borderRadius: '999px',
               })} />
           ))}
         </Box>
-        {visibleTags.length > 0 && (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-            {visibleTags.map((tag) => (
-              <Chip key={tag} label={tag} size="small"
-                sx={(t) => ({ bgcolor: 'transparent', color: 'text.secondary', border: `1px solid ${t.palette.divider}`, fontSize: '0.6rem', height: 18 })} />
-            ))}
-          </Box>
-        )}
+
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
           <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 케이스 스터디 보기`}
             sx={(t) => ({
               fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
-              borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(37,99,235,0.35)', fontWeight: 600,
-              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EFF6FF' },
+              borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.3)' : 'rgba(37,99,235,0.35)', fontWeight: 600,
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EFF6FF', transform: 'translateY(-1px)' },
             })}>
             Case Study 보기
           </Button>
@@ -298,16 +307,23 @@ const ProjectCard = ({ project, idx, onDetail }) => {
             <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
               aria-label={`${project.title} 라이브 데모`}
-              sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
+              sx={(t) => ({
+                fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', fontWeight: 600,
+                transition: 'transform 0.2s ease',
+                '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
+              })}>
               Live Demo
             </Button>
           )}
           {project.githubUrl && (
             <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-              aria-label={`${project.title} 코드 및 프로젝트 구조를 GitHub에서 확인`}
-              title="작업한 코드와 프로젝트 구조는 GitHub에서 확인할 수 있습니다."
-              sx={(t) => ({ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: t.palette.divider, '&:hover': { borderColor: 'primary.main', color: 'primary.main' } })}>
+              aria-label={`${project.title} GitHub 보기`}
+              sx={(t) => ({
+                fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: t.palette.divider,
+                transition: 'transform 0.2s ease',
+                '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-1px)' },
+              })}>
               GitHub
             </Button>
           )}
@@ -342,7 +358,32 @@ const ProjectsSection = () => {
   }, []);
 
   return (
-    <Box component="section" id="projects" aria-label="프로젝트" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
+    <Box
+      component="section"
+      id="projects"
+      aria-label="프로젝트"
+      sx={(theme) => ({
+        position: 'relative',
+        overflow: 'hidden',
+        bgcolor: theme.palette.mode === 'dark' ? '#0F172A' : 'background.default',
+        py: { xs: 8, md: 12 },
+      })}
+    >
+      {/* 상단 구분선 */}
+      <Box
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: 'absolute',
+          top: 0,
+          left: '10%',
+          right: '10%',
+          height: 1,
+          background: theme.palette.mode === 'dark'
+            ? 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)'
+            : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.15), rgba(124,58,237,0.15), transparent)',
+        })}
+      />
+
       <Container maxWidth="lg">
 
         <RevealOnScroll>
@@ -359,15 +400,15 @@ const ProjectsSection = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 1.5,
-                '&::before': { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
-                '&::after':  { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
+                '&::before': { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
+                '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               })}
             >
-              02 Projects
+              02 Mission Archive
             </Typography>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>주요 프로젝트</Typography>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>Featured Projects</Typography>
             <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', maxWidth: 480, mx: 'auto' }}>
-              Figma UX/UI 설계부터 AI 도구를 활용한 웹 구현까지, 작업 과정을 담은 프로젝트입니다.
+              문제 발견부터 화면 설계, 구현까지 이어진 대표 작업입니다.
             </Typography>
           </Box>
         </RevealOnScroll>

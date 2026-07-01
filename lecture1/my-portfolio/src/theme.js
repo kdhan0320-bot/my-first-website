@@ -16,8 +16,8 @@ export const getDesignTokens = (mode) => ({
       contrastText: mode === 'dark' ? '#0B1220' : '#FFFFFF',
     },
     background: {
-      default: mode === 'dark' ? '#0B1220' : '#F8FAFC',
-      paper:   mode === 'dark' ? '#111827' : '#FFFFFF',
+      default: mode === 'dark' ? '#0F172A' : '#F8FAFC',
+      paper:   mode === 'dark' ? '#1E293B' : '#FFFFFF',
     },
     text: {
       primary:   mode === 'dark' ? '#F8FAFC' : '#0F172A',

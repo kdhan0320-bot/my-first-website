@@ -1,34 +1,21 @@
 import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Grid, Card,
-  Button, CircularProgress, Alert, Snackbar,
+  Button, CircularProgress, Alert, Snackbar, Stack,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import DownloadIcon from '@mui/icons-material/Download';
+import FolderOpenIcon from '@mui/icons-material/FolderOpen';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
 import RevealOnScroll from '../common/RevealOnScroll';
 
-const CONTACT_CARDS = [
-  {
-    icon: <EmailIcon />,
-    label: 'Email',
-    value: 'kdhan0320@gmail.com',
-    href: 'mailto:kdhan0320@gmail.com',
-  },
-  {
-    icon: <GitHubIcon />,
-    label: 'GitHub',
-    value: 'github.com/kdhan0320-bot',
-    href: 'https://github.com/kdhan0320-bot',
-  },
-];
-
 const GUESTBOOK_PAGE_SIZE = 3;
 
 const ContactSection = () => {
+  const navigate = useNavigate();
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(GUESTBOOK_PAGE_SIZE);
@@ -68,12 +55,55 @@ const ContactSection = () => {
   const hasMore = visibleCount < entries.length;
 
   return (
-    <Box component="section" id="contact" aria-label="연락처" sx={{ bgcolor: 'background.default', py: { xs: 8, md: 12 } }}>
+    <Box
+      component="section"
+      id="contact"
+      aria-label="연락처"
+      sx={(theme) => ({
+        position: 'relative',
+        overflow: 'hidden',
+        bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
+        py: { xs: 8, md: 12 },
+      })}
+    >
+      {/* 상단 구분선 */}
+      <Box
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: 'absolute',
+          top: 0,
+          left: '10%',
+          right: '10%',
+          height: 1,
+          background: theme.palette.mode === 'dark'
+            ? 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)'
+            : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.15), rgba(124,58,237,0.15), transparent)',
+        })}
+      />
+
+      {/* 배경 blob */}
+      <Box
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: 'absolute',
+          top: '20%',
+          right: '-8%',
+          width: 300,
+          height: 300,
+          borderRadius: '50%',
+          background: theme.palette.mode === 'dark'
+            ? 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)',
+          filter: 'blur(40px)',
+          pointerEvents: 'none',
+        })}
+      />
+
       <Container maxWidth="lg">
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
-          <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
+          <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 7 } }}>
             <Typography
               sx={(theme) => ({
                 color: 'primary.main',
@@ -86,8 +116,8 @@ const ContactSection = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 1.5,
-                '&::before': { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
-                '&::after':  { content: '""', display: 'block', width: 24, height: 1, bgcolor: 'primary.main', opacity: 0.5 },
+                '&::before': { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
+                '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               })}
             >
               03 Contact
@@ -95,23 +125,149 @@ const ContactSection = () => {
             <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
               함께 이야기해요
             </Typography>
-            <Typography variant="body2" sx={{ mt: 2.5, color: 'text.secondary', maxWidth: 440, mx: 'auto', lineHeight: 1.7 }}>
-              채용, 협업, 피드백 등 어떤 이야기든 환영합니다. 편하게 연락해 주세요.
-            </Typography>
           </Box>
         </RevealOnScroll>
 
-        {/* 연락처 + 방명록 폼 */}
+        {/* CTA 카드 */}
+        <RevealOnScroll delay={0.08}>
+          <Box
+            sx={(theme) => ({
+              position: 'relative',
+              overflow: 'hidden',
+              bgcolor: theme.palette.mode === 'dark'
+                ? 'rgba(255,255,255,0.04)'
+                : 'rgba(37,99,235,0.03)',
+              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.15)'}`,
+              borderRadius: 3,
+              p: { xs: 4, md: 6 },
+              mb: { xs: 6, md: 8 },
+              textAlign: 'center',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+            })}
+          >
+            {/* SVG 궤도 장식 */}
+            <Box
+              component="svg"
+              viewBox="0 0 400 200"
+              aria-hidden="true"
+              sx={(theme) => ({
+                position: 'absolute',
+                bottom: '-20%',
+                right: '-5%',
+                width: { xs: 200, md: 320 },
+                height: 'auto',
+                opacity: theme.palette.mode === 'dark' ? 0.1 : 0.05,
+                pointerEvents: 'none',
+              })}
+            >
+              <ellipse cx="200" cy="100" rx="180" ry="80" fill="none" stroke="#38BDF8" strokeWidth="1" />
+              <ellipse cx="200" cy="100" rx="120" ry="55" fill="none" stroke="#7C3AED" strokeWidth="0.8" strokeDasharray="5 7" />
+            </Box>
+
+            {/* 포인트 dot */}
+            <Box
+              sx={(theme) => ({
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                bgcolor: 'primary.main',
+                mx: 'auto',
+                mb: 2,
+                boxShadow: theme.palette.mode === 'dark' ? '0 0 10px rgba(56,189,248,0.6)' : 'none',
+              })}
+            />
+
+            <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, mb: 1.5 }}>
+              다음 프로젝트를 함께 이야기해보세요
+            </Typography>
+            <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, maxWidth: 480, mx: 'auto', mb: 4 }}>
+              채용, 협업, 피드백 등 어떤 이야기든 환영합니다. 부담 없이 연락해 주세요.
+            </Typography>
+
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={2}
+              justifyContent="center"
+              alignItems={{ xs: 'stretch', sm: 'center' }}
+            >
+              <Button
+                component="a"
+                href="mailto:kdhan0320@gmail.com"
+                variant="contained"
+                startIcon={<EmailIcon />}
+                aria-label="이메일 보내기"
+                sx={{
+                  bgcolor: 'primary.main',
+                  color: 'primary.contrastText',
+                  minHeight: 48,
+                  fontWeight: 700,
+                  px: 3,
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                  '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-2px)', boxShadow: '0 8px 20px rgba(37,99,235,0.3)' },
+                  '&:active': { transform: 'translateY(0)' },
+                }}
+              >
+                Email
+              </Button>
+
+              <Button
+                component="a"
+                href="https://github.com/kdhan0320-bot"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="outlined"
+                startIcon={<GitHubIcon />}
+                aria-label="GitHub 프로필 보기"
+                sx={(theme) => ({
+                  color: 'text.primary',
+                  borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.3)' : '#CBD5E1',
+                  minHeight: 48,
+                  fontWeight: 600,
+                  px: 3,
+                  transition: 'transform 0.2s ease',
+                  '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },
+                  '&:active': { transform: 'translateY(0)' },
+                })}
+              >
+                GitHub
+              </Button>
+
+              <Button
+                variant="outlined"
+                startIcon={<FolderOpenIcon />}
+                onClick={() => navigate('/projects')}
+                aria-label="전체 프로젝트 보기"
+                sx={(theme) => ({
+                  color: 'text.secondary',
+                  borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.3)' : '#CBD5E1',
+                  minHeight: 48,
+                  fontWeight: 600,
+                  px: 3,
+                  transition: 'transform 0.2s ease',
+                  '&:hover': { borderColor: 'secondary.main', color: 'secondary.main', transform: 'translateY(-2px)' },
+                  '&:active': { transform: 'translateY(0)' },
+                })}
+              >
+                Projects 보기
+              </Button>
+            </Stack>
+          </Box>
+        </RevealOnScroll>
+
+        {/* 방명록 폼 + 목록 */}
         <RevealOnScroll delay={0.1}>
-          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 6, md: 8 } }} id="guestbook">
-
-            {/* 왼쪽: 연락처 정보 */}
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Typography variant="h4" sx={{ color: 'text.primary', mb: 3 }}>연락처</Typography>
-
-              {/* 연락처 카드 */}
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, mb: 4 }}>
-                {CONTACT_CARDS.map(({ icon, label, value, href }) => (
+          <Grid container spacing={{ xs: 4, md: 6 }} sx={{ mb: { xs: 6, md: 8 } }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <Typography variant="h5" sx={{ color: 'text.primary', fontWeight: 700, mb: 1 }}>연락처</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 3 }}>
+                웹디자인과 UX/UI를 기반으로, 사용자가 이해하기 쉬운 디지털 경험을 만드는 디자이너로 성장하고 있습니다.
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                {[
+                  { icon: <EmailIcon fontSize="small" />, label: 'Email', value: 'kdhan0320@gmail.com', href: 'mailto:kdhan0320@gmail.com' },
+                  { icon: <GitHubIcon fontSize="small" />, label: 'GitHub', value: 'github.com/kdhan0320-bot', href: 'https://github.com/kdhan0320-bot' },
+                ].map(({ icon, label, value, href }) => (
                   <Card
                     key={label}
                     component="a"
@@ -124,78 +280,48 @@ const ContactSection = () => {
                       alignItems: 'center',
                       gap: 2,
                       p: 2,
-                      transition: 'border-color 0.2s, background-color 0.2s, transform 0.2s, box-shadow 0.2s',
+                      transition: 'border-color 0.2s, background-color 0.2s, transform 0.2s',
                       '&:hover': {
                         borderColor: theme.palette.primary.main,
-                        bgcolor: theme.palette.highlight.background,
-                        transform: 'translateY(-3px)',
-                        boxShadow: theme.palette.mode === 'dark' ? '0 8px 24px rgba(0,0,0,0.35)' : '0 8px 24px rgba(26,26,46,0.1)',
+                        bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : '#EFF6FF',
+                        transform: 'translateY(-2px)',
                       },
-                      '&:hover .contact-icon': { color: theme.palette.primary.main },
-                      '&:active': { transform: 'translateY(0)' },
+                      '&:hover .contact-icon': { color: 'primary.main' },
                       '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
                     })}
                   >
                     <Box className="contact-icon" sx={{ color: 'text.secondary', display: 'flex', flexShrink: 0, transition: 'color 0.2s' }}>{icon}</Box>
                     <Box>
-                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.2 }}>
-                        {label}
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 500, lineHeight: 1.4 }}>
-                        {value}
-                      </Typography>
+                      <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1.2 }}>{label}</Typography>
+                      <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 500, lineHeight: 1.4 }}>{value}</Typography>
                     </Box>
                   </Card>
                 ))}
               </Box>
-
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, mb: 3 }}>
-                웹디자인과 UX/UI를 기반으로, 사용자가 이해하기 쉬운 디지털 경험을 만드는 디자이너로 성장하고 있습니다.
-              </Typography>
-
-              {/* Portfolio PDF 버튼 (준비 중) */}
-              <Button
-                disabled
-                startIcon={<DownloadIcon />}
-                variant="outlined"
-                fullWidth
-                aria-label="포트폴리오 PDF 준비 중"
-                sx={{
-                  fontWeight: 600,
-                  minHeight: 44,
-                  justifyContent: 'flex-start',
-                  pl: 2,
-                  opacity: 0.85,
-                  cursor: 'default',
-                }}
-              >
-                PDF Portfolio — Coming Soon
-              </Button>
             </Grid>
 
-            {/* 오른쪽: 방명록 폼 (보조 기능) */}
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Box sx={(t) => ({
-                p: { xs: 2.5, sm: 3 },
-                borderRadius: 2,
-                border: `1px solid ${t.palette.divider}`,
-                bgcolor: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
-              })}>
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Box
+                sx={(theme) => ({
+                  p: { xs: 2.5, sm: 3 },
+                  borderRadius: 2,
+                  border: `1px solid ${theme.palette.divider}`,
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
+                })}
+              >
                 <GuestbookForm onSuccess={handleSuccess} />
               </Box>
             </Grid>
           </Grid>
         </RevealOnScroll>
 
-        {/* 방명록 목록 (보조 섹션) */}
+        {/* 방명록 목록 */}
         <RevealOnScroll delay={0.05}>
           <Box sx={(theme) => ({ pt: 4, borderTop: `1px solid ${theme.palette.divider}` })}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Guestbook</Typography>
               {!loading && entries.length > 0 && (
-                <Typography variant="caption" sx={{ color: 'text.disabled' }}>
-                  {entries.length}개
-                </Typography>
+                <Typography variant="caption" sx={{ color: 'text.disabled' }}>{entries.length}개</Typography>
               )}
             </Box>
 
@@ -214,21 +340,13 @@ const ContactSection = () => {
                 <Grid container spacing={2.5}>
                   {visibleEntries.map((entry) => (
                     <Grid size={{ xs: 12, sm: 6, md: 4 }} key={entry.id}>
-                      <GuestbookCard
-                        entry={entry}
-                        onDeleted={handleDeleted}
-                        onUpdated={handleUpdated}
-                      />
+                      <GuestbookCard entry={entry} onDeleted={handleDeleted} onUpdated={handleUpdated} />
                     </Grid>
                   ))}
                 </Grid>
                 {hasMore && (
                   <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => setVisibleCount((prev) => prev + GUESTBOOK_PAGE_SIZE)}
-                      sx={{ minHeight: 44, px: 4 }}
-                    >
+                    <Button variant="outlined" onClick={() => setVisibleCount((prev) => prev + GUESTBOOK_PAGE_SIZE)} sx={{ minHeight: 44, px: 4 }}>
                       더보기
                     </Button>
                   </Box>
@@ -246,12 +364,7 @@ const ContactSection = () => {
         onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert
-          severity={snackbar.severity}
-          variant="filled"
-          onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
-          sx={{ fontWeight: 500 }}
-        >
+        <Alert severity={snackbar.severity} variant="filled" onClose={() => setSnackbar(prev => ({ ...prev, open: false }))} sx={{ fontWeight: 500 }}>
           {snackbar.message}
         </Alert>
       </Snackbar>

@@ -3,21 +3,18 @@ import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/mate
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import DevicesIcon from '@mui/icons-material/Devices';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import LayersIcon from '@mui/icons-material/Layers';
 import { usePortfolio } from '../../context/PortfolioContext';
 import { supabase } from '../../lib/supabase';
 import useInViewOnce from '../../hooks/useInViewOnce';
 import useCountUp from '../../hooks/useCountUp';
 import { scrollToSection } from '../../hooks/useScrollNav';
+import StarField from '../common/StarField';
 
-const KEYWORD_CARDS = [
-  { icon: <DesignServicesIcon sx={{ fontSize: 18 }} />, label: 'UX/UI Design',         color: '#2563EB' },
-  { icon: <LayersIcon          sx={{ fontSize: 18 }} />, label: 'Figma Prototype',      color: '#7C3AED' },
-  { icon: <DevicesIcon         sx={{ fontSize: 18 }} />, label: 'React Publishing',     color: '#0891B2' },
-  { icon: <AutoAwesomeIcon     sx={{ fontSize: 18 }} />, label: 'AI-assisted Workflow', color: '#F59E0B' },
+const PROCESS_STEPS = [
+  { label: 'Research', sub: 'UX 분석',   num: '01' },
+  { label: 'Design',   sub: 'Figma',     num: '02' },
+  { label: 'Build',    sub: 'React',     num: '03' },
+  { label: 'Review',   sub: '개선 반영', num: '04' },
 ];
 
 const PortfolioStats = () => {
@@ -45,8 +42,8 @@ const PortfolioStats = () => {
 
   const stats = [
     { label: '진행 프로젝트', value: loaded ? projectNum : '—', suffix: loaded ? '개' : '' },
-    { label: '활용 기술',     value: skillNum,                  suffix: '개'               },
-    { label: '학습 기간',     value: studyNum,                  suffix: '개월+'             },
+    { label: '활용 기술',     value: skillNum, suffix: '개' },
+    { label: '학습 기간',     value: studyNum, suffix: '개월+' },
   ];
 
   return (
@@ -57,7 +54,7 @@ const PortfolioStats = () => {
         gap: { xs: 3, sm: 4 },
         mt: 3,
         pt: 2.5,
-        borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : '#E2E8F0'}`,
+        borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0'}`,
         justifyContent: { xs: 'center', md: 'flex-start' },
       })}
     >
@@ -94,85 +91,94 @@ const HeroSection = () => {
       id="home"
       aria-label="소개"
       sx={(theme) => ({
-        background: theme.palette.mode === 'dark'
-          ? 'linear-gradient(135deg, #0F172A 0%, #0D1E2E 60%, #111827 100%)'
-          : '#F8FAFC',
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 'auto', md: '88vh' },
+        minHeight: { xs: 'auto', md: '90vh' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         py: { xs: 8, sm: 10, md: 6 },
-
-        /* 은은한 dot 패턴 */
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: theme.palette.mode === 'dark'
-            ? 'radial-gradient(circle, rgba(56,189,248,0.05) 1.5px, transparent 1.5px)'
-            : 'radial-gradient(circle, rgba(37,99,235,0.06) 1.5px, transparent 1.5px)',
-          backgroundSize: '28px 28px',
-          zIndex: 0,
-          pointerEvents: 'none',
-        },
-
+        background: theme.palette.mode === 'dark'
+          ? 'linear-gradient(135deg, #0F172A 0%, #0D1B2A 60%, #111827 100%)'
+          : 'linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 60%, #FFFFFF 100%)',
         '@keyframes fadeInUp': {
           from: { opacity: 0, transform: 'translateY(20px)' },
-          to:   { opacity: 1, transform: 'translateY(0)'    },
+          to:   { opacity: 1, transform: 'translateY(0)' },
         },
         '@keyframes bounceDown': {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%':      { transform: 'translateY(7px)' },
         },
-
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
       })}
     >
-      {/* gradient blob 1 - 우측 상단 */}
+      {/* 별 배경 */}
+      <StarField count={48} />
+
+      {/* Gradient blob 1 - 우측 상단 */}
       <Box
         aria-hidden="true"
         sx={(theme) => ({
           position: 'absolute',
-          top: '-10%',
-          right: '-5%',
-          width: { xs: 280, md: 520 },
-          height: { xs: 280, md: 520 },
+          top: '-12%',
+          right: '-6%',
+          width: { xs: 260, md: 500 },
+          height: { xs: 260, md: 500 },
           borderRadius: '50%',
           background: theme.palette.mode === 'dark'
-            ? 'radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%)'
+            ? 'radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 70%)'
             : 'radial-gradient(circle, rgba(37,99,235,0.10) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
-          filter: 'blur(40px)',
+          filter: 'blur(48px)',
         })}
       />
-      {/* gradient blob 2 - 좌측 하단 */}
+
+      {/* Gradient blob 2 - 좌측 하단 */}
       <Box
         aria-hidden="true"
         sx={(theme) => ({
           position: 'absolute',
-          bottom: '-5%',
-          left: '-8%',
-          width: { xs: 200, md: 380 },
-          height: { xs: 200, md: 380 },
+          bottom: '-8%',
+          left: '-6%',
+          width: { xs: 200, md: 360 },
+          height: { xs: 200, md: 360 },
           borderRadius: '50%',
           background: theme.palette.mode === 'dark'
-            ? 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)',
+            ? 'radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
-          filter: 'blur(40px)',
+          filter: 'blur(48px)',
         })}
       />
+
+      {/* SVG Orbit arc 장식 */}
+      <Box
+        component="svg"
+        viewBox="0 0 800 500"
+        aria-hidden="true"
+        sx={(theme) => ({
+          position: 'absolute',
+          top: '-5%',
+          right: '-10%',
+          width: { xs: 300, md: 600 },
+          height: 'auto',
+          opacity: theme.palette.mode === 'dark' ? 0.12 : 0.06,
+          zIndex: 0,
+          pointerEvents: 'none',
+        })}
+      >
+        <ellipse cx="400" cy="250" rx="360" ry="180" fill="none" stroke="#38BDF8" strokeWidth="1" />
+        <ellipse cx="400" cy="250" rx="260" ry="130" fill="none" stroke="#7C3AED" strokeWidth="0.8" strokeDasharray="6 8" />
+      </Box>
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
         <Grid container spacing={{ xs: 5, md: 8 }} sx={{ alignItems: 'center' }}>
 
-          {/* 왼쪽: 텍스트 영역 */}
+          {/* 왼쪽: 텍스트 */}
           <Grid size={{ xs: 12, md: 7 }}>
             <Box
               sx={{
@@ -180,7 +186,6 @@ const HeroSection = () => {
                 animation: 'fadeInUp 0.6s ease both',
               }}
             >
-              {/* 상단 직무 라벨 */}
               <Chip
                 label="UX/UI · Figma · Web Publishing · AI-assisted Prototype"
                 sx={(theme) => ({
@@ -190,8 +195,8 @@ const HeroSection = () => {
                   color: 'primary.main',
                   border: '1px solid',
                   borderColor: theme.palette.mode === 'dark'
-                    ? 'rgba(56,189,248,0.2)'
-                    : 'rgba(37,99,235,0.2)',
+                    ? 'rgba(56,189,248,0.22)'
+                    : 'rgba(37,99,235,0.22)',
                   fontWeight: 600,
                   fontSize: '0.75rem',
                   mb: { xs: 2.5, md: 3 },
@@ -200,7 +205,6 @@ const HeroSection = () => {
                 })}
               />
 
-              {/* 메인 헤딩 */}
               <Typography
                 variant="h1"
                 sx={{
@@ -226,7 +230,6 @@ const HeroSection = () => {
                 </Box>
               </Typography>
 
-              {/* 이름 부제 */}
               <Typography
                 variant="h4"
                 sx={{
@@ -242,7 +245,6 @@ const HeroSection = () => {
                 </Box>
               </Typography>
 
-              {/* 보조 설명 */}
               <Typography
                 variant="body1"
                 sx={{
@@ -258,7 +260,6 @@ const HeroSection = () => {
                 작업하는 김도한의 포트폴리오입니다.
               </Typography>
 
-              {/* CTA 버튼 */}
               <Stack
                 direction={{ xs: 'column', sm: 'row' }}
                 spacing={2}
@@ -279,11 +280,11 @@ const HeroSection = () => {
                     minHeight: 50,
                     fontWeight: 700,
                     fontSize: '0.95rem',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease',
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                     '&:hover': {
                       bgcolor: 'primary.dark',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 24px rgba(37,99,235,0.30)',
+                      boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
                     },
                     '&:active': { transform: 'translateY(0)' },
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
@@ -308,10 +309,9 @@ const HeroSection = () => {
                     fontSize: '0.95rem',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
-                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : 'rgba(37,99,235,0.05)',
+                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.07)' : 'rgba(37,99,235,0.05)',
                       borderColor: 'primary.main',
                       transform: 'translateY(-2px)',
-                      boxShadow: '0 4px 12px rgba(37,99,235,0.12)',
                     },
                     '&:active': { transform: 'translateY(0)' },
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
@@ -325,63 +325,178 @@ const HeroSection = () => {
             </Box>
           </Grid>
 
-          {/* 오른쪽: 키워드 카드 */}
+          {/* 오른쪽: Design Process 미션 패널 */}
           <Grid size={{ xs: 12, md: 5 }}>
             <Box
               aria-hidden="true"
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-                animation: 'fadeInUp 0.6s ease 0.15s both',
-              }}
+              sx={{ animation: 'fadeInUp 0.6s ease 0.18s both' }}
             >
-              {KEYWORD_CARDS.map((card) => (
-                <Box
-                  key={card.label}
-                  sx={(theme) => ({
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(17,24,39,0.85)' : '#FFFFFF',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(51,65,85,0.6)' : '#E2E8F0'}`,
-                    borderRadius: 2.5,
-                    p: 2.25,
+              <Box
+                sx={(theme) => ({
+                  bgcolor: theme.palette.mode === 'dark'
+                    ? 'rgba(255,255,255,0.04)'
+                    : 'rgba(255,255,255,0.88)',
+                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0'}`,
+                  borderRadius: 3,
+                  p: { xs: 2.5, md: 3 },
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  boxShadow: theme.palette.mode === 'dark'
+                    ? '0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)'
+                    : '0 4px 24px rgba(15,23,42,0.08)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
                     boxShadow: theme.palette.mode === 'dark'
-                      ? '0 2px 12px rgba(0,0,0,0.25)'
-                      : '0 2px 12px rgba(15,23,42,0.06)',
-                    backdropFilter: 'blur(8px)',
-                    transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
-                    '&:hover': {
-                      transform: 'translateY(-3px)',
-                      borderColor: card.color,
-                      boxShadow: theme.palette.mode === 'dark'
-                        ? `0 8px 24px rgba(0,0,0,0.35)`
-                        : `0 8px 24px rgba(15,23,42,0.1)`,
-                    },
-                  })}
-                >
+                      ? '0 16px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08)'
+                      : '0 16px 40px rgba(15,23,42,0.12)',
+                  },
+                })}
+              >
+                {/* 패널 헤더 */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 3 }}>
                   <Box
+                    sx={(theme) => ({
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      bgcolor: theme.palette.mode === 'dark' ? '#38BDF8' : '#2563EB',
+                      boxShadow: theme.palette.mode === 'dark' ? '0 0 6px rgba(56,189,248,0.7)' : 'none',
+                    })}
+                  />
+                  <Typography
+                    variant="caption"
                     sx={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 2,
-                      bgcolor: `${card.color}14`,
-                      border: `1px solid ${card.color}30`,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: card.color,
-                      flexShrink: 0,
+                      color: 'primary.main',
+                      fontWeight: 700,
+                      letterSpacing: '0.18em',
+                      textTransform: 'uppercase',
+                      fontSize: '0.65rem',
                     }}
                   >
-                    {card.icon}
-                  </Box>
-                  <Typography sx={{ fontWeight: 600, fontSize: '0.875rem', color: 'text.primary' }}>
-                    {card.label}
+                    Design Process
                   </Typography>
                 </Box>
-              ))}
+
+                {/* 프로세스 스텝 */}
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                  {PROCESS_STEPS.map((step, i) => (
+                    <Box key={step.label}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5 }}>
+                        {/* 번호 + 노드 */}
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                          <Box
+                            sx={(theme) => ({
+                              width: 36,
+                              height: 36,
+                              borderRadius: '50%',
+                              border: `1.5px solid ${i === 1
+                                ? theme.palette.primary.main
+                                : theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.3)' : '#CBD5E1'}`,
+                              bgcolor: i === 1
+                                ? (theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(37,99,235,0.08)')
+                                : 'transparent',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              boxShadow: i === 1 && theme.palette.mode === 'dark'
+                                ? '0 0 10px rgba(56,189,248,0.25)'
+                                : 'none',
+                            })}
+                          >
+                            <Typography
+                              sx={{
+                                fontSize: '0.6rem',
+                                fontWeight: 700,
+                                color: i === 1 ? 'primary.main' : 'text.disabled',
+                                letterSpacing: '0.05em',
+                              }}
+                            >
+                              {step.num}
+                            </Typography>
+                          </Box>
+                        </Box>
+
+                        {/* 텍스트 */}
+                        <Box sx={{ flex: 1 }}>
+                          <Typography
+                            sx={{
+                              fontWeight: i === 1 ? 700 : 500,
+                              fontSize: '0.875rem',
+                              color: i === 1 ? 'primary.main' : 'text.primary',
+                              lineHeight: 1.2,
+                            }}
+                          >
+                            {step.label}
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            sx={{ color: 'text.secondary', fontSize: '0.72rem' }}
+                          >
+                            {step.sub}
+                          </Typography>
+                        </Box>
+
+                        {/* 완료 표시 */}
+                        {i < 2 && (
+                          <Box
+                            sx={(theme) => ({
+                              width: 16,
+                              height: 16,
+                              borderRadius: '50%',
+                              bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(37,99,235,0.1)',
+                              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.3)' : 'rgba(37,99,235,0.25)'}`,
+                              flexShrink: 0,
+                            })}
+                          />
+                        )}
+                      </Box>
+
+                      {/* 연결선 */}
+                      {i < PROCESS_STEPS.length - 1 && (
+                        <Box
+                          sx={(theme) => ({
+                            ml: '17px',
+                            width: 2,
+                            height: 12,
+                            bgcolor: theme.palette.mode === 'dark'
+                              ? 'rgba(148,163,184,0.18)'
+                              : 'rgba(100,116,139,0.18)',
+                          })}
+                        />
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+
+                {/* 하단 태그 */}
+                <Box
+                  sx={(theme) => ({
+                    mt: 2.5,
+                    pt: 2,
+                    borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.1)' : '#F1F5F9'}`,
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: 0.75,
+                  })}
+                >
+                  {['Figma', 'React', 'AI-assisted'].map((tag) => (
+                    <Chip
+                      key={tag}
+                      label={tag}
+                      size="small"
+                      sx={(theme) => ({
+                        bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : 'rgba(37,99,235,0.06)',
+                        color: 'primary.main',
+                        border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
+                        fontWeight: 600,
+                        fontSize: '0.7rem',
+                        height: 22,
+                      })}
+                    />
+                  ))}
+                </Box>
+              </Box>
             </Box>
           </Grid>
         </Grid>
