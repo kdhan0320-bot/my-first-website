@@ -11,11 +11,11 @@ export const fallbackProjects = [
   {
     id: 'bus-redesign',
     title: '버스 앱 리디자인',
-    description: '실시간 버스 정보 확인 흐름을 더 직관적으로 개선한 모바일 앱 리디자인 프로젝트',
+    description: '실시간 버스 정보 확인 흐름을 더 빠르고 직관적으로 확인할 수 있도록 개선한 모바일 앱 시안입니다.',
     category: 'App Redesign',
     categories: ['featured', 'figma', 'redesign'],
-    categoryLabel: 'App Redesign',
-    role: 'UX 분석 · 화면 설계 · Figma 프로토타입',
+    categoryLabel: '앱 리디자인',
+    role: '사용자 흐름 분석 · UI 디자인 · 화면 설계',
     tools: ['Figma', 'UX/UI', 'App Design', 'Prototype'],
     tech_stack: ['Figma', 'UX/UI', 'App Design', 'Prototype'],
     tags: ['Mobile', 'UX Research', 'Before/After'],
@@ -45,11 +45,11 @@ export const fallbackProjects = [
   {
     id: 'figma-uiux',
     title: 'Figma UI/UX 설계 자료',
-    description: '화면 구조, 컴포넌트, 사용자 흐름을 Figma로 정리한 UI 설계 작업',
+    description: '화면 구조, 컴포넌트, 사용자 흐름을 Figma로 정리한 UI 설계 작업입니다.',
     category: 'Figma UX/UI',
     categories: ['featured', 'figma'],
-    categoryLabel: 'Figma UX/UI',
-    role: 'UX/UI 디자인 · 와이어프레임 · Figma',
+    categoryLabel: '화면 설계',
+    role: '와이어프레임 · 컴포넌트 정리 · 화면 설계',
     tools: ['Figma', 'Wireframe', 'UI Components'],
     tech_stack: ['Figma', 'Wireframe', 'UI Components'],
     tags: ['Wireframe', 'Component', 'User Flow'],
@@ -183,7 +183,7 @@ export const fallbackProjects = [
   /* ── AI Vibe Coding ── */
   {
     id: 'jobflow',
-    title: 'JobFlow Dashboard',
+    title: 'JobFlow 업무 대시보드',
     description: '업무 흐름과 작업 현황을 한눈에 확인할 수 있도록 구성한 대시보드형 웹 프로토타입입니다.',
     category: 'Dashboard',
     categories: ['featured', 'ai'],

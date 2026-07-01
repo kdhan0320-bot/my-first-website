@@ -61,6 +61,27 @@ const CosmicOverlay = () => {
       <line x1="114" y1="348" x2="336" y2="342" stroke={starA} strokeWidth="0.5" opacity="0.25" />
       {/* 은하수 곡선 */}
       <path d="M 28 268 Q 220 318 424 198" fill="none" stroke={gx} strokeWidth="2" />
+      {/* 떠 있는 UI 패널 — 우상단 */}
+      <g opacity={dark ? 0.5 : 0.28}>
+        <rect x="346" y="22" width="76" height="52" rx="5" fill={dark ? 'rgba(15,23,42,0.78)' : 'rgba(255,255,255,0.85)'} stroke={o1} strokeWidth="0.9"/>
+        <rect x="353" y="30" width="30" height="3.5" rx="1.5" fill={dark ? 'rgba(255,255,255,0.38)' : 'rgba(37,99,235,0.38)'}/>
+        <rect x="353" y="39" width="60" height="2.5" rx="1.2" fill={dark ? 'rgba(255,255,255,0.18)' : 'rgba(37,99,235,0.2)'}/>
+        <rect x="353" y="46" width="45" height="2.5" rx="1.2" fill={dark ? 'rgba(255,255,255,0.12)' : 'rgba(37,99,235,0.14)'}/>
+        <circle cx="356" cy="61" r="2.5" fill="#38BDF8" opacity={dark ? 0.8 : 0.55}/>
+        <circle cx="365" cy="61" r="2.5" fill="#A78BFA" opacity={dark ? 0.7 : 0.5}/>
+        <circle cx="374" cy="61" r="2.5" fill="#F59E0B" opacity={dark ? 0.7 : 0.5}/>
+      </g>
+      <line x1="422" y1="77" x2="416" y2="70" stroke={o1} strokeWidth="0.5" strokeDasharray="2 2.5" opacity="0.5"/>
+      {/* 떠 있는 지표 카드 — 좌하단 */}
+      <g opacity={dark ? 0.4 : 0.22}>
+        <rect x="26" y="237" width="64" height="40" rx="4" fill={dark ? 'rgba(15,23,42,0.75)' : 'rgba(255,255,255,0.82)'} stroke={o2} strokeWidth="0.7"/>
+        <rect x="32" y="244" width="22" height="3" rx="1.5" fill={dark ? 'rgba(255,255,255,0.3)' : 'rgba(124,58,237,0.3)'}/>
+        <rect x="32" y="253" width="6" height="15" rx="1.5" fill="#38BDF8" opacity={dark ? 0.65 : 0.45}/>
+        <rect x="41" y="258" width="6" height="10" rx="1.5" fill="#A78BFA" opacity={dark ? 0.58 : 0.4}/>
+        <rect x="50" y="255" width="6" height="13" rx="1.5" fill="#22D3EE" opacity={dark ? 0.6 : 0.42}/>
+        <rect x="59" y="250" width="6" height="18" rx="1.5" fill="#F59E0B" opacity={dark ? 0.62 : 0.44}/>
+        <rect x="68" y="256" width="6" height="12" rx="1.5" fill="#38BDF8" opacity={dark ? 0.58 : 0.4}/>
+      </g>
     </svg>
   );
 };

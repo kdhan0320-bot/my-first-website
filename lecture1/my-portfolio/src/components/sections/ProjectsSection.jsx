@@ -289,9 +289,9 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 );
 
 const CARD_BADGES = [
-  { label: '대표 작업',    color: '#F59E0B', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.3)' },
-  { label: '케이스 스터디', color: '#38BDF8', bg: 'rgba(56,189,248,0.12)', border: 'rgba(56,189,248,0.3)' },
-  { label: '시안',         color: '#A78BFA', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)' },
+  { label: '대표 작업',    color: '#F59E0B', lightColor: '#B45309', border: 'rgba(245,158,11,0.4)' },
+  { label: '케이스 스터디', color: '#7DD3FC', lightColor: '#1D4ED8', border: 'rgba(56,189,248,0.4)' },
+  { label: '시안',         color: '#C4B5FD', lightColor: '#6D28D9', border: 'rgba(167,139,250,0.4)' },
 ];
 
 /* ── 프로젝트 카드 ── */
@@ -347,20 +347,27 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
       {/* 배지 */}
       <Box
-        sx={{
+        sx={(t) => ({
           position: 'absolute',
           top: 12,
-          right: 12,
+          left: 12,
           zIndex: 2,
           px: 1.25,
-          py: 0.4,
-          borderRadius: '999px',
-          bgcolor: badge.bg,
+          py: 0.5,
+          borderRadius: '6px',
+          bgcolor: t.palette.mode === 'dark' ? 'rgba(15,23,42,0.88)' : 'rgba(255,255,255,0.93)',
           border: `1px solid ${badge.border}`,
           backdropFilter: 'blur(8px)',
-        }}
+          boxShadow: t.palette.mode === 'dark'
+            ? '0 2px 8px rgba(0,0,0,0.35)'
+            : '0 2px 8px rgba(0,0,0,0.1)',
+        })}
       >
-        <Typography sx={{ color: badge.color, fontWeight: 700, fontSize: '0.6rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        <Typography sx={(t) => ({
+          color: t.palette.mode === 'dark' ? badge.color : badge.lightColor,
+          fontWeight: 700,
+          fontSize: '0.75rem',
+        })}>
           {badge.label}
         </Typography>
       </Box>
@@ -421,7 +428,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               실행 화면 보기
             </Button>
           )}
-          {project.githubUrl && (
+          {project.githubUrl && !project.liveUrl && (
             <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
               aria-label={`${project.title} GitHub 보기`}

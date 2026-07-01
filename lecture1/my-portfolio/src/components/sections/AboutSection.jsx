@@ -104,7 +104,7 @@ const AboutSection = () => {
             })}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              사용자의 불편한 흐름을 발견하고, Figma 기반 UI 설계와 웹 구현으로 개선하는
+              사용자의 불편한 흐름을 발견하고, Figma 기반 화면 설계와 웹 구현으로 개선하는
               UX/UI·웹 퍼블리싱 학습자{' '}
               <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
                 김도한
