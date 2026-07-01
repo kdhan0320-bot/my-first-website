@@ -263,11 +263,11 @@ const THUMB_SVG = {
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', paddingTop: '70%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', height: { xs: 200, md: 250 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
       <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
-        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.35s ease' }} />
+        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease' }} />
     ) : THUMB_SVG[projectId] ? (
       THUMB_SVG[projectId]
     ) : (
@@ -289,9 +289,9 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 );
 
 const CARD_BADGES = [
-  { label: 'Main Mission', color: '#F59E0B', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.3)' },
-  { label: 'Case Study',   color: '#38BDF8', bg: 'rgba(56,189,248,0.12)', border: 'rgba(56,189,248,0.3)' },
-  { label: 'Prototype',    color: '#A78BFA', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)' },
+  { label: '대표 작업',    color: '#F59E0B', bg: 'rgba(245,158,11,0.12)', border: 'rgba(245,158,11,0.3)' },
+  { label: '케이스 스터디', color: '#38BDF8', bg: 'rgba(56,189,248,0.12)', border: 'rgba(56,189,248,0.3)' },
+  { label: '시안',         color: '#A78BFA', bg: 'rgba(167,139,250,0.12)', border: 'rgba(167,139,250,0.3)' },
 ];
 
 /* ── 프로젝트 카드 ── */
@@ -306,6 +306,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={(t) => ({
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
+        minHeight: { md: 500 },
         bgcolor: t.palette.mode === 'dark' ? 'rgba(30,41,59,0.85)' : '#FFFFFF',
         backdropFilter: t.palette.mode === 'dark' ? 'blur(12px)' : 'none',
         WebkitBackdropFilter: t.palette.mode === 'dark' ? 'blur(12px)' : 'none',
@@ -387,43 +388,37 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
         {hasRole && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>ROLE</Typography>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
             <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.role}</Typography>
           </Box>
         )}
 
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-          {uniqueTools.map((tool) => (
-            <Chip key={tool} label={tool} size="small"
-              sx={(t) => ({
-                bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : 'rgba(37,99,235,0.06)',
-                color: t.palette.mode === 'dark' ? '#38BDF8' : '#2563EB',
-                border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
-                fontSize: '0.62rem', height: 22, fontWeight: 600, borderRadius: '999px',
-              })} />
-          ))}
-        </Box>
+        {uniqueTools.length > 0 && (
+          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>
+            {uniqueTools.join(' · ')}
+          </Typography>
+        )}
 
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
-          <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 케이스 스터디 보기`}
+          <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
             sx={(t) => ({
               fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
               borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.3)' : 'rgba(37,99,235,0.35)', fontWeight: 600,
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EFF6FF', transform: 'translateY(-1px)' },
             })}>
-            Case Study 보기
+            작업 과정 보기
           </Button>
           {project.liveUrl && (
             <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
-              aria-label={`${project.title} 라이브 데모`}
+              aria-label={`${project.title} 실행 화면 보기`}
               sx={(t) => ({
                 fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', fontWeight: 600,
                 transition: 'transform 0.2s ease',
                 '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
               })}>
-              Live Demo
+              실행 화면 보기
             </Button>
           )}
           {project.githubUrl && (

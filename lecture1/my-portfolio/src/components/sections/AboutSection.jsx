@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Chip } from '@mui/material';
+import { Box, Container, Typography, Grid } from '@mui/material';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import DevicesIcon from '@mui/icons-material/Devices';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
@@ -7,28 +7,28 @@ import RevealOnScroll from '../common/RevealOnScroll';
 const SKILL_CARDS = [
   {
     icon: <DesignServicesIcon sx={{ fontSize: 22 }} />,
-    title: 'UX/UI Design',
+    title: 'UX/UI 디자인',
     color: '#38BDF8',
     lightColor: '#2563EB',
-    items: ['사용자 흐름 분석', '와이어프레임', 'Figma 프로토타입'],
+    items: ['사용자 흐름 분석', '와이어프레임', '화면 설계'],
   },
   {
     icon: <DevicesIcon sx={{ fontSize: 22 }} />,
-    title: 'Web Publishing',
+    title: '웹 구현',
     color: '#A78BFA',
     lightColor: '#7C3AED',
     items: ['HTML/CSS', 'JavaScript', 'React 기반 화면 구현'],
   },
   {
     icon: <AutoAwesomeIcon sx={{ fontSize: 22 }} />,
-    title: 'AI-assisted Workflow',
+    title: 'AI 도구 활용',
     color: '#F59E0B',
     lightColor: '#D97706',
-    items: ['AI 도구를 활용한 아이디어 정리', '코드 보조', '웹 프로토타입 제작'],
+    items: ['아이디어 정리', '코드 보조', '웹 프로토타입 제작'],
   },
 ];
 
-const STRENGTH_CHIPS = ['정보 구조화', '사용자 흐름 개선', 'Figma UI 설계', 'AI-assisted 구현'];
+const STRENGTH_CHIPS = ['정보 구조화', '사용자 흐름 개선', 'Figma 화면 설계', 'AI 도구 활용'];
 
 const AboutSection = () => {
   return (
@@ -265,25 +265,23 @@ const AboutSection = () => {
             >
               강점
             </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
-              {STRENGTH_CHIPS.map((chip) => (
-                <Chip
-                  key={chip}
-                  label={chip}
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark'
-                      ? 'rgba(56,189,248,0.07)'
-                      : 'rgba(37,99,235,0.06)',
-                    color: theme.palette.mode === 'dark' ? '#38BDF8' : '#2563EB',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
-                    fontWeight: 600,
-                    fontSize: '0.8rem',
-                    height: 30,
-                    whiteSpace: 'nowrap',
-                    transition: 'transform 0.2s ease',
-                    '&:hover': { transform: 'translateY(-1px)' },
-                  })}
-                />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 0 }}>
+              {STRENGTH_CHIPS.map((chip, i) => (
+                <Box key={chip} sx={{ display: 'flex', alignItems: 'center' }}>
+                  {i > 0 && (
+                    <Typography variant="caption" sx={{ color: 'text.disabled', mx: 1.5 }}>·</Typography>
+                  )}
+                  <Typography
+                    variant="body2"
+                    sx={(theme) => ({
+                      color: theme.palette.mode === 'dark' ? 'rgba(203,213,225,0.85)' : '#475569',
+                      fontSize: '0.83rem',
+                      fontWeight: 500,
+                    })}
+                  >
+                    {chip}
+                  </Typography>
+                </Box>
               ))}
             </Box>
           </Box>

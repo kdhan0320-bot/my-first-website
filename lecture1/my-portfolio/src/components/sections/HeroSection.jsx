@@ -12,10 +12,10 @@ import { scrollToSection } from '../../hooks/useScrollNav';
 import StarField from '../common/StarField';
 
 const PROCESS_STEPS = [
-  { label: 'Research', sub: 'UX 분석',   num: '01', color: '#A78BFA', lightColor: '#7C3AED' },
-  { label: 'Design',   sub: 'Figma',     num: '02', color: '#38BDF8', lightColor: '#2563EB' },
-  { label: 'Build',    sub: 'React',     num: '03', color: '#22D3EE', lightColor: '#0891B2' },
-  { label: 'Review',   sub: '개선 반영', num: '04', color: '#F59E0B', lightColor: '#D97706' },
+  { label: '조사', sub: '사용자 흐름과 불편한 지점을 파악합니다.',           num: '01', color: '#A78BFA', lightColor: '#7C3AED' },
+  { label: '설계', sub: 'Figma로 화면 구조와 프로토타입을 정리합니다.',       num: '02', color: '#38BDF8', lightColor: '#2563EB' },
+  { label: '구현', sub: 'React 기반으로 실제 웹 화면을 구현합니다.',          num: '03', color: '#22D3EE', lightColor: '#0891B2' },
+  { label: '개선', sub: '피드백을 반영해 구조와 UI를 수정합니다.',            num: '04', color: '#F59E0B', lightColor: '#D97706' },
 ];
 
 const CosmicOverlay = () => {
@@ -235,7 +235,7 @@ const HeroSection = () => {
               }}
             >
               <Chip
-                label="UX/UI · Figma · Web Publishing · AI-assisted Prototype"
+                label="UX/UI 디자인 · 화면 설계 · 웹 구현 · AI 도구 활용"
                 sx={(theme) => ({
                   bgcolor: theme.palette.mode === 'dark'
                     ? 'rgba(56,189,248,0.1)'
@@ -454,7 +454,7 @@ const HeroSection = () => {
                       fontSize: '0.65rem',
                     }}
                   >
-                    Design Process
+                    작업 흐름
                   </Typography>
                 </Box>
 
@@ -533,32 +533,20 @@ const HeroSection = () => {
                   ))}
                 </Box>
 
-                {/* 하단 태그 */}
+                {/* 하단 키워드 */}
                 <Box
                   sx={(theme) => ({
                     mt: 2.5,
                     pt: 2,
                     borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.1)' : '#F1F5F9'}`,
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: 0.75,
                   })}
                 >
-                  {['Figma', 'React', 'AI-assisted'].map((tag) => (
-                    <Chip
-                      key={tag}
-                      label={tag}
-                      size="small"
-                      sx={(theme) => ({
-                        bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : 'rgba(37,99,235,0.06)',
-                        color: 'primary.main',
-                        border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
-                        fontWeight: 600,
-                        fontSize: '0.7rem',
-                        height: 22,
-                      })}
-                    />
-                  ))}
+                  <Typography
+                    variant="caption"
+                    sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.6 }}
+                  >
+                    Figma · React · AI 도구 활용
+                  </Typography>
                 </Box>
               </Box>
             </Box>
