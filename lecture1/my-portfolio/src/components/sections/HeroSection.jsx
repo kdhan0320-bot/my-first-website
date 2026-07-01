@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Chip, Grid, Stack } from '@mui/material';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { usePortfolio } from '../../context/PortfolioContext';
@@ -11,10 +10,10 @@ import { scrollToSection } from '../../hooks/useScrollNav';
 import StarField from '../common/StarField';
 
 const PROCESS_STEPS = [
-  { label: 'Research', sub: 'UX 분석',   num: '01' },
-  { label: 'Design',   sub: 'Figma',     num: '02' },
-  { label: 'Build',    sub: 'React',     num: '03' },
-  { label: 'Review',   sub: '개선 반영', num: '04' },
+  { label: 'Research', sub: 'UX 분석',   num: '01', color: '#A78BFA', lightColor: '#7C3AED' },
+  { label: 'Design',   sub: 'Figma',     num: '02', color: '#38BDF8', lightColor: '#2563EB' },
+  { label: 'Build',    sub: 'React',     num: '03', color: '#22D3EE', lightColor: '#0891B2' },
+  { label: 'Review',   sub: '개선 반영', num: '04', color: '#F59E0B', lightColor: '#D97706' },
 ];
 
 const PortfolioStats = () => {
@@ -270,7 +269,6 @@ const HeroSection = () => {
                 <Button
                   variant="contained"
                   size="large"
-                  endIcon={<ArrowForwardIcon />}
                   onClick={() => scrollToSection('projects')}
                   aria-label="프로젝트 섹션으로 이동"
                   sx={{
@@ -280,6 +278,7 @@ const HeroSection = () => {
                     minHeight: 50,
                     fontWeight: 700,
                     fontSize: '0.95rem',
+                    whiteSpace: 'nowrap',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                     '&:hover': {
                       bgcolor: 'primary.dark',
@@ -307,6 +306,7 @@ const HeroSection = () => {
                     minHeight: 50,
                     fontWeight: 600,
                     fontSize: '0.95rem',
+                    whiteSpace: 'nowrap',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
                       bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.07)' : 'rgba(37,99,235,0.05)',
@@ -384,33 +384,31 @@ const HeroSection = () => {
                     <Box key={step.label}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, py: 1.5 }}>
                         {/* 번호 + 노드 */}
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                        <Box sx={{ flexShrink: 0 }}>
                           <Box
                             sx={(theme) => ({
                               width: 36,
                               height: 36,
                               borderRadius: '50%',
-                              border: `1.5px solid ${i === 1
-                                ? theme.palette.primary.main
-                                : theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.3)' : '#CBD5E1'}`,
-                              bgcolor: i === 1
-                                ? (theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(37,99,235,0.08)')
-                                : 'transparent',
+                              border: `1.5px solid ${theme.palette.mode === 'dark' ? step.color : step.lightColor}`,
+                              bgcolor: theme.palette.mode === 'dark'
+                                ? `${step.color}14`
+                                : `${step.lightColor}0D`,
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              boxShadow: i === 1 && theme.palette.mode === 'dark'
-                                ? '0 0 10px rgba(56,189,248,0.25)'
+                              boxShadow: theme.palette.mode === 'dark'
+                                ? `0 0 8px ${step.color}22`
                                 : 'none',
                             })}
                           >
                             <Typography
-                              sx={{
+                              sx={(theme) => ({
                                 fontSize: '0.6rem',
                                 fontWeight: 700,
-                                color: i === 1 ? 'primary.main' : 'text.disabled',
+                                color: theme.palette.mode === 'dark' ? step.color : step.lightColor,
                                 letterSpacing: '0.05em',
-                              }}
+                              })}
                             >
                               {step.num}
                             </Typography>
@@ -420,12 +418,12 @@ const HeroSection = () => {
                         {/* 텍스트 */}
                         <Box sx={{ flex: 1 }}>
                           <Typography
-                            sx={{
-                              fontWeight: i === 1 ? 700 : 500,
+                            sx={(theme) => ({
+                              fontWeight: 600,
                               fontSize: '0.875rem',
-                              color: i === 1 ? 'primary.main' : 'text.primary',
+                              color: theme.palette.mode === 'dark' ? step.color : step.lightColor,
                               lineHeight: 1.2,
-                            }}
+                            })}
                           >
                             {step.label}
                           </Typography>
@@ -436,32 +434,18 @@ const HeroSection = () => {
                             {step.sub}
                           </Typography>
                         </Box>
-
-                        {/* 완료 표시 */}
-                        {i < 2 && (
-                          <Box
-                            sx={(theme) => ({
-                              width: 16,
-                              height: 16,
-                              borderRadius: '50%',
-                              bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(37,99,235,0.1)',
-                              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.3)' : 'rgba(37,99,235,0.25)'}`,
-                              flexShrink: 0,
-                            })}
-                          />
-                        )}
                       </Box>
 
-                      {/* 연결선 */}
+                      {/* 연결선 (dotted) */}
                       {i < PROCESS_STEPS.length - 1 && (
                         <Box
                           sx={(theme) => ({
                             ml: '17px',
                             width: 2,
-                            height: 12,
-                            bgcolor: theme.palette.mode === 'dark'
-                              ? 'rgba(148,163,184,0.18)'
-                              : 'rgba(100,116,139,0.18)',
+                            height: 14,
+                            background: theme.palette.mode === 'dark'
+                              ? `linear-gradient(180deg, ${step.color}40, ${PROCESS_STEPS[i + 1].color}40)`
+                              : `linear-gradient(180deg, ${step.lightColor}30, ${PROCESS_STEPS[i + 1].lightColor}30)`,
                           })}
                         />
                       )}

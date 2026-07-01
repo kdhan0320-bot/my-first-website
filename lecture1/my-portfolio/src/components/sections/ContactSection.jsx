@@ -5,8 +5,7 @@ import {
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import { useNavigate } from 'react-router-dom';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
@@ -15,7 +14,6 @@ import RevealOnScroll from '../common/RevealOnScroll';
 const GUESTBOOK_PAGE_SIZE = 3;
 
 const ContactSection = () => {
-  const navigate = useNavigate();
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(GUESTBOOK_PAGE_SIZE);
@@ -178,11 +176,8 @@ const ContactSection = () => {
               })}
             />
 
-            <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, mb: 1.5 }}>
-              다음 프로젝트를 함께 이야기해보세요
-            </Typography>
-            <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, maxWidth: 480, mx: 'auto', mb: 4 }}>
-              채용, 협업, 피드백 등 어떤 이야기든 환영합니다. 부담 없이 연락해 주세요.
+            <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.8, maxWidth: 460, mx: 'auto', mb: 4 }}>
+              채용, 협업, 피드백과 관련된 이야기를 편하게 남겨주세요.
             </Typography>
 
             <Stack
@@ -225,6 +220,7 @@ const ContactSection = () => {
                   minHeight: 48,
                   fontWeight: 600,
                   px: 3,
+                  whiteSpace: 'nowrap',
                   transition: 'transform 0.2s ease',
                   '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },
                   '&:active': { transform: 'translateY(0)' },
@@ -234,22 +230,24 @@ const ContactSection = () => {
               </Button>
 
               <Button
+                disabled
                 variant="outlined"
-                startIcon={<FolderOpenIcon />}
-                onClick={() => navigate('/projects')}
-                aria-label="전체 프로젝트 보기"
+                startIcon={<PictureAsPdfIcon />}
+                aria-label="PDF 포트폴리오 준비 중"
                 sx={(theme) => ({
-                  color: 'text.secondary',
-                  borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.3)' : '#CBD5E1',
+                  color: 'text.disabled',
+                  borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0',
                   minHeight: 48,
                   fontWeight: 600,
                   px: 3,
-                  transition: 'transform 0.2s ease',
-                  '&:hover': { borderColor: 'secondary.main', color: 'secondary.main', transform: 'translateY(-2px)' },
-                  '&:active': { transform: 'translateY(0)' },
+                  whiteSpace: 'nowrap',
+                  '&.Mui-disabled': {
+                    color: 'text.disabled',
+                    borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0',
+                  },
                 })}
               >
-                Projects 보기
+                PDF Portfolio — Coming Soon
               </Button>
             </Stack>
           </Box>

@@ -28,7 +28,7 @@ const SKILL_CARDS = [
   },
 ];
 
-const TOOLS = ['Figma', 'React', 'Vite', 'HTML/CSS', 'JavaScript', 'MUI', 'Claude', 'Supabase'];
+const STRENGTH_CHIPS = ['정보 구조화', '사용자 흐름 개선', 'Figma UI 설계', 'AI-assisted 구현'];
 
 const AboutSection = () => {
   return (
@@ -103,17 +103,13 @@ const AboutSection = () => {
               borderRadius: '0 12px 12px 0',
             })}
           >
-            <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.9, fontWeight: 500, mb: 1.5 }}>
-              저는 사용자의 불편한 흐름을 발견하고, Figma와 웹 구현으로 개선하는
+            <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
+              사용자의 불편한 흐름을 발견하고, Figma 기반 UI 설계와 웹 구현으로 개선하는
               UX/UI·웹 퍼블리싱 학습자{' '}
               <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
                 김도한
               </Box>
               입니다.
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.85 }}>
-              앱 리디자인, 화면 설계, 웹 구현 과정을 연결해서 보여주는 포트폴리오를 만들고 있습니다.
-              프로젝트를 통해 디자인과 개발의 연결 경험을 쌓고 있습니다.
             </Typography>
           </Box>
         </RevealOnScroll>
@@ -235,20 +231,20 @@ const AboutSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* 사용 도구 */}
+        {/* 강점 칩 */}
         <RevealOnScroll delay={0.15}>
           <Box sx={{ textAlign: 'center' }}>
             <Typography
               variant="caption"
               sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', mb: 2 }}
             >
-              Tools &amp; Tech
+              강점
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'center' }}>
-              {TOOLS.map((tool) => (
+              {STRENGTH_CHIPS.map((chip) => (
                 <Chip
-                  key={tool}
-                  label={tool}
+                  key={chip}
+                  label={chip}
                   sx={(theme) => ({
                     bgcolor: theme.palette.mode === 'dark'
                       ? 'rgba(56,189,248,0.07)'
@@ -258,6 +254,7 @@ const AboutSection = () => {
                     fontWeight: 600,
                     fontSize: '0.8rem',
                     height: 30,
+                    whiteSpace: 'nowrap',
                     transition: 'transform 0.2s ease',
                     '&:hover': { transform: 'translateY(-1px)' },
                   })}

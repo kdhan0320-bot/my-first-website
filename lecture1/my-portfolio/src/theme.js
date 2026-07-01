@@ -36,9 +36,9 @@ export const getDesignTokens = (mode) => ({
   typography: {
     fontFamily: '"Pretendard", "Noto Sans KR", "Roboto", "Helvetica", "Arial", sans-serif',
     h1: { fontSize: '2.75rem',  fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2 },
-    h2: { fontSize: '2rem',     fontWeight: 700, letterSpacing: '-0.01em' },
-    h3: { fontSize: '1.5rem',   fontWeight: 700 },
-    h4: { fontSize: '1.25rem',  fontWeight: 700 },
+    h2: { fontSize: '2rem',     fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.3 },
+    h3: { fontSize: '1.5rem',   fontWeight: 700, letterSpacing: '-0.01em', lineHeight: 1.35 },
+    h4: { fontSize: '1.25rem',  fontWeight: 700, lineHeight: 1.4 },
     h5: { fontSize: '1.125rem', fontWeight: 600 },
     h6: { fontSize: '1rem',     fontWeight: 600 },
     body1:   { fontSize: '1rem',     lineHeight: 1.7  },
@@ -98,6 +98,22 @@ export const getDesignTokens = (mode) => ({
             '&.Mui-focused fieldset': { borderColor: theme.palette.primary.main, borderWidth: 2 },
           },
         }),
+      },
+    },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          wordBreak: 'keep-all',
+          overflowWrap: 'break-word',
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          wordBreak: 'keep-all',
+          overflowWrap: 'break-word',
+        },
       },
     },
     MuiDivider: {
