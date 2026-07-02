@@ -126,7 +126,33 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         )}
         {detail.result && (
           <DetailRow label="결과 화면">
+            {/* 썸네일 미리보기 */}
+            {(project.thumbnailUrl || project.liveUrl) && (
+              <Box sx={(t) => ({
+                mb: 1.5, borderRadius: 1.5, overflow: 'hidden',
+                border: `1px solid ${t.palette.divider}`,
+                background: project.gradient || 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%)',
+                position: 'relative', height: 120,
+              })}>
+                {project.thumbnailUrl ? (
+                  <Box component="img" src={project.thumbnailUrl} alt="결과 화면 미리보기"
+                    sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', p: 1 }} />
+                ) : (
+                  <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>
+                      실행 화면 보기 →
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
+            {project.liveUrl && (
+              <Box component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                실행 화면 보기 →
+              </Box>
+            )}
           </DetailRow>
         )}
         {detail.lesson && (

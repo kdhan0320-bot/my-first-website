@@ -7,6 +7,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ForumIcon from '@mui/icons-material/Forum';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
@@ -274,34 +275,69 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* 방명록 — 접힘/펼침 보조 영역 */}
+        {/* 방명록 — 티저 카드 + 접힘/펼침 */}
         <RevealOnScroll delay={0.1}>
-          <Box sx={(theme) => ({ pt: 3, borderTop: `1px solid ${theme.palette.divider}` })}>
-            {/* 토글 버튼 */}
-            <Button
-              variant="text"
-              size="small"
-              endIcon={
-                <KeyboardArrowDownIcon
-                  sx={{
-                    fontSize: '1rem !important',
-                    transition: 'transform 0.25s ease',
-                    transform: guestbookOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  }}
-                />
-              }
+          <Box sx={{ mt: 2 }}>
+            {/* 티저 카드 */}
+            <Box
               onClick={() => setGuestbookOpen((prev) => !prev)}
+              role="button"
+              tabIndex={0}
+              aria-expanded={guestbookOpen}
+              onKeyDown={(e) => e.key === 'Enter' && setGuestbookOpen((prev) => !prev)}
               sx={(theme) => ({
-                color: 'text.disabled',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                px: 0,
-                mb: 1,
-                '&:hover': { color: 'text.secondary', bgcolor: 'transparent' },
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                px: { xs: 2, md: 2.5 },
+                py: 1.5,
+                borderRadius: 2,
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
+                bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(37,99,235,0.02)',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s, background-color 0.2s',
+                '&:hover': {
+                  borderColor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.38)' : 'rgba(37,99,235,0.35)',
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : 'rgba(37,99,235,0.04)',
+                },
+                '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
               })}
             >
-              방명록{!loading && entries.length > 0 ? ` (${entries.length})` : ''}
-            </Button>
+              {/* 아이콘 */}
+              <Box sx={(theme) => ({
+                width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(37,99,235,0.08)',
+                color: 'primary.main',
+              })}>
+                <ForumIcon sx={{ fontSize: 16 }} />
+              </Box>
+
+              {/* 텍스트 */}
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Typography sx={{ fontWeight: 600, fontSize: '0.85rem', color: 'text.primary', lineHeight: 1.3 }}>
+                  방명록 남기기
+                </Typography>
+                <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.75rem' }}>
+                  짧은 피드백이나 응원을 남길 수 있어요.
+                </Typography>
+              </Box>
+
+              {/* 오른쪽: 개수 + 토글 */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexShrink: 0 }}>
+                {!loading && entries.length > 0 && (
+                  <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', whiteSpace: 'nowrap' }}>
+                    방문자 의견 {entries.length}개
+                  </Typography>
+                )}
+                <KeyboardArrowDownIcon sx={{
+                  fontSize: '1.1rem',
+                  color: 'text.secondary',
+                  transition: 'transform 0.25s ease',
+                  transform: guestbookOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                }} />
+              </Box>
+            </Box>
 
             {/* 접힘/펼침 콘텐츠 */}
             <Collapse in={guestbookOpen} timeout={300}>

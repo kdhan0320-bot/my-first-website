@@ -40,7 +40,7 @@ const AboutSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
-        py: { xs: 7, md: 9 },
+        py: { xs: 6, md: 8 },
       })}
     >
       {/* 섹션 구분 gradient line */}
@@ -93,7 +93,7 @@ const AboutSection = () => {
             sx={(theme) => ({
               maxWidth: 720,
               mx: 'auto',
-              mb: { xs: 6, md: 8 },
+              mb: { xs: 4, md: 5 },
               p: { xs: 3, md: 4 },
               bgcolor: theme.palette.mode === 'dark'
                 ? 'rgba(56,189,248,0.05)'
