@@ -10,6 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { supabase } from '../lib/supabase';
 import { ALL_PROJECTS, FILTER_TABS } from '../data/projectsData';
+import ProjectThumbnailArt, { hasThumbnailArt } from '../components/common/ProjectThumbnailArt';
 
 /* ── Supabase 데이터를 공유 포맷으로 변환 ── */
 const fromSupabase = (row) => ({
@@ -192,13 +193,15 @@ const DetailModal = ({ project, open, onClose }) => {
   );
 };
 
-/* ── 썸네일 ── */
-const Thumbnail = ({ gradient, thumbnailUrl, title }) => (
+/* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
+const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
   <Box sx={{ position: 'relative', paddingTop: '52%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
       <Box component="img" src={thumbnailUrl} alt={`${title} 썸네일`} loading="lazy" className="thumb-img"
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
         sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.35s ease' }} />
+    ) : hasThumbnailArt(projectId) ? (
+      <ProjectThumbnailArt projectId={projectId} />
     ) : (
       <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Typography sx={{ color: 'rgba(255,255,255,0.2)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
@@ -223,7 +226,7 @@ const ProjectCard = ({ project, onDetail }) => (
       '&:hover .thumb-img': { transform: 'scale(1.05)' },
       '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
     }}>
-    <Thumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} />
+    <Thumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} projectId={project.id} />
     <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
       <Box>
         <Typography variant="caption"
