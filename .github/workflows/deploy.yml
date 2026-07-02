@@ -29,8 +29,8 @@ jobs:
       - name: Build mini_sns
         working-directory: lecture1/mini_sns
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NODE_ENV: production
         run: npm run build
 
@@ -41,8 +41,8 @@ jobs:
       - name: Build my-portfolio
         working-directory: lecture1/my-portfolio
         env:
-          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
-          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Install dependencies (my-community)
@@ -52,8 +52,8 @@ jobs:
       - name: Build my-community
         working-directory: lecture1/my-community
         env:
-          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
-          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Install dependencies (jobflow-dashboard)
@@ -63,8 +63,8 @@ jobs:
       - name: Build jobflow-dashboard
         working-directory: lecture1/jobflow-dashboard
         env:
-          VITE_SUPABASE_URL: https://bdduqvlseejvcuboston.supabase.co
-          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZHVxdmxzZWVqdmN1Ym9zdG9uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4NTc1MjYsImV4cCI6MjA5NjQzMzUyNn0.IRlvxF95MNtE6lBkatuDMlFcQ_T5lcpYrCFF-o1nxfM
+          VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           NODE_ENV: production
         run: npm run build
 
