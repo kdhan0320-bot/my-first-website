@@ -101,7 +101,7 @@ const ContactSection = () => {
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
-          <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 5 } }}>
+          <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
             <Typography
               sx={(theme) => ({
                 color: 'primary.main',
@@ -109,7 +109,6 @@ const ContactSection = () => {
                 fontSize: '0.72rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                mb: 1.5,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -119,9 +118,6 @@ const ContactSection = () => {
               })}
             >
               03 연락처
-            </Typography>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
-              함께 이야기해요
             </Typography>
           </Box>
         </RevealOnScroll>
@@ -165,8 +161,11 @@ const ContactSection = () => {
             </Box>
 
             <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
-              {/* 왼쪽: 설명 + 연락처 정보 */}
+              {/* 왼쪽: 제목 + 설명 + 연락처 정보 */}
               <Grid size={{ xs: 12, md: 6 }}>
+                <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.4rem' }, mb: 1 }}>
+                  함께 이야기해요
+                </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 2.5 }}>
                   채용, 협업, 피드백과 관련된 이야기를 편하게 남겨주세요.
                 </Typography>
