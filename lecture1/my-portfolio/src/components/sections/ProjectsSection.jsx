@@ -25,7 +25,7 @@ const fromSupabase = (row) => ({
   title: row.title,
   description: row.description,
   categories: ['ai'],
-  categoryLabel: row.category ?? 'AI Vibe Coding',
+  categoryLabel: row.category ?? 'AI 도구 활용 웹 구현',
   role: row.role ?? '—',
   tools: row.tech_stack ?? [],
   tags: (row.tech_stack ?? []).slice(0, 3),
@@ -78,29 +78,29 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
       </DialogTitle>
       <Divider />
       <DialogContent sx={{ pt: 2.5 }}>
-        <DetailRow label="Project Overview">
+        <DetailRow label="작업 개요">
           <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
         </DetailRow>
         {detail.problem && detail.problem !== '—' && (
-          <DetailRow label="Problem">
+          <DetailRow label="문제">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.problem}</Typography>
           </DetailRow>
         )}
         {detail.goal && detail.goal !== '—' && (
-          <DetailRow label="Goal">
+          <DetailRow label="목표">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.goal}</Typography>
           </DetailRow>
         )}
         {detail.targetUser && (
-          <DetailRow label="Target User">
+          <DetailRow label="대상 사용자">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.targetUser}</Typography>
           </DetailRow>
         )}
-        <DetailRow label="Role">
+        <DetailRow label="맡은 일">
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{role}</Typography>
         </DetailRow>
         {tools.length > 0 && (
-          <DetailRow label="Tools">
+          <DetailRow label="도구">
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
@@ -115,33 +115,33 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           </DetailRow>
         )}
         {detail.designPoint && detail.designPoint !== '—' && (
-          <DetailRow label="UX/UI Point">
+          <DetailRow label="핵심 설계 방향">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
           </DetailRow>
         )}
         {detail.process && (
-          <DetailRow label="UX/UI Process">
+          <DetailRow label="작업 과정">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.process}</Typography>
           </DetailRow>
         )}
         {detail.result && (
-          <DetailRow label="Result">
+          <DetailRow label="결과">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
           </DetailRow>
         )}
         {detail.aiContribution && (
-          <DetailRow label="AI Contribution">
+          <DetailRow label="AI 도구 활용">
             <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
             </Box>
           </DetailRow>
         )}
         {detail.limitation && (
-          <DetailRow label="Limitation & Improvement">
+          <DetailRow label="한계 및 개선점">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.limitation}</Typography>
           </DetailRow>
         )}
-        <DetailRow label="Next Step">
+        <DetailRow label="다음 단계">
           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.nextStep}</Typography>
         </DetailRow>
       </DialogContent>
@@ -151,7 +151,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           <Button component="a" href={liveUrl} target="_blank" rel="noopener noreferrer"
             variant="contained" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
             sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700 }}>
-            Live Demo
+            실행 화면 보기
           </Button>
         )}
         {githubUrl && (
@@ -537,9 +537,9 @@ const ProjectsSection = () => {
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               })}
             >
-              02 Mission Archive
+              02 대표 작업
             </Typography>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>Featured Projects</Typography>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>주요 프로젝트</Typography>
             <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', maxWidth: 480, mx: 'auto' }}>
               문제 발견부터 화면 설계, 구현까지 이어진 대표 작업입니다.
             </Typography>

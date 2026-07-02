@@ -17,7 +17,7 @@ const fromSupabase = (row) => ({
   title: row.title,
   description: row.description,
   categories: ['ai'],
-  categoryLabel: 'AI Vibe Coding',
+  categoryLabel: 'AI 도구 활용 웹 구현',
   role: '—',
   tools: row.tech_stack ?? [],
   tags: row.tech_stack?.slice(0, 3) ?? [],
@@ -66,29 +66,29 @@ const DetailModal = ({ project, open, onClose }) => {
       </DialogTitle>
       <Divider />
       <DialogContent sx={{ pt: 2.5 }}>
-        <DetailRow label="Project Overview">
+        <DetailRow label="작업 개요">
           <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
         </DetailRow>
         {detail.problem !== '—' && (
-          <DetailRow label="Problem">
+          <DetailRow label="문제">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.problem}</Typography>
           </DetailRow>
         )}
         {detail.goal !== '—' && (
-          <DetailRow label="Goal">
+          <DetailRow label="목표">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.goal}</Typography>
           </DetailRow>
         )}
         {detail.targetUser && detail.targetUser !== '—' && (
-          <DetailRow label="Target User">
+          <DetailRow label="대상 사용자">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.targetUser}</Typography>
           </DetailRow>
         )}
-        <DetailRow label="Role">
+        <DetailRow label="맡은 일">
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>{role}</Typography>
         </DetailRow>
         {tools.length > 0 && (
-          <DetailRow label="Tools">
+          <DetailRow label="도구">
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
@@ -103,33 +103,33 @@ const DetailModal = ({ project, open, onClose }) => {
           </DetailRow>
         )}
         {detail.designPoint !== '—' && (
-          <DetailRow label="Design Point">
+          <DetailRow label="핵심 설계 방향">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
           </DetailRow>
         )}
         {detail.process && detail.process !== '—' && (
-          <DetailRow label="UX/UI Process">
+          <DetailRow label="작업 과정">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.process}</Typography>
           </DetailRow>
         )}
         {detail.result && detail.result !== '—' && (
-          <DetailRow label="Result">
+          <DetailRow label="결과">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
           </DetailRow>
         )}
         {detail.aiContribution && (
-          <DetailRow label="AI Contribution">
+          <DetailRow label="AI 도구 활용">
             <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
             </Box>
           </DetailRow>
         )}
         {detail.limitation && (
-          <DetailRow label="Limitation & Improvement">
+          <DetailRow label="한계 및 개선점">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.limitation}</Typography>
           </DetailRow>
         )}
-        <DetailRow label="Next Step">
+        <DetailRow label="다음 단계">
           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.nextStep}</Typography>
         </DetailRow>
       </DialogContent>
@@ -139,7 +139,7 @@ const DetailModal = ({ project, open, onClose }) => {
           <Button component="a" href={liveUrl} target="_blank" rel="noopener noreferrer"
             variant="contained" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
             sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700 }}>
-            Live Demo
+            실행 화면 보기
           </Button>
         )}
         {githubUrl && (
@@ -207,7 +207,7 @@ const ProjectCard = ({ project, onDetail }) => (
         {project.description}
       </Typography>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-        <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, fontSize: '0.65rem', letterSpacing: '0.04em' }}>ROLE</Typography>
+        <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, fontSize: '0.65rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
         <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>{project.role}</Typography>
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -234,14 +234,14 @@ const ProjectCard = ({ project, onDetail }) => (
             borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
             '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB' },
           })}>
-          View Detail
+          작업 과정 보기
         </Button>
         {project.liveUrl && (
           <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
             aria-label={`${project.title} 라이브 데모`}
             sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
-            Live Demo
+            실행 화면 보기
           </Button>
         )}
         {project.githubUrl && (
@@ -329,7 +329,7 @@ const ProjectsPage = () => {
           </Typography>
           <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
           <Typography sx={{ mt: 2.5, color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.8 }}>
-            Figma UX/UI 설계와 AI-assisted Coding으로 직접 기획하고 구현한 프로젝트들입니다.
+            Figma UX/UI 설계와 AI 도구 활용 웹 구현으로 직접 기획하고 구현한 프로젝트들입니다.
           </Typography>
         </Box>
 

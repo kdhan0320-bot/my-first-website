@@ -202,7 +202,7 @@ const ContactSection = () => {
                   '&:active': { transform: 'translateY(0)' },
                 }}
               >
-                Email
+                이메일 보내기
               </Button>
 
               <Button
@@ -296,7 +296,7 @@ const ContactSection = () => {
         <RevealOnScroll delay={0.05}>
           <Box sx={(theme) => ({ pt: 4, borderTop: `1px solid ${theme.palette.divider}` })}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>Guestbook</Typography>
+              <Typography variant="body2" sx={{ color: 'text.secondary', fontWeight: 600 }}>방명록</Typography>
               {!loading && entries.length > 0 && (
                 <Typography variant="caption" sx={{ color: 'text.disabled' }}>{entries.length}개</Typography>
               )}
