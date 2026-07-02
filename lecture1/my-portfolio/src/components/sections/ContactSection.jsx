@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import {
-  Box, Container, Typography, Grid, Card,
+  Box, Container, Typography, Grid,
   Button, CircularProgress, Alert, Snackbar, Collapse,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ForumIcon from '@mui/icons-material/Forum';
 import { supabase } from '../../lib/supabase';
@@ -60,44 +59,40 @@ const ContactSection = () => {
       component="section"
       id="contact"
       aria-label="연락처"
-      sx={(theme) => ({
+      sx={{
         position: 'relative',
         overflow: 'hidden',
-        bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
+        bgcolor: '#1E293B',
         py: { xs: 5, md: 7 },
-      })}
+      }}
     >
       {/* 상단 구분선 */}
       <Box
         aria-hidden="true"
-        sx={(theme) => ({
+        sx={{
           position: 'absolute',
           top: 0,
           left: '10%',
           right: '10%',
           height: 1,
-          background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)'
-            : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.15), rgba(124,58,237,0.15), transparent)',
-        })}
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)',
+        }}
       />
 
       {/* 배경 blob */}
       <Box
         aria-hidden="true"
-        sx={(theme) => ({
+        sx={{
           position: 'absolute',
           top: '20%',
           right: '-8%',
           width: 260,
           height: 260,
           borderRadius: '50%',
-          background: theme.palette.mode === 'dark'
-            ? 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)',
           filter: 'blur(40px)',
           pointerEvents: 'none',
-        })}
+        }}
       />
 
       <Container maxWidth="lg">
@@ -106,7 +101,7 @@ const ContactSection = () => {
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
             <Typography
-              sx={(theme) => ({
+              sx={{
                 color: 'primary.main',
                 fontWeight: 700,
                 fontSize: '0.72rem',
@@ -118,7 +113,7 @@ const ContactSection = () => {
                 gap: 1.5,
                 '&::before': { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
-              })}
+              }}
             >
               03 연락처
             </Typography>
@@ -128,34 +123,32 @@ const ContactSection = () => {
         {/* CTA 카드 — 2열 레이아웃 */}
         <RevealOnScroll delay={0.08}>
           <Box
-            sx={(theme) => ({
+            sx={{
               position: 'relative',
               overflow: 'hidden',
-              bgcolor: theme.palette.mode === 'dark'
-                ? 'rgba(255,255,255,0.04)'
-                : 'rgba(37,99,235,0.03)',
-              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.15)'}`,
+              bgcolor: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(56,189,248,0.18)',
               borderRadius: 3,
               p: { xs: 3, md: 4 },
               mb: { xs: 4, md: 5 },
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
-            })}
+            }}
           >
             {/* SVG 궤도 장식 */}
             <Box
               component="svg"
               viewBox="0 0 400 200"
               aria-hidden="true"
-              sx={(theme) => ({
+              sx={{
                 position: 'absolute',
                 bottom: '-15%',
                 right: '-3%',
                 width: { xs: 160, md: 240 },
                 height: 'auto',
-                opacity: theme.palette.mode === 'dark' ? 0.12 : 0.07,
+                opacity: 0.12,
                 pointerEvents: 'none',
-              })}
+              }}
             >
               <ellipse cx="200" cy="100" rx="180" ry="80" fill="none" stroke="#38BDF8" strokeWidth="1.2" />
               <ellipse cx="200" cy="100" rx="120" ry="55" fill="none" stroke="#7C3AED" strokeWidth="0.9" strokeDasharray="5 7" />
@@ -183,7 +176,7 @@ const ContactSection = () => {
                       href={href}
                       target={href.startsWith('mailto') ? '_self' : '_blank'}
                       rel="noopener noreferrer"
-                      sx={(theme) => ({
+                      sx={{
                         display: 'flex',
                         alignItems: 'center',
                         gap: 1,
@@ -192,7 +185,7 @@ const ContactSection = () => {
                         fontSize: '0.82rem',
                         transition: 'color 0.2s',
                         '&:hover': { color: 'primary.main' },
-                      })}
+                      }}
                     >
                       <Box sx={{ color: 'inherit', display: 'flex', flexShrink: 0 }}>{icon}</Box>
                       <Typography variant="body2" sx={{ color: 'inherit', fontWeight: 500 }}>{label}</Typography>
@@ -232,9 +225,9 @@ const ContactSection = () => {
                     variant="outlined"
                     startIcon={<GitHubIcon />}
                     aria-label="GitHub 프로필 보기"
-                    sx={(theme) => ({
+                    sx={{
                       color: 'text.primary',
-                      borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.3)' : '#CBD5E1',
+                      borderColor: 'rgba(148,163,184,0.3)',
                       minHeight: 44,
                       fontWeight: 600,
                       px: 3,
@@ -242,32 +235,9 @@ const ContactSection = () => {
                       transition: 'transform 0.2s ease',
                       '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },
                       '&:active': { transform: 'translateY(0)' },
-                    })}
+                    }}
                   >
                     GitHub
-                  </Button>
-                  <Button
-                    disabled
-                    size="small"
-                    startIcon={<PictureAsPdfIcon sx={{ fontSize: '0.8rem !important' }} />}
-                    aria-label="PDF 포트폴리오 준비 중"
-                    sx={(theme) => ({
-                      color: 'text.disabled',
-                      fontSize: '0.78rem',
-                      fontWeight: 500,
-                      px: 2,
-                      minHeight: 32,
-                      whiteSpace: 'nowrap',
-                      alignSelf: { xs: 'flex-start', md: 'flex-end' },
-                      border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.14)' : '#E2E8F0'}`,
-                      borderRadius: 2,
-                      '&.Mui-disabled': {
-                        color: 'text.disabled',
-                        borderColor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.12)' : '#EDF2F7',
-                      },
-                    })}
-                  >
-                    PDF 포트폴리오 준비 중
                   </Button>
                 </Box>
               </Grid>
@@ -285,31 +255,31 @@ const ContactSection = () => {
               tabIndex={0}
               aria-expanded={guestbookOpen}
               onKeyDown={(e) => e.key === 'Enter' && setGuestbookOpen((prev) => !prev)}
-              sx={(theme) => ({
+              sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 2,
                 px: { xs: 2, md: 2.5 },
                 py: 1.5,
                 borderRadius: 2,
-                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.18)'}`,
-                bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(37,99,235,0.02)',
+                border: '1px solid rgba(56,189,248,0.18)',
+                bgcolor: 'rgba(255,255,255,0.03)',
                 cursor: 'pointer',
                 transition: 'border-color 0.2s, background-color 0.2s',
                 '&:hover': {
-                  borderColor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.38)' : 'rgba(37,99,235,0.35)',
-                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : 'rgba(37,99,235,0.04)',
+                  borderColor: 'rgba(56,189,248,0.38)',
+                  bgcolor: 'rgba(56,189,248,0.05)',
                 },
-                '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
-              })}
+                '&:focus-visible': { outline: `2px solid ${'#38BDF8'}`, outlineOffset: '2px' },
+              }}
             >
               {/* 아이콘 */}
-              <Box sx={(theme) => ({
+              <Box sx={{
                 width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.12)' : 'rgba(37,99,235,0.08)',
+                bgcolor: 'rgba(56,189,248,0.12)',
                 color: 'primary.main',
-              })}>
+              }}>
                 <ForumIcon sx={{ fontSize: 16 }} />
               </Box>
 
@@ -342,13 +312,14 @@ const ContactSection = () => {
             {/* 접힘/펼침 콘텐츠 */}
             <Collapse in={guestbookOpen} timeout={300}>
               <Box
-                sx={(theme) => ({
+                sx={{
                   p: { xs: 2, sm: 2.5 },
                   mb: 3,
                   borderRadius: 2,
-                  border: `1px solid ${theme.palette.divider}`,
-                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
-                })}
+                  border: '1px solid',
+                  borderColor: 'divider',
+                  bgcolor: 'rgba(255,255,255,0.02)',
+                }}
               >
                 <GuestbookForm onSuccess={handleSuccess} />
               </Box>
@@ -378,6 +349,40 @@ const ContactSection = () => {
             </Collapse>
           </Box>
         </RevealOnScroll>
+
+        {/* Footer */}
+        <Box
+          component="footer"
+          sx={{
+            mt: { xs: 5, md: 6 },
+            pt: { xs: 3, md: 3.5 },
+            borderTop: '1px solid rgba(148,163,184,0.14)',
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 1.5,
+            textAlign: { xs: 'center', sm: 'left' },
+          }}
+        >
+          <Typography sx={{ color: 'text.secondary', fontSize: '0.78rem', fontWeight: 600 }}>
+            Dohan.K
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+            <Box component="a" href="mailto:kdhan0320@gmail.com"
+              sx={{ color: 'text.secondary', fontSize: '0.78rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' } }}>
+              kdhan0320@gmail.com
+            </Box>
+            <Typography component="span" sx={{ color: 'text.disabled', fontSize: '0.78rem' }}>·</Typography>
+            <Box component="a" href="https://github.com/kdhan0320-bot" target="_blank" rel="noopener noreferrer"
+              sx={{ color: 'text.secondary', fontSize: '0.78rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' } }}>
+              GitHub
+            </Box>
+          </Box>
+          <Typography sx={{ color: 'text.disabled', fontSize: '0.72rem', whiteSpace: 'nowrap' }}>
+            © 2026 Kim Dohan
+          </Typography>
+        </Box>
 
       </Container>
 

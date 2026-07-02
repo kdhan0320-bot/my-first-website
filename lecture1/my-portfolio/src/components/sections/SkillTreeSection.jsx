@@ -5,45 +5,37 @@ const SKILL_GROUPS = [
   {
     id: 'design',
     category: 'Design',
-    tagColor: '#7C3AED',
-    tagBg: '#F5F3FF',
-    tagBorder: '#DDD6FE',
-    darkTagBg: 'rgba(124,58,237,0.12)',
-    darkTagBorder: 'rgba(124,58,237,0.22)',
-    headerColor: '#7C3AED',
+    tagColor: '#C4B5FD',
+    tagBg: 'rgba(124,58,237,0.12)',
+    tagBorder: 'rgba(124,58,237,0.22)',
+    headerColor: '#A78BFA',
     skills: ['Figma', 'UX/UI Design', 'Wireframe', 'Design System', 'Responsive Web Design'],
   },
   {
     id: 'web',
     category: 'Web',
-    tagColor: '#1D4ED8',
-    tagBg: '#EFF6FF',
-    tagBorder: '#BFDBFE',
-    darkTagBg: 'rgba(29,78,216,0.12)',
-    darkTagBorder: 'rgba(29,78,216,0.22)',
-    headerColor: '#1D4ED8',
+    tagColor: '#7DD3FC',
+    tagBg: 'rgba(56,189,248,0.12)',
+    tagBorder: 'rgba(56,189,248,0.22)',
+    headerColor: '#38BDF8',
     skills: ['HTML', 'CSS', 'JavaScript', 'GitHub Pages'],
   },
   {
     id: 'ai',
     category: 'AI Tools',
-    tagColor: '#0D9488',
-    tagBg: '#F0FDFA',
-    tagBorder: '#99F6E4',
-    darkTagBg: 'rgba(13,148,136,0.12)',
-    darkTagBorder: 'rgba(13,148,136,0.22)',
-    headerColor: '#0D9488',
+    tagColor: '#5EEAD4',
+    tagBg: 'rgba(13,148,136,0.12)',
+    tagBorder: 'rgba(13,148,136,0.22)',
+    headerColor: '#2DD4BF',
     skills: ['Claude', 'ChatGPT', 'AI-assisted Coding', 'Prompt Writing'],
   },
   {
     id: 'soft',
     category: 'Soft Skills',
-    tagColor: '#64748B',
-    tagBg: '#F8FAFC',
-    tagBorder: '#CBD5E1',
-    darkTagBg: 'rgba(100,116,139,0.12)',
-    darkTagBorder: 'rgba(100,116,139,0.22)',
-    headerColor: '#64748B',
+    tagColor: '#CBD5E1',
+    tagBg: 'rgba(100,116,139,0.12)',
+    tagBorder: 'rgba(100,116,139,0.22)',
+    headerColor: '#94A3B8',
     skills: ['Problem Solving', 'Structured Thinking', 'Communication', 'Feedback Reflection'],
   },
 ];
@@ -60,9 +52,7 @@ const SkillGroupCard = ({ group, delay }) => (
         transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
         '&:hover': {
           transform: 'translateY(-3px)',
-          boxShadow: theme.palette.mode === 'dark'
-            ? '0 8px 24px rgba(0,0,0,0.3)'
-            : '0 8px 24px rgba(26,26,46,0.08)',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
           borderColor: group.tagColor,
         },
       })}
@@ -97,10 +87,10 @@ const SkillGroupCard = ({ group, delay }) => (
             key={skill}
             label={skill}
             size="small"
-            sx={(theme) => ({
-              bgcolor: theme.palette.mode === 'dark' ? group.darkTagBg : group.tagBg,
+            sx={{
+              bgcolor: group.tagBg,
               color: group.tagColor,
-              border: `1px solid ${theme.palette.mode === 'dark' ? group.darkTagBorder : group.tagBorder}`,
+              border: `1px solid ${group.tagBorder}`,
               fontWeight: 600,
               fontSize: '0.75rem',
               height: 26,
@@ -109,7 +99,7 @@ const SkillGroupCard = ({ group, delay }) => (
               '&:hover': {
                 transform: 'scale(1.04)',
               },
-            })}
+            }}
           />
         ))}
       </Box>

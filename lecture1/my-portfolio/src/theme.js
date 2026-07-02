@@ -1,37 +1,37 @@
 import { responsiveFontSizes, createTheme } from '@mui/material/styles';
 
-export const getDesignTokens = (mode) => ({
+export const getDesignTokens = () => ({
   palette: {
-    mode,
+    mode: 'dark',
     primary: {
-      main:         mode === 'dark' ? '#38BDF8' : '#2563EB',
-      light:        mode === 'dark' ? '#7DD3FC' : '#3B82F6',
-      dark:         mode === 'dark' ? '#0EA5E9' : '#1D4ED8',
-      contrastText: mode === 'dark' ? '#0B1220' : '#FFFFFF',
+      main:         '#38BDF8',
+      light:        '#7DD3FC',
+      dark:         '#0EA5E9',
+      contrastText: '#0B1020',
     },
     secondary: {
-      main:         mode === 'dark' ? '#A78BFA' : '#7C3AED',
-      light:        mode === 'dark' ? '#C4B5FD' : '#8B5CF6',
-      dark:         mode === 'dark' ? '#7C3AED' : '#6D28D9',
-      contrastText: mode === 'dark' ? '#0B1220' : '#FFFFFF',
+      main:         '#A78BFA',
+      light:        '#C4B5FD',
+      dark:         '#7C3AED',
+      contrastText: '#0B1020',
     },
     background: {
-      default: mode === 'dark' ? '#0F172A' : '#F8FAFC',
-      paper:   mode === 'dark' ? '#1E293B' : '#FFFFFF',
+      default: '#0B1020',
+      paper:   '#0F172A',
     },
     text: {
-      primary:   mode === 'dark' ? '#F8FAFC' : '#0F172A',
-      secondary: mode === 'dark' ? '#CBD5E1' : '#64748B',
-      disabled:  mode === 'dark' ? '#94A3B8' : '#94A3B8',
+      primary:   '#F8FAFC',
+      secondary: '#CBD5E1',
+      disabled:  '#94A3B8',
     },
-    divider: mode === 'dark' ? 'rgba(51,65,85,0.75)' : '#E2E8F0',
+    divider: 'rgba(148,163,184,0.16)',
     highlight: {
-      background: mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EFF6FF',
+      background: 'rgba(56,189,248,0.08)',
     },
     error:   { main: '#E53935' },
     warning: { main: '#F59E0B' },
     success: { main: '#2E7D32' },
-    info:    { main: mode === 'dark' ? '#60A5FA' : '#2563EB' },
+    info:    { main: '#60A5FA' },
   },
   typography: {
     fontFamily: '"Pretendard", "Noto Sans KR", "Roboto", "Helvetica", "Arial", sans-serif',
@@ -66,9 +66,7 @@ export const getDesignTokens = (mode) => ({
       styleOverrides: {
         root: ({ theme }) => ({
           borderRadius: 12,
-          boxShadow: theme.palette.mode === 'dark'
-            ? 'none'
-            : '0 2px 16px rgba(26,26,46,0.06)',
+          boxShadow: 'none',
           border: `1px solid ${theme.palette.divider}`,
           backgroundImage: 'none',
         }),
@@ -123,22 +121,22 @@ export const getDesignTokens = (mode) => ({
     },
     MuiTooltip: {
       styleOverrides: {
-        tooltip: ({ theme }) => ({
-          backgroundColor: theme.palette.mode === 'dark' ? '#1E2D3D' : 'rgba(15,23,42,0.92)',
-          color: theme.palette.mode === 'dark' ? '#F1F5F9' : '#FFFFFF',
+        tooltip: {
+          backgroundColor: '#1E2D3D',
+          color: '#F1F5F9',
           fontSize: '0.75rem',
           fontWeight: 500,
           borderRadius: 6,
           padding: '5px 10px',
-          border: theme.palette.mode === 'dark' ? '1px solid rgba(51,65,85,0.8)' : 'none',
-        }),
-        arrow: ({ theme }) => ({
-          color: theme.palette.mode === 'dark' ? '#1E2D3D' : 'rgba(15,23,42,0.92)',
-        }),
+          border: '1px solid rgba(51,65,85,0.8)',
+        },
+        arrow: {
+          color: '#1E2D3D',
+        },
       },
     },
   },
 });
 
-const theme = responsiveFontSizes(createTheme(getDesignTokens('light')));
+const theme = responsiveFontSizes(createTheme(getDesignTokens()));
 export default theme;

@@ -76,9 +76,7 @@ const ProcessSection = () => (
                 transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: theme.palette.mode === 'dark'
-                    ? '0 8px 24px rgba(0,0,0,0.3)'
-                    : '0 8px 24px rgba(21,120,170,0.1)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
                   borderColor: theme.palette.primary.main,
                 },
               })}

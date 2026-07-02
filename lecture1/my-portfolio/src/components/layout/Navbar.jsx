@@ -7,6 +7,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   useScrollDirection,
@@ -14,16 +15,13 @@ import {
   useActiveSection,
   scrollToSection,
 } from '../../hooks/useScrollNav';
-import ThemeToggle from '../common/ThemeToggle';
-import { useThemeMode } from '../../context/ThemeModeContext';
 import LogoSymbol from '../common/LogoSymbol';
 
 const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 
 const NAV_ITEMS = [
-  { label: 'About',    sectionId: 'about'    },
-  { label: 'Projects', sectionId: 'projects' },
-  { label: 'Contact',  sectionId: 'contact'  },
+  { label: '프로젝트', type: 'route',  to: '/projects' },
+  { label: '연락처',   type: 'scroll', sectionId: 'contact' },
 ];
 
 const Navbar = () => {
@@ -31,8 +29,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hasFocus, setHasFocus] = useState(false);
-  const { mode } = useThemeMode();
-  const isDark = mode === 'dark';
 
   const isHome = location.pathname === '/';
   const { hidden, atTop } = useScrollDirection(drawerOpen);
@@ -40,14 +36,18 @@ const Navbar = () => {
   const activeSection = useActiveSection(location.pathname);
 
   const getActiveLabel = () => {
-    if (!isHome) return '';
-    const matched = NAV_ITEMS.find((item) => item.sectionId === activeSection);
-    return matched?.label ?? '';
+    if (location.pathname === '/projects') return '프로젝트';
+    if (isHome && activeSection === 'contact') return '연락처';
+    return '';
   };
   const activeLabel = getActiveLabel();
 
   const handleNavClick = (item) => {
     setDrawerOpen(false);
+    if (item.type === 'route') {
+      navigate(item.to);
+      return;
+    }
     if (isHome) {
       scrollToSection(item.sectionId);
     } else {
@@ -62,9 +62,8 @@ const Navbar = () => {
 
   const effectiveHidden = hidden && !hasFocus;
 
-  /* 다크/라이트 모드별 AppBar 배경색 */
-  const bgTop     = isDark ? 'rgba(15,23,42,0.88)'  : 'rgba(255,255,255,0.88)';
-  const bgScrolled = isDark ? 'rgba(17,24,39,0.96)' : 'rgba(255,255,255,0.94)';
+  const bgTop      = 'rgba(15,23,42,0.88)';
+  const bgScrolled  = 'rgba(17,24,39,0.96)';
 
   return (
     <>
@@ -79,7 +78,7 @@ const Navbar = () => {
           bgcolor: atTop ? bgTop : bgScrolled,
           backdropFilter: atTop ? 'none' : 'blur(12px)',
           WebkitBackdropFilter: atTop ? 'none' : 'blur(12px)',
-          boxShadow: atTop ? 'none' : (isDark ? '0 1px 10px rgba(0,0,0,0.3)' : '0 1px 10px rgba(26,26,46,0.08)'),
+          boxShadow: atTop ? 'none' : '0 1px 10px rgba(0,0,0,0.3)',
           borderBottom: atTop ? '1px solid transparent' : '1px solid',
           borderBottomColor: atTop ? 'transparent' : 'divider',
           '@media (prefers-reduced-motion: reduce)': {
@@ -94,7 +93,7 @@ const Navbar = () => {
             position: 'absolute',
             top: 0, left: 0, right: 0,
             height: 3,
-            bgcolor: isDark ? 'rgba(56,189,248,0.12)' : 'rgba(30,155,215,0.12)',
+            bgcolor: 'rgba(56,189,248,0.12)',
             overflow: 'hidden',
             zIndex: 1,
           }}
@@ -159,6 +158,7 @@ const Navbar = () => {
                       color: isActive ? theme.palette.primary.main : theme.palette.text.secondary,
                       fontWeight: isActive ? 700 : 500,
                       fontSize: '0.875rem',
+                      whiteSpace: 'nowrap',
                       bgcolor: isActive ? theme.palette.highlight.background : 'transparent',
                       borderRadius: '999px',
                       px: 2,
@@ -169,7 +169,7 @@ const Navbar = () => {
                         color: theme.palette.primary.main,
                         bgcolor: isActive
                           ? theme.palette.highlight.background
-                          : theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.08)' : 'rgba(37,99,235,0.06)',
+                          : 'rgba(148,163,184,0.08)',
                       },
                       '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
                     })}
@@ -178,6 +178,29 @@ const Navbar = () => {
                   </Button>
                 );
               })}
+
+              {/* PDF 포트폴리오 (준비 중) */}
+              <Tooltip title="PDF 파일 준비 중입니다. 준비되는 대로 다운로드 링크를 연결할 예정입니다." placement="bottom" arrow>
+                <span>
+                  <Button
+                    disabled
+                    startIcon={<PictureAsPdfIcon aria-hidden="true" sx={{ fontSize: '0.9rem !important' }} />}
+                    aria-label="PDF 포트폴리오 준비 중"
+                    sx={{
+                      ml: 1,
+                      color: 'text.disabled',
+                      fontWeight: 500,
+                      fontSize: '0.875rem',
+                      whiteSpace: 'nowrap',
+                      px: 2,
+                      minHeight: 44,
+                      '&.Mui-disabled': { color: 'text.disabled' },
+                    }}
+                  >
+                    PDF 포트폴리오
+                  </Button>
+                </span>
+              </Tooltip>
 
               {/* GitHub 링크 */}
               <Tooltip
@@ -192,38 +215,35 @@ const Navbar = () => {
                   rel="noopener noreferrer"
                   aria-label="GitHub 프로필 새 탭에서 열기 — 작업한 코드와 프로젝트 구조를 확인할 수 있습니다."
                   startIcon={<GitHubIcon aria-hidden="true" sx={{ fontSize: '1rem !important' }} />}
-                  sx={(theme) => ({
+                  sx={{
                     ml: 1,
-                    color: theme.palette.text.secondary,
+                    color: 'text.secondary',
                     fontWeight: 500,
                     fontSize: '0.875rem',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.22)' : 'rgba(21,120,170,0.22)'}`,
+                    whiteSpace: 'nowrap',
+                    border: '1px solid rgba(148,163,184,0.22)',
                     borderRadius: 2,
                     px: 2,
                     py: 0.75,
                     minHeight: 44,
                     transition: 'color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s',
                     '&:hover': {
-                      color: theme.palette.primary.main,
-                      borderColor: theme.palette.primary.main,
-                      bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.05)' : 'rgba(21,120,170,0.05)',
+                      color: 'primary.main',
+                      borderColor: 'primary.main',
+                      bgcolor: 'rgba(56,189,248,0.05)',
                       transform: 'translateY(-1px)',
                     },
                     '&:active': { transform: 'translateY(0)' },
-                    '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
-                  })}
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+                  }}
                 >
                   GitHub
                 </Button>
               </Tooltip>
-
-              {/* 테마 토글 */}
-              <ThemeToggle sx={{ ml: 0.5 }} />
             </Box>
 
-            {/* 모바일 우측: 테마 토글 + 햄버거 */}
+            {/* 모바일 우측: 햄버거 */}
             <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 0.5 }}>
-              <ThemeToggle />
               <IconButton
                 sx={{ color: 'text.primary' }}
                 onClick={() => setDrawerOpen(true)}
@@ -306,6 +326,18 @@ const Navbar = () => {
               </ListItem>
             );
           })}
+
+          {/* PDF 포트폴리오 (준비 중) */}
+          <ListItem disablePadding>
+            <ListItemButton disabled sx={{ pl: 3, minHeight: 52 }} aria-label="PDF 포트폴리오 준비 중">
+              <ListItemText
+                primary="PDF 포트폴리오 (준비 중)"
+                slotProps={{
+                  primary: { sx: { fontWeight: 400, fontSize: '0.9rem', color: 'text.disabled', whiteSpace: 'nowrap' } },
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
 
         <Divider sx={{ mx: 2 }} />
@@ -330,7 +362,7 @@ const Navbar = () => {
               '&:hover': {
                 color: theme.palette.primary.main,
                 borderColor: theme.palette.primary.main,
-                bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EAF6FC',
+                bgcolor: 'rgba(56,189,248,0.06)',
               },
             })}
           >

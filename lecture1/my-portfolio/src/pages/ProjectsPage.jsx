@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Card, CardContent,
   Chip, Button, Tabs, Tab, Stack, Skeleton,
@@ -60,7 +60,7 @@ const DetailModal = ({ project, open, onClose }) => {
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
         </Box>
         <IconButton onClick={onClose} aria-label="닫기" size="small"
-          sx={(t) => ({ color: 'text.secondary', ml: 1, '&:hover': { bgcolor: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : '#F1F5F9' } })}>
+          sx={{ color: 'text.secondary', ml: 1, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
@@ -92,12 +92,12 @@ const DetailModal = ({ project, open, onClose }) => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
+                  sx={{
+                    bgcolor: 'rgba(56,189,248,0.08)',
                     color: 'primary.main',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(30,58,95,0.18)'}`,
+                    border: '1px solid rgba(56,189,248,0.18)',
                     fontWeight: 600, fontSize: '0.72rem',
-                  })} />
+                  }} />
               ))}
             </Box>
           </DetailRow>
@@ -115,12 +115,13 @@ const DetailModal = ({ project, open, onClose }) => {
         {detail.result && detail.result !== '—' && (
           <DetailRow label="결과 화면">
             {(project.thumbnailUrl || project.liveUrl) && (
-              <Box sx={(t) => ({
+              <Box sx={{
                 mb: 1.5, borderRadius: 1.5, overflow: 'hidden',
-                border: `1px solid ${t.palette.divider}`,
+                border: '1px solid',
+                borderColor: 'divider',
                 background: project.gradient || 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%)',
                 position: 'relative', height: 120,
-              })}>
+              }}>
                 {project.thumbnailUrl ? (
                   <Box component="img" src={project.thumbnailUrl} alt="결과 화면 미리보기"
                     sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', p: 1 }} />
@@ -144,14 +145,14 @@ const DetailModal = ({ project, open, onClose }) => {
         )}
         {detail.lesson && (
           <DetailRow label="배운 점">
-            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(245,158,11,0.06)' : '#FFFBEB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(245,158,11,0.18)' : 'rgba(245,158,11,0.25)'}` })}>
+            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.18)' }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
             </Box>
           </DetailRow>
         )}
         {detail.aiContribution && (
           <DetailRow label="AI 도구 활용">
-            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
+            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)' }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
             </Box>
           </DetailRow>
@@ -177,13 +178,13 @@ const DetailModal = ({ project, open, onClose }) => {
         {githubUrl && (
           <Button component="a" href={githubUrl} target="_blank" rel="noopener noreferrer"
             variant="outlined" size="small" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-            sx={(t) => ({ color: 'text.secondary', borderColor: t.palette.divider, '&:hover': { borderColor: 'primary.main', color: 'primary.main' } })}>
+            sx={{ color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
             GitHub
           </Button>
         )}
         <Box sx={{ flex: 1 }} />
         <Button onClick={onClose} size="small"
-          sx={(t) => ({ color: 'text.secondary', '&:hover': { bgcolor: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : '#F1F5F9' } })}>
+          sx={{ color: 'text.secondary', '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
           닫기
         </Button>
       </DialogActions>
@@ -211,17 +212,17 @@ const Thumbnail = ({ gradient, thumbnailUrl, title }) => (
 /* ── 카드 ── */
 const ProjectCard = ({ project, onDetail }) => (
   <Card tabIndex={0} aria-label={`${project.title} 프로젝트`}
-    sx={(t) => ({
+    sx={{
       display: 'flex', flexDirection: 'column',
       transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
       '&:hover': {
         transform: 'translateY(-4px)',
-        boxShadow: t.palette.mode === 'dark' ? '0 12px 32px rgba(0,0,0,0.4)' : '0 12px 32px rgba(0,0,0,0.1)',
-        borderColor: t.palette.primary.main,
+        boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
+        borderColor: 'primary.main',
       },
       '&:hover .thumb-img': { transform: 'scale(1.05)' },
-      '&:focus-visible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: '2px' },
-    })}>
+      '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+    }}>
     <Thumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} />
     <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
       <Box>
@@ -252,11 +253,11 @@ const ProjectCard = ({ project, onDetail }) => (
       )}
       <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
         <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
-          sx={(t) => ({
+          sx={{
             fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
-            borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)', fontWeight: 600,
-            '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB' },
-          })}>
+            borderColor: 'rgba(56,189,248,0.28)', fontWeight: 600,
+            '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
+          }}>
           작업 과정 보기
         </Button>
         {project.liveUrl && (
@@ -271,7 +272,7 @@ const ProjectCard = ({ project, onDetail }) => (
           <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
             aria-label={`${project.title} GitHub`}
-            sx={(t) => ({ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: t.palette.divider, '&:hover': { borderColor: 'primary.main', color: 'primary.main' } })}>
+            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
             GitHub
           </Button>
         )}
@@ -281,7 +282,7 @@ const ProjectCard = ({ project, onDetail }) => (
 );
 
 const SkeletonCard = () => (
-  <Card sx={(t) => ({ border: `1px solid ${t.palette.divider}` })}>
+  <Card sx={{ border: '1px solid', borderColor: 'divider' }}>
     <Box sx={{ paddingTop: '52%', position: 'relative' }}>
       <Skeleton variant="rectangular" sx={{ position: 'absolute', inset: 0 }} />
     </Box>
@@ -357,7 +358,7 @@ const ProjectsPage = () => {
         </Box>
 
         {/* 필터 탭 */}
-        <Box sx={(t) => ({ mb: 5, borderBottom: `1px solid ${t.palette.divider}` })}>
+        <Box sx={{ mb: 5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}
             variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile
             TabIndicatorProps={{ style: { height: 2 } }}
@@ -393,4 +394,3 @@ const ProjectsPage = () => {
 };
 
 export default ProjectsPage;
-

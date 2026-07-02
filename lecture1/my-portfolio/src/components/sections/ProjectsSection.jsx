@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Card, CardContent,
   Button, Chip, Stack,
@@ -72,7 +72,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
         </Box>
         <IconButton onClick={onClose} aria-label="상세 정보 닫기" size="small"
-          sx={(t) => ({ color: 'text.secondary', ml: 1, '&:hover': { bgcolor: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : '#F1F5F9' } })}>
+          sx={{ color: 'text.secondary', ml: 1, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
@@ -104,12 +104,12 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
+                  sx={{
+                    bgcolor: 'rgba(56,189,248,0.08)',
                     color: 'primary.main',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(30,58,95,0.18)'}`,
+                    border: '1px solid rgba(56,189,248,0.18)',
                     fontWeight: 600, fontSize: '0.72rem',
-                  })} />
+                  }} />
               ))}
             </Box>
           </DetailRow>
@@ -128,12 +128,13 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           <DetailRow label="결과 화면">
             {/* 썸네일 미리보기 */}
             {(project.thumbnailUrl || project.liveUrl) && (
-              <Box sx={(t) => ({
+              <Box sx={{
                 mb: 1.5, borderRadius: 1.5, overflow: 'hidden',
-                border: `1px solid ${t.palette.divider}`,
+                border: '1px solid',
+                borderColor: 'divider',
                 background: project.gradient || 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%)',
                 position: 'relative', height: 120,
-              })}>
+              }}>
                 {project.thumbnailUrl ? (
                   <Box component="img" src={project.thumbnailUrl} alt="결과 화면 미리보기"
                     sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', p: 1 }} />
@@ -157,14 +158,14 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         )}
         {detail.lesson && (
           <DetailRow label="배운 점">
-            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(245,158,11,0.06)' : '#FFFBEB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(245,158,11,0.18)' : 'rgba(245,158,11,0.25)'}` })}>
+            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.18)' }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
             </Box>
           </DetailRow>
         )}
         {detail.aiContribution && (
           <DetailRow label="AI 도구 활용">
-            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
+            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)' }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
             </Box>
           </DetailRow>
@@ -190,13 +191,13 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         {githubUrl && (
           <Button component="a" href={githubUrl} target="_blank" rel="noopener noreferrer"
             variant="outlined" size="small" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-            sx={(t) => ({ color: 'text.secondary', borderColor: t.palette.divider, '&:hover': { borderColor: 'primary.main', color: 'primary.main' } })}>
+            sx={{ color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
             GitHub
           </Button>
         )}
         <Box sx={{ flex: 1 }} />
         <Button onClick={onClose} size="small"
-          sx={(t) => ({ color: 'text.secondary', '&:hover': { bgcolor: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.06)' : '#F1F5F9' } })}>
+          sx={{ color: 'text.secondary', '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
           닫기
         </Button>
       </DialogActions>
@@ -385,9 +386,9 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 );
 
 const CARD_BADGES = [
-  { label: '대표 작업',    color: '#F59E0B', lightColor: '#B45309', border: 'rgba(245,158,11,0.4)' },
-  { label: '케이스 스터디', color: '#7DD3FC', lightColor: '#1D4ED8', border: 'rgba(56,189,248,0.4)' },
-  { label: '시안',         color: '#C4B5FD', lightColor: '#6D28D9', border: 'rgba(167,139,250,0.4)' },
+  { label: '대표 작업',    color: '#F59E0B', border: 'rgba(245,158,11,0.4)' },
+  { label: '케이스 스터디', color: '#7DD3FC', border: 'rgba(56,189,248,0.4)' },
+  { label: '시안',         color: '#C4B5FD', border: 'rgba(167,139,250,0.4)' },
 ];
 
 /* ── 프로젝트 카드 ── */
@@ -399,51 +400,49 @@ const ProjectCard = ({ project, idx, onDetail }) => {
   return (
   <RevealOnScroll delay={Math.min(idx % 3, 2) * 0.1} y={16} sx={{ display: 'flex', flexDirection: 'column' }}>
     <Card tabIndex={0} aria-label={`${project.title} 프로젝트 카드`}
-      sx={(t) => ({
+      sx={{
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
         minHeight: { md: 500 },
-        bgcolor: t.palette.mode === 'dark' ? 'rgba(30,41,59,0.85)' : '#FFFFFF',
-        backdropFilter: t.palette.mode === 'dark' ? 'blur(12px)' : 'none',
-        WebkitBackdropFilter: t.palette.mode === 'dark' ? 'blur(12px)' : 'none',
-        border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(148,163,184,0.14)' : '#E2E8F0'}`,
-        borderTop: `2px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : 'rgba(37,99,235,0.25)'}`,
+        bgcolor: 'rgba(30,41,59,0.85)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(148,163,184,0.14)',
+        borderTop: '2px solid rgba(56,189,248,0.35)',
         transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
-          borderTopColor: t.palette.primary.main,
-          borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.35)' : 'rgba(37,99,235,0.3)',
-          boxShadow: t.palette.mode === 'dark'
-            ? '0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56,189,248,0.08)'
-            : '0 16px 40px rgba(15,23,42,0.12)',
+          borderTopColor: 'primary.main',
+          borderColor: 'rgba(56,189,248,0.35)',
+          boxShadow: '0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56,189,248,0.08)',
         },
         '&:hover .thumb-img': { transform: 'scale(1.05)' },
         '&:hover .thumb-overlay': { opacity: 1 },
-        '&:focus-visible': { outline: `2px solid ${t.palette.primary.main}`, outlineOffset: '2px' },
-      })}>
+        '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+      }}>
 
       {/* 배경 번호 */}
       <Typography component="span" aria-hidden="true"
-        sx={(t) => ({
+        sx={{
           position: 'absolute',
           bottom: 8,
           right: 14,
           fontSize: '5rem',
           fontWeight: 900,
           lineHeight: 1,
-          color: t.palette.mode === 'dark' ? 'rgba(255,255,255,0.028)' : 'rgba(0,0,0,0.038)',
+          color: 'rgba(255,255,255,0.028)',
           pointerEvents: 'none',
           userSelect: 'none',
           zIndex: 0,
           letterSpacing: '-0.04em',
-        })}
+        }}
       >
         0{idx + 1}
       </Typography>
 
       {/* 배지 */}
       <Box
-        sx={(t) => ({
+        sx={{
           position: 'absolute',
           top: 12,
           left: 12,
@@ -451,19 +450,17 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           px: 1.25,
           py: 0.5,
           borderRadius: '6px',
-          bgcolor: t.palette.mode === 'dark' ? 'rgba(15,23,42,0.88)' : 'rgba(255,255,255,0.93)',
+          bgcolor: 'rgba(15,23,42,0.88)',
           border: `1px solid ${badge.border}`,
           backdropFilter: 'blur(8px)',
-          boxShadow: t.palette.mode === 'dark'
-            ? '0 2px 8px rgba(0,0,0,0.35)'
-            : '0 2px 8px rgba(0,0,0,0.1)',
-        })}
+          boxShadow: '0 2px 8px rgba(0,0,0,0.35)',
+        }}
       >
-        <Typography sx={(t) => ({
-          color: t.palette.mode === 'dark' ? badge.color : badge.lightColor,
+        <Typography sx={{
+          color: badge.color,
           fontWeight: 700,
           fontSize: '0.75rem',
-        })}>
+        }}>
           {badge.label}
         </Typography>
       </Box>
@@ -505,23 +502,23 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
           <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
-            sx={(t) => ({
+            sx={{
               fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
-              borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.3)' : 'rgba(37,99,235,0.35)', fontWeight: 600,
+              borderColor: 'rgba(56,189,248,0.3)', fontWeight: 600,
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-              '&:hover': { borderColor: 'primary.main', bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EFF6FF', transform: 'translateY(-1px)' },
-            })}>
+              '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)', transform: 'translateY(-1px)' },
+            }}>
             작업 과정 보기
           </Button>
           {project.liveUrl && (
             <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
               aria-label={`${project.title} 실행 화면 보기`}
-              sx={(t) => ({
+              sx={{
                 fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', fontWeight: 600,
                 transition: 'transform 0.2s ease',
                 '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
-              })}>
+              }}>
               실행 화면 보기
             </Button>
           )}
@@ -529,11 +526,11 @@ const ProjectCard = ({ project, idx, onDetail }) => {
             <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
               aria-label={`${project.title} GitHub 보기`}
-              sx={(t) => ({
-                fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: t.palette.divider,
+              sx={{
+                fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: 'divider',
                 transition: 'transform 0.2s ease',
                 '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-1px)' },
-              })}>
+              }}>
               GitHub
             </Button>
           )}
@@ -572,26 +569,24 @@ const ProjectsSection = () => {
       component="section"
       id="projects"
       aria-label="프로젝트"
-      sx={(theme) => ({
+      sx={{
         position: 'relative',
         overflow: 'hidden',
-        bgcolor: theme.palette.mode === 'dark' ? '#0F172A' : 'background.default',
+        bgcolor: '#0F172A',
         py: { xs: 7, md: 9 },
-      })}
+      }}
     >
       {/* 상단 구분선 */}
       <Box
         aria-hidden="true"
-        sx={(theme) => ({
+        sx={{
           position: 'absolute',
           top: 0,
           left: '10%',
           right: '10%',
           height: 1,
-          background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)'
-            : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.15), rgba(124,58,237,0.15), transparent)',
-        })}
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)',
+        }}
       />
 
       {/* 배경 orbit ring */}
@@ -599,7 +594,7 @@ const ProjectsSection = () => {
         component="svg"
         viewBox="0 0 900 560"
         aria-hidden="true"
-        sx={(theme) => ({
+        sx={{
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -607,8 +602,8 @@ const ProjectsSection = () => {
           width: '105%',
           height: 'auto',
           pointerEvents: 'none',
-          opacity: theme.palette.mode === 'dark' ? 0.055 : 0.04,
-        })}
+          opacity: 0.055,
+        }}
       >
         <ellipse cx="450" cy="280" rx="430" ry="250" fill="none" stroke="#38BDF8" strokeWidth="1.5" />
         <ellipse cx="450" cy="280" rx="300" ry="175" fill="none" stroke="#A78BFA" strokeWidth="1" strokeDasharray="8 14" />
@@ -619,7 +614,7 @@ const ProjectsSection = () => {
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography
-              sx={(theme) => ({
+              sx={{
                 color: 'primary.main',
                 fontWeight: 700,
                 fontSize: '0.72rem',
@@ -632,7 +627,7 @@ const ProjectsSection = () => {
                 gap: 1.5,
                 '&::before': { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
-              })}
+              }}
             >
               02 대표 작업
             </Typography>
@@ -657,17 +652,17 @@ const ProjectsSection = () => {
               size="large"
               onClick={() => navigate('/projects')}
               aria-label="전체 프로젝트 페이지로 이동"
-              sx={(t) => ({
+              sx={{
                 fontWeight: 600,
                 px: 4,
                 minHeight: 44,
                 color: 'primary.main',
-                borderColor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.28)' : 'rgba(30,58,95,0.35)',
+                borderColor: 'rgba(56,189,248,0.28)',
                 '&:hover': {
                   borderColor: 'primary.main',
-                  bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB',
+                  bgcolor: 'rgba(56,189,248,0.06)',
                 },
-              })}
+              }}
             >
               모든 프로젝트 보기
             </Button>
@@ -681,4 +676,3 @@ const ProjectsSection = () => {
 };
 
 export default ProjectsSection;
-

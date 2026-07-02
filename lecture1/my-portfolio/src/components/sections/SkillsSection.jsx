@@ -45,13 +45,9 @@ const SkillCard = ({ skill }) => {
         borderRadius: '16px',
         transition: 'box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease',
         '&:hover': {
-          boxShadow: theme.palette.mode === 'dark'
-            ? '0 6px 20px rgba(0,0,0,0.4)'
-            : '0 6px 20px rgba(26,26,46,0.10)',
+          boxShadow: '0 6px 20px rgba(0,0,0,0.4)',
           transform: 'translateY(-2px)',
-          borderColor: theme.palette.mode === 'dark'
-            ? 'rgba(56,189,248,0.25)'
-            : 'rgba(30,155,215,0.25)',
+          borderColor: 'rgba(56,189,248,0.25)',
         },
         '&:hover .skill-icon': { transform: 'scale(1.05)' },
         '&:focus-visible': {
@@ -148,12 +144,10 @@ const SkillCard = ({ skill }) => {
               aria-valuenow={safeLevel}
               aria-valuemin={0}
               aria-valuemax={100}
-              sx={(theme) => ({
+              sx={{
                 height: 7,
                 borderRadius: 4,
-                bgcolor: theme.palette.mode === 'dark'
-                  ? 'rgba(56,189,248,0.1)'
-                  : 'rgba(30,155,215,0.12)',
+                bgcolor: 'rgba(56,189,248,0.1)',
                 '& .MuiLinearProgress-bar': {
                   borderRadius: 4,
                   bgcolor: 'primary.main',
@@ -161,7 +155,7 @@ const SkillCard = ({ skill }) => {
                     ? 'transform 0.9s cubic-bezier(0.22, 1, 0.36, 1)'
                     : 'none',
                 },
-              })}
+              }}
             />
           </Tooltip>
         </Box>
@@ -213,7 +207,7 @@ const SkillsSection = () => {
               color: 'text.secondary',
               borderColor: theme.palette.divider,
               fontSize: '0.8rem',
-              '&:hover': { borderColor: 'primary.main', color: 'primary.main', bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EAF6FC' },
+              '&:hover': { borderColor: 'primary.main', color: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
             })}
           >
             스킬 관리 데모

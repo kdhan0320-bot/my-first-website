@@ -9,21 +9,18 @@ const SKILL_CARDS = [
     icon: <DesignServicesIcon sx={{ fontSize: 22 }} />,
     title: 'UX/UI 디자인',
     color: '#38BDF8',
-    lightColor: '#2563EB',
     items: ['사용자 흐름 분석', '와이어프레임', '화면 설계'],
   },
   {
     icon: <DevicesIcon sx={{ fontSize: 22 }} />,
     title: '웹 구현',
     color: '#A78BFA',
-    lightColor: '#7C3AED',
     items: ['HTML/CSS', 'JavaScript', 'React 기반 화면 구현'],
   },
   {
     icon: <AutoAwesomeIcon sx={{ fontSize: 22 }} />,
     title: 'AI 도구 활용',
     color: '#F59E0B',
-    lightColor: '#D97706',
     items: ['아이디어 정리', '코드 보조', '웹 프로토타입 제작'],
   },
 ];
@@ -36,26 +33,24 @@ const AboutSection = () => {
       component="section"
       id="about"
       aria-label="소개"
-      sx={(theme) => ({
+      sx={{
         position: 'relative',
         overflow: 'hidden',
-        bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
+        bgcolor: '#1E293B',
         py: { xs: 6, md: 8 },
-      })}
+      }}
     >
       {/* 섹션 구분 gradient line */}
       <Box
         aria-hidden="true"
-        sx={(theme) => ({
+        sx={{
           position: 'absolute',
           top: 0,
           left: '10%',
           right: '10%',
           height: 1,
-          background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(124,58,237,0.3), transparent)'
-            : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.2), rgba(124,58,237,0.2), transparent)',
-        })}
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.3), rgba(124,58,237,0.3), transparent)',
+        }}
       />
 
       <Container maxWidth="lg">
@@ -64,7 +59,7 @@ const AboutSection = () => {
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
             <Typography
-              sx={(theme) => ({
+              sx={{
                 color: 'primary.main',
                 fontWeight: 700,
                 fontSize: '0.72rem',
@@ -77,7 +72,7 @@ const AboutSection = () => {
                 gap: 1.5,
                 '&::before': { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
-              })}
+              }}
             >
               01 소개
             </Typography>
@@ -90,18 +85,17 @@ const AboutSection = () => {
         {/* 자기소개 */}
         <RevealOnScroll delay={0.05}>
           <Box
-            sx={(theme) => ({
+            sx={{
               maxWidth: 720,
               mx: 'auto',
               mb: { xs: 4, md: 5 },
               p: { xs: 3, md: 4 },
-              bgcolor: theme.palette.mode === 'dark'
-                ? 'rgba(56,189,248,0.05)'
-                : 'rgba(37,99,235,0.04)',
-              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.18)' : 'rgba(37,99,235,0.15)'}`,
-              borderLeft: `4px solid ${theme.palette.primary.main}`,
+              bgcolor: 'rgba(56,189,248,0.05)',
+              border: '1px solid rgba(56,189,248,0.18)',
+              borderLeft: '4px solid',
+              borderLeftColor: 'primary.main',
               borderRadius: '0 12px 12px 0',
-            })}
+            }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
               사용자의 불편한 흐름을 발견하고, Figma 기반 화면 설계와 웹 구현으로 개선하는
@@ -120,25 +114,23 @@ const AboutSection = () => {
             {/* 별자리 연결선 (데스크톱) */}
             <Box
               aria-hidden="true"
-              sx={(theme) => ({
+              sx={{
                 display: { xs: 'none', md: 'block' },
                 position: 'absolute',
                 top: '42px',
                 left: 'calc(16.67% + 22px)',
                 right: 'calc(16.67% + 22px)',
                 height: '1px',
-                background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(90deg, rgba(56,189,248,0.4), rgba(167,139,250,0.4), rgba(245,158,11,0.4))'
-                  : 'linear-gradient(90deg, rgba(37,99,235,0.25), rgba(124,58,237,0.25), rgba(217,119,6,0.25))',
+                background: 'linear-gradient(90deg, rgba(56,189,248,0.4), rgba(167,139,250,0.4), rgba(245,158,11,0.4))',
                 zIndex: 0,
-              })}
+              }}
             />
             {/* 연결선 위 작은 점들 */}
             {[33, 50, 67].map((pos) => (
               <Box
                 key={pos}
                 aria-hidden="true"
-                sx={(theme) => ({
+                sx={{
                   display: { xs: 'none', md: 'block' },
                   position: 'absolute',
                   top: '38px',
@@ -146,10 +138,10 @@ const AboutSection = () => {
                   width: 6,
                   height: 6,
                   borderRadius: '50%',
-                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.5)' : 'rgba(100,116,139,0.35)',
+                  bgcolor: 'rgba(148,163,184,0.5)',
                   transform: 'translateX(-50%)',
                   zIndex: 1,
-                })}
+                }}
               />
             ))}
 
@@ -162,64 +154,56 @@ const AboutSection = () => {
                       component="svg"
                       viewBox="0 0 120 120"
                       aria-hidden="true"
-                      sx={(theme) => ({
+                      sx={{
                         position: 'absolute',
                         top: -18,
                         right: -18,
                         width: 110,
                         height: 110,
                         pointerEvents: 'none',
-                        opacity: theme.palette.mode === 'dark' ? 0.18 : 0.1,
+                        opacity: 0.18,
                         zIndex: 0,
-                        color: theme.palette.mode === 'dark' ? card.color : card.lightColor,
-                      })}
+                        color: card.color,
+                      }}
                     >
                       <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5 8" />
                       <circle cx="60" cy="60" r="36" fill="none" stroke="currentColor" strokeWidth="0.6" />
                     </Box>
 
                   <Box
-                    sx={(theme) => ({
+                    sx={{
                       position: 'relative',
                       zIndex: 1,
                       height: '100%',
                       p: { xs: 3, md: 3.5 },
-                      bgcolor: theme.palette.mode === 'dark'
-                        ? 'rgba(255,255,255,0.04)'
-                        : '#FFFFFF',
-                      border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(148,163,184,0.15)' : '#E2E8F0'}`,
-                      borderTop: `2px solid ${theme.palette.mode === 'dark' ? card.color : card.lightColor}`,
+                      bgcolor: 'rgba(255,255,255,0.04)',
+                      border: '1px solid rgba(148,163,184,0.15)',
+                      borderTop: `2px solid ${card.color}`,
                       borderRadius: 2.5,
-                      backdropFilter: theme.palette.mode === 'dark' ? 'blur(12px)' : 'none',
-                      WebkitBackdropFilter: theme.palette.mode === 'dark' ? 'blur(12px)' : 'none',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
                       transition: 'transform 0.25s ease, box-shadow 0.25s ease',
                       '&:hover': {
                         transform: 'translateY(-4px)',
-                        boxShadow: theme.palette.mode === 'dark'
-                          ? `0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px ${card.color}28`
-                          : '0 12px 32px rgba(15,23,42,0.1)',
+                        boxShadow: `0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px ${card.color}28`,
                       },
-                    })}
+                    }}
                   >
                     {/* 아이콘 */}
                     <Box
-                      sx={(theme) => ({
+                      sx={{
                         width: 44,
                         height: 44,
                         borderRadius: '50%',
-                        bgcolor: theme.palette.mode === 'dark'
-                          ? `${card.color}18`
-                          : `${card.lightColor}10`,
-                        border: `1px solid ${theme.palette.mode === 'dark' ? `${card.color}30` : `${card.lightColor}22`}`,
+                        bgcolor: `${card.color}18`,
+                        border: `1px solid ${card.color}30`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: theme.palette.mode === 'dark' ? card.color : card.lightColor,
+                        color: card.color,
                         mb: 2,
-                        boxShadow: theme.palette.mode === 'dark'
-                          ? `0 0 12px ${card.color}22`
-                          : 'none',
-                      })}
+                        boxShadow: `0 0 12px ${card.color}22`,
+                      }}
                     >
                       {card.icon}
                     </Box>
@@ -232,15 +216,15 @@ const AboutSection = () => {
                       {card.items.map((item) => (
                         <Box key={item} component="li" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
                           <Box
-                            sx={(theme) => ({
+                            sx={{
                               width: 4,
                               height: 4,
                               borderRadius: '50%',
-                              bgcolor: theme.palette.mode === 'dark' ? card.color : card.lightColor,
+                              bgcolor: card.color,
                               flexShrink: 0,
                               mt: '7px',
                               opacity: 0.8,
-                            })}
+                            }}
                           />
                           <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.65, fontSize: '0.875rem' }}>
                             {item}
@@ -273,11 +257,11 @@ const AboutSection = () => {
                   )}
                   <Typography
                     variant="body2"
-                    sx={(theme) => ({
-                      color: theme.palette.mode === 'dark' ? 'rgba(203,213,225,0.85)' : '#475569',
+                    sx={{
+                      color: 'rgba(203,213,225,0.85)',
                       fontSize: '0.83rem',
                       fontWeight: 500,
-                    })}
+                    }}
                   >
                     {chip}
                   </Typography>
@@ -292,16 +276,14 @@ const AboutSection = () => {
       {/* 하단 구분 gradient line */}
       <Box
         aria-hidden="true"
-        sx={(theme) => ({
+        sx={{
           position: 'absolute',
           bottom: 0,
           left: '10%',
           right: '10%',
           height: 1,
-          background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)'
-            : 'linear-gradient(90deg, transparent, rgba(37,99,235,0.15), rgba(124,58,237,0.15), transparent)',
-        })}
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.25), rgba(124,58,237,0.25), transparent)',
+        }}
       />
     </Box>
   );

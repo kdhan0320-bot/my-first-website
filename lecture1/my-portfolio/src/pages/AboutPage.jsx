@@ -78,7 +78,7 @@ const AboutPage = () => {
             border: `1px solid ${theme.palette.divider}`,
             borderRadius: 3,
             p: { xs: 3, md: 5 },
-            boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 2px 16px rgba(26,26,46,0.06)',
+            boxShadow: 'none',
             mb: 4,
           })}
         >
@@ -92,15 +92,15 @@ const AboutPage = () => {
               <Avatar
                 src={basicInfo.photo || undefined}
                 alt={basicInfo.name}
-                sx={(theme) => ({
+                sx={{
                   width: 150,
                   height: 150,
-                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                  bgcolor: 'rgba(56,189,248,0.1)',
                   color: 'primary.main',
                   fontSize: '3rem',
                   fontWeight: 700,
-                  border: `3px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : '#D0EEFA'}`,
-                })}
+                  border: '3px solid rgba(56,189,248,0.2)',
+                }}
               >
                 {!basicInfo.photo && (basicInfo.name?.charAt(0) ?? '')}
               </Avatar>
@@ -115,13 +115,13 @@ const AboutPage = () => {
                 <Chip
                   label={basicInfo.position}
                   size="small"
-                  sx={(theme) => ({
-                    bgcolor: theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.1)' : '#EAF6FC',
+                  sx={{
+                    bgcolor: 'rgba(56,189,248,0.1)',
                     color: 'primary.main',
-                    border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(56,189,248,0.2)' : '#B8DFF2'}`,
+                    border: '1px solid rgba(56,189,248,0.2)',
                     fontWeight: 600,
                     fontSize: '0.78rem',
-                  })}
+                  }}
                 />
               </Box>
 
@@ -161,7 +161,7 @@ const AboutPage = () => {
             bgcolor: 'background.paper',
             border: `1px solid ${theme.palette.divider}`,
             borderRadius: 3,
-            boxShadow: theme.palette.mode === 'dark' ? 'none' : '0 2px 16px rgba(26,26,46,0.06)',
+            boxShadow: 'none',
             overflow: 'hidden',
           })}
         >

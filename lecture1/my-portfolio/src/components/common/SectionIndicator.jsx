@@ -83,13 +83,9 @@ const SectionIndicator = () => {
                 transition: 'all 0.25s ease',
                 bgcolor: isActive
                   ? t.palette.primary.main
-                  : t.palette.mode === 'dark'
-                    ? 'rgba(148,163,184,0.32)'
-                    : 'rgba(15,23,42,0.2)',
+                  : 'rgba(148,163,184,0.32)',
                 boxShadow: isActive
-                  ? t.palette.mode === 'dark'
-                    ? `0 0 8px ${t.palette.primary.main}66`
-                    : `0 0 6px ${t.palette.primary.main}55`
+                  ? `0 0 8px ${t.palette.primary.main}66`
                   : 'none',
                 '&:hover': {
                   bgcolor: t.palette.primary.main,
