@@ -27,6 +27,7 @@ export const ALL_PROJECTS = [...fallbackProjects]
       designPoint:    p.designPoint,
       process:        p.process        ?? null,
       result:         p.result         ?? null,
+      lesson:         p.lesson         ?? null,
       aiContribution: p.aiContribution ?? null,
       limitation:     p.limitation     ?? null,
       nextStep:       p.nextStep,

@@ -117,6 +117,13 @@ const DetailModal = ({ project, open, onClose }) => {
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
           </DetailRow>
         )}
+        {detail.lesson && (
+          <DetailRow label="배운 점">
+            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(245,158,11,0.06)' : '#FFFBEB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(245,158,11,0.18)' : 'rgba(245,158,11,0.25)'}` })}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
+            </Box>
+          </DetailRow>
+        )}
         {detail.aiContribution && (
           <DetailRow label="AI 도구 활용">
             <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
@@ -206,27 +213,17 @@ const ProjectCard = ({ project, onDetail }) => (
         sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
         {project.description}
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-        <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, fontSize: '0.65rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
-        <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>{project.role}</Typography>
-      </Box>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-        {project.tools.map((tool) => (
-          <Chip key={tool} label={tool} size="small"
-            sx={(t) => ({
-              bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.08)' : '#EEF4FB',
-              color: 'primary.main',
-              border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.16)'}`,
-              fontSize: '0.62rem', height: 20, fontWeight: 600,
-            })} />
-        ))}
-      </Box>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-        {project.tags.map((tag) => (
-          <Chip key={tag} label={tag} size="small"
-            sx={(t) => ({ bgcolor: 'transparent', color: 'text.secondary', border: `1px solid ${t.palette.divider}`, fontSize: '0.6rem', height: 18 })} />
-        ))}
-      </Box>
+      {project.role && project.role !== '—' && (
+        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+          <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
+          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>{project.role}</Typography>
+        </Box>
+      )}
+      {project.tools.length > 0 && (
+        <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>
+          {[...new Set(project.tools)].slice(0, 4).join(' · ')}
+        </Typography>
+      )}
       <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
         <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
           sx={(t) => ({

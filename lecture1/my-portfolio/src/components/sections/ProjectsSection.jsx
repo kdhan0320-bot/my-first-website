@@ -129,6 +129,13 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
           </DetailRow>
         )}
+        {detail.lesson && (
+          <DetailRow label="배운 점">
+            <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(245,158,11,0.06)' : '#FFFBEB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(245,158,11,0.18)' : 'rgba(245,158,11,0.25)'}` })}>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
+            </Box>
+          </DetailRow>
+        )}
         {detail.aiContribution && (
           <DetailRow label="AI 도구 활용">
             <Box sx={(t) => ({ p: 1.5, borderRadius: 1.5, bgcolor: t.palette.mode === 'dark' ? 'rgba(56,189,248,0.06)' : '#EEF4FB', border: `1px solid ${t.palette.mode === 'dark' ? 'rgba(56,189,248,0.15)' : 'rgba(30,58,95,0.12)'}` })}>
@@ -175,53 +182,116 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
 const THUMB_SVG = {
   'bus-redesign': ( // eslint-disable-line no-unused-vars
     <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-      {/* Before 폰 */}
-      <rect x="58" y="16" width="76" height="132" rx="10" fill="none" stroke="white" strokeWidth="1.5" opacity="0.28"/>
-      <rect x="70" y="30" width="52" height="7" rx="3" fill="white" opacity="0.2"/>
-      <rect x="70" y="44" width="38" height="4" rx="2" fill="white" opacity="0.14"/>
-      <rect x="70" y="56" width="52" height="22" rx="3" fill="white" opacity="0.1"/>
-      <rect x="70" y="84" width="52" height="4" rx="2" fill="white" opacity="0.14"/>
-      <rect x="70" y="95" width="40" height="4" rx="2" fill="white" opacity="0.11"/>
-      <rect x="70" y="106" width="52" height="14" rx="2" fill="white" opacity="0.08"/>
+      {/* Before 레이블 */}
+      <text x="90" y="12" textAnchor="middle" fill="white" opacity="0.35" fontSize="8" fontFamily="sans-serif">Before</text>
+      {/* Before 폰 프레임 */}
+      <rect x="52" y="16" width="76" height="148" rx="12" fill="white" opacity="0.07"/>
+      <rect x="52" y="16" width="76" height="148" rx="12" fill="none" stroke="white" strokeWidth="1.5" opacity="0.25"/>
+      <rect x="84" y="20" width="12" height="3" rx="1.5" fill="white" opacity="0.2"/>
+      {/* 상태바 */}
+      <rect x="56" y="26" width="68" height="10" rx="0" fill="white" opacity="0.06"/>
+      <rect x="60" y="29" width="20" height="3" rx="1" fill="white" opacity="0.2"/>
+      {/* 헤더 */}
+      <rect x="58" y="40" width="64" height="10" rx="2" fill="white" opacity="0.12"/>
+      {/* 복잡한 목록 (Before - 정보 혼잡) */}
+      <rect x="58" y="56" width="64" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="58" y="64" width="50" height="3" rx="1" fill="white" opacity="0.08"/>
+      <rect x="58" y="71" width="64" height="3" rx="1" fill="white" opacity="0.08"/>
+      <rect x="58" y="80" width="64" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="58" y="88" width="45" height="3" rx="1" fill="white" opacity="0.08"/>
+      <rect x="58" y="95" width="64" height="3" rx="1" fill="white" opacity="0.08"/>
+      <rect x="58" y="104" width="64" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="58" y="112" width="40" height="3" rx="1" fill="white" opacity="0.08"/>
+      <rect x="58" y="119" width="64" height="3" rx="1" fill="white" opacity="0.08"/>
+      <rect x="58" y="128" width="64" height="18" rx="3" fill="white" opacity="0.06"/>
       {/* 화살표 */}
-      <text x="152" y="92" textAnchor="middle" fill="white" opacity="0.35" fontSize="14" fontFamily="sans-serif">→</text>
-      {/* After 폰 */}
-      <rect x="186" y="16" width="76" height="132" rx="10" fill="none" stroke="white" strokeWidth="1.5" opacity="0.55"/>
-      <rect x="198" y="30" width="52" height="7" rx="3" fill="white" opacity="0.32"/>
-      <rect x="198" y="44" width="32" height="4" rx="2" fill="white" opacity="0.22"/>
-      <rect x="198" y="56" width="52" height="30" rx="4" fill="white" opacity="0.16"/>
-      <rect x="198" y="92" width="52" height="18" rx="3" fill="white" opacity="0.13"/>
-      <rect x="198" y="116" width="52" height="8" rx="2" fill="white" opacity="0.1"/>
+      <text x="152" y="92" textAnchor="middle" fill="white" opacity="0.45" fontSize="16" fontFamily="sans-serif">→</text>
+      {/* After 레이블 */}
+      <text x="228" y="12" textAnchor="middle" fill="white" opacity="0.55" fontSize="8" fontFamily="sans-serif">After</text>
+      {/* After 폰 프레임 */}
+      <rect x="190" y="16" width="76" height="148" rx="12" fill="white" opacity="0.1"/>
+      <rect x="190" y="16" width="76" height="148" rx="12" fill="none" stroke="white" strokeWidth="1.8" opacity="0.55"/>
+      <rect x="222" y="20" width="12" height="3" rx="1.5" fill="white" opacity="0.3"/>
+      {/* 상태바 */}
+      <rect x="194" y="26" width="68" height="10" rx="0" fill="white" opacity="0.07"/>
+      <rect x="198" y="29" width="20" height="3" rx="1" fill="white" opacity="0.3"/>
+      {/* 헤더 */}
+      <rect x="196" y="40" width="64" height="10" rx="2" fill="white" opacity="0.2"/>
+      {/* 도착 정보 카드 (After - 명확) */}
+      <rect x="196" y="56" width="64" height="36" rx="4" fill="white" opacity="0.18"/>
+      <rect x="200" y="61" width="30" height="4" rx="2" fill="white" opacity="0.5"/>
+      <rect x="200" y="70" width="50" height="8" rx="2" fill="white" opacity="0.35"/>
+      <rect x="200" y="82" width="24" height="3" rx="1" fill="white" opacity="0.3"/>
+      {/* 즐겨찾기 카드 */}
+      <rect x="196" y="98" width="64" height="24" rx="4" fill="white" opacity="0.13"/>
+      <rect x="200" y="103" width="28" height="3" rx="1" fill="white" opacity="0.4"/>
+      <rect x="200" y="110" width="50" height="6" rx="2" fill="white" opacity="0.25"/>
+      {/* 노선 카드 */}
+      <rect x="196" y="128" width="64" height="24" rx="4" fill="white" opacity="0.1"/>
+      <rect x="200" y="133" width="28" height="3" rx="1" fill="white" opacity="0.35"/>
+      <rect x="200" y="140" width="45" height="6" rx="2" fill="white" opacity="0.2"/>
     </svg>
   ),
   'figma-uiux': (
     <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-      {/* 상단 컴포넌트 행 */}
-      <rect x="16" y="16" width="84" height="54" rx="4" fill="none" stroke="white" strokeWidth="1" opacity="0.22"/>
-      <rect x="24" y="24" width="54" height="7" rx="3" fill="white" opacity="0.18"/>
-      <rect x="24" y="37" width="40" height="4" rx="2" fill="white" opacity="0.13"/>
-      <rect x="24" y="48" width="58" height="4" rx="2" fill="white" opacity="0.1"/>
-      <rect x="110" y="16" width="100" height="54" rx="4" fill="none" stroke="white" strokeWidth="1" opacity="0.22"/>
-      <rect x="118" y="24" width="45" height="7" rx="3" fill="white" opacity="0.18"/>
-      <rect x="118" y="37" width="70" height="4" rx="2" fill="white" opacity="0.13"/>
-      <rect x="118" y="48" width="55" height="4" rx="2" fill="white" opacity="0.1"/>
-      <rect x="220" y="16" width="84" height="54" rx="4" fill="none" stroke="white" strokeWidth="1" opacity="0.22"/>
-      <rect x="228" y="24" width="50" height="7" rx="3" fill="white" opacity="0.18"/>
-      <rect x="228" y="37" width="62" height="4" rx="2" fill="white" opacity="0.13"/>
-      {/* 연결 화살표 */}
-      <line x1="100" y1="43" x2="110" y2="43" stroke="white" strokeWidth="1" opacity="0.2"/>
-      <line x1="210" y1="43" x2="220" y2="43" stroke="white" strokeWidth="1" opacity="0.2"/>
-      {/* 하단 컴포넌트 행 */}
-      <rect x="16" y="82" width="60" height="80" rx="4" fill="none" stroke="white" strokeWidth="1" opacity="0.18"/>
-      <rect x="24" y="92" width="44" height="7" rx="3" fill="white" opacity="0.16"/>
-      <rect x="24" y="106" width="36" height="4" rx="2" fill="white" opacity="0.12"/>
-      <rect x="24" y="118" width="44" height="28" rx="3" fill="white" opacity="0.07"/>
-      <rect x="86" y="82" width="108" height="44" rx="4" fill="none" stroke="white" strokeWidth="1" opacity="0.18"/>
-      <rect x="94" y="92" width="80" height="7" rx="3" fill="white" opacity="0.16"/>
-      <rect x="94" y="106" width="60" height="4" rx="2" fill="white" opacity="0.12"/>
-      <rect x="204" y="82" width="100" height="44" rx="4" fill="none" stroke="white" strokeWidth="1" opacity="0.18"/>
-      <rect x="212" y="92" width="65" height="7" rx="3" fill="white" opacity="0.16"/>
-      <rect x="212" y="106" width="50" height="4" rx="2" fill="white" opacity="0.12"/>
+      {/* Figma 툴바 */}
+      <rect x="0" y="0" width="320" height="20" rx="0" fill="white" opacity="0.06"/>
+      <rect x="6" y="6" width="8" height="8" rx="2" fill="white" opacity="0.35"/>
+      <rect x="18" y="7" width="20" height="6" rx="2" fill="white" opacity="0.18"/>
+      <rect x="42" y="7" width="20" height="6" rx="2" fill="white" opacity="0.14"/>
+      <rect x="66" y="7" width="20" height="6" rx="2" fill="white" opacity="0.14"/>
+      <circle cx="290" cy="10" r="4" fill="white" opacity="0.2"/>
+      <rect x="298" y="7" width="16" height="6" rx="2" fill="white" opacity="0.22"/>
+      {/* 왼쪽 레이어 패널 */}
+      <rect x="0" y="20" width="60" height="160" rx="0" fill="white" opacity="0.05"/>
+      <rect x="6" y="26" width="48" height="5" rx="2" fill="white" opacity="0.18"/>
+      <rect x="10" y="35" width="38" height="4" rx="2" fill="white" opacity="0.14"/>
+      <rect x="10" y="43" width="32" height="4" rx="2" fill="white" opacity="0.12"/>
+      <rect x="10" y="51" width="40" height="4" rx="2" fill="white" opacity="0.14"/>
+      <rect x="10" y="59" width="28" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="10" y="67" width="36" height="4" rx="2" fill="white" opacity="0.12"/>
+      <rect x="10" y="75" width="30" height="4" rx="2" fill="white" opacity="0.1"/>
+      {/* 메인 캔버스 - 프레임 1 (와이어프레임) */}
+      <rect x="70" y="26" width="72" height="110" rx="3" fill="none" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+      <text x="106" y="24" textAnchor="middle" fill="white" opacity="0.3" fontSize="7" fontFamily="sans-serif">메인 화면</text>
+      <rect x="74" y="32" width="64" height="8" rx="2" fill="white" opacity="0.14"/>
+      <rect x="74" y="44" width="64" height="24" rx="2" fill="white" opacity="0.08"/>
+      <rect x="74" y="72" width="30" height="6" rx="2" fill="white" opacity="0.12"/>
+      <rect x="108" y="72" width="30" height="6" rx="2" fill="white" opacity="0.1"/>
+      <rect x="74" y="82" width="64" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="74" y="90" width="50" height="4" rx="2" fill="white" opacity="0.08"/>
+      <rect x="74" y="100" width="64" height="14" rx="2" fill="white" opacity="0.12"/>
+      <rect x="74" y="118" width="64" height="10" rx="2" fill="white" opacity="0.08"/>
+      {/* 프레임 2 (컴포넌트) */}
+      <rect x="152" y="26" width="72" height="52" rx="3" fill="none" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+      <text x="188" y="24" textAnchor="middle" fill="white" opacity="0.3" fontSize="7" fontFamily="sans-serif">컴포넌트</text>
+      <rect x="156" y="32" width="64" height="8" rx="2" fill="white" opacity="0.14"/>
+      <rect x="156" y="44" width="30" height="22" rx="2" fill="white" opacity="0.1"/>
+      <rect x="190" y="44" width="26" height="10" rx="2" fill="white" opacity="0.12"/>
+      <rect x="190" y="58" width="26" height="6" rx="2" fill="white" opacity="0.08"/>
+      {/* 프레임 3 (사용자 흐름) */}
+      <rect x="152" y="86" width="72" height="50" rx="3" fill="none" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+      <text x="188" y="84" textAnchor="middle" fill="white" opacity="0.3" fontSize="7" fontFamily="sans-serif">사용자 흐름</text>
+      <rect x="156" y="92" width="18" height="12" rx="2" fill="white" opacity="0.12"/>
+      <line x1="174" y1="98" x2="182" y2="98" stroke="white" strokeWidth="0.8" opacity="0.25"/>
+      <rect x="182" y="92" width="18" height="12" rx="2" fill="white" opacity="0.1"/>
+      <line x1="200" y1="98" x2="208" y2="98" stroke="white" strokeWidth="0.8" opacity="0.25"/>
+      <rect x="208" y="92" width="12" height="12" rx="2" fill="white" opacity="0.08"/>
+      <rect x="156" y="110" width="64" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="156" y="118" width="40" height="4" rx="2" fill="white" opacity="0.08"/>
+      {/* 프레임 4 (모바일) */}
+      <rect x="234" y="26" width="80" height="116" rx="3" fill="none" stroke="white" strokeWidth="0.8" opacity="0.3"/>
+      <text x="274" y="24" textAnchor="middle" fill="white" opacity="0.3" fontSize="7" fontFamily="sans-serif">모바일</text>
+      <rect x="238" y="32" width="72" height="6" rx="2" fill="white" opacity="0.12"/>
+      <rect x="238" y="42" width="72" height="32" rx="2" fill="white" opacity="0.08"/>
+      <rect x="238" y="78" width="34" height="14" rx="2" fill="white" opacity="0.12"/>
+      <rect x="276" y="78" width="34" height="14" rx="2" fill="white" opacity="0.1"/>
+      <rect x="238" y="96" width="72" height="4" rx="2" fill="white" opacity="0.1"/>
+      <rect x="238" y="104" width="55" height="4" rx="2" fill="white" opacity="0.08"/>
+      <rect x="238" y="112" width="72" height="22" rx="2" fill="white" opacity="0.07"/>
+      {/* 연결선 (화살표) */}
+      <line x1="142" y1="81" x2="152" y2="81" stroke="white" strokeWidth="0.8" opacity="0.22" strokeDasharray="3 2"/>
+      <line x1="224" y1="52" x2="234" y2="52" stroke="white" strokeWidth="0.8" opacity="0.22" strokeDasharray="3 2"/>
     </svg>
   ),
   'jobflow': (
