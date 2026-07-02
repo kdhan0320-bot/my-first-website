@@ -79,7 +79,7 @@ const AboutSection = () => {
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               })}
             >
-              01 About
+              01 소개
             </Typography>
             <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
               소개 및 역량

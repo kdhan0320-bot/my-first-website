@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import {
   Box, Container, Typography, Grid, Card,
-  Button, CircularProgress, Alert, Snackbar,
+  Button, CircularProgress, Alert, Snackbar, Collapse,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
@@ -18,6 +19,7 @@ const ContactSection = () => {
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(GUESTBOOK_PAGE_SIZE);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
+  const [guestbookOpen, setGuestbookOpen] = useState(false);
 
   const loadEntries = async () => {
     const { data } = await supabase
@@ -61,7 +63,7 @@ const ContactSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: theme.palette.mode === 'dark' ? '#1E293B' : 'background.paper',
-        py: { xs: 7, md: 9 },
+        py: { xs: 5, md: 7 },
       })}
     >
       {/* 상단 구분선 */}
@@ -272,59 +274,72 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* 방명록 — 보조 영역 */}
+        {/* 방명록 — 접힘/펼침 보조 영역 */}
         <RevealOnScroll delay={0.1}>
-          <Box
-            sx={(theme) => ({
-              pt: 4,
-              borderTop: `1px solid ${theme.palette.divider}`,
-            })}
-          >
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
-              <Typography variant="body2" sx={{ color: 'text.disabled', fontWeight: 600, fontSize: '0.8rem' }}>
-                방명록
-              </Typography>
-              {!loading && entries.length > 0 && (
-                <Typography variant="caption" sx={{ color: 'text.disabled' }}>{entries.length}개</Typography>
-              )}
-            </Box>
-
-            {/* 방명록 폼 */}
-            <Box
+          <Box sx={(theme) => ({ pt: 3, borderTop: `1px solid ${theme.palette.divider}` })}>
+            {/* 토글 버튼 */}
+            <Button
+              variant="text"
+              size="small"
+              endIcon={
+                <KeyboardArrowDownIcon
+                  sx={{
+                    fontSize: '1rem !important',
+                    transition: 'transform 0.25s ease',
+                    transform: guestbookOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  }}
+                />
+              }
+              onClick={() => setGuestbookOpen((prev) => !prev)}
               sx={(theme) => ({
-                p: { xs: 2, sm: 2.5 },
-                mb: 4,
-                borderRadius: 2,
-                border: `1px solid ${theme.palette.divider}`,
-                bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
+                color: 'text.disabled',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                px: 0,
+                mb: 1,
+                '&:hover': { color: 'text.secondary', bgcolor: 'transparent' },
               })}
             >
-              <GuestbookForm onSuccess={handleSuccess} />
-            </Box>
+              방명록{!loading && entries.length > 0 ? ` (${entries.length})` : ''}
+            </Button>
 
-            {/* 방명록 목록 */}
-            {loading ? (
-              <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
-                <CircularProgress size={28} />
+            {/* 접힘/펼침 콘텐츠 */}
+            <Collapse in={guestbookOpen} timeout={300}>
+              <Box
+                sx={(theme) => ({
+                  p: { xs: 2, sm: 2.5 },
+                  mb: 3,
+                  borderRadius: 2,
+                  border: `1px solid ${theme.palette.divider}`,
+                  bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.01)',
+                })}
+              >
+                <GuestbookForm onSuccess={handleSuccess} />
               </Box>
-            ) : entries.length > 0 ? (
-              <>
-                <Grid container spacing={2}>
-                  {visibleEntries.map((entry) => (
-                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={entry.id}>
-                      <GuestbookCard entry={entry} onDeleted={handleDeleted} onUpdated={handleUpdated} />
-                    </Grid>
-                  ))}
-                </Grid>
-                {hasMore && (
-                  <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                    <Button variant="outlined" size="small" onClick={() => setVisibleCount((prev) => prev + GUESTBOOK_PAGE_SIZE)} sx={{ px: 3 }}>
-                      더보기
-                    </Button>
-                  </Box>
-                )}
-              </>
-            ) : null}
+
+              {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', py: 3 }}>
+                  <CircularProgress size={24} />
+                </Box>
+              ) : entries.length > 0 ? (
+                <>
+                  <Grid container spacing={2}>
+                    {visibleEntries.map((entry) => (
+                      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={entry.id}>
+                        <GuestbookCard entry={entry} onDeleted={handleDeleted} onUpdated={handleUpdated} />
+                      </Grid>
+                    ))}
+                  </Grid>
+                  {hasMore && (
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                      <Button variant="outlined" size="small" onClick={() => setVisibleCount((prev) => prev + GUESTBOOK_PAGE_SIZE)} sx={{ px: 3 }}>
+                        더보기
+                      </Button>
+                    </Box>
+                  )}
+                </>
+              ) : null}
+            </Collapse>
           </Box>
         </RevealOnScroll>
 
