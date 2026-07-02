@@ -125,7 +125,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           </DetailRow>
         )}
         {detail.result && (
-          <DetailRow label="결과">
+          <DetailRow label="결과 화면">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
           </DetailRow>
         )}
