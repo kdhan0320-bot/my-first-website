@@ -12,13 +12,13 @@ import StarField from '../common/StarField';
 const STRENGTH_KEYWORDS = ['화면 설계', '사용자 흐름 개선', 'React 웹 구현', 'AI 도구 활용'];
 
 const CosmicHeroIllustration = () => {
-  const oc1    = 'rgba(56,189,248,0.44)';
-  const oc2    = 'rgba(167,139,250,0.36)';
-  const star   = 'rgba(255,255,255,0.65)';
-  const starB  = 'rgba(255,255,255,0.42)';
+  const oc1    = 'rgba(56,189,248,0.52)';
+  const oc2    = 'rgba(167,139,250,0.42)';
+  const star   = 'rgba(255,255,255,0.72)';
+  const starB  = 'rgba(255,255,255,0.48)';
   const gx     = 'rgba(56,189,248,0.16)';
-  const pFill  = 'rgba(15,23,42,0.92)';
-  const pStroke= 'rgba(56,189,248,0.55)';
+  const pFill  = 'rgba(15,23,42,0.96)';
+  const pStroke= 'rgba(56,189,248,0.68)';
   const tBar   = 'rgba(30,41,59,0.98)';
   const lnA    = 'rgba(255,255,255,0.22)';
   const lnB    = 'rgba(255,255,255,0.11)';
@@ -248,7 +248,8 @@ const HeroSection = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         py: { xs: 8, sm: 10, md: 6 },
-        background: 'linear-gradient(135deg, #0F172A 0%, #0D1B2A 60%, #111827 100%)',
+        bgcolor: 'background.default',
+        background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.05) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
           from: { opacity: 0, transform: 'translateY(20px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
@@ -262,6 +263,26 @@ const HeroSection = () => {
         },
       }}
     >
+      {/* 은하수 곡선 — Hero 전체 폭 */}
+      <Box
+        component="svg"
+        viewBox="0 0 1200 700"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.16,
+        }}
+      >
+        <path d="M -40 560 Q 340 660 620 460 T 1240 180" fill="none" stroke="#38BDF8" strokeWidth="2.5" />
+        <path d="M -40 620 Q 380 700 660 520 T 1240 260" fill="none" stroke="#A78BFA" strokeWidth="1.6" opacity="0.7" />
+      </Box>
+
       {/* 별 배경 */}
       <StarField count={48} />
 

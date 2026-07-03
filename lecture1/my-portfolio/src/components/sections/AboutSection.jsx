@@ -3,6 +3,7 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import DevicesIcon from '@mui/icons-material/Devices';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import RevealOnScroll from '../common/RevealOnScroll';
+import StarField from '../common/StarField';
 
 const SKILL_CARDS = [
   {
@@ -36,10 +37,13 @@ const AboutSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        bgcolor: '#1E293B',
+        bgcolor: 'background.default',
         py: { xs: 6, md: 8 },
       }}
     >
+      {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
+      <StarField count={18} sx={{ opacity: 0.5 }} />
+
       {/* 섹션 구분 gradient line */}
       <Box
         aria-hidden="true"
@@ -53,7 +57,7 @@ const AboutSection = () => {
         }}
       />
 
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
@@ -175,7 +179,7 @@ const AboutSection = () => {
                       position: 'relative',
                       zIndex: 1,
                       height: '100%',
-                      p: { xs: 3, md: 3.5 },
+                      p: { xs: 2.5, md: 3 },
                       bgcolor: 'rgba(255,255,255,0.04)',
                       border: '1px solid rgba(148,163,184,0.15)',
                       borderTop: `2px solid ${card.color}`,

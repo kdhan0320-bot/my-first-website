@@ -11,6 +11,7 @@ import { supabase } from '../../lib/supabase';
 import GuestbookForm from '../guestbook/GuestbookForm';
 import GuestbookCard from '../guestbook/GuestbookCard';
 import RevealOnScroll from '../common/RevealOnScroll';
+import StarField from '../common/StarField';
 
 const GUESTBOOK_PAGE_SIZE = 3;
 
@@ -62,10 +63,13 @@ const ContactSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        bgcolor: '#1E293B',
+        bgcolor: 'background.default',
         py: { xs: 5, md: 7 },
       }}
     >
+      {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
+      <StarField count={18} sx={{ opacity: 0.5 }} />
+
       {/* 상단 구분선 */}
       <Box
         aria-hidden="true"
@@ -95,7 +99,7 @@ const ContactSection = () => {
         }}
       />
 
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}
         <RevealOnScroll>
@@ -201,14 +205,15 @@ const ContactSection = () => {
                     component="a"
                     href="mailto:kdhan0320@gmail.com"
                     variant="contained"
-                    startIcon={<EmailIcon />}
+                    startIcon={<EmailIcon sx={{ fontSize: '20px !important' }} />}
                     aria-label="이메일 보내기"
                     sx={{
                       bgcolor: 'primary.main',
                       color: 'primary.contrastText',
-                      minHeight: 44,
+                      height: 48,
+                      width: { xs: '100%', sm: 220 },
+                      borderRadius: '13px',
                       fontWeight: 700,
-                      px: 3,
                       whiteSpace: 'nowrap',
                       transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                       '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-2px)', boxShadow: '0 8px 20px rgba(37,99,235,0.3)' },
@@ -223,14 +228,15 @@ const ContactSection = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     variant="outlined"
-                    startIcon={<GitHubIcon />}
+                    startIcon={<GitHubIcon sx={{ fontSize: '20px !important' }} />}
                     aria-label="GitHub 프로필 보기"
                     sx={{
                       color: 'text.primary',
                       borderColor: 'rgba(148,163,184,0.3)',
-                      minHeight: 44,
+                      height: 48,
+                      width: { xs: '100%', sm: 220 },
+                      borderRadius: '13px',
                       fontWeight: 600,
-                      px: 3,
                       whiteSpace: 'nowrap',
                       transition: 'transform 0.2s ease',
                       '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },

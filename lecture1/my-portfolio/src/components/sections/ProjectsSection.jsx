@@ -10,6 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../common/RevealOnScroll';
+import StarField from '../common/StarField';
 import ProjectThumbnailArt, { hasThumbnailArt } from '../common/ProjectThumbnailArt';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
@@ -315,7 +316,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
       <ProjectThumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} projectId={project.id} />
 
-      <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
+      <CardContent sx={{ flexGrow: 1, p: { xs: 2.5, md: 3 }, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
         <Box>
           <Typography variant="caption"
             sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
@@ -420,10 +421,13 @@ const ProjectsSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        bgcolor: '#0F172A',
+        bgcolor: 'background.default',
         py: { xs: 7, md: 9 },
       }}
     >
+      {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
+      <StarField count={18} sx={{ opacity: 0.5 }} />
+
       {/* 상단 구분선 */}
       <Box
         aria-hidden="true"
@@ -457,7 +461,7 @@ const ProjectsSection = () => {
         <ellipse cx="450" cy="280" rx="300" ry="175" fill="none" stroke="#A78BFA" strokeWidth="1" strokeDasharray="8 14" />
       </Box>
 
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         <RevealOnScroll>
           <Box sx={{ textAlign: 'center', mb: 6 }}>
@@ -486,7 +490,7 @@ const ProjectsSection = () => {
           </Box>
         </RevealOnScroll>
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, md: 3 } }}>
           {projects.map((project, idx) => (
             <ProjectCard key={project.id} project={project} idx={idx}
               onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
