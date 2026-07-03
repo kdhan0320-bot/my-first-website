@@ -160,7 +160,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         )}
         {detail.lesson && (
           <DetailRow label="배운 점">
-            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.18)' }}>
+            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.18)' }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
             </Box>
           </DetailRow>
@@ -236,7 +236,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 );
 
 const CARD_BADGES = [
-  { label: '대표 작업',    color: '#F59E0B', border: 'rgba(245,158,11,0.4)' },
+  { label: '대표 작업',    color: '#818CF8', border: 'rgba(129,140,248,0.4)' },
   { label: '케이스 스터디', color: '#7DD3FC', border: 'rgba(56,189,248,0.4)' },
   { label: '시안',         color: '#C4B5FD', border: 'rgba(167,139,250,0.4)' },
 ];
@@ -438,7 +438,7 @@ const ProjectsSection = () => {
           left: '10%',
           right: '10%',
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.04), rgba(124,58,237,0.04), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.03), rgba(124,58,237,0.03), transparent)',
         }}
       />
 

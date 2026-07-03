@@ -79,7 +79,7 @@ const ContactSection = () => {
           left: '10%',
           right: '10%',
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.03), rgba(124,58,237,0.03), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.02), rgba(124,58,237,0.02), transparent)',
         }}
       />
 

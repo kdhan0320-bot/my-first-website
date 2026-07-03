@@ -146,7 +146,7 @@ const DetailModal = ({ project, open, onClose }) => {
         )}
         {detail.lesson && (
           <DetailRow label="배운 점">
-            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.18)' }}>
+            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.18)' }}>
               <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
             </Box>
           </DetailRow>

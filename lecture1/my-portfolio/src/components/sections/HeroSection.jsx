@@ -149,10 +149,10 @@ const CosmicHeroIllustration = () => {
 
         {/* 04 개선 — 좌측 cx=35 cy=195 */}
         <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '3.6s', transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
-          <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity="0.32"/>
-          <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
-          <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#FCD34D"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
+          <circle cx="35" cy="195" r="29" fill={pFill} stroke="#60A5FA" strokeWidth="2.0"/>
+          <circle cx="35" cy="195" r="37" fill="none" stroke="#60A5FA" strokeWidth="0.6" opacity="0.32"/>
+          <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#60A5FA"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
+          <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#93C5FD"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
         </Box>
 
         {/* ── 떠 있는 UI 카드 (코너 장식) ── */}
@@ -165,7 +165,7 @@ const CosmicHeroIllustration = () => {
           <rect x="8"   y="57" width="42" height="2.5" rx="1.2" fill={lnB}/>
           <circle cx="13" cy="70" r="2.5" fill="#38BDF8" opacity="0.85"/>
           <circle cx="22" cy="70" r="2.5" fill="#A78BFA" opacity="0.75"/>
-          <circle cx="31" cy="70" r="2.5" fill="#F59E0B" opacity="0.75"/>
+          <circle cx="31" cy="70" r="2.5" fill="#818CF8" opacity="0.75"/>
         </g>
 
         {/* 우하단 */}
