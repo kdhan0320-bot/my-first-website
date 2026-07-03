@@ -33,6 +33,15 @@ const CosmicHeroIllustration = () => {
         aria-label="UI 설계 프로세스 일러스트 — 조사, 설계, 구현, 개선"
         style={{ width: '100%', maxWidth: 500, height: 'auto', display: 'block' }}
       >
+        <style>{`
+          @keyframes nodePulse {
+            0%, 100% { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
+            6%       { filter: drop-shadow(0 0 7px currentColor); transform: scale(1.02); }
+            14%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
+          }
+          .node-pulse { transform-box: fill-box; transform-origin: center; animation: nodePulse 5s ease-in-out infinite; }
+        `}</style>
+
         {/* 은하수 곡선 */}
         <path d="M 18 375 Q 230 405 445 222" fill="none" stroke={gx} strokeWidth="2.5"/>
 
@@ -117,28 +126,36 @@ const CosmicHeroIllustration = () => {
         {/* ── 프로세스 노드 4개 (궤도 극점) ── */}
 
         {/* 01 조사 — 상단 cx=230 cy=42 */}
-        <circle cx="230" cy="42" r="29" fill={pFill} stroke="#A78BFA" strokeWidth="2.0"/>
-        <circle cx="230" cy="42" r="37" fill="none" stroke="#A78BFA" strokeWidth="0.6" opacity="0.32"/>
-        <text x="230" y="37" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#A78BFA"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">01</text>
-        <text x="230" y="52" textAnchor="middle" fontSize="13" fontWeight="700" fill="#C4B5FD" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">조사</text>
+        <g className="node-pulse" style={{ color: '#A78BFA', animationDelay: '0s' }}>
+          <circle cx="230" cy="42" r="29" fill={pFill} stroke="#A78BFA" strokeWidth="2.0"/>
+          <circle cx="230" cy="42" r="37" fill="none" stroke="#A78BFA" strokeWidth="0.6" opacity="0.32"/>
+          <text x="230" y="37" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#A78BFA"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">01</text>
+          <text x="230" y="52" textAnchor="middle" fontSize="13" fontWeight="700" fill="#C4B5FD" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">조사</text>
+        </g>
 
         {/* 02 설계 — 우측 cx=425 cy=195 */}
-        <circle cx="425" cy="195" r="29" fill={pFill} stroke="#38BDF8" strokeWidth="2.0"/>
-        <circle cx="425" cy="195" r="37" fill="none" stroke="#38BDF8" strokeWidth="0.6" opacity="0.32"/>
-        <text x="425" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#38BDF8" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">02</text>
-        <text x="425" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7DD3FC" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">설계</text>
+        <g className="node-pulse" style={{ color: '#38BDF8', animationDelay: '1.25s' }}>
+          <circle cx="425" cy="195" r="29" fill={pFill} stroke="#38BDF8" strokeWidth="2.0"/>
+          <circle cx="425" cy="195" r="37" fill="none" stroke="#38BDF8" strokeWidth="0.6" opacity="0.32"/>
+          <text x="425" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#38BDF8" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">02</text>
+          <text x="425" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7DD3FC" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">설계</text>
+        </g>
 
         {/* 03 구현 — 하단 cx=230 cy=348 */}
-        <circle cx="230" cy="348" r="29" fill={pFill} stroke="#22D3EE" strokeWidth="2.0"/>
-        <circle cx="230" cy="348" r="37" fill="none" stroke="#22D3EE" strokeWidth="0.6" opacity="0.32"/>
-        <text x="230" y="343" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#22D3EE" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">03</text>
-        <text x="230" y="358" textAnchor="middle" fontSize="13" fontWeight="700" fill="#67E8F9" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">구현</text>
+        <g className="node-pulse" style={{ color: '#22D3EE', animationDelay: '2.5s' }}>
+          <circle cx="230" cy="348" r="29" fill={pFill} stroke="#22D3EE" strokeWidth="2.0"/>
+          <circle cx="230" cy="348" r="37" fill="none" stroke="#22D3EE" strokeWidth="0.6" opacity="0.32"/>
+          <text x="230" y="343" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#22D3EE" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">03</text>
+          <text x="230" y="358" textAnchor="middle" fontSize="13" fontWeight="700" fill="#67E8F9" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">구현</text>
+        </g>
 
         {/* 04 개선 — 좌측 cx=35 cy=195 */}
-        <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
-        <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity="0.32"/>
-        <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
-        <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#FCD34D"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
+        <g className="node-pulse" style={{ color: '#F59E0B', animationDelay: '3.75s' }}>
+          <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
+          <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity="0.32"/>
+          <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
+          <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#FCD34D"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
+        </g>
 
         {/* ── 떠 있는 UI 카드 (코너 장식) ── */}
 
