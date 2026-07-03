@@ -263,7 +263,7 @@ const HeroSection = () => {
         },
       }}
     >
-      {/* 은하수 곡선 — Hero 전체 폭 */}
+      {/* 은하수 밴드 — 굵은 stroke + blur로 은은한 성운 띠 표현 */}
       <Box
         component="svg"
         viewBox="0 0 1200 700"
@@ -276,7 +276,28 @@ const HeroSection = () => {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.16,
+          opacity: 0.55,
+          filter: 'blur(34px)',
+        }}
+      >
+        <path d="M -60 620 Q 360 700 660 480 T 1260 160" fill="none" stroke="#38BDF8" strokeWidth="90" strokeLinecap="round" opacity="0.22" />
+        <path d="M -60 660 Q 400 720 700 540 T 1260 240" fill="none" stroke="#A78BFA" strokeWidth="60" strokeLinecap="round" opacity="0.18" />
+      </Box>
+
+      {/* 은하수 곡선 — 선명한 라인 레이어 (Hero 전체 폭) */}
+      <Box
+        component="svg"
+        viewBox="0 0 1200 700"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.3,
         }}
       >
         <path d="M -40 560 Q 340 660 620 460 T 1240 180" fill="none" stroke="#38BDF8" strokeWidth="2.5" />
@@ -284,22 +305,22 @@ const HeroSection = () => {
       </Box>
 
       {/* 별 배경 */}
-      <StarField count={48} />
+      <StarField count={72} />
 
       {/* Gradient blob 1 - 우측 상단 */}
       <Box
         aria-hidden="true"
         sx={{
           position: 'absolute',
-          top: '-12%',
-          right: '-6%',
-          width: { xs: 260, md: 500 },
-          height: { xs: 260, md: 500 },
+          top: '-14%',
+          right: '-8%',
+          width: { xs: 300, md: 580 },
+          height: { xs: 300, md: 580 },
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
-          filter: 'blur(48px)',
+          filter: 'blur(52px)',
         }}
       />
 
@@ -308,15 +329,15 @@ const HeroSection = () => {
         aria-hidden="true"
         sx={{
           position: 'absolute',
-          bottom: '-8%',
-          left: '-6%',
-          width: { xs: 200, md: 360 },
-          height: { xs: 200, md: 360 },
+          bottom: '-10%',
+          left: '-8%',
+          width: { xs: 230, md: 420 },
+          height: { xs: 230, md: 420 },
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
-          filter: 'blur(48px)',
+          filter: 'blur(52px)',
         }}
       />
 
