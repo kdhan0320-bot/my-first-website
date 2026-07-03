@@ -1,10 +1,22 @@
 import { Box, Container, Typography, Button, Grid, Stack } from '@mui/material';
+import { keyframes } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { scrollToSection } from '../../hooks/useScrollNav';
 import StarField from '../common/StarField';
 
 const STRENGTH_KEYWORDS = ['화면 설계', '사용자 흐름 개선', 'React 웹 구현', 'AI 도구 활용'];
+
+/* 프로세스 노드 순차 glow pulse — 01 조사 → 02 설계 → 03 구현 → 04 개선 순서로
+ * animationDelay만 다르게 주어 같은 keyframes를 노드마다 다른 타이밍에 재생한다. */
+const processPulse = keyframes`
+  0%, 100% { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
+  8%       { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
+  24%      { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
+  36%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
+`;
+
+const NODE_ANIMATION = `${processPulse} 5s ease-in-out infinite`;
 
 const CosmicHeroIllustration = () => {
   const oc1    = 'rgba(56,189,248,0.52)';
@@ -28,16 +40,6 @@ const CosmicHeroIllustration = () => {
         aria-label="UI 설계 프로세스 일러스트 — 조사, 설계, 구현, 개선"
         style={{ width: '100%', maxWidth: 500, height: 'auto', display: 'block', overflow: 'visible' }}
       >
-        <style>{`
-          @keyframes nodePulse {
-            0%, 100% { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
-            8%       { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
-            24%      { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
-            36%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
-          }
-          .node-pulse { transform-box: fill-box; transform-origin: center; animation: nodePulse 5s ease-in-out infinite; }
-        `}</style>
-
         {/* 은하수 곡선 */}
         <path d="M 18 375 Q 230 405 445 222" fill="none" stroke={gx} strokeWidth="2.5"/>
 
@@ -122,36 +124,36 @@ const CosmicHeroIllustration = () => {
         {/* ── 프로세스 노드 4개 (궤도 극점) ── */}
 
         {/* 01 조사 — 상단 cx=230 cy=42 */}
-        <g className="node-pulse" style={{ color: '#A78BFA', animationDelay: '0s' }}>
+        <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '0s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="230" cy="42" r="29" fill={pFill} stroke="#A78BFA" strokeWidth="2.0"/>
           <circle cx="230" cy="42" r="37" fill="none" stroke="#A78BFA" strokeWidth="0.6" opacity="0.32"/>
           <text x="230" y="37" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#A78BFA"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">01</text>
           <text x="230" y="52" textAnchor="middle" fontSize="13" fontWeight="700" fill="#C4B5FD" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">조사</text>
-        </g>
+        </Box>
 
         {/* 02 설계 — 우측 cx=425 cy=195 */}
-        <g className="node-pulse" style={{ color: '#38BDF8', animationDelay: '1.25s' }}>
+        <Box component="g" sx={{ color: '#38BDF8', animation: NODE_ANIMATION, animationDelay: '1s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="425" cy="195" r="29" fill={pFill} stroke="#38BDF8" strokeWidth="2.0"/>
           <circle cx="425" cy="195" r="37" fill="none" stroke="#38BDF8" strokeWidth="0.6" opacity="0.32"/>
           <text x="425" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#38BDF8" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">02</text>
           <text x="425" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7DD3FC" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">설계</text>
-        </g>
+        </Box>
 
         {/* 03 구현 — 하단 cx=230 cy=348 */}
-        <g className="node-pulse" style={{ color: '#22D3EE', animationDelay: '2.5s' }}>
+        <Box component="g" sx={{ color: '#22D3EE', animation: NODE_ANIMATION, animationDelay: '2s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="230" cy="348" r="29" fill={pFill} stroke="#22D3EE" strokeWidth="2.0"/>
           <circle cx="230" cy="348" r="37" fill="none" stroke="#22D3EE" strokeWidth="0.6" opacity="0.32"/>
           <text x="230" y="343" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#22D3EE" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">03</text>
           <text x="230" y="358" textAnchor="middle" fontSize="13" fontWeight="700" fill="#67E8F9" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">구현</text>
-        </g>
+        </Box>
 
         {/* 04 개선 — 좌측 cx=35 cy=195 */}
-        <g className="node-pulse" style={{ color: '#A78BFA', animationDelay: '3.75s' }}>
+        <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '3s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
           <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity="0.32"/>
           <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
           <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#FCD34D"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
-        </g>
+        </Box>
 
         {/* ── 떠 있는 UI 카드 (코너 장식) ── */}
 
