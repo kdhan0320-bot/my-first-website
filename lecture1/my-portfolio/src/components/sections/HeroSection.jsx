@@ -1,11 +1,6 @@
-import { useState, useEffect } from 'react';
 import { Box, Container, Typography, Button, Grid, Stack } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { usePortfolio } from '../../context/PortfolioContext';
-import { supabase } from '../../lib/supabase';
-import useInViewOnce from '../../hooks/useInViewOnce';
-import useCountUp from '../../hooks/useCountUp';
 import { scrollToSection } from '../../hooks/useScrollNav';
 import StarField from '../common/StarField';
 
@@ -181,73 +176,6 @@ const CosmicHeroIllustration = () => {
           <rect x="434" y="324" width="18" height="9"  rx="2" fill="rgba(167,139,250,0.17)"/>
         </g>
       </svg>
-    </Box>
-  );
-};
-
-const PortfolioStats = () => {
-  const { aboutMeData } = usePortfolio();
-  const [projectCount, setProjectCount] = useState(null);
-  const [statsRef, isVisible] = useInViewOnce(0.1);
-
-  useEffect(() => {
-    supabase
-      .from('projects')
-      .select('id', { count: 'exact', head: true })
-      .eq('is_published', true)
-      .then(({ count }) => setProjectCount(count ?? 0));
-  }, []);
-
-  const skillCount  = aboutMeData?.skills?.length ?? 0;
-  const loaded      = projectCount !== null;
-  const studyMonths = Math.floor(
-    (Date.now() - new Date('2024-12-01').getTime()) / (1000 * 60 * 60 * 24 * 30.44),
-  );
-
-  const projectNum = useCountUp(projectCount ?? 0, 1000, isVisible && loaded);
-  const skillNum   = useCountUp(skillCount,        1000, isVisible);
-  const studyNum   = useCountUp(studyMonths,         800, isVisible);
-
-  const stats = [
-    { label: '진행 프로젝트', value: loaded ? projectNum : '—', suffix: loaded ? '개' : '' },
-    { label: '활용 기술',     value: skillNum, suffix: '개' },
-    { label: '학습 기간',     value: studyNum, suffix: '개월+' },
-  ];
-
-  return (
-    <Box
-      ref={statsRef}
-      sx={{
-        display: 'flex',
-        gap: { xs: 3, sm: 4 },
-        mt: 3,
-        pt: 2.5,
-        borderTop: '1px solid rgba(148,163,184,0.15)',
-        justifyContent: { xs: 'center', md: 'flex-start' },
-      }}
-    >
-      {stats.map(({ label, value, suffix }) => (
-        <Box key={label} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
-          <Typography
-            component="p"
-            sx={{
-              color: 'primary.main',
-              fontWeight: 800,
-              fontSize: { xs: '1.4rem', md: '1.625rem' },
-              lineHeight: 1,
-              fontVariantNumeric: 'tabular-nums',
-            }}
-          >
-            {value}{suffix}
-          </Typography>
-          <Typography
-            variant="caption"
-            sx={{ color: 'text.secondary', fontWeight: 500, mt: 0.5, display: 'block', fontSize: '0.7rem' }}
-          >
-            {label}
-          </Typography>
-        </Box>
-      ))}
     </Box>
   );
 };
@@ -483,7 +411,6 @@ const HeroSection = () => {
                 spacing={2}
                 alignItems={{ xs: 'stretch', sm: 'center' }}
                 justifyContent={{ xs: 'center', md: 'flex-start' }}
-                sx={{ mb: 1.5 }}
               >
                 <Button
                   variant="contained"
@@ -537,8 +464,6 @@ const HeroSection = () => {
                   연락하기
                 </Button>
               </Stack>
-
-              <PortfolioStats />
             </Box>
           </Grid>
 
