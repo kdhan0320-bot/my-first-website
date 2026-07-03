@@ -31,9 +31,9 @@ const CosmicHeroIllustration = () => {
         <style>{`
           @keyframes nodePulse {
             0%, 100% { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
-            5%       { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 14px currentColor); transform: scale(1.02); }
-            12%      { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 14px currentColor); transform: scale(1.02); }
-            22%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
+            8%       { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
+            24%      { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
+            36%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
           }
           .node-pulse { transform-box: fill-box; transform-origin: center; animation: nodePulse 5s ease-in-out infinite; }
         `}</style>
