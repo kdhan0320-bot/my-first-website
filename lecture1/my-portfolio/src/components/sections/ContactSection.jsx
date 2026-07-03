@@ -68,7 +68,7 @@ const ContactSection = () => {
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.5 }} />
+      <StarField count={18} sx={{ opacity: 0.12 }} />
 
       {/* 배경 blob */}
       <Box
@@ -137,7 +137,7 @@ const ContactSection = () => {
                 right: '-3%',
                 width: { xs: 160, md: 240 },
                 height: 'auto',
-                opacity: 0.12,
+                opacity: 0.06,
                 pointerEvents: 'none',
               }}
             >

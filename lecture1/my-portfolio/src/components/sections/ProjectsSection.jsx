@@ -427,7 +427,7 @@ const ProjectsSection = () => {
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.5 }} />
+      <StarField count={18} sx={{ opacity: 0.12 }} />
 
 
       {/* 배경 orbit ring */}
@@ -443,7 +443,7 @@ const ProjectsSection = () => {
           width: '105%',
           height: 'auto',
           pointerEvents: 'none',
-          opacity: 0.03,
+          opacity: 0.02,
         }}
       >
         <ellipse cx="450" cy="280" rx="430" ry="250" fill="none" stroke="#38BDF8" strokeWidth="1.5" />
