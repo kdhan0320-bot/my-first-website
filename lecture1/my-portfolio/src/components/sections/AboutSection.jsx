@@ -58,7 +58,7 @@ const AboutSection = () => {
           left: '10%',
           right: '10%',
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.14), rgba(124,58,237,0.14), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.08), rgba(124,58,237,0.08), transparent)',
         }}
       />
 
@@ -283,7 +283,7 @@ const AboutSection = () => {
           left: '10%',
           right: '10%',
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.1), rgba(124,58,237,0.1), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.06), rgba(124,58,237,0.06), transparent)',
         }}
       />
     </Box>

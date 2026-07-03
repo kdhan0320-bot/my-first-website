@@ -36,8 +36,9 @@ const CosmicHeroIllustration = () => {
         <style>{`
           @keyframes nodePulse {
             0%, 100% { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
-            6%       { filter: drop-shadow(0 0 7px currentColor); transform: scale(1.02); }
-            14%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
+            5%       { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 14px currentColor); transform: scale(1.02); }
+            12%      { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 14px currentColor); transform: scale(1.02); }
+            22%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
           }
           .node-pulse { transform-box: fill-box; transform-origin: center; animation: nodePulse 5s ease-in-out infinite; }
         `}</style>
@@ -150,7 +151,7 @@ const CosmicHeroIllustration = () => {
         </g>
 
         {/* 04 개선 — 좌측 cx=35 cy=195 */}
-        <g className="node-pulse" style={{ color: '#F59E0B', animationDelay: '3.75s' }}>
+        <g className="node-pulse" style={{ color: '#A78BFA', animationDelay: '3.75s' }}>
           <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
           <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity="0.32"/>
           <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
