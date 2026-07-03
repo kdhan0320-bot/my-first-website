@@ -10,19 +10,19 @@ const SKILL_CARDS = [
     icon: <DesignServicesIcon sx={{ fontSize: 22 }} />,
     title: 'UX/UI 디자인',
     color: '#38BDF8',
-    items: ['사용자 흐름 분석', '와이어프레임', '화면 설계'],
+    items: ['사용자 흐름 분석', '와이어프레임', '화면 설계', '컴포넌트 정리'],
   },
   {
     icon: <DevicesIcon sx={{ fontSize: 22 }} />,
     title: '웹 구현',
     color: '#A78BFA',
-    items: ['HTML/CSS', 'JavaScript', 'React 기반 화면 구현'],
+    items: ['HTML/CSS', 'JavaScript', 'React 기반 화면 구현', '반응형 레이아웃'],
   },
   {
     icon: <AutoAwesomeIcon sx={{ fontSize: 22 }} />,
     title: 'AI 도구 활용',
     color: '#818CF8',
-    items: ['아이디어 정리', '코드 보조', '웹 프로토타입 제작'],
+    items: ['아이디어 정리', '코드 보조', '웹 프로토타입 제작', '코드 리뷰 보조'],
   },
 ];
 
