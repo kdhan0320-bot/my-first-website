@@ -443,7 +443,7 @@ const ProjectsSection = () => {
           width: '105%',
           height: 'auto',
           pointerEvents: 'none',
-          opacity: 0.055,
+          opacity: 0.03,
         }}
       >
         <ellipse cx="450" cy="280" rx="430" ry="250" fill="none" stroke="#38BDF8" strokeWidth="1.5" />
