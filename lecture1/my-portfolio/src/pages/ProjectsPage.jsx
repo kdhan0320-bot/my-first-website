@@ -195,11 +195,11 @@ const DetailModal = ({ project, open, onClose }) => {
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', paddingTop: '52%', overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
       <Box component="img" src={thumbnailUrl} alt={`${title} 썸네일`} loading="lazy" className="thumb-img"
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
-        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', transition: 'transform 0.35s ease' }} />
+        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease' }} />
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
     ) : (
@@ -286,7 +286,7 @@ const ProjectCard = ({ project, onDetail }) => (
 
 const SkeletonCard = () => (
   <Card sx={{ border: '1px solid', borderColor: 'divider' }}>
-    <Box sx={{ paddingTop: '52%', position: 'relative' }}>
+    <Box sx={{ height: { xs: 200, md: 240 }, position: 'relative' }}>
       <Skeleton variant="rectangular" sx={{ position: 'absolute', inset: 0 }} />
     </Box>
     <CardContent sx={{ p: 2.5 }}>
@@ -349,7 +349,7 @@ const ProjectsPage = () => {
         {/* 헤더 */}
         <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
           <Typography sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}>
-            PROJECTS
+            전체 작업
           </Typography>
           <Typography variant="h1" sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '2rem', md: '2.5rem' } }}>
             전체 프로젝트

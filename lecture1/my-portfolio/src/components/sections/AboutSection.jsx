@@ -21,12 +21,17 @@ const SKILL_CARDS = [
   {
     icon: <AutoAwesomeIcon sx={{ fontSize: 22 }} />,
     title: 'AI 도구 활용',
-    color: '#F59E0B',
+    color: '#818CF8',
     items: ['아이디어 정리', '코드 보조', '웹 프로토타입 제작'],
   },
 ];
 
-const STRENGTH_CHIPS = ['정보 구조화', '사용자 흐름 개선', 'Figma 화면 설계', 'AI 도구 활용'];
+const STRENGTH_SUMMARY = [
+  { label: '화면 설계', desc: '사용자 흐름을 정리하고 Figma로 구조화합니다.' },
+  { label: '사용자 흐름 개선', desc: '불편한 흐름을 찾아 화면 우선순위를 정리합니다.' },
+  { label: 'React 웹 구현', desc: 'HTML/CSS, JavaScript, React로 화면을 구현합니다.' },
+  { label: 'AI 도구 활용', desc: '아이디어 정리와 코드 보조에 AI를 활용합니다.' },
+];
 
 const AboutSection = () => {
   return (
@@ -109,6 +114,29 @@ const AboutSection = () => {
               </Box>
               입니다.
             </Typography>
+
+            {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트 */}
+            <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
+              <Typography
+                variant="caption"
+                sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', mb: 1.5 }}
+              >
+                강점 요약
+              </Typography>
+              <Grid container spacing={1.5}>
+                {STRENGTH_SUMMARY.map((s) => (
+                  <Grid key={s.label} size={{ xs: 12, sm: 6 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
+                      <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '8px', opacity: 0.85 }} />
+                      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.85rem' }}>
+                        <Box component="span" sx={{ color: 'text.primary', fontWeight: 700 }}>{s.label}</Box>
+                        {': '}{s.desc}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
           </Box>
         </RevealOnScroll>
 
@@ -125,7 +153,7 @@ const AboutSection = () => {
                 left: 'calc(16.67% + 22px)',
                 right: 'calc(16.67% + 22px)',
                 height: '1px',
-                background: 'linear-gradient(90deg, rgba(56,189,248,0.4), rgba(167,139,250,0.4), rgba(245,158,11,0.4))',
+                background: 'linear-gradient(90deg, rgba(56,189,248,0.4), rgba(167,139,250,0.4), rgba(129,140,248,0.4))',
                 zIndex: 0,
               }}
             />
@@ -241,37 +269,6 @@ const AboutSection = () => {
                 </Grid>
               ))}
             </Grid>
-          </Box>
-        </RevealOnScroll>
-
-        {/* 강점 칩 */}
-        <RevealOnScroll delay={0.15}>
-          <Box sx={{ textAlign: 'center' }}>
-            <Typography
-              variant="caption"
-              sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', display: 'block', mb: 2 }}
-            >
-              강점
-            </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 0 }}>
-              {STRENGTH_CHIPS.map((chip, i) => (
-                <Box key={chip} sx={{ display: 'flex', alignItems: 'center' }}>
-                  {i > 0 && (
-                    <Typography variant="caption" sx={{ color: 'text.disabled', mx: 1.5 }}>·</Typography>
-                  )}
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: 'rgba(203,213,225,0.85)',
-                      fontSize: '0.83rem',
-                      fontWeight: 500,
-                    }}
-                  >
-                    {chip}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
           </Box>
         </RevealOnScroll>
 

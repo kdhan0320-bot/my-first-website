@@ -227,19 +227,21 @@ const ContactSection = () => {
                     href="https://github.com/kdhan0320-bot"
                     target="_blank"
                     rel="noopener noreferrer"
-                    variant="outlined"
+                    variant="contained"
+                    disableElevation
                     startIcon={<GitHubIcon sx={{ fontSize: '20px !important' }} />}
                     aria-label="GitHub 프로필 보기"
                     sx={{
+                      bgcolor: 'rgba(148,163,184,0.12)',
                       color: 'text.primary',
-                      borderColor: 'rgba(148,163,184,0.3)',
+                      border: '1px solid rgba(148,163,184,0.28)',
                       height: 48,
                       width: { xs: '100%', sm: 220 },
                       borderRadius: '13px',
-                      fontWeight: 600,
+                      fontWeight: 700,
                       whiteSpace: 'nowrap',
-                      transition: 'transform 0.2s ease',
-                      '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },
+                      transition: 'transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease',
+                      '&:hover': { bgcolor: 'rgba(148,163,184,0.2)', borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },
                       '&:active': { transform: 'translateY(0)' },
                     }}
                   >
