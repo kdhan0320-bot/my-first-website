@@ -438,7 +438,7 @@ const ProjectsSection = () => {
           left: '10%',
           right: '10%',
           height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.05), rgba(124,58,237,0.05), transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.04), rgba(124,58,237,0.04), transparent)',
         }}
       />
 

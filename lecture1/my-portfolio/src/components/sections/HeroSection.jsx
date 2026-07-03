@@ -132,7 +132,7 @@ const CosmicHeroIllustration = () => {
         </Box>
 
         {/* 02 설계 — 우측 cx=425 cy=195 */}
-        <Box component="g" sx={{ color: '#38BDF8', animation: NODE_ANIMATION, animationDelay: '1s', transformBox: 'fill-box', transformOrigin: 'center' }}>
+        <Box component="g" sx={{ color: '#38BDF8', animation: NODE_ANIMATION, animationDelay: '1.2s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="425" cy="195" r="29" fill={pFill} stroke="#38BDF8" strokeWidth="2.0"/>
           <circle cx="425" cy="195" r="37" fill="none" stroke="#38BDF8" strokeWidth="0.6" opacity="0.32"/>
           <text x="425" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#38BDF8" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">02</text>
@@ -140,7 +140,7 @@ const CosmicHeroIllustration = () => {
         </Box>
 
         {/* 03 구현 — 하단 cx=230 cy=348 */}
-        <Box component="g" sx={{ color: '#22D3EE', animation: NODE_ANIMATION, animationDelay: '2s', transformBox: 'fill-box', transformOrigin: 'center' }}>
+        <Box component="g" sx={{ color: '#22D3EE', animation: NODE_ANIMATION, animationDelay: '2.4s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="230" cy="348" r="29" fill={pFill} stroke="#22D3EE" strokeWidth="2.0"/>
           <circle cx="230" cy="348" r="37" fill="none" stroke="#22D3EE" strokeWidth="0.6" opacity="0.32"/>
           <text x="230" y="343" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#22D3EE" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">03</text>
@@ -148,7 +148,7 @@ const CosmicHeroIllustration = () => {
         </Box>
 
         {/* 04 개선 — 좌측 cx=35 cy=195 */}
-        <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '3s', transformBox: 'fill-box', transformOrigin: 'center' }}>
+        <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '3.6s', transformBox: 'fill-box', transformOrigin: 'center' }}>
           <circle cx="35" cy="195" r="29" fill={pFill} stroke="#F59E0B" strokeWidth="2.0"/>
           <circle cx="35" cy="195" r="37" fill="none" stroke="#F59E0B" strokeWidth="0.6" opacity="0.32"/>
           <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#F59E0B"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
