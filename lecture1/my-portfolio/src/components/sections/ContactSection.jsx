@@ -70,19 +70,6 @@ const ContactSection = () => {
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
       <StarField count={18} sx={{ opacity: 0.5 }} />
 
-      {/* 상단 구분선 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: '10%',
-          right: '10%',
-          height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.02), rgba(124,58,237,0.02), transparent)',
-        }}
-      />
-
       {/* 배경 blob */}
       <Box
         aria-hidden="true"

@@ -49,19 +49,6 @@ const AboutSection = () => {
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
       <StarField count={18} sx={{ opacity: 0.5 }} />
 
-      {/* 섹션 구분 gradient line */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: '10%',
-          right: '10%',
-          height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.03), rgba(124,58,237,0.03), transparent)',
-        }}
-      />
-
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}
@@ -273,19 +260,6 @@ const AboutSection = () => {
         </RevealOnScroll>
 
       </Container>
-
-      {/* 하단 구분 gradient line */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          bottom: 0,
-          left: '10%',
-          right: '10%',
-          height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.03), rgba(124,58,237,0.03), transparent)',
-        }}
-      />
     </Box>
   );
 };

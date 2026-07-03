@@ -429,18 +429,6 @@ const ProjectsSection = () => {
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
       <StarField count={18} sx={{ opacity: 0.5 }} />
 
-      {/* 상단 구분선 — About과의 경계가 자연스럽게 이어지도록 낮은 opacity 유지 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: 0,
-          left: '10%',
-          right: '10%',
-          height: 1,
-          background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.03), rgba(124,58,237,0.03), transparent)',
-        }}
-      />
 
       {/* 배경 orbit ring */}
       <Box

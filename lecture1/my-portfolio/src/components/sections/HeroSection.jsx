@@ -1,7 +1,6 @@
 import { Box, Container, Typography, Button, Grid, Stack } from '@mui/material';
 import { keyframes } from '@mui/material/styles';
 import EmailIcon from '@mui/icons-material/Email';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { scrollToSection } from '../../hooks/useScrollNav';
 import StarField from '../common/StarField';
 
@@ -201,10 +200,6 @@ const HeroSection = () => {
         '@keyframes fadeInUp': {
           from: { opacity: 0, transform: 'translateY(20px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
-        },
-        '@keyframes bounceDown': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%':      { transform: 'translateY(7px)' },
         },
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
@@ -479,33 +474,6 @@ const HeroSection = () => {
             </Box>
           </Grid>
         </Grid>
-
-        {/* 스크롤 유도 */}
-        <Box
-          component="button"
-          onClick={() => window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' })}
-          aria-label="아래 섹션으로 스크롤"
-          sx={{
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer',
-            display: 'block',
-            mx: 'auto',
-            pt: { xs: 5, md: 6 },
-            color: 'text.disabled',
-            animation: 'bounceDown 1.8s ease-in-out infinite',
-            transition: 'color 0.2s ease',
-            '&:hover': { color: 'primary.main' },
-            '&:focus-visible': {
-              outline: '2px solid',
-              outlineColor: 'primary.main',
-              outlineOffset: '4px',
-              borderRadius: '4px',
-            },
-          }}
-        >
-          <KeyboardArrowDownIcon sx={{ fontSize: 28 }} />
-        </Box>
       </Container>
     </Box>
   );
