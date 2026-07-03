@@ -427,28 +427,7 @@ const ProjectsSection = () => {
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.12 }} />
-
-
-      {/* 배경 orbit ring */}
-      <Box
-        component="svg"
-        viewBox="0 0 900 560"
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '105%',
-          height: 'auto',
-          pointerEvents: 'none',
-          opacity: 0.02,
-        }}
-      >
-        <ellipse cx="450" cy="280" rx="430" ry="250" fill="none" stroke="#38BDF8" strokeWidth="1.5" />
-        <ellipse cx="450" cy="280" rx="300" ry="175" fill="none" stroke="#A78BFA" strokeWidth="1" strokeDasharray="8 14" />
-      </Box>
+      <StarField count={18} sx={{ opacity: 0.07 }} />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 

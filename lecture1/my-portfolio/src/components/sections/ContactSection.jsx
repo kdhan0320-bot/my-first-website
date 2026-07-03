@@ -68,7 +68,7 @@ const ContactSection = () => {
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.12 }} />
+      <StarField count={18} sx={{ opacity: 0.07 }} />
 
       {/* 배경 blob */}
       <Box
@@ -80,7 +80,7 @@ const ContactSection = () => {
           width: 260,
           height: 260,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(124,58,237,0.04) 0%, transparent 70%)',
           filter: 'blur(40px)',
           pointerEvents: 'none',
         }}
@@ -137,7 +137,7 @@ const ContactSection = () => {
                 right: '-3%',
                 width: { xs: 160, md: 240 },
                 height: 'auto',
-                opacity: 0.06,
+                opacity: 0.04,
                 pointerEvents: 'none',
               }}
             >

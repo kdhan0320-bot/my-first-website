@@ -47,7 +47,7 @@ const AboutSection = () => {
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.12 }} />
+      <StarField count={18} sx={{ opacity: 0.08 }} />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
