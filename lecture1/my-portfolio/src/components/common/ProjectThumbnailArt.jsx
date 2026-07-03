@@ -153,6 +153,28 @@ const THUMB_SVG = {
 
 export const hasThumbnailArt = (projectId) => projectId in THUMB_SVG;
 
+/* 실제 이미지·전용 목업이 없는 프로젝트용 — 있는 것처럼 꾸미지 않고
+ * 정직한 추상 와이어프레임 패턴 + PREVIEW 워터마크만 표시 */
+export const GenericPreviewArt = () => (
+  <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+    <rect x="24" y="20" width="272" height="16" rx="3" fill="white" opacity="0.08"/>
+    <circle cx="34" cy="28" r="3" fill="white" opacity="0.16"/>
+    <rect x="46" y="25" width="40" height="6" rx="3" fill="white" opacity="0.1"/>
+    <rect x="24" y="48" width="130" height="90" rx="4" fill="white" opacity="0.05"/>
+    <rect x="34" y="58" width="60" height="6" rx="3" fill="white" opacity="0.14"/>
+    <rect x="34" y="72" width="110" height="4" rx="2" fill="white" opacity="0.08"/>
+    <rect x="34" y="82" width="90" height="4" rx="2" fill="white" opacity="0.08"/>
+    <rect x="34" y="92" width="100" height="4" rx="2" fill="white" opacity="0.08"/>
+    <rect x="166" y="48" width="130" height="42" rx="4" fill="white" opacity="0.05"/>
+    <rect x="176" y="58" width="50" height="6" rx="3" fill="white" opacity="0.12"/>
+    <rect x="176" y="70" width="90" height="4" rx="2" fill="white" opacity="0.08"/>
+    <rect x="166" y="96" width="130" height="42" rx="4" fill="white" opacity="0.05"/>
+    <rect x="176" y="106" width="50" height="6" rx="3" fill="white" opacity="0.12"/>
+    <rect x="176" y="118" width="70" height="4" rx="2" fill="white" opacity="0.08"/>
+    <text x="160" y="162" textAnchor="middle" fill="white" opacity="0.28" fontSize="9" letterSpacing="2" fontFamily="sans-serif">PREVIEW</text>
+  </svg>
+);
+
 const ProjectThumbnailArt = ({ projectId }) => THUMB_SVG[projectId] ?? null;
 
 export default ProjectThumbnailArt;

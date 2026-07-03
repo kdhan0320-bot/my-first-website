@@ -11,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../common/RevealOnScroll';
 import StarField from '../common/StarField';
-import ProjectThumbnailArt, { hasThumbnailArt } from '../common/ProjectThumbnailArt';
+import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../common/ProjectThumbnailArt';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
 
@@ -222,11 +222,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
     ) : (
-      <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography sx={{ color: 'rgba(255,255,255,0.45)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase', userSelect: 'none' }}>
-          Project Preview
-        </Typography>
-      </Box>
+      <GenericPreviewArt />
     )}
     {/* hover overlay */}
     <Box className="thumb-overlay" sx={{

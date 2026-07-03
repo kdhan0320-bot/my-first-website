@@ -27,11 +27,11 @@ const CosmicHeroIllustration = () => {
   return (
     <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <svg
-        viewBox="0 0 460 400"
+        viewBox="-40 -30 540 460"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
         aria-label="UI 설계 프로세스 일러스트 — 조사, 설계, 구현, 개선"
-        style={{ width: '100%', maxWidth: 500, height: 'auto', display: 'block' }}
+        style={{ width: '100%', maxWidth: 500, height: 'auto', display: 'block', overflow: 'visible' }}
       >
         <style>{`
           @keyframes nodePulse {

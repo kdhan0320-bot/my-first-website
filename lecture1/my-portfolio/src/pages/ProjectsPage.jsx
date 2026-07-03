@@ -10,7 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { supabase } from '../lib/supabase';
 import { ALL_PROJECTS, FILTER_TABS } from '../data/projectsData';
-import ProjectThumbnailArt, { hasThumbnailArt } from '../components/common/ProjectThumbnailArt';
+import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../components/common/ProjectThumbnailArt';
 
 /* ── Supabase 데이터를 공유 포맷으로 변환 ── */
 const fromSupabase = (row) => ({
@@ -208,11 +208,7 @@ const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
     ) : (
-      <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Typography sx={{ color: 'rgba(255,255,255,0.2)', fontWeight: 800, fontSize: '0.7rem', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-          Project Preview
-        </Typography>
-      </Box>
+      <GenericPreviewArt />
     )}
   </Box>
 );
