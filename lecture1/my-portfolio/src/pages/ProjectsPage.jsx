@@ -193,13 +193,18 @@ const DetailModal = ({ project, open, onClose }) => {
   );
 };
 
+/* 실제 스크린샷 이미지 자체에 여백이 많아 contain만으로는 작게 보이는 항목 — 실제 작업물은 그대로, 빈 여백만 확대로 정리 */
+const THUMB_ZOOM = { gamstagram: 2.3 };
+
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
   <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
-      <Box component="img" src={thumbnailUrl} alt={`${title} 썸네일`} loading="lazy" className="thumb-img"
-        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-        sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease' }} />
+      <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
+        <Box component="img" src={thumbnailUrl} alt={`${title} 썸네일`} loading="lazy" className="thumb-img"
+          onError={(e) => { e.currentTarget.style.display = 'none'; }}
+          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease' }} />
+      </Box>
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
     ) : (

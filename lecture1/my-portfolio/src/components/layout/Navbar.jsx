@@ -180,6 +180,7 @@ const Navbar = () => {
               })}
 
               {/* PDF 포트폴리오 (준비 중) */}
+              {/* TODO: 실제 PDF 파일이 public/ 폴더에 준비되면 disabled 해제하고 href 연결 — 최종 제출 전 반드시 확인 */}
               <Tooltip title="PDF 파일 준비 중입니다. 준비되는 대로 다운로드 링크를 연결할 예정입니다." placement="bottom" arrow>
                 <span>
                   <Button
@@ -328,6 +329,7 @@ const Navbar = () => {
           })}
 
           {/* PDF 포트폴리오 (준비 중) */}
+          {/* TODO: 실제 PDF 파일이 public/ 폴더에 준비되면 disabled 해제하고 href 연결 — 최종 제출 전 반드시 확인 */}
           <ListItem disablePadding>
             <ListItemButton disabled sx={{ pl: 3, minHeight: 52 }} aria-label="PDF 포트폴리오 준비 중">
               <ListItemText
