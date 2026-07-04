@@ -14,7 +14,7 @@ import { useAuth, getRandomProfileAvatar } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes';
 
 const Profile = () => {
-  const { user, profile, signOut, isGuest } = useAuth();
+  const { user, profile, signOut, isGuest, isDemo, guestIdentity } = useAuth();
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,20 +61,24 @@ const Profile = () => {
 
   if (isGuest) {
     const GUEST_INTEREST_TAGS = ['작업기록', '스터디', '모바일UI', 'React'];
+    const displayName = isDemo ? guestIdentity.nickname : '게스트';
+    const displayHandle = isDemo ? guestIdentity.handle : '@guest_user';
+    const displayBio = isDemo ? guestIdentity.bio : '작업 기록과 스터디 활동을 정리하는 UX/UI 학습자입니다.';
+    const displayAvatar = isDemo ? guestIdentity.profile_image_url : getRandomProfileAvatar('게스트');
     return (
       <MainLayout>
         <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
           <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
               <Avatar
-                src={getRandomProfileAvatar('게스트')}
+                src={displayAvatar}
                 sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
               />
               <Box sx={{ flex: 1 }}>
-                <Typography variant="h3" sx={{ mb: 0.5 }}>게스트</Typography>
-                <Typography variant="caption" color="text.secondary">@guest_user</Typography>
+                <Typography variant="h3" sx={{ mb: 0.5 }}>{displayName}</Typography>
+                <Typography variant="caption" color="text.secondary">{displayHandle}</Typography>
                 <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
-                  작업 기록과 스터디 활동을 정리하는 UX/UI 학습자입니다.
+                  {displayBio}
                 </Typography>
               </Box>
             </Box>
@@ -101,7 +105,7 @@ const Profile = () => {
           </Box>
           <Box sx={{ textAlign: 'center', pt: 6, px: 3 }}>
             <Typography variant="body2" color="text.secondary">
-              게스트 모드에서는 프로필 수정이 제한됩니다.
+              {isDemo ? '데모 모드에서는 실제 데이터가 저장되지 않습니다.' : '게스트 모드에서는 프로필 수정이 제한됩니다.'}
             </Typography>
           </Box>
         </Box>

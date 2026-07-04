@@ -20,7 +20,7 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const editPost = location.state?.post;
-  const { user } = useAuth();
+  const { user, isDemo } = useAuth();
 
   const [caption, setCaption] = useState(editPost?.caption || '');
   const [hashtag, setHashtag] = useState(editPost?.hashtag || '');
@@ -29,6 +29,7 @@ const CreatePost = () => {
   const [imageLoading, setImageLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
 
   const refreshImage = () => {
     setImageLoading(true);
@@ -39,6 +40,14 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!caption.trim()) { setError('게시물 내용을 입력해주세요.'); return; }
+
+    if (isDemo) {
+      setError('');
+      setNotice('데모 모드에서는 실제 데이터가 저장되지 않습니다.');
+      setTimeout(() => navigate(ROUTES.HOME), 1200);
+      return;
+    }
+
     if (!user) { setError('로그인이 필요합니다.'); return; }
 
     setSubmitting(true);
@@ -86,6 +95,7 @@ const CreatePost = () => {
 
       <Box component="form" onSubmit={handleSubmit} sx={{ pb: 4 }}>
         {error && <Alert severity="error" sx={{ m: 2, borderRadius: 2 }}>{error}</Alert>}
+        {notice && <Alert severity="info" sx={{ m: 2, borderRadius: 2 }}>{notice}</Alert>}
 
         {/* 이미지 미리보기 */}
         <Box sx={{ position: 'relative' }}>

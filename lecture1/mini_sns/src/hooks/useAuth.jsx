@@ -3,11 +3,21 @@ import { supabase } from '../utils/supabase';
 
 const AuthContext = createContext(null);
 
+export const DEMO_USER = {
+  id: 'demo-user',
+  username: 'demo',
+  nickname: '데모유저',
+  handle: '@demo_user',
+  bio: 'Mini SNS 기능을 체험하기 위한 데모 계정입니다.',
+  profile_image_url: 'https://api.dicebear.com/7.x/initials/svg?seed=%EB%8D%B0%EB%AA%A8%EC%9C%A0%EC%A0%80',
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
+  const [guestIdentity, setGuestIdentity] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession()
@@ -73,11 +83,17 @@ export const AuthProvider = ({ children }) => {
     await supabase.auth.signOut();
   };
 
-  const enterGuestMode = () => setIsGuest(true);
-  const exitGuestMode = () => setIsGuest(false);
+  const enterGuestMode = () => { setGuestIdentity(null); setIsGuest(true); };
+  const enterDemoMode = () => { setGuestIdentity(DEMO_USER); setIsGuest(true); };
+  const exitGuestMode = () => { setIsGuest(false); setGuestIdentity(null); };
+  const isDemo = Boolean(guestIdentity);
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, isGuest, signUp, signIn, signOut, fetchProfile, enterGuestMode, exitGuestMode }}>
+    <AuthContext.Provider value={{
+      user, profile, loading, isGuest, isDemo, guestIdentity,
+      signUp, signIn, signOut, fetchProfile,
+      enterGuestMode, enterDemoMode, exitGuestMode,
+    }}>
       {children}
     </AuthContext.Provider>
   );

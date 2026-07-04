@@ -12,8 +12,9 @@ import { useAuth } from '../../hooks/useAuth';
 import { formatDistanceToNow } from '../../utils/timeFormat';
 
 const GUEST_LIMIT_MESSAGE = '이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.';
+const DEMO_LIMIT_MESSAGE = '데모 모드에서는 실제 데이터가 저장되지 않습니다.';
 
-const CommentModal = ({ open, onClose, postId, isGuest = false, guestComments = [] }) => {
+const CommentModal = ({ open, onClose, postId, isGuest = false, isDemo = false, guestComments = [] }) => {
   const { user, profile } = useAuth();
   const [comments, setComments] = useState([]);
   const [text, setText] = useState('');
@@ -173,7 +174,7 @@ const CommentModal = ({ open, onClose, postId, isGuest = false, guestComments = 
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
         <Alert severity="info" sx={{ width: '100%', borderRadius: 2 }}>
-          {GUEST_LIMIT_MESSAGE}
+          {isDemo ? DEMO_LIMIT_MESSAGE : GUEST_LIMIT_MESSAGE}
         </Alert>
       </Snackbar>
     </Drawer>

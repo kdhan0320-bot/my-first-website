@@ -16,9 +16,10 @@ import { formatDistanceToNow } from '../../utils/timeFormat';
 import CommentModal from './CommentModal';
 
 const GUEST_LIMIT_MESSAGE = '이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.';
+const DEMO_LIMIT_MESSAGE = '데모 모드에서는 실제 데이터가 저장되지 않습니다.';
 
 const PostCard = ({ post, onDelete }) => {
-  const { user, isGuest } = useAuth();
+  const { user, isGuest, isDemo } = useAuth();
   const navigate = useNavigate();
 
   const [liked, setLiked] = useState(post.user_liked || false);
@@ -51,7 +52,7 @@ const PostCard = ({ post, onDelete }) => {
 
   return (
     <>
-      <Card sx={{ mb: 1.5, borderRadius: 0, boxShadow: 'none', borderBottom: '1px solid', borderColor: 'divider' }}>
+      <Card sx={{ mx: 2, mb: 2, borderRadius: 3, overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
         {/* 상단: 프로필 */}
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 1.5, pb: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
@@ -98,14 +99,14 @@ const PostCard = ({ post, onDelete }) => {
         <CardContent sx={{ px: 2, py: 1, '&:last-child': { pb: 1.5 } }}>
           {/* 좋아요 / 댓글 버튼 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-            <IconButton size="small" onClick={handleLike} sx={{ p: 0.5 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
+            <IconButton onClick={handleLike} sx={{ p: 1, m: -1 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
               {liked
                 ? <FavoriteIcon sx={{ color: 'error.main', fontSize: 24 }} />
                 : <FavoriteBorderIcon sx={{ fontSize: 24 }} />
               }
             </IconButton>
             <Typography variant="body2" fontWeight={600}>{likesCount}</Typography>
-            <IconButton size="small" onClick={() => setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }} aria-label="댓글 보기">
+            <IconButton onClick={() => setCommentOpen(true)} sx={{ p: 1, m: -1, ml: 0.5 }} aria-label="댓글 보기">
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
             <Typography variant="body2" color="text.secondary">{post.comments_count || 0}</Typography>
@@ -153,6 +154,7 @@ const PostCard = ({ post, onDelete }) => {
         onClose={() => setCommentOpen(false)}
         postId={post.id}
         isGuest={isGuest}
+        isDemo={isDemo}
         guestComments={post.recent_comments}
       />
 
@@ -226,7 +228,7 @@ const PostCard = ({ post, onDelete }) => {
         sx={{ mb: 8 }}
       >
         <Alert severity="info" sx={{ width: '100%', borderRadius: 2 }}>
-          {GUEST_LIMIT_MESSAGE}
+          {isDemo ? DEMO_LIMIT_MESSAGE : GUEST_LIMIT_MESSAGE}
         </Alert>
       </Snackbar>
     </>

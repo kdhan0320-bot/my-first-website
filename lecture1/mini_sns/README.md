@@ -19,7 +19,7 @@ Portfolio Feedback Hub가 포트폴리오 피드백 게시판이라면, Mini SNS
 ## 주요 기능
 
 - 게스트 모드
-- 테스트 계정 체험 안내
+- 데모 계정 체험
 - 홈 피드
 - 게시글 작성 화면
 - 피드 이미지 확대 모달
@@ -35,15 +35,17 @@ Portfolio Feedback Hub가 포트폴리오 피드백 게시판이라면, Mini SNS
 
 ---
 
-## 테스트 계정
+## 데모 계정
 
-- 화면 입력 아이디: demo
-- 실제 Supabase Auth 이메일: demo@minisns.app
-- 비밀번호: demo1234!
+로그인 화면의 `테스트 계정으로 체험하기` 버튼을 누르면 Supabase 연결 없이 데모 계정으로 주요 화면을 확인할 수 있습니다.
 
-테스트 계정은 Supabase Auth Dashboard에서 직접 생성해야 합니다.
+- 표시 이름: 데모유저
+- 아이디: @demo_user
+- 이메일 표기: demo@minisns.app
 
-테스트 계정 로그인이 실패해도 게스트 모드로 홈 피드, 모임, 채팅, 알림, 프로필 등 주요 화면을 확인할 수 있습니다.
+데모 모드에서는 실제 데이터가 저장되지 않습니다.
+
+Supabase Auth를 실제로 연결하려면 Dashboard에서 `demo@minisns.app` 계정을 별도로 생성해야 합니다.
 
 ---
 
@@ -65,7 +67,7 @@ Portfolio Feedback Hub가 포트폴리오 피드백 게시판이라면, Mini SNS
 
 샘플 게시글, 프로필, 모임, 채팅, 알림은 작업 기록과 스터디 모임 흐름을 보여주기 위해 구성했습니다.
 
-실제 Supabase 프로젝트(profiles/posts/comments/likes/follows 테이블)를 정리하거나 데모 계정을 준비해야 한다면 `supabase/reset-demo-data.sql` 파일을 참고하세요. 모임/채팅/알림 화면은 Supabase 없이 프론트엔드 목(mock) 데이터로 구성되어 있어 별도 DB 세팅이 필요 없습니다. `auth.users` 계정 생성/삭제는 이 저장소의 코드로 자동화하지 않으며, Supabase Dashboard 또는 Admin API에서 직접 처리해야 합니다.
+실제 Supabase 프로젝트(profiles/posts/comments/likes/follows 테이블)를 정리해야 한다면 `supabase/reset-demo-data.sql` 파일을 참고하세요. 모임/채팅/알림 화면은 Supabase 없이 프론트엔드 목(mock) 데이터로 구성되어 있어 별도 DB 세팅이 필요 없습니다. `auth.users` 계정 생성/삭제는 이 저장소의 코드로 자동화하지 않으며, Supabase Dashboard 또는 Admin API에서 직접 처리해야 합니다.
 
 ---
 
@@ -84,4 +86,4 @@ Portfolio Feedback Hub가 포트폴리오 피드백 게시판이라면, Mini SNS
 
 이 프로젝트는 모바일 SNS 앱의 핵심 화면 흐름을 보여주기 위한 데모 프로젝트입니다.
 
-실제 운영 서비스가 아니므로 테스트 계정, 샘플 데이터, 게스트 모드는 시연 목적에 맞게 구성되어 있습니다.
+실제 운영 서비스가 아니므로 데모 계정, 샘플 데이터, 게스트 모드는 시연 목적에 맞게 구성되어 있습니다.

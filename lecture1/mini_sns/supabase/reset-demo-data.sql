@@ -11,6 +11,11 @@
 -- 실행 위치: Supabase Dashboard > SQL Editor
 -- 실행 방식: 아래 두 STEP을 순서대로, 원하는 부분만 골라 실행하세요.
 --
+-- 참고: 로그인 화면의 `테스트 계정으로 체험하기` 버튼은 Supabase Auth를
+--   전혀 호출하지 않는 프론트엔드 전용 데모 모드입니다. 이 스크립트는
+--   그 버튼과 무관하며, 실제 Supabase Auth 계정으로 로그인 가능한
+--   demo@minisns.app 계정을 별도로 준비하고 싶을 때만 참고하세요.
+--
 -- 스키마 참고 사항:
 --   이 프로젝트(ucuwhxsyvagdzersyqrf)는 작성 시점 기준 일시중지(INACTIVE)
 --   상태라 실시간 스키마 조회(list_tables)를 할 수 없었습니다.

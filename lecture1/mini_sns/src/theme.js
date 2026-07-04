@@ -42,10 +42,16 @@ const theme = createTheme({
     button: { fontSize: '0.875rem', fontWeight: 600, textTransform: 'none' },
   },
   spacing: 8,
-  shape: { borderRadius: 16 },
+  shape: { borderRadius: 20 },
   components: {
     MuiCssBaseline: {
-      styleOverrides: { body: { backgroundColor: '#F6F8FB' } },
+      styleOverrides: {
+        body: {
+          backgroundColor: '#F6F8FB',
+          backgroundImage: 'linear-gradient(180deg, #EEF2FF 0%, #F6F8FB 260px)',
+          backgroundRepeat: 'no-repeat',
+        },
+      },
     },
     MuiButton: {
       defaultProps: { disableElevation: true },
@@ -65,7 +71,7 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: 16,
+          borderRadius: 20,
           boxShadow: '0 1px 8px rgba(26,26,46,0.06)',
           border: '1px solid #E0E4EA',
           backgroundImage: 'none',
