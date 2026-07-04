@@ -242,7 +242,12 @@ const PostListPage = () => {
                     onClick={() => navigate('/login')}
                     sx={{ px: 3, py: 1.2, minHeight: 44 }}
                   >
-                    게스트로 둘러보기 / 테스트 계정으로 체험하기
+                    <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                      게스트로 둘러보기 / 테스트 계정으로 체험하기
+                    </Box>
+                    <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                      데모 체험하기
+                    </Box>
                   </Button>
                 )}
               </Box>

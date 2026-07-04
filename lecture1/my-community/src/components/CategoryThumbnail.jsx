@@ -19,12 +19,13 @@ const CategoryThumbnail = ({ category, height = 180 }) => {
         position: 'absolute', width: 64, height: 64, borderRadius: '50%',
         bgcolor: 'rgba(255,255,255,0.10)', bottom: -18, left: -12,
       }} />
-      <Icon sx={{ fontSize: 40, color: 'rgba(255,255,255,0.95)' }} />
+      <Icon sx={{ fontSize: 40, color: '#fff', filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.35))' }} />
       <Typography
         variant="caption"
         sx={{
           position: 'absolute', bottom: 10, left: 12,
-          color: 'rgba(255,255,255,0.9)', fontWeight: 700, letterSpacing: '0.02em', fontSize: '0.68rem',
+          color: '#fff', fontWeight: 700, letterSpacing: '0.02em', fontSize: '0.68rem',
+          textShadow: '0 1px 3px rgba(0,0,0,0.55)',
         }}
       >
         {theme.label}

@@ -112,7 +112,7 @@ const LoginPage = () => {
           테스트 계정으로 체험하기
         </Button>
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 3 }}>
-          데모 계정(demo)으로 실제 로그인 흐름을 체험할 수 있습니다.
+          테스트 계정으로 로그인 후 글쓰기·댓글·좋아요 기능을 체험할 수 있습니다.
         </Typography>
 
         {/* 로그인 폼 */}

@@ -12,7 +12,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['Figma', '포트폴리오', 'UX'],
     category: '포트폴리오 피드백',
     profiles: { username: '디자인러너' },
-    created_at: ago(40),
+    created_at: ago(115),
     like_count: 12, comment_count: 3, view_count: 84, image_url: null, user_id: 'sample',
   },
   {
@@ -32,7 +32,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['포트폴리오', '카피라이팅'],
     category: '포트폴리오 피드백',
     profiles: { username: '웹디자인준비생' },
-    created_at: ago(150),
+    created_at: ago(300),
     like_count: 18, comment_count: 4, view_count: 121, image_url: null, user_id: 'sample',
   },
 
@@ -44,7 +44,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['Figma', '모바일UI', '여백'],
     category: 'Figma',
     profiles: { username: 'Figma유저' },
-    created_at: ago(300),
+    created_at: ago(340),
     like_count: 9, comment_count: 5, view_count: 67, image_url: null, user_id: 'sample',
   },
   {
@@ -54,7 +54,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['Figma', 'AutoLayout', '컴포넌트'],
     category: 'Figma',
     profiles: { username: '디자인시스템러버' },
-    created_at: ago(60),
+    created_at: ago(30),
     like_count: 15, comment_count: 2, view_count: 93, image_url: null, user_id: 'sample',
   },
   {
@@ -64,7 +64,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['Figma', '디자인시스템'],
     category: 'Figma',
     profiles: { username: '컴포넌트장인' },
-    created_at: ago(210),
+    created_at: ago(165),
     like_count: 21, comment_count: 3, view_count: 140, image_url: null, user_id: 'sample',
   },
 
@@ -76,7 +76,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['UXUI', '회원가입', '플로우'],
     category: 'UX/UI',
     profiles: { username: 'UX리서처' },
-    created_at: ago(25),
+    created_at: ago(45),
     like_count: 7, comment_count: 0, view_count: 41, image_url: null, user_id: 'sample',
   },
   {
@@ -86,7 +86,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['UXUI', '검색', '모바일'],
     category: 'UX/UI',
     profiles: { username: '인터랙션디자이너' },
-    created_at: ago(130),
+    created_at: ago(140),
     like_count: 11, comment_count: 2, view_count: 78, image_url: null, user_id: 'sample',
   },
   {
@@ -96,7 +96,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['UXUI', 'CTA'],
     category: 'UX/UI',
     profiles: { username: 'UX졸업준비생' },
-    created_at: ago(340),
+    created_at: ago(385),
     like_count: 19, comment_count: 5, view_count: 165, image_url: null, user_id: 'sample',
   },
 
@@ -108,7 +108,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['포트폴리오', '취업준비', 'UXUI'],
     category: '취업 준비',
     profiles: { username: '취준생모임' },
-    created_at: ago(480),
+    created_at: ago(195),
     like_count: 35, comment_count: 9, view_count: 198, image_url: null, user_id: 'sample',
   },
   {
@@ -118,7 +118,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['취업준비', '체크리스트', '웹디자인'],
     category: '취업 준비',
     profiles: { username: '웹디자인선생' },
-    created_at: ago(720),
+    created_at: ago(435),
     like_count: 67, comment_count: 14, view_count: 412, image_url: null, user_id: 'sample',
   },
   {
@@ -128,7 +128,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['면접', '취업준비'],
     category: '취업 준비',
     profiles: { username: '면접준비중' },
-    created_at: ago(20),
+    created_at: ago(60),
     like_count: 6, comment_count: 0, view_count: 33, image_url: null, user_id: 'sample',
   },
 
@@ -140,7 +140,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['AI-assisted', '포트폴리오', '취업준비'],
     category: 'AI Coding',
     profiles: { username: '김도한_dev' },
-    created_at: ago(90),
+    created_at: ago(225),
     like_count: 28, comment_count: 7, view_count: 156, image_url: null, user_id: 'sample',
   },
   {
@@ -150,7 +150,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['AI-assisted', '이력서', '취업'],
     category: 'AI Coding',
     profiles: { username: 'UX학습자' },
-    created_at: ago(180),
+    created_at: ago(490),
     like_count: 41, comment_count: 12, view_count: 230, image_url: null, user_id: 'sample',
   },
   {
@@ -160,7 +160,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['Supabase', 'AI-assisted'],
     category: 'AI Coding',
     profiles: { username: '풀스택준비생' },
-    created_at: ago(50),
+    created_at: ago(75),
     like_count: 13, comment_count: 1, view_count: 88, image_url: null, user_id: 'sample',
   },
 
@@ -172,7 +172,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['잡담', '작업루틴'],
     category: '자유게시판',
     profiles: { username: '오늘도작업중' },
-    created_at: ago(35),
+    created_at: ago(95),
     like_count: 8, comment_count: 2, view_count: 52, image_url: null, user_id: 'sample',
   },
   {
@@ -182,7 +182,7 @@ export const SAMPLE_POSTS = [
     hashtags: ['잡담', '멘탈관리'],
     category: '자유게시판',
     profiles: { username: '취준생모임' },
-    created_at: ago(400),
+    created_at: ago(550),
     like_count: 24, comment_count: 6, view_count: 187, image_url: null, user_id: 'sample',
   },
   {
@@ -281,10 +281,11 @@ export const getCategoryLabel = (post) => {
 };
 
 // 상태 배지: 댓글 수/카테고리 기반 휴리스틱으로 계산 (DB 스키마 변경 없음).
+// color는 옅은 배경 틴트(`${color}1A`) 위에서도 WCAG AA(4.5:1) 대비를 만족하도록 진한 톤으로 지정한다.
 export const getStatusBadge = (post) => {
   const category = getCategoryLabel(post);
-  if (category === 'AI Coding') return { label: 'AI 활용', color: '#6366F1' };
-  if (category === '취업 준비') return { label: '취업 준비', color: '#2563EB' };
-  if ((post.comment_count ?? 0) === 0) return { label: '피드백 요청중', color: '#F59E0B' };
-  return { label: '답변 완료', color: '#2E7D32' };
+  if (category === 'AI Coding') return { label: 'AI 활용', color: '#4338CA' };
+  if (category === '취업 준비') return { label: '취업 준비', color: '#1D4ED8' };
+  if ((post.comment_count ?? 0) === 0) return { label: '피드백 요청중', color: '#92400E' };
+  return { label: '답변 완료', color: '#1B5E20' };
 };
