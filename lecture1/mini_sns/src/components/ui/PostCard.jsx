@@ -99,14 +99,14 @@ const PostCard = ({ post, onDelete }) => {
         <CardContent sx={{ px: 2, py: 1, '&:last-child': { pb: 1.5 } }}>
           {/* 좋아요 / 댓글 버튼 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-            <IconButton onClick={handleLike} sx={{ p: 1, m: -1 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
+            <IconButton onClick={handleLike} sx={{ p: 1.25, m: -1.25 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
               {liked
                 ? <FavoriteIcon sx={{ color: 'error.main', fontSize: 24 }} />
                 : <FavoriteBorderIcon sx={{ fontSize: 24 }} />
               }
             </IconButton>
             <Typography variant="body2" fontWeight={600}>{likesCount}</Typography>
-            <IconButton onClick={() => setCommentOpen(true)} sx={{ p: 1, m: -1, ml: 0.5 }} aria-label="댓글 보기">
+            <IconButton onClick={() => setCommentOpen(true)} sx={{ p: 1.25, m: -1.25, ml: 0.25 }} aria-label="댓글 보기">
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
             <Typography variant="body2" color="text.secondary">{post.comments_count || 0}</Typography>

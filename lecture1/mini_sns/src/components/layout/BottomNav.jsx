@@ -99,7 +99,7 @@ const BottomNav = () => {
           sx={{
             position: 'absolute', left: '50%', top: '50%',
             transform: 'translate(-50%, -50%)',
-            boxShadow: '0 4px 14px rgba(21,101,192,0.4)', width: 48, height: 48,
+            boxShadow: '0 4px 14px rgba(79,70,229,0.4)', width: 48, height: 48,
           }}
         >
           <Add />

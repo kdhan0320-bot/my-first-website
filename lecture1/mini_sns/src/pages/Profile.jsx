@@ -68,6 +68,12 @@ const Profile = () => {
     return (
       <MainLayout>
         <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
+          <Box sx={{ px: 2, pt: 2.5, pb: 1.5 }}>
+            <Typography variant="h2" sx={{ fontWeight: 800 }}>내 작업 기록</Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+              데모 프로필과 활동 흐름을 확인하세요
+            </Typography>
+          </Box>
           <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
               <Avatar
@@ -126,6 +132,12 @@ const Profile = () => {
   return (
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
+        <Box sx={{ px: 2, pt: 2.5, pb: 1.5 }}>
+          <Typography variant="h2" sx={{ fontWeight: 800 }}>내 작업 기록</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+            프로필과 활동 흐름을 확인하세요
+          </Typography>
+        </Box>
         {/* 프로필 헤더 */}
         <Box
           sx={{

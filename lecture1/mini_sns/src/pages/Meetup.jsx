@@ -131,9 +131,9 @@ const Meetup = () => {
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h3">스터디 · 작업 기록 모임</Typography>
-          <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
-            작업 기록과 스터디 관심사별 모임을 찾아보세요.
+          <Typography variant="h2" sx={{ fontWeight: 800 }}>스터디 모임</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+            관심 있는 모임에 참여하고 채팅방에서 이어가세요
           </Typography>
         </Box>
 

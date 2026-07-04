@@ -148,6 +148,12 @@ const Home = () => {
   return (
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
+        <Box sx={{ px: 2, pt: 2.5, pb: 1.5 }}>
+          <Typography variant="h2" sx={{ fontWeight: 800, color: 'text.primary' }}>작업 피드</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+            오늘의 작업 기록과 스터디 소식을 확인하세요
+          </Typography>
+        </Box>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}>
             <CircularProgress />

@@ -25,24 +25,29 @@ const MainLayout = ({ children }) => {
       <Box sx={{ pt: '56px', pb: '72px', minHeight: '100vh' }}>
         {isGuest && (
           <Box sx={{
-            bgcolor: 'primary.main',
-            px: 2, py: 0.8,
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1.5,
+            mx: 2, mt: 2, mb: 0.5,
+            p: 2.5,
+            borderRadius: 3,
+            background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.10) 100%)',
+            border: '1px solid rgba(99,102,241,0.22)',
           }}>
-            <Typography variant="caption" sx={{ color: '#fff' }}>
-              {isDemo ? '데모 모드로 둘러보는 중이에요' : '게스트 모드로 둘러보는 중이에요'}
+            <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#3730A3', mb: 0.6, lineHeight: 1.4 }}>
+              {isDemo ? '데모 계정으로 둘러보는 중입니다.' : '게스트로 둘러보는 중입니다.'}
+            </Typography>
+            <Typography sx={{ fontSize: '0.85rem', color: '#4C1D95', lineHeight: 1.7, mb: 1.75 }}>
+              실제 데이터는 저장되지 않고, 주요 화면 흐름만 확인할 수 있어요.
             </Typography>
             <Button
+              variant="contained"
               size="small"
-              variant="outlined"
-              sx={{
-                color: '#fff', borderColor: 'rgba(255,255,255,0.6)',
-                py: 0, px: 1.2, fontSize: '0.7rem', minHeight: 24,
-                '&:hover': { bgcolor: 'rgba(255,255,255,0.1)', borderColor: '#fff' },
-              }}
               onClick={() => { exitGuestMode(); navigate(ROUTES.LOGIN); }}
+              sx={{
+                borderRadius: 2, fontSize: '0.8rem', fontWeight: 700, px: 2.5, py: 0.8,
+                background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+                '&:hover': { background: 'linear-gradient(135deg, #4F46E5 0%, #4338CA 100%)' },
+              }}
             >
-              로그인하기
+              로그인 화면으로
             </Button>
           </Box>
         )}

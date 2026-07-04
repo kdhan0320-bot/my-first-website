@@ -56,9 +56,9 @@ const MOCK_NOTIFICATIONS = [
 
 const TYPE_CONFIG = {
   like: { icon: <FavoriteIcon sx={{ fontSize: 12 }} />, color: '#e53935', bg: '#fce4e4' },
-  comment: { icon: <ForumIcon sx={{ fontSize: 12 }} />, color: '#1565c0', bg: '#e3f2fd' },
+  comment: { icon: <ForumIcon sx={{ fontSize: 12 }} />, color: '#4F46E5', bg: '#EEF2FF' },
   follow: { icon: <PersonAddIcon sx={{ fontSize: 12 }} />, color: '#2e7d32', bg: '#e8f5e9' },
-  meetup: { icon: <EventIcon sx={{ fontSize: 12 }} />, color: '#6a1b9a', bg: '#f3e5f5' },
+  meetup: { icon: <EventIcon sx={{ fontSize: 12 }} />, color: '#0891B2', bg: '#ECFEFF' },
 };
 
 const Notifications = () => {
@@ -79,20 +79,25 @@ const Notifications = () => {
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         {/* 헤더 */}
         <Box sx={{
-          px: 2, py: 1.5,
+          px: 2, py: 2,
           bgcolor: 'background.paper',
           borderBottom: '1px solid', borderColor: 'divider',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography variant="h3">알림</Typography>
-            {unreadCount > 0 && (
-              <Chip
-                label={`${unreadCount}개 미읽음`}
-                size="small"
-                sx={{ bgcolor: 'error.main', color: '#fff', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
-              />
-            )}
+          <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography variant="h2" sx={{ fontWeight: 800 }}>활동 알림</Typography>
+              {unreadCount > 0 && (
+                <Chip
+                  label={`${unreadCount}개 미읽음`}
+                  size="small"
+                  sx={{ bgcolor: 'error.main', color: '#fff', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
+                />
+              )}
+            </Box>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+              댓글, 좋아요, 모임 소식을 확인하세요
+            </Typography>
           </Box>
           {unreadCount > 0 && (
             <IconButton size="small" onClick={markAllRead} aria-label="모두 읽음으로 표시">
@@ -111,7 +116,7 @@ const Notifications = () => {
                   onClick={() => markRead(notif.id)}
                   sx={{
                     px: 2, py: 1.5,
-                    bgcolor: notif.read ? 'background.paper' : 'rgba(21,120,170,0.04)',
+                    bgcolor: notif.read ? 'background.paper' : 'rgba(99,102,241,0.06)',
                     cursor: 'pointer',
                     '&:hover': { bgcolor: 'action.hover' },
                     alignItems: 'flex-start',

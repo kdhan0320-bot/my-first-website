@@ -17,125 +17,107 @@ import { ROUTES } from '../constants/routes';
 
 const MiniTab = ({ icon, active }) => (
   <Box sx={{
-    width: 22, height: 22, borderRadius: '50%',
+    width: 30, height: 30, borderRadius: '50%',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    bgcolor: active ? '#2563EB' : 'transparent',
+    bgcolor: active ? '#6366F1' : 'transparent',
     color: active ? '#fff' : '#94A3B8',
   }}>
     {icon}
   </Box>
 );
 
-const AppPreviewMock = () => (
-  <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-    <Box sx={{
-      width: 240,
-      bgcolor: '#FFFFFF',
-      borderRadius: 4,
-      border: '1px solid #E2E8F0',
-      boxShadow: '0 24px 48px -12px rgba(30,58,95,0.28)',
-      overflow: 'hidden',
-    }}>
-      {/* 미니 TopBar */}
-      <Box sx={{
-        bgcolor: '#FFFFFF', px: 1.5, py: 0.9,
-        borderBottom: '1px solid #F1F5F9',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      }}>
+const AppMockup = () => (
+  <Box sx={{
+    width: '100%', maxWidth: 320, mx: 'auto',
+    borderRadius: '32px',
+    p: '10px',
+    background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 55%, #4F46E5 100%)',
+    boxShadow: '0 32px 64px -16px rgba(30,27,75,0.45)',
+  }}>
+    <Box sx={{ borderRadius: '24px', overflow: 'hidden', bgcolor: '#F8FAFC' }}>
+      {/* 상단 헤더 */}
+      <Box sx={{ px: 2.5, py: 2, background: 'linear-gradient(135deg, #4338CA 0%, #6366F1 100%)' }}>
+        <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: '1rem' }}>Worklog Today</Typography>
+        <Typography sx={{ color: '#C7D2FE', fontSize: '0.7rem', mt: 0.2 }}>
+          스터디와 작업 기록을 확인하세요
+        </Typography>
+      </Box>
+
+      {/* 피드 카드 1 */}
+      <Box sx={{ px: 2, pt: 1.5, pb: 1, borderBottom: '1px solid #EEF0FA' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8, mb: 0.8 }}>
+          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=UX러너&backgroundColor=6366F1" sx={{ width: 24, height: 24 }} />
+          <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#0F172A' }}>UX러너</Typography>
+        </Box>
+        <Box sx={{ width: '100%', height: 64, borderRadius: 2, bgcolor: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 0.8 }}>
+          <Typography sx={{ fontSize: '0.7rem', color: '#6366F1', fontWeight: 700 }}>작업 기록</Typography>
+        </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <Box sx={{ width: 16, height: 16, borderRadius: '5px', bgcolor: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <GroupsIcon sx={{ fontSize: '0.55rem', color: '#2563EB' }} />
-          </Box>
-          <Typography sx={{ fontSize: '0.5rem', fontWeight: 800, color: '#0F172A' }}>Mini SNS</Typography>
-        </Box>
-        <Box sx={{ position: 'relative', width: 12, height: 12 }}>
-          <Box sx={{ width: 10, height: 10, borderRadius: '50%', border: '1.4px solid #CBD5E1' }} />
-          <Box sx={{ position: 'absolute', top: -1, right: -1, width: 5, height: 5, borderRadius: '50%', bgcolor: '#EF4444' }} />
+          <FavoriteIcon sx={{ fontSize: 12, color: '#EF4444' }} />
+          <Typography sx={{ fontSize: '0.62rem', fontWeight: 600, color: '#334155' }}>24</Typography>
+          <ForumOutlinedIcon sx={{ fontSize: 12, ml: 0.5, color: '#94A3B8' }} />
+          <Typography sx={{ fontSize: '0.62rem', color: '#94A3B8' }}>6</Typography>
         </Box>
       </Box>
 
-      {/* 게시물 1 */}
-      <Box sx={{ borderBottom: '1px solid #F8FAFC' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, py: 0.6 }}>
-          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=UX러너" sx={{ width: 17, height: 17 }} />
-          <Typography sx={{ fontSize: '0.46rem', fontWeight: 700, color: '#0F172A' }}>UX러너</Typography>
+      {/* 피드 카드 2 */}
+      <Box sx={{ px: 2, pt: 1.5, pb: 1, borderBottom: '1px solid #EEF0FA' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8, mb: 0.8 }}>
+          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=프론트러너&backgroundColor=06B6D4" sx={{ width: 24, height: 24 }} />
+          <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#0F172A' }}>프론트러너</Typography>
         </Box>
-        <Box sx={{ width: '100%', aspectRatio: '16/9', bgcolor: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography sx={{ fontSize: '0.48rem', color: '#60A5FA', fontWeight: 700 }}>작업 기록</Typography>
+        <Box sx={{ width: '100%', height: 64, borderRadius: 2, bgcolor: '#ECFEFF', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 0.8 }}>
+          <Typography sx={{ fontSize: '0.7rem', color: '#06B6D4', fontWeight: 700 }}>채팅 UI</Typography>
         </Box>
-        <Box sx={{ px: 1, py: 0.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-            <FavoriteIcon sx={{ fontSize: 8, color: '#EF4444' }} />
-            <Typography sx={{ fontSize: '0.4rem', fontWeight: 600, color: '#334155' }}>24</Typography>
-            <ForumOutlinedIcon sx={{ fontSize: 8, ml: 0.3, color: '#94A3B8' }} />
-            <Typography sx={{ fontSize: '0.4rem', color: '#94A3B8' }}>6</Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      {/* 게시물 2 */}
-      <Box sx={{ borderBottom: '1px solid #F8FAFC' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, py: 0.6 }}>
-          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=프론트러너" sx={{ width: 17, height: 17 }} />
-          <Typography sx={{ fontSize: '0.46rem', fontWeight: 700, color: '#0F172A' }}>프론트러너</Typography>
-        </Box>
-        <Box sx={{ width: '100%', aspectRatio: '16/9', bgcolor: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography sx={{ fontSize: '0.48rem', color: '#818CF8', fontWeight: 700 }}>채팅 UI</Typography>
-        </Box>
-        <Box sx={{ px: 1, py: 0.5 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
-            <FavoriteIcon sx={{ fontSize: 8, color: '#EF4444' }} />
-            <Typography sx={{ fontSize: '0.4rem', fontWeight: 600, color: '#334155' }}>17</Typography>
-            <ForumOutlinedIcon sx={{ fontSize: 8, ml: 0.3, color: '#94A3B8' }} />
-            <Typography sx={{ fontSize: '0.4rem', color: '#94A3B8' }}>3</Typography>
-          </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+          <FavoriteIcon sx={{ fontSize: 12, color: '#EF4444' }} />
+          <Typography sx={{ fontSize: '0.62rem', fontWeight: 600, color: '#334155' }}>17</Typography>
+          <ForumOutlinedIcon sx={{ fontSize: 12, ml: 0.5, color: '#94A3B8' }} />
+          <Typography sx={{ fontSize: '0.62rem', color: '#94A3B8' }}>3</Typography>
         </Box>
       </Box>
 
       {/* 스터디 모임 카드 */}
-      <Box sx={{ px: 1, py: 0.8, borderBottom: '1px solid #F8FAFC', bgcolor: '#FAFBFF' }}>
-        <Box sx={{
-          border: '1px solid #E0E7FF', borderRadius: 1.5, p: 0.8,
-          bgcolor: '#FFFFFF',
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.4 }}>
-            <Typography sx={{ fontSize: '0.44rem', fontWeight: 800, color: '#0F172A' }}>모바일 UI 스터디</Typography>
-            <Chip label="모집중" size="small" sx={{ height: 12, fontSize: '0.32rem', fontWeight: 700, bgcolor: '#DCFCE7', color: '#16A34A' }} />
+      <Box sx={{ px: 2, py: 1.2, borderBottom: '1px solid #EEF0FA', bgcolor: '#FAFAFF' }}>
+        <Box sx={{ border: '1px solid #E0E7FF', borderRadius: 2.5, p: 1.2, bgcolor: '#fff' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.6 }}>
+            <Typography sx={{ fontSize: '0.72rem', fontWeight: 800, color: '#0F172A' }}>모바일 UI 스터디</Typography>
+            <Chip label="모집중" size="small" sx={{ height: 18, fontSize: '0.58rem', fontWeight: 700, bgcolor: '#DCFCE7', color: '#16A34A' }} />
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3, mb: 0.5 }}>
-            <AccessTimeRoundedIcon sx={{ fontSize: 7, color: '#94A3B8' }} />
-            <Typography sx={{ fontSize: '0.36rem', color: '#94A3B8' }}>매주 수요일 저녁 8시</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4, mb: 0.8 }}>
+            <AccessTimeRoundedIcon sx={{ fontSize: 11, color: '#94A3B8' }} />
+            <Typography sx={{ fontSize: '0.62rem', color: '#94A3B8' }}>매주 수요일 저녁 8시</Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Box sx={{ display: 'flex', gap: -0.2 }}>
+            <Box sx={{ display: 'flex' }}>
               {['a1', 'b2', 'c3'].map((s) => (
-                <Avatar key={s} src={`https://api.dicebear.com/7.x/initials/svg?seed=${s}`} sx={{ width: 12, height: 12, ml: '-3px', border: '1px solid #fff' }} />
+                <Avatar key={s} src={`https://api.dicebear.com/7.x/initials/svg?seed=${s}&backgroundColor=6366F1,06B6D4,4F46E5`} sx={{ width: 18, height: 18, ml: '-4px', border: '1.5px solid #fff' }} />
               ))}
             </Box>
-            <Box sx={{ border: '1px solid #2563EB', borderRadius: 1, px: 0.6, py: 0.15 }}>
-              <Typography sx={{ fontSize: '0.34rem', fontWeight: 700, color: '#2563EB' }}>참가하기</Typography>
+            <Box sx={{ border: '1px solid #6366F1', borderRadius: 1.5, px: 1, py: 0.3 }}>
+              <Typography sx={{ fontSize: '0.6rem', fontWeight: 700, color: '#6366F1' }}>참가하기</Typography>
             </Box>
           </Box>
         </Box>
       </Box>
 
       {/* 채팅 알림 bubble */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.6, px: 1, py: 0.7, bgcolor: '#F8FAFC' }}>
-        <ChatBubbleOutlineIcon sx={{ fontSize: 11, color: '#2563EB' }} />
-        <Typography sx={{ fontSize: '0.4rem', color: '#475569', flex: 1 }}>모임 참가 후 채팅방으로 이동했어요</Typography>
-        <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#EF4444' }} />
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8, px: 2, py: 1.2, bgcolor: '#F8FAFC' }}>
+        <ChatBubbleOutlineIcon sx={{ fontSize: 16, color: '#6366F1' }} />
+        <Typography sx={{ fontSize: '0.64rem', color: '#475569', flex: 1 }}>모임 참가 후 채팅방으로 이동했어요</Typography>
+        <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#EF4444' }} />
       </Box>
 
-      {/* 하단 탭 미니 아이콘 */}
+      {/* 하단 탭 */}
       <Box sx={{
         display: 'flex', justifyContent: 'space-around', alignItems: 'center',
-        px: 1, py: 0.8, borderTop: '1px solid #F1F5F9', bgcolor: '#FFFFFF',
+        px: 1, py: 1, borderTop: '1px solid #EEF0FA', bgcolor: '#FFFFFF',
       }}>
-        <MiniTab icon={<HomeRoundedIcon sx={{ fontSize: 12 }} />} active />
-        <MiniTab icon={<PeopleAltRoundedIcon sx={{ fontSize: 12 }} />} />
-        <MiniTab icon={<AddRoundedIcon sx={{ fontSize: 13 }} />} />
-        <MiniTab icon={<ForumOutlinedIcon sx={{ fontSize: 12 }} />} />
-        <MiniTab icon={<PersonRoundedIcon sx={{ fontSize: 12 }} />} />
+        <MiniTab icon={<HomeRoundedIcon sx={{ fontSize: 16 }} />} active />
+        <MiniTab icon={<PeopleAltRoundedIcon sx={{ fontSize: 16 }} />} />
+        <MiniTab icon={<AddRoundedIcon sx={{ fontSize: 18 }} />} />
+        <MiniTab icon={<ForumOutlinedIcon sx={{ fontSize: 16 }} />} />
+        <MiniTab icon={<PersonRoundedIcon sx={{ fontSize: 16 }} />} />
       </Box>
     </Box>
   </Box>
@@ -178,92 +160,109 @@ const Login = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(160deg, #EEF2FF 0%, #F8FAFC 45%, #ECFEFF 100%)',
-        display: 'flex',
-        justifyContent: 'center',
-        px: { xs: 2.5, md: 4 },
+        background: 'linear-gradient(160deg, #0F172A 0%, #312E81 55%, #4F46E5 100%)',
+        px: { xs: 2.5, md: 5 },
         py: { xs: 4, md: 7 },
       }}
     >
       <Box sx={{
         width: '100%',
-        maxWidth: 1040,
-        display: 'flex',
-        flexDirection: { xs: 'column', md: 'row' },
-        alignItems: { xs: 'stretch', md: 'center' },
-        gap: { xs: 4, md: 8 },
+        maxWidth: 1080,
+        mx: 'auto',
+        display: 'grid',
+        columnGap: { md: 7 },
+        rowGap: 3,
+        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+        gridTemplateAreas: {
+          xs: `"brand" "cta" "mockup" "form"`,
+          md: `"brand mockup" "cta mockup" "form mockup"`,
+        },
+        alignItems: 'start',
       }}>
-        {/* 좌측: 브랜딩 + 소개 + 앱 프리뷰 */}
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' }, textAlign: { xs: 'center', md: 'left' } }}>
+        {/* 브랜드 카피 */}
+        <Box sx={{ gridArea: 'brand', textAlign: { xs: 'center', md: 'left' } }}>
           <Box
             sx={{
-              width: 60, height: 60,
+              width: 56, height: 56,
               borderRadius: '16px',
-              bgcolor: '#EFF6FF',
-              border: '1px solid #DBEAFE',
+              bgcolor: 'rgba(129,140,248,0.16)',
+              border: '1px solid rgba(165,180,252,0.35)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              mb: 2,
+              mb: 2, mx: { xs: 'auto', md: 0 },
             }}
           >
-            <GroupsIcon sx={{ fontSize: 30, color: '#2563EB' }} />
+            <GroupsIcon sx={{ fontSize: 28, color: '#C7D2FE' }} />
           </Box>
-          <Typography sx={{ color: '#0F172A', fontWeight: 800, fontSize: { xs: '1.6rem', md: '2rem' }, letterSpacing: '-0.5px', lineHeight: 1.15, mb: 1 }}>
+          <Typography sx={{ color: '#fff', fontWeight: 800, fontSize: { xs: '1.6rem', md: '2rem' }, letterSpacing: '-0.5px', lineHeight: 1.15, mb: 1 }}>
             Mini SNS
           </Typography>
-          <Typography sx={{ color: '#334155', fontWeight: 600, fontSize: { xs: '0.95rem', md: '1.05rem' }, mb: 1.5, maxWidth: 420 }}>
+          <Typography sx={{ color: '#C7D2FE', fontWeight: 600, fontSize: { xs: '0.95rem', md: '1.05rem' }, mb: 1.5 }}>
             작업 기록과 스터디 모임을 연결하는 모바일 소셜 앱
           </Typography>
-          <Typography variant="body2" sx={{ color: '#64748B', mb: { xs: 4, md: 5 }, maxWidth: 400, lineHeight: 1.7 }}>
-            오늘 작업한 화면을 기록하고, 스터디 모임에 참여하고, 채팅방에서 흐름을 이어가세요.
+          <Typography variant="body2" sx={{ color: '#A5B4C7', lineHeight: 1.8 }}>
+            오늘 작업한 화면을 기록하고,<br />
+            스터디 모임에 참여하고,<br />
+            채팅방에서 흐름을 이어가세요.
           </Typography>
-
-          <AppPreviewMock />
         </Box>
 
-        {/* 우측: CTA + 로그인 폼 */}
-        <Box sx={{ width: '100%', maxWidth: { xs: '100%', md: 380 }, flexShrink: 0 }}>
+        {/* CTA */}
+        <Box sx={{ gridArea: 'cta' }}>
           <Button
             variant="contained"
             fullWidth
             size="large"
-            onClick={handleGuestMode}
-            aria-label="로그인 없이 게스트로 데모 체험하기"
-            sx={{ py: 1.6, borderRadius: 3, fontWeight: 700, fontSize: '1rem', mb: 1.25 }}
+            onClick={handleDemoMode}
+            aria-label="데모 계정으로 체험하기"
+            sx={{
+              py: 1.6, borderRadius: 3, fontWeight: 700, fontSize: '1rem', mb: 1.25,
+              background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+              '&:hover': { background: 'linear-gradient(135deg, #4F46E5 0%, #4338CA 100%)' },
+            }}
           >
-            게스트로 둘러보기
+            데모 계정으로 체험하기
           </Button>
           <Button
             variant="outlined"
             fullWidth
             size="large"
-            onClick={handleDemoMode}
-            aria-label="테스트 계정으로 데모 체험하기"
-            sx={{ py: 1.4, borderRadius: 3, fontWeight: 700, fontSize: '0.95rem', mb: 1 }}
+            onClick={handleGuestMode}
+            aria-label="로그인 없이 게스트로 데모 체험하기"
+            sx={{
+              py: 1.4, borderRadius: 3, fontWeight: 700, fontSize: '0.95rem', mb: 1,
+              color: '#E0E7FF', borderColor: 'rgba(199,210,254,0.5)',
+              '&:hover': { borderColor: '#C7D2FE', bgcolor: 'rgba(199,210,254,0.08)' },
+            }}
           >
-            테스트 계정으로 체험하기
+            게스트로 둘러보기
           </Button>
-          <Typography variant="caption" sx={{ color: '#64748B', display: 'block', textAlign: 'center', mb: 3, lineHeight: 1.6 }}>
+          <Typography variant="caption" sx={{ color: '#A5B4C7', display: 'block', textAlign: 'center', lineHeight: 1.6 }}>
             Supabase 연결 없이 데모 계정으로 주요 화면을 체험할 수 있습니다.
           </Typography>
+        </Box>
 
-          {error && <Alert severity="warning" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>{error}</Alert>}
+        {/* 앱 목업 */}
+        <Box sx={{ gridArea: 'mockup', display: 'flex', alignItems: 'center', justifyContent: 'center', py: { xs: 1, md: 0 } }}>
+          <AppMockup />
+        </Box>
 
-          {/* 로그인 폼 */}
+        {/* 로그인 폼 */}
+        <Box sx={{ gridArea: 'form' }}>
+          {error && <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
           <Box
             component="form"
             onSubmit={handleLogin}
             sx={{
               width: '100%',
-              bgcolor: 'rgba(255,255,255,0.85)',
-              backdropFilter: 'blur(6px)',
+              bgcolor: 'rgba(255,255,255,0.06)',
+              backdropFilter: 'blur(8px)',
               borderRadius: 3,
               p: 3,
-              border: '1px solid #E2E8F0',
-              boxShadow: '0 2px 16px rgba(15,23,42,0.06)',
+              border: '1px solid rgba(199,210,254,0.18)',
             }}
           >
-            <Divider sx={{ mb: 2.5 }}>
-              <Typography variant="caption" sx={{ color: '#94A3B8' }}>계정으로 로그인</Typography>
+            <Divider sx={{ mb: 2.5, borderColor: 'rgba(199,210,254,0.25)' }}>
+              <Typography variant="caption" sx={{ color: '#A5B4C7' }}>계정으로 로그인</Typography>
             </Divider>
 
             <TextField
@@ -272,7 +271,7 @@ const Login = () => {
               fullWidth
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, '& .MuiInputLabel-root': { color: '#A5B4C7' }, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(255,255,255,0.9)' } }}
               autoComplete="username"
               slotProps={{ htmlInput: { 'aria-label': '아이디' } }}
             />
@@ -283,7 +282,7 @@ const Login = () => {
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              sx={{ mb: 2.5 }}
+              sx={{ mb: 2.5, '& .MuiInputLabel-root': { color: '#A5B4C7' }, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(255,255,255,0.9)' } }}
               autoComplete="current-password"
               slotProps={{ htmlInput: { 'aria-label': '비밀번호' } }}
             />
@@ -294,7 +293,11 @@ const Login = () => {
               fullWidth
               size="large"
               disabled={loading}
-              sx={{ mb: 1.5, py: 1.3, borderRadius: 3, fontWeight: 700, fontSize: '0.95rem' }}
+              sx={{
+                mb: 1.5, py: 1.3, borderRadius: 3, fontWeight: 700, fontSize: '0.95rem',
+                color: '#E0E7FF', borderColor: 'rgba(199,210,254,0.5)',
+                '&:hover': { borderColor: '#C7D2FE', bgcolor: 'rgba(199,210,254,0.08)' },
+              }}
             >
               {loading ? <CircularProgress size={22} color="inherit" /> : '로그인'}
             </Button>
@@ -304,7 +307,7 @@ const Login = () => {
               fullWidth
               size="large"
               onClick={() => navigate(ROUTES.SIGNUP)}
-              sx={{ py: 1.2, borderRadius: 3, fontWeight: 600, fontSize: '0.9rem', color: '#64748B' }}
+              sx={{ py: 1.2, borderRadius: 3, fontWeight: 600, fontSize: '0.9rem', color: '#A5B4C7' }}
             >
               회원가입
             </Button>

@@ -99,8 +99,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+const AVATAR_PALETTE = ['6366F1', '4F46E5', '0F172A', '06B6D4', '312E81'].join(',');
+
 export const getRandomProfileAvatar = (seed) =>
-  `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed || Math.random().toString(36).slice(2))}`;
+  `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed || Math.random().toString(36).slice(2))}&backgroundColor=${AVATAR_PALETTE}`;
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

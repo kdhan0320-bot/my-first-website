@@ -51,7 +51,7 @@ const ChatRoom = ({ room, onBack }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 56px - 72px)', bgcolor: '#f0f4ff' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 56px - 72px)', bgcolor: '#F5F3FF' }}>
       {/* 헤더 */}
       <Box sx={{
         display: 'flex', alignItems: 'center', gap: 1.5,
@@ -155,9 +155,9 @@ const Chat = () => {
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h3">채팅</Typography>
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.25 }}>
-            실시간 서버 연동 없이 화면 흐름을 보여주는 프론트엔드 데모입니다.
+          <Typography variant="h2" sx={{ fontWeight: 800 }}>채팅방</Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+            스터디와 작업 흐름을 이어가는 대화 공간
           </Typography>
         </Box>
 
@@ -174,6 +174,7 @@ const Chat = () => {
                   </Badge>
                 </ListItemAvatar>
                 <ListItemText
+                  slotProps={{ secondary: { component: 'div' } }}
                   primary={
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <Typography variant="body2" fontWeight={700}>{room.name}</Typography>

@@ -8,7 +8,11 @@ const TopBar = () => {
   const navigate = useNavigate();
 
   return (
-    <AppBar position="fixed" elevation={0}>
+    <AppBar
+      position="fixed"
+      elevation={0}
+      sx={{ background: 'linear-gradient(135deg, #111827 0%, #312E81 100%)' }}
+    >
       <Toolbar sx={{ justifyContent: 'space-between', minHeight: 56 }}>
 
         {/* 로고 */}
@@ -17,16 +21,16 @@ const TopBar = () => {
             sx={{
               width: 34, height: 34,
               borderRadius: '10px',
-              bgcolor: '#EAF6FC',
+              bgcolor: 'rgba(129,140,248,0.18)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
-            <GroupsIcon sx={{ color: '#1578AA', fontSize: '1.2rem' }} />
+            <GroupsIcon sx={{ color: '#A5B4FC', fontSize: '1.2rem' }} />
           </Box>
           <Box>
             <Typography
               sx={{
-                color: '#1A1A2E',
+                color: '#F8FAFC',
                 fontWeight: 800,
                 fontSize: '1.05rem',
                 letterSpacing: '-0.4px',
@@ -35,7 +39,7 @@ const TopBar = () => {
             >
               Mini SNS
             </Typography>
-            <Typography sx={{ color: '#7F8FA4', fontSize: '0.65rem', lineHeight: 1 }}>
+            <Typography sx={{ color: '#A5B4FC', fontSize: '0.65rem', lineHeight: 1 }}>
               작업 기록 · 스터디 모임
             </Typography>
           </Box>
@@ -44,7 +48,7 @@ const TopBar = () => {
         {/* 알림 버튼 */}
         <IconButton size="small" onClick={() => navigate(ROUTES.NOTIFICATIONS)} aria-label="알림 페이지로 이동">
           <Badge badgeContent={3} color="error" sx={{ '& .MuiBadge-badge': { fontSize: '0.6rem', minWidth: 16, height: 16 } }}>
-            <NotificationsNoneIcon sx={{ color: '#7F8FA4', fontSize: '1.3rem' }} />
+            <NotificationsNoneIcon sx={{ color: '#C7D2FE', fontSize: '1.3rem' }} />
           </Badge>
         </IconButton>
       </Toolbar>
