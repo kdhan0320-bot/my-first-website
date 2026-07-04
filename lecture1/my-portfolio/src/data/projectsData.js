@@ -10,7 +10,7 @@ const BASE = import.meta.env.BASE_URL;
 const THUMB_MAP = {
   jobflow:      `${BASE}jobflow-thumb.svg`,
   'feedback-hub': `${BASE}thumbnails/community-feedback-hub.svg`,
-  gamstagram:   `${BASE}thumbnails/minisns.png`,
+  gamstagram:   `${BASE}thumbnails/minisns-worklog.svg`,
   'ott-service': `${BASE}thumbnails/ott-service.png`,
 };
 

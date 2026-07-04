@@ -194,7 +194,7 @@ const DetailModal = ({ project, open, onClose }) => {
 };
 
 /* 실제 스크린샷 이미지 자체에 여백이 많아 contain만으로는 작게 보이는 항목 — 실제 작업물은 그대로, 빈 여백만 확대로 정리 */
-const THUMB_ZOOM = { gamstagram: 2.3 };
+const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
