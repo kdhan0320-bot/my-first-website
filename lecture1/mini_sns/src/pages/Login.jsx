@@ -29,7 +29,7 @@ const FeedPreview = () => (
           <Box sx={{ width: 16, height: 16, borderRadius: '4px', bgcolor: '#EAF6FC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <SportsEsportsIcon sx={{ fontSize: '0.55rem', color: '#1578AA' }} />
           </Box>
-          <Typography sx={{ fontSize: '0.5rem', fontWeight: 800, color: '#1A1A2E' }}>겜스타그램</Typography>
+          <Typography sx={{ fontSize: '0.5rem', fontWeight: 800, color: '#1A1A2E' }}>Mini SNS</Typography>
         </Box>
         <Box sx={{ width: 10, height: 10, borderRadius: '50%', bgcolor: '#E0E4EA' }} />
       </Box>

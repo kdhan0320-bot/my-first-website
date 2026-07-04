@@ -66,7 +66,7 @@ const Signup = () => {
 
       <Typography variant="h2" sx={{ mb: 1, fontWeight: 700 }}>회원가입</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-        겜스타그램에 오신 것을 환영합니다 🎮
+        Mini SNS에 오신 것을 환영합니다 🎮
       </Typography>
 
       <Box component="form" onSubmit={handleSignup}>

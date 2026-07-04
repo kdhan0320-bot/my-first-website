@@ -33,10 +33,10 @@ const TopBar = () => {
                 lineHeight: 1.1,
               }}
             >
-              겜스타그램
+              Mini SNS
             </Typography>
             <Typography sx={{ color: '#7F8FA4', fontSize: '0.65rem', lineHeight: 1 }}>
-              게임 리뷰 &amp; 모임 SNS
+              관심사 기반 SNS
             </Typography>
           </Box>
         </Box>
