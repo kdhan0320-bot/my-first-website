@@ -51,7 +51,7 @@ const DetailModal = ({ project, open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth scroll="paper"
       aria-labelledby="ppage-detail-title"
-      PaperProps={{ sx: (t) => ({ borderRadius: 3, bgcolor: 'background.paper', border: `1px solid ${t.palette.divider}` }) }}>
+      slotProps={{ paper: { sx: (t) => ({ borderRadius: 3, bgcolor: 'background.paper', border: `1px solid ${t.palette.divider}` }) } }}>
       <DialogTitle id="ppage-detail-title"
         sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
         <Box>
@@ -365,7 +365,7 @@ const ProjectsPage = () => {
         <Box sx={{ mb: 5, borderBottom: '1px solid', borderColor: 'divider' }}>
           <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}
             variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile
-            TabIndicatorProps={{ style: { height: 2 } }}
+            slotProps={{ indicator: { style: { height: 2 } } }}
             sx={{ '& .MuiTab-root': { fontSize: '0.8rem', fontWeight: 600, minHeight: 44, textTransform: 'none', color: 'text.secondary', '&.Mui-selected': { color: 'primary.main' } } }}>
             {FILTER_TABS.map((tab) => <Tab key={tab.value} label={tab.label} value={tab.value} />)}
           </Tabs>

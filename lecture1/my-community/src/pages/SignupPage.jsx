@@ -167,19 +167,21 @@ const SignupPage = () => {
             sx={{ mb: 1 }}
             autoComplete="new-password"
             disabled={usernameStatus !== 'available'}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPw(p => !p)}
-                    edge="end"
-                    disabled={usernameStatus !== 'available'}
-                    aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 표시'}
-                  >
-                    {showPw ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPw(p => !p)}
+                      edge="end"
+                      disabled={usernameStatus !== 'available'}
+                      aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 표시'}
+                    >
+                      {showPw ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
 

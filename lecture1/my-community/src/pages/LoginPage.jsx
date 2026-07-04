@@ -143,7 +143,7 @@ const LoginPage = () => {
             required
             sx={{ mb: 2 }}
             autoComplete="username"
-            inputProps={{ 'aria-label': '아이디' }}
+            slotProps={{ htmlInput: { 'aria-label': '아이디' } }}
           />
           <TextField
             label="비밀번호"
@@ -155,20 +155,22 @@ const LoginPage = () => {
             required
             sx={{ mb: 2.5 }}
             autoComplete="current-password"
-            inputProps={{ 'aria-label': '비밀번호' }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowPw(p => !p)}
-                    edge="end"
-                    size="small"
-                    aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 표시'}
-                  >
-                    {showPw ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+            slotProps={{
+              htmlInput: { 'aria-label': '비밀번호' },
+              input: {
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPw(p => !p)}
+                      edge="end"
+                      size="small"
+                      aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 표시'}
+                    >
+                      {showPw ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              },
             }}
           />
 

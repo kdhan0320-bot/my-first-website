@@ -147,7 +147,7 @@ const ContactSection = () => {
               <circle cx="380" cy="100" r="3" fill="#7C3AED" opacity="0.6" />
             </Box>
 
-            <Grid container spacing={{ xs: 3, md: 4 }} alignItems="center">
+            <Grid container spacing={{ xs: 3, md: 4 }} sx={{ alignItems: 'center' }}>
               {/* 왼쪽: 제목 + 설명 + 연락처 정보 */}
               <Grid size={{ xs: 12, md: 6 }}>
                 <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.4rem' }, mb: 1 }}>

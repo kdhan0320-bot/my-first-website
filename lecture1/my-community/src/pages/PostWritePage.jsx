@@ -112,7 +112,7 @@ const PostWritePage = () => {
             fullWidth
             required
             sx={{ mb: 3 }}
-            inputProps={{ maxLength: 100 }}
+            slotProps={{ htmlInput: { maxLength: 100 } }}
           />
 
           <TextField
@@ -206,7 +206,7 @@ const PostWritePage = () => {
               placeholder="#태그입력"
               size="small"
               disabled={form.hashtags.length >= 5}
-              InputProps={{ startAdornment: <Tag sx={{ color: 'text.disabled', mr: 0.5, fontSize: 18 }} /> }}
+              slotProps={{ input: { startAdornment: <Tag sx={{ color: 'text.disabled', mr: 0.5, fontSize: 18 }} /> } }}
             />
           </Box>
         </Paper>

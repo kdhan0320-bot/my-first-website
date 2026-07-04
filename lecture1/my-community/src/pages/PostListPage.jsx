@@ -312,10 +312,12 @@ const PostListPage = () => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           size="small"
-          inputProps={{ 'aria-label': '게시글 검색' }}
           sx={{ mb: 2, '& .MuiOutlinedInput-root': { bgcolor: 'background.paper', borderRadius: 2, fontSize: '0.95rem' } }}
-          InputProps={{
-            startAdornment: <InputAdornment position="start"><Search sx={{ color: 'text.disabled', fontSize: 22 }} /></InputAdornment>,
+          slotProps={{
+            htmlInput: { 'aria-label': '게시글 검색' },
+            input: {
+              startAdornment: <InputAdornment position="start"><Search sx={{ color: 'text.disabled', fontSize: 22 }} /></InputAdornment>,
+            },
           }}
         />
 

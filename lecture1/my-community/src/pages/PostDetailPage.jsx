@@ -244,7 +244,7 @@ const ConfirmDialog = ({ open, title, description, onConfirm, onClose }) => (
 const PostDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user, isGuest } = useAuth();
+  const { user } = useAuth();
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -532,7 +532,7 @@ const PostDetailPage = () => {
             댓글 {comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0)}개
           </Typography>
 
-          {isGuest ? (
+          {!user ? (
             <Alert severity="info" sx={{ mb: 3 }}>
               댓글을 작성하려면 로그인이 필요합니다.
             </Alert>
