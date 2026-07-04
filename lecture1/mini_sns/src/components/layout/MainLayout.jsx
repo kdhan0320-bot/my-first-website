@@ -7,7 +7,7 @@ import BottomNav from './BottomNav';
 import { useAuth } from '../../hooks/useAuth';
 import { ROUTES } from '../../constants/routes';
 
-const MainLayout = ({ children }) => {
+const MainLayout = ({ children, hideGuestBanner = false }) => {
   const navigate = useNavigate();
   const { isGuest, isDemo, exitGuestMode } = useAuth();
 
@@ -22,8 +22,8 @@ const MainLayout = ({ children }) => {
       }}
     >
       <TopBar />
-      <Box sx={{ pt: '56px', pb: '72px', minHeight: '100vh' }}>
-        {isGuest && (
+      <Box sx={{ pt: '56px', pb: 'calc(76px + env(safe-area-inset-bottom))', minHeight: '100vh' }}>
+        {isGuest && !hideGuestBanner && (
           <Box sx={{
             mx: 2, mt: 2, mb: 0.5,
             p: 2.5,

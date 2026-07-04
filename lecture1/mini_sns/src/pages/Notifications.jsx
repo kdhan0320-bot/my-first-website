@@ -9,6 +9,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import EventIcon from '@mui/icons-material/Event';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import MainLayout from '../components/layout/MainLayout';
+import { heroSurfaceSx } from '../components/layout/PageHeroHeader';
 import { getRandomProfileAvatar } from '../hooks/useAuth';
 import sampleCardUi from '../assets/samples/sample-card-ui.svg';
 import sampleStudy from '../assets/samples/sample-study.svg';
@@ -76,31 +77,31 @@ const Notifications = () => {
 
   return (
     <MainLayout>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100%', ...heroSurfaceSx }}>
         {/* 헤더 */}
         <Box sx={{
-          px: 2, py: 2,
-          bgcolor: 'background.paper',
-          borderBottom: '1px solid', borderColor: 'divider',
+          px: 2, py: 2.75,
+          background: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #4F46E5 100%)',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
         }}>
           <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography variant="h2" sx={{ fontWeight: 800 }}>활동 알림</Typography>
+              <Typography variant="h2" sx={{ fontWeight: 800, color: '#fff' }}>활동 알림</Typography>
               {unreadCount > 0 && (
                 <Chip
-                  label={`${unreadCount}개 미읽음`}
+                  label={`새 알림 ${unreadCount}개`}
                   size="small"
                   sx={{ bgcolor: 'error.main', color: '#fff', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
                 />
               )}
             </Box>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+            <Typography variant="body2" sx={{ color: '#C7D2FE', mt: 0.3 }}>
               댓글, 좋아요, 모임 소식을 확인하세요
             </Typography>
           </Box>
           {unreadCount > 0 && (
-            <IconButton size="small" onClick={markAllRead} aria-label="모두 읽음으로 표시">
+            <IconButton size="small" onClick={markAllRead} aria-label="모두 읽음으로 표시" sx={{ color: '#E0E7FF' }}>
               <DoneAllIcon fontSize="small" />
             </IconButton>
           )}

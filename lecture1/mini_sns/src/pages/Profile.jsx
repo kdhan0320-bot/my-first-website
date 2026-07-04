@@ -7,6 +7,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MainLayout from '../components/layout/MainLayout';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
 import PostCard from '../components/ui/PostCard';
 import { supabase } from '../utils/supabase';
 import sampleFallback from '../assets/samples/sample-fallback.svg';
@@ -67,13 +68,17 @@ const Profile = () => {
     const displayAvatar = isDemo ? guestIdentity.profile_image_url : getRandomProfileAvatar('게스트');
     return (
       <MainLayout>
-        <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
-          <Box sx={{ px: 2, pt: 2.5, pb: 1.5 }}>
-            <Typography variant="h2" sx={{ fontWeight: 800 }}>내 작업 기록</Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
-              데모 프로필과 활동 흐름을 확인하세요
-            </Typography>
-          </Box>
+        <Box sx={{ bgcolor: 'background.default', minHeight: '100%', ...heroSurfaceSx }}>
+          <PageHeroHeader
+            title="내 작업 기록"
+            subtitle="데모 프로필과 활동 흐름을 확인하세요"
+            chips={
+              <>
+                <Chip label="데모 프로필" size="small" sx={heroChipSx} />
+                <Chip label="활동 요약" size="small" sx={heroChipSx} />
+              </>
+            }
+          />
           <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
               <Avatar
@@ -131,13 +136,17 @@ const Profile = () => {
 
   return (
     <MainLayout>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
-        <Box sx={{ px: 2, pt: 2.5, pb: 1.5 }}>
-          <Typography variant="h2" sx={{ fontWeight: 800 }}>내 작업 기록</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
-            프로필과 활동 흐름을 확인하세요
-          </Typography>
-        </Box>
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100%', ...heroSurfaceSx }}>
+        <PageHeroHeader
+          title="내 작업 기록"
+          subtitle="프로필과 활동 흐름을 확인하세요"
+          chips={
+            <>
+              <Chip label={`게시물 ${posts.length}개`} size="small" sx={heroChipSx} />
+              <Chip label="활동 요약" size="small" sx={heroChipSx} />
+            </>
+          }
+        />
         {/* 프로필 헤더 */}
         <Box
           sx={{

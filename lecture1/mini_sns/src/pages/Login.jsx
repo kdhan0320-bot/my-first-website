@@ -169,51 +169,51 @@ const Login = () => {
     >
       {/* 은은한 배경 blob 애니메이션 */}
       <Box aria-hidden sx={{
-        position: 'absolute', top: '-10%', left: '-8%', width: 380, height: 380,
+        position: 'absolute', top: '-12%', left: '-10%', width: 420, height: 420,
         borderRadius: '50%', pointerEvents: 'none',
         background: 'radial-gradient(circle, #818CF8 0%, transparent 70%)',
-        opacity: 0.22, filter: 'blur(10px)',
+        opacity: 0.3, filter: 'blur(60px)',
         '@keyframes blobFloatA': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(40px, 30px) scale(1.08)' },
+          '50%': { transform: 'translate(70px, 55px) scale(1.12)' },
         },
-        animation: 'blobFloatA 16s ease-in-out infinite',
+        animation: 'blobFloatA 18s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
       <Box aria-hidden sx={{
-        position: 'absolute', bottom: '-12%', right: '-6%', width: 420, height: 420,
+        position: 'absolute', bottom: '-14%', right: '-8%', width: 420, height: 420,
         borderRadius: '50%', pointerEvents: 'none',
         background: 'radial-gradient(circle, #06B6D4 0%, transparent 70%)',
-        opacity: 0.18, filter: 'blur(10px)',
+        opacity: 0.26, filter: 'blur(60px)',
         '@keyframes blobFloatB': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(-30px, -40px) scale(1.1)' },
+          '50%': { transform: 'translate(-60px, -70px) scale(1.15)' },
         },
-        animation: 'blobFloatB 18s ease-in-out infinite',
+        animation: 'blobFloatB 20s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
       <Box aria-hidden sx={{
-        position: 'absolute', top: '35%', left: '48%', width: 300, height: 300,
+        position: 'absolute', top: '32%', left: '46%', width: 320, height: 320,
         borderRadius: '50%', pointerEvents: 'none',
         background: 'radial-gradient(circle, #4F46E5 0%, transparent 70%)',
-        opacity: 0.2, filter: 'blur(10px)',
+        opacity: 0.28, filter: 'blur(60px)',
         '@keyframes blobFloatC': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(20px, -25px) scale(1.06)' },
+          '50%': { transform: 'translate(50px, -60px) scale(1.1)' },
         },
-        animation: 'blobFloatC 14s ease-in-out infinite',
+        animation: 'blobFloatC 15s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
 
       <Box sx={{
         position: 'relative', zIndex: 1,
         width: '100%',
-        maxWidth: 1080,
+        maxWidth: 1200,
         mx: 'auto',
         display: 'grid',
-        columnGap: { md: 6 },
+        columnGap: { md: 8 },
         rowGap: 3,
-        gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1fr) minmax(380px, 460px)' },
         gridTemplateAreas: {
           xs: `"brand" "cta" "mockup" "form"`,
           md: `"brand mockup" "cta mockup" "form mockup"`,

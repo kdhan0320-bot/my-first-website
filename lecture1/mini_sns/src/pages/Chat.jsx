@@ -8,6 +8,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
 import MainLayout from '../components/layout/MainLayout';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
 import { ROUTES } from '../constants/routes';
 import { getRandomProfileAvatar } from '../hooks/useAuth';
 
@@ -51,7 +52,7 @@ const ChatRoom = ({ room, onBack }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 56px - 72px)', bgcolor: '#F5F3FF' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 56px - 76px - env(safe-area-inset-bottom))', bgcolor: '#F5F3FF' }}>
       {/* 헤더 */}
       <Box sx={{
         display: 'flex', alignItems: 'center', gap: 1.5,
@@ -145,7 +146,7 @@ const Chat = () => {
 
   if (selectedRoom) {
     return (
-      <MainLayout>
+      <MainLayout hideGuestBanner>
         <ChatRoom room={selectedRoom} onBack={handleBack} />
       </MainLayout>
     );
@@ -153,13 +154,21 @@ const Chat = () => {
 
   return (
     <MainLayout>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
-        <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h2" sx={{ fontWeight: 800 }}>채팅방</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
-            스터디와 작업 흐름을 이어가는 대화 공간
-          </Typography>
-        </Box>
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100%', ...heroSurfaceSx }}>
+        <PageHeroHeader
+          title="채팅방"
+          subtitle="스터디와 작업 흐름을 이어가는 대화 공간"
+          chips={
+            <>
+              <Chip label="데모 대화" size="small" sx={heroChipSx} />
+              <Chip
+                label={`읽지 않음 ${MOCK_ROOMS.reduce((sum, r) => sum + r.unread, 0)}개`}
+                size="small"
+                sx={{ bgcolor: 'rgba(248,113,113,0.22)', color: '#FEE2E2', fontWeight: 600, fontSize: '0.68rem', border: '1px solid rgba(254,226,226,0.3)' }}
+              />
+            </>
+          }
+        />
 
         <List sx={{ p: 0, bgcolor: 'background.paper' }}>
           {MOCK_ROOMS.map((room, idx) => (

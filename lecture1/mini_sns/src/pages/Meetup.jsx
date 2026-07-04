@@ -10,6 +10,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import MainLayout from '../components/layout/MainLayout';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
 import { chatRoomPath } from '../constants/routes';
 import { getRandomProfileAvatar } from '../hooks/useAuth';
 
@@ -129,13 +130,17 @@ const Meetup = () => {
 
   return (
     <MainLayout>
-      <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
-        <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h2" sx={{ fontWeight: 800 }}>스터디 모임</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
-            관심 있는 모임에 참여하고 채팅방에서 이어가세요
-          </Typography>
-        </Box>
+      <Box sx={{ bgcolor: 'background.default', minHeight: '100%', ...heroSurfaceSx }}>
+        <PageHeroHeader
+          title="스터디 모임"
+          subtitle="관심 있는 모임에 참여하고 채팅방에서 이어가세요"
+          chips={
+            <>
+              <Chip label={`모임 ${meetups.length}개`} size="small" sx={heroChipSx} />
+              <Chip label="채팅 연결" size="small" sx={heroChipSx} />
+            </>
+          }
+        />
 
         <Box sx={{ pt: 2 }}>
           {meetups.map((meetup) => (

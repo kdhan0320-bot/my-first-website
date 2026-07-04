@@ -54,9 +54,9 @@ const PostCard = ({ post, onDelete }) => {
     <>
       <Card sx={{ mx: 2, mb: 2, borderRadius: '22px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
         {/* 상단: 프로필 */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 1.5, pb: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <Avatar src={post.profiles?.profile_image_url} sx={{ width: 40, height: 40 }} />
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 1.25, pb: 0.85 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+            <Avatar src={post.profiles?.profile_image_url} sx={{ width: 36, height: 36 }} />
             <Box>
               <Typography variant="body2" fontWeight={700}>{post.profiles?.nickname}</Typography>
               {post.location && (
@@ -96,7 +96,7 @@ const PostCard = ({ post, onDelete }) => {
         />
 
         {/* 하단: 반응 */}
-        <CardContent sx={{ px: 2, py: 1, '&:last-child': { pb: 1.5 } }}>
+        <CardContent sx={{ px: 2, py: 1.25, '&:last-child': { pb: 1.75 } }}>
           {/* 좋아요 / 댓글 버튼 */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
             <IconButton onClick={handleLike} sx={{ p: 1.25, m: -1.25 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
@@ -113,22 +113,22 @@ const PostCard = ({ post, onDelete }) => {
           </Box>
 
           {/* 캡션 */}
-          <Box sx={{ mb: 0.5 }}>
+          <Box sx={{ mb: 0.75 }}>
             <Typography component="span" variant="body2" fontWeight={700} sx={{ mr: 1 }}>
               {post.profiles?.nickname}
             </Typography>
-            <Typography component="span" variant="body2">{post.caption}</Typography>
+            <Typography component="span" variant="body2" sx={{ lineHeight: 1.55 }}>{post.caption}</Typography>
           </Box>
 
           {/* 해시태그 */}
           {post.hashtag && (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 0.5 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 0.75 }}>
               {post.hashtag.split(/\s+/).filter(Boolean).map((tag, i) => (
                 <Chip
                   key={i}
                   label={tag.startsWith('#') ? tag : `#${tag}`}
                   size="small"
-                  sx={{ bgcolor: 'secondary.light', color: 'primary.dark', fontSize: '0.7rem', height: 22 }}
+                  sx={{ bgcolor: 'secondary.main', color: 'primary.dark', fontWeight: 500, fontSize: '0.68rem', height: 20 }}
                 />
               ))}
             </Box>
@@ -136,14 +136,14 @@ const PostCard = ({ post, onDelete }) => {
 
           {/* 최근 댓글 2개 */}
           {post.recent_comments?.slice(0, 2).map((c) => (
-            <Box key={c.id} sx={{ display: 'flex', gap: 0.5 }}>
+            <Box key={c.id} sx={{ display: 'flex', gap: 0.6, mb: 0.3 }}>
               <Typography variant="caption" fontWeight={700}>{c.profiles?.nickname}</Typography>
-              <Typography variant="caption" color="text.secondary" noWrap>{c.content}</Typography>
+              <Typography variant="caption" color="text.secondary" noWrap sx={{ lineHeight: 1.5 }}>{c.content}</Typography>
             </Box>
           ))}
 
           {/* 시간 */}
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.6 }}>
             {formatDistanceToNow(post.created_at)}
           </Typography>
         </CardContent>
