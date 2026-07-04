@@ -221,7 +221,7 @@ export const fallbackProjects = [
   },
   {
     id: 'feedback-hub',
-    title: 'my-community',
+    title: 'Portfolio Feedback Hub',
     description: '포트폴리오 피드백과 취업 준비 정보를 공유할 수 있는 게시판형 커뮤니티 웹앱 프로젝트입니다.',
     category: 'AI 도구 활용 커뮤니티',
     categories: ['ai'],
@@ -251,9 +251,9 @@ export const fallbackProjects = [
     process: '화면 구조 설계 → 라우팅 및 인증 흐름 구성 → Claude 코딩 보조 → 게스트 접근성 개선 → 샘플 데이터 구성 → GitHub Pages 배포',
     result: '게시글 목록/상세/작성/수정 CRUD 구현, 카테고리 필터, 검색, 댓글/대댓글 기능, 게스트 모드 및 로그인 없이 목록/상세 접근 구조 완료.',
     lesson: '포트폴리오용 데모에서는 방문자가 로그인 없이 핵심 화면을 확인할 수 있어야 접근성이 높아진다는 점을 배웠습니다.',
-    nextStep: '실제 인증, 데이터베이스 연동, 댓글/좋아요 저장, 이미지 첨부 기능을 추후 보완할 수 있습니다.',
+    nextStep: 'Supabase Storage 기반 실제 이미지 업로드, 마이페이지, 알림 기능을 추후 보완할 수 있습니다.',
     aiContribution: 'Claude를 활용해 라우팅 구조, 게시판 UI, 게시글 목록/상세/작성 흐름 구현을 보조받았습니다. 단순히 AI가 만든 코드를 그대로 사용하는 것이 아니라, 포트폴리오 목적에 맞게 게스트 접근성, 정보 구조, 문구를 직접 정리하며 개선했습니다.',
-    limitation: '현재는 학습 목적의 프론트엔드 데모 프로젝트이며, 실제 백엔드 서버, 실시간 데이터베이스, 실제 파일 업로드 기능은 제한적입니다. 추후 실제 인증, 데이터베이스 연동, 댓글/좋아요 저장, 이미지 첨부 기능을 보완할 수 있습니다.',
+    limitation: 'Supabase Auth와 PostgreSQL을 연동해 실제 로그인/회원가입과 게시글 CRUD가 동작하지만, 이미지 업로드는 Storage 연동 없이 랜덤 이미지로 대체되어 있습니다. 테스트 계정 로그인은 배포 환경의 Supabase Auth 등록 상태에 따라 달라질 수 있습니다.',
   },
   {
     id: 'gamstagram',
