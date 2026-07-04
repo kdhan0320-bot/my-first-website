@@ -11,6 +11,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes';
 
@@ -75,18 +76,46 @@ const AppPreviewMock = () => (
       {/* 게시물 2 */}
       <Box sx={{ borderBottom: '1px solid #F8FAFC' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, py: 0.6 }}>
-          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=스터디메이트" sx={{ width: 17, height: 17 }} />
-          <Typography sx={{ fontSize: '0.46rem', fontWeight: 700, color: '#0F172A' }}>스터디메이트</Typography>
+          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=프론트러너" sx={{ width: 17, height: 17 }} />
+          <Typography sx={{ fontSize: '0.46rem', fontWeight: 700, color: '#0F172A' }}>프론트러너</Typography>
         </Box>
-        <Box sx={{ width: '100%', aspectRatio: '16/9', bgcolor: '#F0FDFA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Typography sx={{ fontSize: '0.48rem', color: '#2DD4BF', fontWeight: 700 }}>스터디 모집</Typography>
+        <Box sx={{ width: '100%', aspectRatio: '16/9', bgcolor: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography sx={{ fontSize: '0.48rem', color: '#818CF8', fontWeight: 700 }}>채팅 UI</Typography>
         </Box>
-        <Box sx={{ px: 1, py: 0.5, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ px: 1, py: 0.5 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4 }}>
             <FavoriteIcon sx={{ fontSize: 8, color: '#EF4444' }} />
             <Typography sx={{ fontSize: '0.4rem', fontWeight: 600, color: '#334155' }}>17</Typography>
+            <ForumOutlinedIcon sx={{ fontSize: 8, ml: 0.3, color: '#94A3B8' }} />
+            <Typography sx={{ fontSize: '0.4rem', color: '#94A3B8' }}>3</Typography>
           </Box>
-          <Chip label="모바일 UI 스터디" size="small" sx={{ height: 14, fontSize: '0.36rem', fontWeight: 700, bgcolor: '#EFF6FF', color: '#2563EB' }} />
+        </Box>
+      </Box>
+
+      {/* 스터디 모임 카드 */}
+      <Box sx={{ px: 1, py: 0.8, borderBottom: '1px solid #F8FAFC', bgcolor: '#FAFBFF' }}>
+        <Box sx={{
+          border: '1px solid #E0E7FF', borderRadius: 1.5, p: 0.8,
+          bgcolor: '#FFFFFF',
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 0.4 }}>
+            <Typography sx={{ fontSize: '0.44rem', fontWeight: 800, color: '#0F172A' }}>모바일 UI 스터디</Typography>
+            <Chip label="모집중" size="small" sx={{ height: 12, fontSize: '0.32rem', fontWeight: 700, bgcolor: '#DCFCE7', color: '#16A34A' }} />
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.3, mb: 0.5 }}>
+            <AccessTimeRoundedIcon sx={{ fontSize: 7, color: '#94A3B8' }} />
+            <Typography sx={{ fontSize: '0.36rem', color: '#94A3B8' }}>매주 수요일 저녁 8시</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', gap: -0.2 }}>
+              {['a1', 'b2', 'c3'].map((s) => (
+                <Avatar key={s} src={`https://api.dicebear.com/7.x/initials/svg?seed=${s}`} sx={{ width: 12, height: 12, ml: '-3px', border: '1px solid #fff' }} />
+              ))}
+            </Box>
+            <Box sx={{ border: '1px solid #2563EB', borderRadius: 1, px: 0.6, py: 0.15 }}>
+              <Typography sx={{ fontSize: '0.34rem', fontWeight: 700, color: '#2563EB' }}>참가하기</Typography>
+            </Box>
+          </Box>
         </Box>
       </Box>
 
