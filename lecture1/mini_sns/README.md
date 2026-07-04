@@ -48,6 +48,14 @@
 
 ---
 
+## Supabase 데모 데이터 세팅
+
+- 실제 Supabase 프로젝트(profiles/posts/comments/likes/follows 테이블)를 정리하거나 데모 계정을 준비해야 한다면 `supabase/reset-demo-data.sql` 파일을 참고하세요.
+- 모임/채팅/알림 화면은 Supabase 없이 프론트엔드 목(mock) 데이터로 구성되어 있어 별도 DB 세팅이 필요 없습니다.
+- `auth.users` 계정 생성/삭제는 이 저장소의 코드로 자동화하지 않으며, Supabase Dashboard 또는 Admin API에서 직접 처리해야 합니다.
+
+---
+
 ## UX/UI 포인트
 
 - 게스트 모드 / 테스트 계정으로 체험 진입 장벽 완화 — 로그인 없이도 피드 탐색 가능
@@ -95,3 +103,11 @@ npx gh-pages -d dist --dest mini-sns -r https://github.com/kdhan0320-bot/my-firs
 - **React Router v7** — HashRouter 기반 SPA 라우팅 (GitHub Pages 호환)
 - **Supabase** — 회원가입·로그인, 게시글·댓글·좋아요 데이터 연동
 - **HashRouter** — 새로고침 후에도 라우팅 유지
+
+---
+
+## 참고 사항
+
+이 프로젝트는 취업용 포트폴리오에 포함하기 위한 데모 프로젝트입니다.
+
+실제 운영 서비스가 아니므로 테스트 계정, 샘플 데이터, 게스트 모드는 시연 목적에 맞게 구성되어 있습니다.

@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signUp = async (username, nickname, password) => {
-    const email = `${username}@gamestagram.app`;
+    const email = `${username}@minisns.app`;
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
 
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = async (username, password) => {
-    const email = `${username}@gamestagram.app`;
+    const email = `${username}@minisns.app`;
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     return data;

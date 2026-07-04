@@ -9,6 +9,7 @@ import sampleCardUi from '../assets/samples/sample-card-ui.svg';
 import sampleStudy from '../assets/samples/sample-study.svg';
 import sampleChatUx from '../assets/samples/sample-chat-ux.svg';
 import sampleProfileUi from '../assets/samples/sample-profile-ui.svg';
+import sampleFlowUi from '../assets/samples/sample-flow-ui.svg';
 
 const GUEST_POSTS = [
   {
@@ -67,6 +68,20 @@ const GUEST_POSTS = [
       { id: 'c6', profiles: { nickname: '프론트러너' }, content: '이니셜 아바타 톤이 잘 어울려요.' },
     ],
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+    location: null,
+  },
+  {
+    id: 'guest-5',
+    user_id: 'guest',
+    profiles: { nickname: '모바일UX', profile_image_url: getRandomProfileAvatar('모바일UX') },
+    image_url: sampleFlowUi,
+    caption: '모임 참가 후 채팅방으로 이동하는 흐름을 연결했습니다. 화면 간 목적이 더 분명해졌어요.',
+    hashtag: '#사용자흐름 #모임 #채팅',
+    likes_count: 12, comments_count: 4, user_liked: false,
+    recent_comments: [
+      { id: 'c7', profiles: { nickname: 'UX러너' }, content: '모임에서 바로 채팅으로 넘어가니 훨씬 자연스러워요.' },
+    ],
+    created_at: new Date(Date.now() - 1000 * 60 * 60 * 8).toISOString(),
     location: null,
   },
 ];
