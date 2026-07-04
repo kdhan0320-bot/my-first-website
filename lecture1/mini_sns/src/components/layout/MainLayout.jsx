@@ -91,82 +91,76 @@ const MainLayout = ({ children, hideGuestBanner = false }) => {
         )}
         {children}
 
-        {/* 포트폴리오용 안내 푸터 (compact) */}
-        <Box sx={{ px: 2, pt: 1.5, pb: 1.5 }}>
-          <Box
-            sx={{
-              p: "14px",
-              borderRadius: "14px",
-              border: "1px solid",
-              borderColor: "divider",
-              bgcolor: "background.paper",
-            }}
+        {/* 프로젝트 링크 utility row (compact) */}
+        <Box
+          sx={{
+            px: 2,
+            pt: 1.25,
+            pb: 1.25,
+            mt: 0.5,
+            borderTop: "1px solid",
+            borderColor: "divider",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{ display: "block", color: "text.disabled", mb: 0.75 }}
           >
-            <Typography
-              variant="caption"
+            Mini SNS · 모바일 작업 커뮤니티 데모
+          </Typography>
+          <Box sx={{ display: "flex", gap: 0.75 }}>
+            <Button
+              component="a"
+              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/mini_sns"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+              size="small"
+              startIcon={<GitHubIcon sx={{ fontSize: 15 }} />}
               sx={{
-                display: "block",
-                color: "text.disabled",
-                lineHeight: 1.5,
-                mb: 1,
+                flex: 1,
+                minHeight: "42px",
+                justifyContent: "flex-start",
+                borderRadius: "10px",
+                color: "text.secondary",
+                borderColor: "divider",
+                fontSize: "0.7rem",
+                px: 1.25,
+                "&:hover": {
+                  color: "primary.main",
+                  borderColor: "primary.main",
+                  bgcolor: "transparent",
+                },
               }}
             >
-              AI-assisted Social App · 학습 목적의 프론트엔드 SNS 프로젝트
-            </Typography>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Button
-                component="a"
-                href="https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/mini_sns"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outlined"
-                size="small"
-                startIcon={<GitHubIcon sx={{ fontSize: 15 }} />}
-                sx={{
-                  flex: 1,
-                  minHeight: "44px",
-                  justifyContent: "flex-start",
-                  borderRadius: "10px",
-                  color: "text.secondary",
-                  borderColor: "divider",
-                  fontSize: "0.7rem",
-                  px: 1.25,
-                  "&:hover": {
-                    color: "primary.main",
-                    borderColor: "primary.main",
-                    bgcolor: "transparent",
-                  },
-                }}
-              >
-                GitHub 저장소
-              </Button>
-              <Button
-                component="a"
-                href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="outlined"
-                size="small"
-                startIcon={<WorkOutlineIcon sx={{ fontSize: 15 }} />}
-                sx={{
-                  flex: 1,
-                  minHeight: "44px",
-                  justifyContent: "flex-start",
-                  borderRadius: "10px",
-                  color: "text.secondary",
-                  borderColor: "divider",
-                  fontSize: "0.7rem",
-                  px: 1.25,
-                  "&:hover": {
-                    color: "primary.main",
-                    borderColor: "primary.main",
-                    bgcolor: "transparent",
-                  },
-                }}
-              >
-                포트폴리오로 돌아가기
-              </Button>
-            </Box>
+              GitHub 저장소
+            </Button>
+            <Button
+              component="a"
+              href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="outlined"
+              size="small"
+              startIcon={<WorkOutlineIcon sx={{ fontSize: 15 }} />}
+              sx={{
+                flex: 1,
+                minHeight: "42px",
+                justifyContent: "flex-start",
+                borderRadius: "10px",
+                color: "text.secondary",
+                borderColor: "divider",
+                fontSize: "0.7rem",
+                px: 1.25,
+                "&:hover": {
+                  color: "primary.main",
+                  borderColor: "primary.main",
+                  bgcolor: "transparent",
+                },
+              }}
+            >
+              포트폴리오로 돌아가기
+            </Button>
           </Box>
         </Box>
       </Box>
