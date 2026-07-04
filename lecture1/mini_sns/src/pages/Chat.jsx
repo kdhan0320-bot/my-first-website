@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Typography, List, ListItem, ListItemAvatar, Avatar,
   ListItemText, Divider, Badge, Chip, IconButton,
@@ -8,26 +8,39 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
 import MainLayout from '../components/layout/MainLayout';
+import { ROUTES } from '../constants/routes';
+import { getRandomProfileAvatar } from '../hooks/useAuth';
 
 const MOCK_ROOMS = [
-  { id: 1, name: '포트폴리오 피드백방', type: 'group', members: 6, lastMsg: '피드백 감사해요! 수정해볼게요.', time: '방금 전', unread: 3, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room1' },
-  { id: 2, name: 'Figma UI 스터디', type: 'group', members: 5, lastMsg: '오늘 컴포넌트 정리 공유드려요', time: '5분 전', unread: 1, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room2' },
-  { id: 3, name: '디자인러너', type: 'dm', members: 2, lastMsg: '혹시 JobFlow 데모 링크 있나요?', time: '1시간 전', unread: 0, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=user1' },
-  { id: 4, name: '취업준비 정보방', type: 'group', members: 12, lastMsg: '서류 합격 소식 공유합니다!', time: '어제', unread: 0, avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room4' },
+  { id: 'mobile-ui-study', name: '모바일 UI 스터디', type: 'group', members: 5, lastMsg: '오늘 컴포넌트 정리 공유드려요', time: '5분 전', unread: 1, avatar: getRandomProfileAvatar('모바일 UI 스터디') },
+  { id: 'react-worklog', name: 'React 작업 인증방', type: 'group', members: 12, lastMsg: '오늘 작업 기록 공유합니다!', time: '방금 전', unread: 3, avatar: getRandomProfileAvatar('React 작업 인증방') },
+  { id: 'portfolio-club', name: '포트폴리오 정리 모임', type: 'group', members: 6, lastMsg: '이번 주 정리한 내용 공유해요.', time: '1시간 전', unread: 0, avatar: getRandomProfileAvatar('포트폴리오 정리 모임') },
+  { id: 'dm-frontrunner', name: '프론트러너', type: 'dm', members: 2, lastMsg: '채팅 입력창 UX 어떻게 고치셨어요?', time: '어제', unread: 0, avatar: getRandomProfileAvatar('프론트러너') },
 ];
 
 const MOCK_MESSAGES = {
-  1: [
-    { id: 1, sender: 'UX학습자', content: '포트폴리오 Hero 문구 어떻게 쓰셨어요?', time: '14:20', mine: false },
-    { id: 2, sender: 'me', content: '저는 "Figma로 설계하고 Claude로 구현했습니다" 로 했어요', time: '14:21', mine: true },
-    { id: 3, sender: '디자인멘토', content: '명확하고 좋네요! 포트폴리오 링크도 공유해주세요', time: '14:22', mine: false },
-    { id: 4, sender: 'me', content: '피드백 감사해요! 수정해볼게요.', time: '14:23', mine: true },
+  'mobile-ui-study': [
+    { id: 1, sender: 'UX러너', content: '하단 탭 아이콘 크기는 몇 px로 맞추셨어요?', time: '14:20', mine: false },
+    { id: 2, sender: 'me', content: '저는 24px로 통일했어요', time: '14:21', mine: true },
+    { id: 3, sender: '디자인메이트', content: '좋네요! 저도 맞춰볼게요', time: '14:22', mine: false },
+    { id: 4, sender: 'me', content: '오늘 컴포넌트 정리 공유드려요', time: '14:23', mine: true },
+  ],
+  'react-worklog': [
+    { id: 1, sender: '프론트러너', content: '오늘 채팅방 입력창 레이아웃 작업했어요', time: '10:02', mine: false },
+    { id: 2, sender: 'me', content: '오늘 작업 기록 공유합니다!', time: '10:05', mine: true },
+  ],
+  'portfolio-club': [
+    { id: 1, sender: '스터디메이트', content: '이번 주 정리한 내용 공유해요.', time: '09:40', mine: false },
   ],
 };
 
 const ChatRoom = ({ room, onBack }) => {
   const [messages, setMessages] = useState(MOCK_MESSAGES[room.id] || []);
   const [text, setText] = useState('');
+
+  useEffect(() => {
+    setMessages(MOCK_MESSAGES[room.id] || []);
+  }, [room.id]);
 
   const handleSend = () => {
     if (!text.trim()) return;
@@ -82,21 +95,28 @@ const ChatRoom = ({ room, onBack }) => {
       </Box>
 
       {/* 입력 */}
-      <Box sx={{ p: 1.5, bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider', flexShrink: 0 }}>
+      <Box sx={{
+        p: 1.5, pb: 'calc(12px + env(safe-area-inset-bottom))',
+        bgcolor: 'background.paper', borderTop: '1px solid', borderColor: 'divider',
+        flexShrink: 0, position: 'sticky', bottom: 0,
+      }}>
         <TextField
           fullWidth size="small" placeholder="메시지를 입력하세요..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-          InputProps={{
-            sx: { borderRadius: 3 },
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton size="small" color="primary" onClick={handleSend} aria-label="메시지 전송">
-                  <SendIcon fontSize="small" />
-                </IconButton>
-              </InputAdornment>
-            ),
+          slotProps={{
+            htmlInput: { 'aria-label': '메시지 입력' },
+            input: {
+              sx: { borderRadius: 3 },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton size="small" color="primary" onClick={handleSend} aria-label="메시지 전송">
+                    <SendIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
           }}
         />
       </Box>
@@ -105,12 +125,28 @@ const ChatRoom = ({ room, onBack }) => {
 };
 
 const Chat = () => {
-  const [selectedRoom, setSelectedRoom] = useState(null);
+  const { roomId } = useParams();
+  const navigate = useNavigate();
+  const [selectedRoom, setSelectedRoom] = useState(
+    () => MOCK_ROOMS.find((r) => r.id === roomId) || null
+  );
+
+  useEffect(() => {
+    if (roomId) {
+      const room = MOCK_ROOMS.find((r) => r.id === roomId);
+      if (room) setSelectedRoom(room);
+    }
+  }, [roomId]);
+
+  const handleBack = () => {
+    setSelectedRoom(null);
+    navigate(ROUTES.CHAT);
+  };
 
   if (selectedRoom) {
     return (
       <MainLayout>
-        <ChatRoom room={selectedRoom} onBack={() => setSelectedRoom(null)} />
+        <ChatRoom room={selectedRoom} onBack={handleBack} />
       </MainLayout>
     );
   }
@@ -119,7 +155,7 @@ const Chat = () => {
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h3">데모 채팅</Typography>
+          <Typography variant="h3">채팅</Typography>
           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.25 }}>
             실시간 서버 연동 없이 화면 흐름을 보여주는 프론트엔드 데모입니다.
           </Typography>
@@ -168,7 +204,7 @@ const Chat = () => {
             채팅방을 선택해 대화를 시작하세요
           </Typography>
           <Typography variant="caption" sx={{ color: '#B0B8C1' }}>
-            🚧 실시간 채팅은 준비 중입니다
+            실시간 채팅은 준비 중입니다
           </Typography>
         </Box>
       </Box>

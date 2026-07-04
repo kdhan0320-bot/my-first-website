@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, IconButton, Box, Badge } from '@mui/material';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { ROUTES } from '../../constants/routes';
 
 const TopBar = () => {
@@ -21,7 +21,7 @@ const TopBar = () => {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
-            <SportsEsportsIcon sx={{ color: '#1578AA', fontSize: '1.2rem' }} />
+            <GroupsIcon sx={{ color: '#1578AA', fontSize: '1.2rem' }} />
           </Box>
           <Box>
             <Typography
@@ -36,7 +36,7 @@ const TopBar = () => {
               Mini SNS
             </Typography>
             <Typography sx={{ color: '#7F8FA4', fontSize: '0.65rem', lineHeight: 1 }}>
-              관심사 기반 SNS
+              작업 기록 · 스터디 모임
             </Typography>
           </Box>
         </Box>

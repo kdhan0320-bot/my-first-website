@@ -2,17 +2,20 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card, CardContent, Box, Avatar, Typography, IconButton,
-  Chip, Menu, MenuItem, Snackbar, Alert,
+  Chip, Menu, MenuItem, Snackbar, Alert, Modal, Backdrop, Fade,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import CloseIcon from '@mui/icons-material/Close';
 import { supabase } from '../../utils/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import { formatDistanceToNow } from '../../utils/timeFormat';
 import CommentModal from './CommentModal';
+
+const GUEST_LIMIT_MESSAGE = '이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.';
 
 const PostCard = ({ post, onDelete }) => {
   const { user, isGuest } = useAuth();
@@ -21,6 +24,7 @@ const PostCard = ({ post, onDelete }) => {
   const [liked, setLiked] = useState(post.user_liked || false);
   const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [commentOpen, setCommentOpen] = useState(false);
+  const [imageModalOpen, setImageModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [guestSnack, setGuestSnack] = useState(false);
 
@@ -79,11 +83,14 @@ const PostCard = ({ post, onDelete }) => {
         <Box
           component="img"
           src={post.image_url}
-          alt="게시물 이미지"
+          alt={`${post.profiles?.nickname ?? '작성자'}의 게시물 이미지`}
+          loading="lazy"
+          onClick={() => post.image_url && setImageModalOpen(true)}
           onError={(e) => { e.target.src = `https://picsum.photos/seed/${post.id}/480/480`; }}
           sx={{
             width: '100%', aspectRatio: '1 / 1',
             objectFit: 'cover', display: 'block',
+            cursor: post.image_url ? 'pointer' : 'default',
           }}
         />
 
@@ -98,7 +105,7 @@ const PostCard = ({ post, onDelete }) => {
               }
             </IconButton>
             <Typography variant="body2" fontWeight={600}>{likesCount}</Typography>
-            <IconButton size="small" onClick={() => isGuest ? setGuestSnack(true) : setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }} aria-label="댓글 보기">
+            <IconButton size="small" onClick={() => setCommentOpen(true)} sx={{ p: 0.5, ml: 0.5 }} aria-label="댓글 보기">
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
             <Typography variant="body2" color="text.secondary">{post.comments_count || 0}</Typography>
@@ -141,7 +148,75 @@ const PostCard = ({ post, onDelete }) => {
         </CardContent>
       </Card>
 
-      <CommentModal open={commentOpen} onClose={() => setCommentOpen(false)} postId={post.id} />
+      <CommentModal
+        open={commentOpen}
+        onClose={() => setCommentOpen(false)}
+        postId={post.id}
+        isGuest={isGuest}
+        guestComments={post.recent_comments}
+      />
+
+      {/* 이미지 확대 모달 */}
+      <Modal
+        open={imageModalOpen}
+        onClose={() => setImageModalOpen(false)}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{ backdrop: { timeout: 300, sx: { bgcolor: 'rgba(0,0,0,0.85)' } } }}
+      >
+        <Fade in={imageModalOpen}>
+          <Box
+            sx={{
+              position: 'fixed', inset: 0,
+              display: 'flex', flexDirection: 'column',
+              alignItems: 'center', justifyContent: 'center',
+              px: { xs: 0, sm: 2 },
+              '&:focus': { outline: 'none' },
+            }}
+          >
+            <Box sx={{
+              width: '100%', maxWidth: 480,
+              maxHeight: '100dvh',
+              bgcolor: 'background.paper',
+              display: 'flex', flexDirection: 'column',
+              overflow: 'hidden',
+            }}>
+              <Box sx={{
+                display: 'flex', justifyContent: 'flex-end',
+                px: 1, py: 0.5, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0,
+              }}>
+                <IconButton onClick={() => setImageModalOpen(false)} aria-label="이미지 모달 닫기">
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+              <Box
+                component="img"
+                src={post.image_url}
+                alt={`${post.profiles?.nickname ?? '작성자'}의 게시물 확대 이미지`}
+                sx={{ width: '100%', maxHeight: '60dvh', objectFit: 'contain', bgcolor: '#000', flexShrink: 0 }}
+              />
+              <Box sx={{ p: 2, overflowY: 'auto' }}>
+                <Typography variant="body2" fontWeight={700} sx={{ mb: 0.5 }}>
+                  {post.profiles?.nickname}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                  {post.caption}
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <FavoriteIcon sx={{ fontSize: 18, color: 'error.main' }} />
+                    <Typography variant="caption">{likesCount}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                    <ForumOutlinedIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
+                    <Typography variant="caption">{post.comments_count || 0}</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
 
       <Snackbar
         open={guestSnack}
@@ -151,7 +226,7 @@ const PostCard = ({ post, onDelete }) => {
         sx={{ mb: 8 }}
       >
         <Alert severity="info" sx={{ width: '100%', borderRadius: 2 }}>
-          로그인 후 이용할 수 있어요 🔐
+          {GUEST_LIMIT_MESSAGE}
         </Alert>
       </Snackbar>
     </>

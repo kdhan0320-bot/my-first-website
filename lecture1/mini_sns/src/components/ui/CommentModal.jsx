@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   Drawer, Box, Typography, Avatar, TextField, Button,
-  List, ListItem, Divider, IconButton, CircularProgress,
+  List, ListItem, Divider, IconButton, CircularProgress, Snackbar, Alert,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
@@ -11,18 +11,28 @@ import { supabase } from '../../utils/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import { formatDistanceToNow } from '../../utils/timeFormat';
 
-const CommentModal = ({ open, onClose, postId }) => {
+const GUEST_LIMIT_MESSAGE = '이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.';
+
+const CommentModal = ({ open, onClose, postId, isGuest = false, guestComments = [] }) => {
   const { user, profile } = useAuth();
   const [comments, setComments] = useState([]);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState('');
+  const [guestNotice, setGuestNotice] = useState(false);
   const listRef = useRef(null);
 
   useEffect(() => {
-    if (open && postId) fetchComments();
-  }, [open, postId]);
+    if (!open) return;
+    if (isGuest) {
+      setComments(
+        (guestComments || []).map((c) => ({ ...c, created_at: c.created_at || new Date().toISOString() }))
+      );
+      return;
+    }
+    if (postId) fetchComments();
+  }, [open, postId, isGuest, guestComments]);
 
   const fetchComments = async () => {
     const { data } = await supabase
@@ -34,6 +44,7 @@ const CommentModal = ({ open, onClose, postId }) => {
   };
 
   const handleSubmit = async () => {
+    if (isGuest) { setGuestNotice(true); return; }
     if (!text.trim() || !user) return;
     setLoading(true);
     await supabase.from('comments').insert({
@@ -63,10 +74,12 @@ const CommentModal = ({ open, onClose, postId }) => {
       anchor="bottom"
       open={open}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          maxWidth: 480, mx: 'auto', borderRadius: '16px 16px 0 0',
-          maxHeight: '80vh', display: 'flex', flexDirection: 'column',
+      slotProps={{
+        paper: {
+          sx: {
+            maxWidth: 480, mx: 'auto', borderRadius: '16px 16px 0 0',
+            maxHeight: '80vh', display: 'flex', flexDirection: 'column',
+          },
         },
       }}
       sx={{ '& .MuiBackdrop-root': { bgcolor: 'rgba(0,0,0,0.5)' } }}
@@ -81,7 +94,7 @@ const CommentModal = ({ open, onClose, postId }) => {
       <List ref={listRef} sx={{ flex: 1, overflowY: 'auto', px: 1 }}>
         {comments.length === 0 && (
           <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', py: 4 }}>
-            첫 댓글을 남겨보세요! 🎮
+            첫 댓글을 남겨보세요!
           </Typography>
         )}
         {comments.map((comment, idx) => (
@@ -143,10 +156,26 @@ const CommentModal = ({ open, onClose, postId }) => {
           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSubmit()}
           sx={{ bgcolor: 'background.default', borderRadius: 2 }}
         />
-        <IconButton color="primary" onClick={handleSubmit} disabled={loading || !text.trim()}>
+        <IconButton
+          color="primary"
+          onClick={handleSubmit}
+          disabled={loading || (!isGuest && !text.trim())}
+          aria-label="댓글 전송"
+        >
           {loading ? <CircularProgress size={20} /> : <SendIcon />}
         </IconButton>
       </Box>
+
+      <Snackbar
+        open={guestNotice}
+        autoHideDuration={2500}
+        onClose={() => setGuestNotice(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert severity="info" sx={{ width: '100%', borderRadius: 2 }}>
+          {GUEST_LIMIT_MESSAGE}
+        </Alert>
+      </Snackbar>
     </Drawer>
   );
 };

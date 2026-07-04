@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         id: userId,
         username,
         nickname,
-        profile_image_url: getRandomGameAvatar(),
+        profile_image_url: getRandomProfileAvatar(nickname),
       });
       if (profileError && profileError.code !== '23505') throw profileError;
     }
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     if (signInError) {
       // 이메일 확인 필요한 경우 → 안내 메시지로 처리
       if (signInError.message.includes('Email not confirmed')) {
-        throw new Error('회원가입은 완료됐어요! Supabase 대시보드에서 이메일 확인을 OFF 해주세요. (Authentication → Settings → Disable email confirmations)');
+        throw new Error('회원가입은 완료됐어요! 데모 환경에서는 게스트 모드로 주요 기능을 확인할 수 있습니다.');
       }
       throw signInError;
     }
@@ -83,19 +83,8 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-const GAME_AVATARS = [
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=mario',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=link',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=samus',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=kirby',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=pikachu',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=sonic',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=cloud',
-  'https://api.dicebear.com/7.x/pixel-art/svg?seed=kratos',
-];
-
-export const getRandomGameAvatar = () =>
-  GAME_AVATARS[Math.floor(Math.random() * GAME_AVATARS.length)];
+export const getRandomProfileAvatar = (seed) =>
+  `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(seed || Math.random().toString(36).slice(2))}`;
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

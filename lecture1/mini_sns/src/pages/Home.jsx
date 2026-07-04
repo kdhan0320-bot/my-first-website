@@ -4,20 +4,24 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import MainLayout from '../components/layout/MainLayout';
 import PostCard from '../components/ui/PostCard';
 import { supabase } from '../utils/supabase';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth, getRandomProfileAvatar } from '../hooks/useAuth';
+import sampleCardUi from '../assets/samples/sample-card-ui.svg';
+import sampleStudy from '../assets/samples/sample-study.svg';
+import sampleChatUx from '../assets/samples/sample-chat-ux.svg';
+import sampleProfileUi from '../assets/samples/sample-profile-ui.svg';
 
 const GUEST_POSTS = [
   {
     id: 'guest-1',
     user_id: 'guest',
-    profiles: { nickname: '디자인러너', profile_image_url: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=designer1' },
-    image_url: 'https://picsum.photos/seed/portfolio1/480/480',
-    caption: '포트폴리오 대표 프로젝트 순서를 어떻게 정리하면 좋을까요? 취업 준비 중인데 Figma 프로젝트를 먼저 올려야 할지, 코딩 프로젝트를 먼저 올려야 할지 고민입니다.',
-    hashtag: '#포트폴리오 #취업준비 #웹디자인',
+    profiles: { nickname: 'UX러너', profile_image_url: getRandomProfileAvatar('UX러너') },
+    image_url: sampleCardUi,
+    caption: '오늘 홈 피드 카드 컴포넌트를 정리했습니다. 이미지 클릭 모달까지 연결해봤어요.',
+    hashtag: '#작업기록 #모바일UI #React',
     likes_count: 24, comments_count: 7, user_liked: false,
     recent_comments: [
-      { id: 'c1', profiles: { nickname: 'UX스터디' }, content: '저는 Figma를 먼저 올렸는데 반응이 좋았어요!' },
-      { id: 'c2', profiles: { nickname: '취준생모임' }, content: '채용 담당자 입장에서는 완성도가 더 중요하더라고요.' },
+      { id: 'c1', profiles: { nickname: '프론트러너' }, content: '카드 그림자 톤이 훨씬 차분해졌네요!' },
+      { id: 'c2', profiles: { nickname: '디자인메이트' }, content: '이미지 모달 UX 저도 참고할게요.' },
     ],
     created_at: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
     location: null,
@@ -25,13 +29,13 @@ const GUEST_POSTS = [
   {
     id: 'guest-2',
     user_id: 'guest',
-    profiles: { nickname: 'UX학습자', profile_image_url: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=uxlearner' },
-    image_url: 'https://picsum.photos/seed/uxui2/480/480',
-    caption: 'UX/UI 디자인 피드백 받을 때 어떤 부분을 먼저 봐야 할까요? 사용성? 시각 디자인? 정보 구조?',
-    hashtag: '#UXUI #피드백 #Figma',
+    profiles: { nickname: '스터디메이트', profile_image_url: getRandomProfileAvatar('스터디메이트') },
+    image_url: sampleStudy,
+    caption: '이번 주 모바일 UI 스터디 참여하실 분 모집합니다. 하단 탭 UX 사례를 같이 비교해봐요.',
+    hashtag: '#스터디 #모바일앱 #UX',
     likes_count: 18, comments_count: 5, user_liked: false,
     recent_comments: [
-      { id: 'c3', profiles: { nickname: '디자인멘토' }, content: '사용자 흐름(플로우)부터 보는 게 맞아요.' },
+      { id: 'c3', profiles: { nickname: 'UX러너' }, content: '참여하고 싶어요! 시간대 알려주세요.' },
     ],
     created_at: new Date(Date.now() - 1000 * 60 * 90).toISOString(),
     location: null,
@@ -39,14 +43,14 @@ const GUEST_POSTS = [
   {
     id: 'guest-3',
     user_id: 'guest',
-    profiles: { nickname: '김도한_dev', profile_image_url: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=dohan' },
-    image_url: 'https://picsum.photos/seed/dashboard3/480/480',
-    caption: '취업 준비하면서 만든 대시보드 프로젝트 공유합니다. 지원 현황, 체크리스트, 면접 일정을 한 화면에서 관리할 수 있어요. AI-assisted Coding으로 제작했습니다.',
-    hashtag: '#대시보드 #AIassisted #React #취업준비',
+    profiles: { nickname: '프론트러너', profile_image_url: getRandomProfileAvatar('프론트러너') },
+    image_url: sampleChatUx,
+    caption: '채팅방 입력창이 모바일에서 잘리지 않도록 100dvh 기준으로 레이아웃을 수정했습니다.',
+    hashtag: '#프론트엔드 #채팅UI #반응형',
     likes_count: 41, comments_count: 12, user_liked: false,
     recent_comments: [
-      { id: 'c4', profiles: { nickname: '포폴스터디' }, content: '완성도 대박이에요! 링크 공유해주실 수 있나요?' },
-      { id: 'c5', profiles: { nickname: '웹디자인러너' }, content: 'AI 도구 잘 활용하셨네요 👍' },
+      { id: 'c4', profiles: { nickname: '모바일UX' }, content: '안전영역 패딩까지 적용하신 거죠?' },
+      { id: 'c5', profiles: { nickname: '스터디메이트' }, content: '저도 이 이슈로 고생했는데 도움 되네요.' },
     ],
     created_at: new Date(Date.now() - 1000 * 60 * 180).toISOString(),
     location: null,
@@ -54,13 +58,13 @@ const GUEST_POSTS = [
   {
     id: 'guest-4',
     user_id: 'guest',
-    profiles: { nickname: 'Figma유저', profile_image_url: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=figmauser' },
-    image_url: 'https://picsum.photos/seed/mobile4/480/480',
-    caption: 'Figma 모바일 앱 화면 피드백 부탁드립니다. 온보딩 플로우 3단계로 줄이는 게 맞을까요?',
-    hashtag: '#Figma #모바일 #UX #온보딩',
+    profiles: { nickname: '디자인메이트', profile_image_url: getRandomProfileAvatar('디자인메이트') },
+    image_url: sampleProfileUi,
+    caption: '아바타와 프로필 문구를 더 차분하게 정리하니 앱 분위기가 훨씬 안정적으로 보입니다.',
+    hashtag: '#프로필UI #디자인개선',
     likes_count: 15, comments_count: 9, user_liked: false,
     recent_comments: [
-      { id: 'c6', profiles: { nickname: 'UX리뷰어' }, content: '3단계도 좋은데 핵심 가치를 첫 화면에 담는 게 포인트예요.' },
+      { id: 'c6', profiles: { nickname: '프론트러너' }, content: '이니셜 아바타 톤이 잘 어울려요.' },
     ],
     created_at: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
     location: null,
@@ -145,7 +149,7 @@ const Home = () => {
           <Box sx={{ textAlign: 'center', pt: 8, px: 3 }}>
             <Typography variant="h3" gutterBottom>아직 게시물이 없어요</Typography>
             <Typography variant="body2" color="text.secondary">
-              첫 번째 게임 리뷰를 작성해보세요.
+              첫 번째 작업 기록을 남겨보세요.
             </Typography>
           </Box>
         ) : (

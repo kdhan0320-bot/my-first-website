@@ -45,6 +45,7 @@ const AppRoutes = () => (
     <Route path={ROUTES.PROFILE} element={<ProtectedRoute><Profile /></ProtectedRoute>} />
     <Route path={ROUTES.MEETUP} element={<ProtectedRoute><Meetup /></ProtectedRoute>} />
     <Route path={ROUTES.CHAT} element={<ProtectedRoute><Chat /></ProtectedRoute>} />
+    <Route path={ROUTES.CHAT_ROOM} element={<ProtectedRoute><Chat /></ProtectedRoute>} />
     <Route path={ROUTES.NOTIFICATIONS} element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
     <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
   </Routes>

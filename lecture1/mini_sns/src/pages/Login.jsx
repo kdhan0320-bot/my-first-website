@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, TextField, Button, Alert, CircularProgress, Avatar, Divider,
 } from '@mui/material';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import GroupsIcon from '@mui/icons-material/Groups';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useAuth } from '../hooks/useAuth';
@@ -27,7 +27,7 @@ const FeedPreview = () => (
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
           <Box sx={{ width: 16, height: 16, borderRadius: '4px', bgcolor: '#EAF6FC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <SportsEsportsIcon sx={{ fontSize: '0.55rem', color: '#1578AA' }} />
+            <GroupsIcon sx={{ fontSize: '0.55rem', color: '#1578AA' }} />
           </Box>
           <Typography sx={{ fontSize: '0.5rem', fontWeight: 800, color: '#1A1A2E' }}>Mini SNS</Typography>
         </Box>
@@ -37,39 +37,33 @@ const FeedPreview = () => (
       {/* 게시물 1 */}
       <Box sx={{ borderBottom: '1px solid #F5F5F5' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, py: 0.6 }}>
-          <Avatar src="https://api.dicebear.com/7.x/pixel-art/svg?seed=mario" sx={{ width: 18, height: 18 }} />
-          <Typography sx={{ fontSize: '0.48rem', fontWeight: 700, color: '#1A1A2E' }}>롤마스터99</Typography>
+          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=UX러너" sx={{ width: 18, height: 18 }} />
+          <Typography sx={{ fontSize: '0.48rem', fontWeight: 700, color: '#1A1A2E' }}>UX러너</Typography>
         </Box>
-        <Box
-          component="img"
-          src="https://picsum.photos/seed/game42/220/220"
-          alt="preview"
-          sx={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', display: 'block' }}
-        />
+        <Box sx={{ width: '100%', aspectRatio: '1/1', bgcolor: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography sx={{ fontSize: '0.5rem', color: '#93C5FD', fontWeight: 700 }}>작업 기록</Typography>
+        </Box>
         <Box sx={{ px: 1, py: 0.6 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4, mb: 0.3 }}>
             <FavoriteIcon sx={{ fontSize: 9, color: '#e53935' }} />
-            <Typography sx={{ fontSize: '0.43rem', fontWeight: 600 }}>42</Typography>
+            <Typography sx={{ fontSize: '0.43rem', fontWeight: 600 }}>24</Typography>
             <ForumOutlinedIcon sx={{ fontSize: 9, ml: 0.3, color: '#888' }} />
-            <Typography sx={{ fontSize: '0.43rem', color: '#888' }}>8</Typography>
+            <Typography sx={{ fontSize: '0.43rem', color: '#888' }}>6</Typography>
           </Box>
-          <Typography sx={{ fontSize: '0.43rem', fontWeight: 700, color: '#1A1A2E' }}>롤마스터99 </Typography>
-          <Typography sx={{ fontSize: '0.43rem', color: '#555' }}>스카이림 1000시간 후기 🐉</Typography>
+          <Typography sx={{ fontSize: '0.43rem', fontWeight: 700, color: '#1A1A2E' }}>UX러너 </Typography>
+          <Typography sx={{ fontSize: '0.43rem', color: '#555' }}>오늘 피드 카드 컴포넌트를 정리했어요 ✍️</Typography>
         </Box>
       </Box>
 
       {/* 게시물 2 */}
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, px: 1, py: 0.6 }}>
-          <Avatar src="https://api.dicebear.com/7.x/pixel-art/svg?seed=sonic" sx={{ width: 18, height: 18 }} />
-          <Typography sx={{ fontSize: '0.48rem', fontWeight: 700, color: '#1A1A2E' }}>겜덕후2024</Typography>
+          <Avatar src="https://api.dicebear.com/7.x/initials/svg?seed=스터디메이트" sx={{ width: 18, height: 18 }} />
+          <Typography sx={{ fontSize: '0.48rem', fontWeight: 700, color: '#1A1A2E' }}>스터디메이트</Typography>
         </Box>
-        <Box
-          component="img"
-          src="https://picsum.photos/seed/game7/220/220"
-          alt="preview"
-          sx={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', display: 'block' }}
-        />
+        <Box sx={{ width: '100%', aspectRatio: '1/1', bgcolor: '#F0FDFA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography sx={{ fontSize: '0.5rem', color: '#5EEAD4', fontWeight: 700 }}>스터디 모집</Typography>
+        </Box>
         <Box sx={{ px: 1, py: 0.6 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.4, mb: 0.3 }}>
             <FavoriteIcon sx={{ fontSize: 9, color: '#e53935' }} />
@@ -77,12 +71,12 @@ const FeedPreview = () => (
             <ForumOutlinedIcon sx={{ fontSize: 9, ml: 0.3, color: '#888' }} />
             <Typography sx={{ fontSize: '0.43rem', color: '#888' }}>3</Typography>
           </Box>
-          <Typography sx={{ fontSize: '0.43rem', color: '#555' }}>발로란트 다이아 달성! 🎯</Typography>
+          <Typography sx={{ fontSize: '0.43rem', color: '#555' }}>이번 주 모바일 UI 스터디 모집합니다 🙋</Typography>
         </Box>
       </Box>
     </Box>
     <Typography variant="caption" sx={{ color: '#7F8FA4', mt: 1.5, textAlign: 'center' }}>
-      게임 리뷰를 공유하고 함께 즐겨요!
+      작업 기록과 스터디 모임을 함께 공유해요.
     </Typography>
   </Box>
 );
@@ -94,6 +88,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -113,6 +108,19 @@ const Login = () => {
   const handleGuestMode = () => {
     enterGuestMode();
     navigate(ROUTES.HOME);
+  };
+
+  const handleDemoLogin = async () => {
+    setDemoLoading(true);
+    setError('');
+    try {
+      await signIn('demo', 'demo1234!');
+      navigate(ROUTES.HOME);
+    } catch {
+      setError('테스트 계정 로그인에 실패했습니다. 게스트 모드로 주요 화면을 확인해주세요.');
+    } finally {
+      setDemoLoading(false);
+    }
   };
 
   return (
@@ -142,15 +150,17 @@ const Login = () => {
             mx: 'auto', mb: 1.5,
           }}
         >
-          <SportsEsportsIcon sx={{ fontSize: 32, color: '#1578AA' }} />
+          <GroupsIcon sx={{ fontSize: 32, color: '#1578AA' }} />
         </Box>
         <Typography sx={{ color: '#0F172A', fontWeight: 800, fontSize: '1.5rem', letterSpacing: '-0.4px', lineHeight: 1.2 }}>
           Mini SNS
         </Typography>
         <Typography variant="body2" sx={{ color: '#475569', mt: 0.5 }}>
-          관심사 기반 게시글, 모임, 채팅 흐름을 체험할 수 있는 프론트엔드 SNS 데모입니다.
+          작업 기록과 스터디 모임을 공유하는 모바일 소셜 앱
         </Typography>
       </Box>
+
+      <FeedPreview />
 
       {/* 게스트 체험 — 최상단 Primary CTA */}
       <Button
@@ -163,9 +173,22 @@ const Login = () => {
       >
         게스트로 둘러보기
       </Button>
+      <Button
+        variant="outlined"
+        fullWidth
+        size="large"
+        onClick={handleDemoLogin}
+        disabled={demoLoading}
+        aria-label="테스트 계정으로 데모 체험하기"
+        sx={{ py: 1.4, borderRadius: 2.5, fontWeight: 700, fontSize: '0.95rem', mb: 1 }}
+      >
+        {demoLoading ? <CircularProgress size={20} color="inherit" /> : '테스트 계정으로 체험하기'}
+      </Button>
       <Typography variant="caption" sx={{ color: '#475569', display: 'block', textAlign: 'center', mb: 3 }}>
-        별도 회원가입 없이 샘플 데이터로 주요 화면을 확인할 수 있습니다.
+        게스트 모드로 홈 피드, 모임, 채팅, 알림, 프로필 화면을 둘러볼 수 있습니다.
       </Typography>
+
+      {error && <Alert severity="warning" sx={{ mb: 2, borderRadius: 2, width: '100%' }}>{error}</Alert>}
 
       {/* 로그인 폼 */}
       <Box
@@ -184,8 +207,6 @@ const Login = () => {
           <Typography variant="caption" sx={{ color: '#94A3B8' }}>계정으로 로그인</Typography>
         </Divider>
 
-        {error && <Alert severity="error" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
-
         <TextField
           label="아이디"
           variant="outlined"
@@ -194,7 +215,7 @@ const Login = () => {
           onChange={(e) => setUsername(e.target.value)}
           sx={{ mb: 2 }}
           autoComplete="username"
-          inputProps={{ 'aria-label': '아이디' }}
+          slotProps={{ htmlInput: { 'aria-label': '아이디' } }}
         />
         <TextField
           label="비밀번호"
@@ -205,7 +226,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
           sx={{ mb: 2.5 }}
           autoComplete="current-password"
-          inputProps={{ 'aria-label': '비밀번호' }}
+          slotProps={{ htmlInput: { 'aria-label': '비밀번호' } }}
         />
 
         <Button

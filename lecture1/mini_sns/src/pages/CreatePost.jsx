@@ -10,8 +10,8 @@ import { supabase } from '../utils/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes';
 
-const getRandomGameImage = () => {
-  const seeds = ['game1','game2','game3','controller','pixel','quest','dragon','knight','space','neon'];
+const getRandomSampleImage = () => {
+  const seeds = ['worklog1','worklog2','study1','study2','desk','notebook','mobileui','workspace','review','planner'];
   const seed = seeds[Math.floor(Math.random() * seeds.length)];
   return `https://picsum.photos/seed/${seed}${Math.floor(Math.random()*1000)}/480/480`;
 };
@@ -25,14 +25,14 @@ const CreatePost = () => {
   const [caption, setCaption] = useState(editPost?.caption || '');
   const [hashtag, setHashtag] = useState(editPost?.hashtag || '');
   const [postLocation, setPostLocation] = useState(editPost?.location || '');
-  const [imageUrl, setImageUrl] = useState(editPost?.image_url || getRandomGameImage());
+  const [imageUrl, setImageUrl] = useState(editPost?.image_url || getRandomSampleImage());
   const [imageLoading, setImageLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const refreshImage = () => {
     setImageLoading(true);
-    setImageUrl(getRandomGameImage());
+    setImageUrl(getRandomSampleImage());
     setTimeout(() => setImageLoading(false), 500);
   };
 
@@ -92,8 +92,9 @@ const CreatePost = () => {
           <Box
             component="img"
             src={imageUrl}
-            alt="게임 이미지"
-            onError={(e) => { e.target.src = `https://picsum.photos/seed/game${Date.now()}/480/480`; }}
+            alt="게시물 미리보기 이미지"
+            loading="lazy"
+            onError={(e) => { e.target.src = `https://picsum.photos/seed/worklog${Date.now()}/480/480`; }}
             sx={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', display: 'block' }}
           />
           {imageLoading && (
@@ -128,7 +129,7 @@ const CreatePost = () => {
             fullWidth
             value={caption}
             onChange={(e) => setCaption(e.target.value)}
-            placeholder="게임에 대한 리뷰나 정보를 공유해보세요 🎮"
+            placeholder="오늘의 작업 기록이나 스터디 내용을 공유해보세요"
             sx={{ mb: 2 }}
           />
           <TextField
@@ -136,7 +137,7 @@ const CreatePost = () => {
             fullWidth
             value={hashtag}
             onChange={(e) => setHashtag(e.target.value)}
-            placeholder="#게임 #리뷰 #추천"
+            placeholder="#작업기록 #스터디 #React"
             helperText="띄어쓰기로 구분"
             sx={{ mb: 2 }}
           />
@@ -160,7 +161,7 @@ const CreatePost = () => {
           >
             {submitting
               ? <CircularProgress size={22} color="inherit" />
-              : editPost ? '수정하기' : '게시물 등록하기 🎮'
+              : editPost ? '수정하기' : '게시물 등록하기'
             }
           </Button>
         </Box>

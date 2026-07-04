@@ -9,43 +9,48 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import EventIcon from '@mui/icons-material/Event';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import MainLayout from '../components/layout/MainLayout';
+import { getRandomProfileAvatar } from '../hooks/useAuth';
+import sampleCardUi from '../assets/samples/sample-card-ui.svg';
+import sampleStudy from '../assets/samples/sample-study.svg';
+import sampleChatUx from '../assets/samples/sample-chat-ux.svg';
+import sampleProfileUi from '../assets/samples/sample-profile-ui.svg';
 
 const MOCK_NOTIFICATIONS = [
   {
     id: 1, type: 'comment', read: false,
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=uxmentor',
-    user: 'UX멘토', content: '"대시보드 UI 구조가 정말 깔끔해요! 사용자 흐름이 명확합니다."', time: '방금 전',
-    postImage: 'https://picsum.photos/seed/dashboard3/48/48',
+    avatar: getRandomProfileAvatar('프론트러너'),
+    user: '프론트러너', content: '"카드 그림자 톤이 훨씬 차분해졌네요!"', time: '방금 전',
+    postImage: sampleCardUi,
   },
   {
     id: 2, type: 'meetup', read: false,
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=room1',
-    user: '포트폴리오 피드백 모임', content: '모임이 시작되었습니다. 참여 링크를 확인하세요.', time: '5분 전',
+    avatar: getRandomProfileAvatar('모바일 UI 스터디'),
+    user: '모바일 UI 스터디', content: '모임이 시작되었습니다. 채팅방을 확인하세요.', time: '5분 전',
     postImage: null,
   },
   {
     id: 3, type: 'like', read: false,
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=designer1',
-    user: '디자인러너', content: '회원님의 게시물을 좋아합니다.', time: '30분 전',
-    postImage: 'https://picsum.photos/seed/portfolio1/48/48',
+    avatar: getRandomProfileAvatar('스터디메이트'),
+    user: '스터디메이트', content: '회원님의 게시물을 좋아합니다.', time: '30분 전',
+    postImage: sampleStudy,
   },
   {
     id: 4, type: 'comment', read: true,
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=figmauser',
-    user: 'Figma유저', content: '"저장한 게시글에 새 피드백이 등록되었습니다."', time: '2시간 전',
-    postImage: 'https://picsum.photos/seed/uxui2/48/48',
+    avatar: getRandomProfileAvatar('디자인메이트'),
+    user: '디자인메이트', content: '"아바타 톤이 잘 어울려요."', time: '2시간 전',
+    postImage: sampleProfileUi,
   },
   {
     id: 5, type: 'follow', read: true,
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=webdev',
-    user: '취업준비중', content: '회원님을 팔로우하기 시작했습니다.', time: '5시간 전',
+    avatar: getRandomProfileAvatar('모바일UX'),
+    user: '모바일UX', content: '회원님을 팔로우하기 시작했습니다.', time: '5시간 전',
     postImage: null,
   },
   {
     id: 6, type: 'like', read: true,
-    avatar: 'https://api.dicebear.com/7.x/pixel-art/svg?seed=reviewer',
-    user: 'UX리뷰어', content: '회원님의 Figma 모바일 화면 게시물을 좋아합니다.', time: '어제',
-    postImage: 'https://picsum.photos/seed/mobile4/48/48',
+    avatar: getRandomProfileAvatar('UX러너'),
+    user: 'UX러너', content: '회원님의 채팅 UI 게시물을 좋아합니다.', time: '어제',
+    postImage: sampleChatUx,
   },
 ];
 

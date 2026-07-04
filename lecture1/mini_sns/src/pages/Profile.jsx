@@ -9,7 +9,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import MainLayout from '../components/layout/MainLayout';
 import PostCard from '../components/ui/PostCard';
 import { supabase } from '../utils/supabase';
-import { useAuth } from '../hooks/useAuth';
+import sampleFallback from '../assets/samples/sample-fallback.svg';
+import { useAuth, getRandomProfileAvatar } from '../hooks/useAuth';
 import { ROUTES } from '../constants/routes';
 
 const Profile = () => {
@@ -59,21 +60,21 @@ const Profile = () => {
   };
 
   if (isGuest) {
-    const GUEST_INTEREST_TAGS = ['UX/UI', 'Figma', 'Web Design', 'Portfolio'];
+    const GUEST_INTEREST_TAGS = ['작업기록', '스터디', '모바일UI', 'React'];
     return (
       <MainLayout>
         <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
           <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
               <Avatar
-                src="https://api.dicebear.com/7.x/pixel-art/svg?seed=guestdesigner"
+                src={getRandomProfileAvatar('게스트')}
                 sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
               />
               <Box sx={{ flex: 1 }}>
-                <Typography variant="h3" sx={{ mb: 0.5 }}>Guest Designer</Typography>
+                <Typography variant="h3" sx={{ mb: 0.5 }}>게스트</Typography>
                 <Typography variant="caption" color="text.secondary">@guest_user</Typography>
                 <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
-                  UX/UI와 웹디자인 프로젝트를 정리하는 학습자입니다.
+                  작업 기록과 스터디 활동을 정리하는 UX/UI 학습자입니다.
                 </Typography>
               </Box>
             </Box>
@@ -185,7 +186,8 @@ const Profile = () => {
                   component="img"
                   src={post.image_url}
                   alt="썸네일"
-                  onError={(e) => { e.target.src = `https://picsum.photos/seed/${post.id}/160/160`; }}
+                  loading="lazy"
+                  onError={(e) => { e.target.src = sampleFallback; }}
                   onClick={() => setSelectedPost(post)}
                   sx={{
                     width: '100%', aspectRatio: '1/1', objectFit: 'cover',

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box, Typography, Card, CardContent, Avatar, Button,
   AvatarGroup, Chip, Stack, Dialog, DialogTitle, DialogContent,
@@ -9,55 +10,35 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import MainLayout from '../components/layout/MainLayout';
+import { chatRoomPath } from '../constants/routes';
+import { getRandomProfileAvatar } from '../hooks/useAuth';
 
 const MOCK_MEETUPS = [
   {
-    id: 1, title: '포트폴리오 피드백 모임', game: 'Web Design / UX·UI',
-    time: '이번 주 토요일 오후 2시', location: '온라인 (Zoom)',
-    current: 4, max: 6, tags: ['#포트폴리오', '#피드백', '#웹디자인'],
-    avatars: [
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=a1',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=b2',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=c3',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=d4',
-    ],
-  },
-  {
-    id: 2, title: 'Figma 모바일 UI 스터디', game: 'Figma / UX·UI',
+    id: 1, title: '모바일 UI 스터디', game: 'Mobile UI / UX',
     time: '매주 수요일 저녁 8시', location: '온라인 (Discord)',
-    current: 3, max: 5, tags: ['#Figma', '#모바일UI', '#스터디'],
-    avatars: [
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=e5',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=f6',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=g7',
-    ],
+    current: 3, max: 5, tags: ['#모바일UI', '#스터디', '#UX'],
+    chatRoomId: 'mobile-ui-study',
+    avatars: ['a1', 'b2', 'c3'].map((s) => getRandomProfileAvatar(s)),
   },
   {
-    id: 3, title: '웹디자인 취업 준비방', game: '취업 준비',
+    id: 2, title: 'React 작업 인증방', game: 'React / 작업기록',
     time: '상시 운영', location: '온라인 (카카오톡)',
-    current: 12, max: 15, tags: ['#취업준비', '#웹디자인', '#포트폴리오'],
-    avatars: [
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=h8',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=i9',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=j10',
-    ],
+    current: 8, max: 12, tags: ['#React', '#작업기록', '#프론트엔드'],
+    chatRoomId: 'react-worklog',
+    avatars: ['d4', 'e5', 'f6', 'g7'].map((s) => getRandomProfileAvatar(s)),
   },
   {
-    id: 4, title: 'AI-assisted Coding 연습 모임', game: 'AI Tools / React',
-    time: '격주 일요일 오후 3시', location: '온라인 (Zoom)',
-    current: 5, max: 5, tags: ['#AIassisted', '#React', '#코딩'],
-    avatars: [
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=k11',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=l12',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=m13',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=n14',
-      'https://api.dicebear.com/7.x/pixel-art/svg?seed=o15',
-    ],
+    id: 3, title: '포트폴리오 정리 모임', game: '작업 기록 정리',
+    time: '이번 주 토요일 오후 2시', location: '온라인 (Zoom)',
+    current: 4, max: 6, tags: ['#포트폴리오정리', '#작업기록'],
+    chatRoomId: 'portfolio-club',
+    avatars: ['h8', 'i9', 'j10', 'k11'].map((s) => getRandomProfileAvatar(s)),
   },
 ];
 
-const MeetupCard = ({ meetup, onJoin }) => {
-  const isFull = meetup.current >= meetup.max;
+const MeetupCard = ({ meetup, joined, onJoin, onGoToChat }) => {
+  const isFull = meetup.current >= meetup.max && !joined;
   return (
     <Card sx={{ mx: 2, mb: 1.5 }}>
       <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
@@ -108,13 +89,13 @@ const MeetupCard = ({ meetup, onJoin }) => {
             {meetup.avatars.map((src, i) => <Avatar key={i} src={src} />)}
           </AvatarGroup>
           <Button
-            variant={isFull ? 'outlined' : 'contained'}
+            variant={joined ? 'outlined' : isFull ? 'outlined' : 'contained'}
             size="small"
             disabled={isFull}
-            onClick={() => !isFull && onJoin(meetup)}
-            sx={{ borderRadius: 2, minWidth: 80 }}
+            onClick={() => (joined ? onGoToChat(meetup) : onJoin(meetup))}
+            sx={{ borderRadius: 2, minWidth: 96 }}
           >
-            {isFull ? '마감됨' : '참가하기'}
+            {isFull ? '마감됨' : joined ? '채팅방으로 이동' : '참가하기'}
           </Button>
         </Box>
       </CardContent>
@@ -123,41 +104,54 @@ const MeetupCard = ({ meetup, onJoin }) => {
 };
 
 const Meetup = () => {
+  const navigate = useNavigate();
   const [meetups, setMeetups] = useState(MOCK_MEETUPS);
+  const [joinedIds, setJoinedIds] = useState([]);
   const [joinTarget, setJoinTarget] = useState(null);
   const [snackOpen, setSnackOpen] = useState(false);
 
   const handleJoin = (meetup) => setJoinTarget(meetup);
 
+  const handleGoToChat = (meetup) => navigate(chatRoomPath(meetup.chatRoomId));
+
   const handleConfirm = () => {
+    const target = joinTarget;
     setMeetups((prev) =>
       prev.map((m) =>
-        m.id === joinTarget.id ? { ...m, current: m.current + 1 } : m
+        m.id === target.id ? { ...m, current: m.current + 1 } : m
       )
     );
+    setJoinedIds((prev) => [...prev, target.id]);
     setJoinTarget(null);
     setSnackOpen(true);
+    setTimeout(() => navigate(chatRoomPath(target.chatRoomId)), 1000);
   };
 
   return (
     <MainLayout>
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, py: 2, bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Typography variant="h3">관심사 기반 모임</Typography>
+          <Typography variant="h3">스터디 · 작업 기록 모임</Typography>
           <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
-            포트폴리오, UX/UI, 취업 준비 등 관심사별 모임을 찾아보세요.
+            작업 기록과 스터디 관심사별 모임을 찾아보세요.
           </Typography>
         </Box>
 
         <Box sx={{ pt: 2 }}>
           {meetups.map((meetup) => (
-            <MeetupCard key={meetup.id} meetup={meetup} onJoin={handleJoin} />
+            <MeetupCard
+              key={meetup.id}
+              meetup={meetup}
+              joined={joinedIds.includes(meetup.id)}
+              onJoin={handleJoin}
+              onGoToChat={handleGoToChat}
+            />
           ))}
         </Box>
 
         <Box sx={{ textAlign: 'center', py: 3 }}>
           <Typography variant="caption" color="text.secondary">
-            🚧 실시간 위치 기능은 준비 중입니다
+            실시간 위치 기능은 준비 중입니다
           </Typography>
         </Box>
       </Box>
@@ -168,7 +162,7 @@ const Meetup = () => {
         onClose={() => setJoinTarget(null)}
         maxWidth="xs"
         fullWidth
-        PaperProps={{ sx: { borderRadius: 3, mx: 2 } }}
+        slotProps={{ paper: { sx: { borderRadius: 3, mx: 2 } } }}
       >
         <DialogTitle sx={{ pb: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -198,7 +192,7 @@ const Meetup = () => {
               </Stack>
             </Box>
             <Typography variant="body2" color="text.secondary">
-              이 모임에 참가 신청하시겠습니까?
+              이 모임에 참가 신청하시겠습니까? 참가 후 연결된 채팅방으로 이동합니다.
             </Typography>
           </DialogContent>
         )}
@@ -211,7 +205,7 @@ const Meetup = () => {
             onClick={handleConfirm}
             sx={{ borderRadius: 2, flex: 1, fontWeight: 700 }}
           >
-            참가 확정 🎮
+            참가 확정
           </Button>
         </DialogActions>
       </Dialog>
@@ -225,7 +219,7 @@ const Meetup = () => {
         sx={{ mb: 8 }}
       >
         <Alert severity="success" sx={{ width: '100%', borderRadius: 2 }}>
-          참가 신청 완료! 함께 즐겨요 🎮
+          모임에 참가했습니다. 채팅방으로 이동합니다.
         </Alert>
       </Snackbar>
     </MainLayout>

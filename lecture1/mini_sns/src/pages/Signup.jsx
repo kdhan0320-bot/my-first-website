@@ -66,7 +66,7 @@ const Signup = () => {
 
       <Typography variant="h2" sx={{ mb: 1, fontWeight: 700 }}>회원가입</Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-        Mini SNS에 오신 것을 환영합니다 🎮
+        Mini SNS에 오신 것을 환영합니다.
       </Typography>
 
       <Box component="form" onSubmit={handleSignup}>
@@ -79,12 +79,14 @@ const Signup = () => {
           value={form.username}
           onChange={handleChange('username')}
           sx={{ mb: 1 }}
-          InputProps={{
-            endAdornment: checks.username === true && (
-              <InputAdornment position="end">
-                <CheckCircleIcon color="success" />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              endAdornment: checks.username === true && (
+                <InputAdornment position="end">
+                  <CheckCircleIcon color="success" />
+                </InputAdornment>
+              ),
+            },
           }}
           helperText={checks.username === false ? '이미 사용 중인 아이디입니다.' : checks.username === true ? '사용 가능한 아이디입니다.' : ''}
           error={checks.username === false}
@@ -114,12 +116,14 @@ const Signup = () => {
           value={form.nickname}
           onChange={handleChange('nickname')}
           sx={{ mb: 1, mt: 2 }}
-          InputProps={{
-            endAdornment: checks.nickname === true && (
-              <InputAdornment position="end">
-                <CheckCircleIcon color="success" />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              endAdornment: checks.nickname === true && (
+                <InputAdornment position="end">
+                  <CheckCircleIcon color="success" />
+                </InputAdornment>
+              ),
+            },
           }}
           helperText={checks.nickname === false ? '이미 사용 중인 닉네임입니다.' : checks.nickname === true ? '사용 가능한 닉네임입니다.' : ''}
           error={checks.nickname === false}
