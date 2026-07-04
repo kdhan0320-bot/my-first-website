@@ -2,17 +2,19 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, Card, CardActionArea,
-  CardContent, Grid, Chip, Avatar, Skeleton, AppBar, Toolbar,
-  IconButton, Tooltip, Divider, InputAdornment, TextField, Alert, Link,
+  CardContent, Grid, Chip, Avatar, Skeleton,
+  Divider, InputAdornment, TextField, Alert, Link,
+  Select, MenuItem, FormControl,
 } from '@mui/material';
 import {
-  Add, Logout, Favorite, ChatBubble, Visibility,
-  AccessTime, Search, Login,
+  Add, Favorite, ChatBubble, Visibility,
+  AccessTime, Search,
 } from '@mui/icons-material';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
-import { SAMPLE_POSTS, CATEGORIES } from '../constants/samplePosts';
+import { SAMPLE_POSTS, CATEGORIES, getCategoryLabel, getStatusBadge } from '../constants/samplePosts';
+import Header from '../components/Header';
 
 const IMG_HEIGHT = 180;
 
@@ -26,7 +28,11 @@ const formatRelativeTime = (dateStr) => {
   return `${Math.floor(h / 24)}일 전`;
 };
 
-const PostCard = ({ post, onClick }) => (
+const PostCard = ({ post, onClick }) => {
+  const category = getCategoryLabel(post);
+  const status = getStatusBadge(post);
+
+  return (
   <Card sx={{
     height: '100%',
     display: 'flex',
@@ -52,6 +58,15 @@ const PostCard = ({ post, onClick }) => (
       </Box>
 
       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
+          {category && (
+            <Chip label={category} size="small" variant="outlined"
+              sx={{ fontSize: '0.68rem', height: 20, borderColor: 'divider', color: 'text.secondary' }} />
+          )}
+          <Chip label={status.label} size="small"
+            sx={{ fontSize: '0.68rem', height: 20, bgcolor: `${status.color}1A`, color: status.color, fontWeight: 700 }} />
+        </Box>
+
         {post.hashtags?.length > 0 && (
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1 }}>
             {post.hashtags.slice(0, 3).map(tag => (
@@ -105,16 +120,25 @@ const PostCard = ({ post, onClick }) => (
       </CardContent>
     </CardActionArea>
   </Card>
-);
+  );
+};
+
+const SORT_OPTIONS = [
+  { value: 'latest', label: '최신순' },
+  { value: 'likes', label: '인기순' },
+  { value: 'comments', label: '댓글 많은 순' },
+  { value: 'views', label: '조회수 순' },
+];
 
 const PostListPage = () => {
   const navigate = useNavigate();
-  const { user, profile, signOut, isGuest, exitGuestMode } = useAuth();
+  const { user, isGuest } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('전체');
+  const [sortBy, setSortBy] = useState('latest');
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -148,23 +172,28 @@ const PostListPage = () => {
       list = list.filter(p => p.category === activeCategory || p.hashtags?.includes(activeCategory));
     }
     const q = query.trim().toLowerCase();
-    if (!q) return list;
-    return list.filter(p =>
-      (p.title || '').toLowerCase().includes(q) ||
-      (p.content || '').toLowerCase().includes(q) ||
-      (p.profiles?.username || '').toLowerCase().includes(q) ||
-      p.hashtags?.some(t => t.toLowerCase().includes(q))
-    );
-  }, [posts, query, activeCategory]);
-
-  const handleLogout = async () => {
-    if (isGuest) {
-      exitGuestMode();
-    } else {
-      await signOut();
+    if (q) {
+      list = list.filter(p =>
+        (p.title || '').toLowerCase().includes(q) ||
+        (p.content || '').toLowerCase().includes(q) ||
+        (p.profiles?.username || '').toLowerCase().includes(q) ||
+        p.hashtags?.some(t => t.toLowerCase().includes(q))
+      );
     }
-    navigate('/login');
-  };
+    const sorted = [...list];
+    if (sortBy === 'likes') sorted.sort((a, b) => (b.like_count ?? 0) - (a.like_count ?? 0));
+    else if (sortBy === 'comments') sorted.sort((a, b) => (b.comment_count ?? 0) - (a.comment_count ?? 0));
+    else if (sortBy === 'views') sorted.sort((a, b) => (b.view_count ?? 0) - (a.view_count ?? 0));
+    else sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    return sorted;
+  }, [posts, query, activeCategory, sortBy]);
+
+  const stats = useMemo(() => ({
+    pending: posts.filter(p => getStatusBadge(p).label === '피드백 요청중').length,
+    answered: posts.filter(p => getStatusBadge(p).label === '답변 완료').length,
+    job: posts.filter(p => getCategoryLabel(p) === '취업 준비').length,
+    ai: posts.filter(p => getCategoryLabel(p) === 'AI Coding').length,
+  }), [posts]);
 
   const handleWriteClick = () => {
     if (user || isGuest) {
@@ -176,59 +205,19 @@ const PostListPage = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <AppBar position="sticky">
-        <Toolbar sx={{ gap: 1 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexGrow: 1, minWidth: 0 }}>
-            <Box sx={{
-              width: 32, height: 32, borderRadius: '8px', flexShrink: 0,
-              bgcolor: 'primary.main', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
-              <ForumOutlinedIcon sx={{ color: '#fff', fontSize: '1.1rem' }} />
-            </Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, letterSpacing: '-0.3px', display: { xs: 'none', sm: 'block' } }}>
-              my-community
-            </Typography>
-            {isGuest && (
-              <Chip label="게스트 모드" size="small" sx={{ bgcolor: 'rgba(37,99,235,0.12)', color: 'primary.main', fontSize: '0.68rem', height: 22 }} />
-            )}
-          </Box>
-          <Tooltip title="포트폴리오로 돌아가기">
-            <Button
-              component="a"
-              href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
-              target="_blank"
-              rel="noopener noreferrer"
-              size="small"
-              sx={{ fontSize: '0.72rem', color: 'text.secondary', display: { xs: 'none', md: 'inline-flex' } }}
-              aria-label="포트폴리오로 돌아가기"
-            >
-              ← Portfolio
-            </Button>
-          </Tooltip>
-          {(user || isGuest) ? (
-            <Tooltip title={isGuest ? '로그인 페이지로' : '로그아웃'}>
-              <IconButton color="inherit" onClick={handleLogout} aria-label={isGuest ? '로그인 페이지로 이동' : '로그아웃'}>
-                {isGuest ? <Login fontSize="small" /> : <Logout fontSize="small" />}
-              </IconButton>
-            </Tooltip>
-          ) : (
-            <Button size="small" variant="outlined" onClick={() => navigate('/login')} sx={{ fontSize: '0.78rem', minHeight: 32 }}>
-              로그인
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
+      <Header />
 
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        {/* 헤더 영역 */}
-        <Box sx={{ mb: 3 }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1, flexWrap: 'wrap', gap: 2 }}>
-            <Box>
-              <Typography variant="h2" sx={{ mb: 0.5 }}>게시판</Typography>
-              <Typography variant="body2" color="text.secondary">
-                포트폴리오 피드백, UX/UI 질문, 취업 준비 정보를 자유롭게 나눠보세요.
-              </Typography>
-            </Box>
+        {/* Hero 영역 */}
+        <Box sx={{
+          mb: 4, p: { xs: 3, sm: 4 }, borderRadius: 3,
+          bgcolor: 'background.paper', border: '1px solid', borderColor: 'divider',
+        }}>
+          <Typography variant="h1" sx={{ mb: 1 }}>Portfolio Feedback Hub</Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 2.5, maxWidth: 560 }}>
+            포트폴리오를 공유하고, UX/UI·취업 관점의 피드백을 주고받는 커뮤니티입니다.
+          </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mb: 3 }}>
             <Button
               variant="contained"
               startIcon={<Add />}
@@ -236,15 +225,41 @@ const PostListPage = () => {
               aria-label="새 게시글 작성"
               sx={{ px: 3, py: 1.2, minHeight: 44 }}
             >
-              글쓰기
+              피드백 요청하기
             </Button>
+            {!user && !isGuest && (
+              <Button
+                variant="outlined"
+                onClick={() => navigate('/login')}
+                sx={{ px: 3, py: 1.2, minHeight: 44 }}
+              >
+                게스트로 둘러보기 / 테스트 계정으로 체험하기
+              </Button>
+            )}
           </Box>
+
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' }, gap: 1.5 }}>
+            {[
+              { label: '피드백 요청', value: stats.pending },
+              { label: '답변 완료', value: stats.answered },
+              { label: '취업 준비 글', value: stats.job },
+              { label: 'AI 활용 질문', value: stats.ai },
+            ].map(({ label, value }) => (
+              <Box key={label} sx={{ p: 1.5, borderRadius: 2, bgcolor: 'background.default', border: '1px solid', borderColor: 'divider' }}>
+                <Typography variant="h3">{value}개</Typography>
+                <Typography variant="caption" color="text.secondary">{label}</Typography>
+              </Box>
+            ))}
+          </Box>
+          <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 1 }}>
+            데모 데이터 기준 통계입니다.
+          </Typography>
         </Box>
 
         {/* 검색 */}
         <TextField
           fullWidth
-          placeholder="제목, 내용, 작성자, 태그로 검색..."
+          placeholder="제목, 내용, 태그로 피드백 글 검색"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           size="small"
@@ -255,24 +270,38 @@ const PostListPage = () => {
           }}
         />
 
-        {/* 카테고리 필터 */}
-        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap', mb: 3 }}>
-          {CATEGORIES.map(cat => (
-            <Chip
-              key={cat}
-              label={cat}
-              clickable
-              onClick={() => setActiveCategory(cat)}
-              variant={activeCategory === cat ? 'filled' : 'outlined'}
-              sx={{
-                fontWeight: activeCategory === cat ? 700 : 400,
-                bgcolor: activeCategory === cat ? 'primary.main' : 'transparent',
-                color: activeCategory === cat ? '#fff' : 'text.secondary',
-                borderColor: activeCategory === cat ? 'primary.main' : 'divider',
-                '&:hover': { bgcolor: activeCategory === cat ? 'primary.dark' : 'action.hover' },
-              }}
-            />
-          ))}
+        {/* 카테고리 필터 + 정렬 */}
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+          <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
+            {CATEGORIES.map(cat => (
+              <Chip
+                key={cat}
+                label={cat}
+                clickable
+                onClick={() => setActiveCategory(cat)}
+                variant={activeCategory === cat ? 'filled' : 'outlined'}
+                sx={{
+                  fontWeight: activeCategory === cat ? 700 : 400,
+                  bgcolor: activeCategory === cat ? 'primary.main' : 'transparent',
+                  color: activeCategory === cat ? '#fff' : 'text.secondary',
+                  borderColor: activeCategory === cat ? 'primary.main' : 'divider',
+                  '&:hover': { bgcolor: activeCategory === cat ? 'primary.dark' : 'action.hover' },
+                }}
+              />
+            ))}
+          </Box>
+          <FormControl size="small" sx={{ minWidth: 140 }}>
+            <Select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              inputProps={{ 'aria-label': '정렬 기준' }}
+              sx={{ bgcolor: 'background.paper' }}
+            >
+              {SORT_OPTIONS.map(opt => (
+                <MenuItem key={opt.value} value={opt.value}>{opt.label}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Box>
 
         {(query || activeCategory !== '전체') && !loading && (
@@ -285,7 +314,7 @@ const PostListPage = () => {
         {loading ? (
           <Grid container spacing={3}>
             {Array.from({ length: 6 }).map((_, i) => (
-              <Grid item xs={12} sm={6} md={4} key={i}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
                 <Skeleton variant="rectangular" height={320} sx={{ borderRadius: 2 }} />
               </Grid>
             ))}
@@ -299,7 +328,7 @@ const PostListPage = () => {
         ) : (
           <Grid container spacing={3}>
             {filtered.map(post => (
-              <Grid item xs={12} sm={6} md={4} key={post.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={post.id}>
                 <PostCard post={post} onClick={() => navigate(`/posts/${post.id}`)} />
               </Grid>
             ))}
@@ -309,10 +338,10 @@ const PostListPage = () => {
         {/* 포트폴리오용 푸터 */}
         <Box sx={{ mt: 6, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
           <Typography variant="caption" sx={{ display: 'block', fontWeight: 700, color: 'text.secondary', mb: 0.5 }}>
-            AI-assisted Community Board
+            Portfolio Feedback Hub
           </Typography>
           <Typography variant="caption" sx={{ display: 'block', color: 'text.disabled', lineHeight: 1.6, mb: 1 }}>
-            Claude를 활용해 게시판 라우팅, UI 구조, 게시글 목록/상세/작성 흐름 구현을 보조받은 학습 목적의 프론트엔드 프로젝트입니다.
+            이 프로젝트는 React, MUI, Supabase로 구현한 포트폴리오 피드백 커뮤니티입니다. Claude를 활용해 라우팅, UI 구조, 게시글 흐름 구현을 보조받은 학습 목적의 데모 프로젝트입니다.
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
             <Link href="https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/my-community" target="_blank" rel="noopener noreferrer" variant="caption" underline="hover" sx={{ color: 'text.disabled', '&:hover': { color: 'primary.main' } }}>

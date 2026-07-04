@@ -2,18 +2,19 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box, Container, Typography, Button, TextField, Avatar,
-  IconButton, Chip, AppBar, Toolbar, Divider, Skeleton,
+  IconButton, Chip, Divider, Skeleton,
   Alert, Collapse, Dialog, DialogTitle, DialogContent,
-  DialogContentText, DialogActions,
+  DialogContentText, DialogActions, Snackbar,
 } from '@mui/material';
 import {
-  ArrowBack, Favorite, FavoriteBorder, ChatBubble,
+  Favorite, FavoriteBorder, ChatBubble,
   Visibility, AccessTime, Send, Reply,
   Edit, Delete, Check, Close,
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
-import { SAMPLE_POSTS, SAMPLE_COMMENTS } from '../constants/samplePosts';
+import { SAMPLE_POSTS, SAMPLE_COMMENTS, getCategoryLabel, getStatusBadge } from '../constants/samplePosts';
+import SubPageHeader from '../components/SubPageHeader';
 
 const formatRelativeTime = (dateStr) => {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -253,6 +254,7 @@ const PostDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [deletePostDialog, setDeletePostDialog] = useState(false);
+  const [guestNotice, setGuestNotice] = useState(false);
 
   const fetchPost = useCallback(async () => {
     const { data } = await supabase
@@ -330,7 +332,7 @@ const PostDetailPage = () => {
 
   // 게시물 좋아요
   const handlePostLike = async () => {
-    if (!user) return;
+    if (!user) { setGuestNotice(true); return; }
     if (liked) {
       await supabase.from('post_likes').delete().eq('post_id', id).eq('user_id', user.id);
       setLiked(false); setLikeCount(p => p - 1);
@@ -396,52 +398,37 @@ const PostDetailPage = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)} aria-label="뒤로 가기">
-            <ArrowBack />
-          </IconButton>
-          <Typography
-            variant="h6"
-            onClick={() => navigate(-1)}
-            sx={{ flexGrow: 1, ml: 1, cursor: 'pointer', '&:hover': { opacity: 0.7 } }}
-          >
-            게시물 상세
-          </Typography>
-          <Button
-            component="a"
-            href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
-            target="_blank"
-            rel="noopener noreferrer"
-            size="small"
-            sx={{ fontSize: '0.72rem', color: 'text.secondary', display: { xs: 'none', md: 'inline-flex' }, mr: 1 }}
-            aria-label="포트폴리오로 돌아가기"
-          >
-            ← Portfolio
-          </Button>
-          {/* 내 게시물 편집/삭제 */}
-          {isPostOwner && (
-            <Box sx={{ display: 'flex', gap: 0.5 }}>
-              <Button
-                size="small"
-                startIcon={<Edit sx={{ fontSize: 15 }} />}
-                onClick={() => navigate(`/posts/${id}/edit`)}
-                sx={{ color: 'inherit', fontSize: '0.8rem' }}
-              >
-                수정
-              </Button>
-              <Button
-                size="small"
-                startIcon={<Delete sx={{ fontSize: 15 }} />}
-                onClick={() => setDeletePostDialog(true)}
-                sx={{ color: 'error.light', fontSize: '0.8rem' }}
-              >
-                삭제
-              </Button>
-            </Box>
-          )}
-        </Toolbar>
-      </AppBar>
+      <SubPageHeader
+        title="← 목록으로"
+        rightActions={isPostOwner && (
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Button
+              size="small"
+              startIcon={<Edit sx={{ fontSize: 15 }} />}
+              onClick={() => navigate(`/posts/${id}/edit`)}
+              sx={{ color: 'inherit', fontSize: '0.8rem' }}
+            >
+              수정
+            </Button>
+            <Button
+              size="small"
+              startIcon={<Delete sx={{ fontSize: 15 }} />}
+              onClick={() => setDeletePostDialog(true)}
+              sx={{ color: 'error.light', fontSize: '0.8rem' }}
+            >
+              삭제
+            </Button>
+          </Box>
+        )}
+      />
+
+      <Snackbar
+        open={guestNotice}
+        autoHideDuration={2500}
+        onClose={() => setGuestNotice(false)}
+        message="좋아요는 로그인 후 이용할 수 있어요"
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      />
 
       {/* 게시물 삭제 확인 */}
       <ConfirmDialog
@@ -457,6 +444,23 @@ const PostDetailPage = () => {
 
         {/* 게시물 본문 */}
         <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 4, mb: 3, border: '1px solid', borderColor: 'divider' }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1.5 }}>
+            {getCategoryLabel(post) && (
+              <Chip label={getCategoryLabel(post)} size="small" variant="outlined"
+                sx={{ fontSize: '0.7rem', borderColor: 'divider', color: 'text.secondary' }} />
+            )}
+            {(() => {
+              const status = getStatusBadge({
+                ...post,
+                comment_count: comments.reduce((acc, c) => acc + 1 + (c.replies?.length ?? 0), 0),
+              });
+              return (
+                <Chip label={status.label} size="small"
+                  sx={{ fontSize: '0.7rem', bgcolor: `${status.color}1A`, color: status.color, fontWeight: 700 }} />
+              );
+            })()}
+          </Box>
+
           {post.hashtags?.length > 0 && (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 2 }}>
               {post.hashtags.map(tag => (

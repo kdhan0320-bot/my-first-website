@@ -37,6 +37,19 @@ const LoginPage = () => {
     navigate('/');
   };
 
+  const handleDemoLogin = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await signIn({ username: 'demo', password: 'demo1234!' });
+      navigate('/');
+    } catch {
+      setError('테스트 계정 로그인에 실패했습니다. 게스트로 둘러보기를 이용해주세요.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -83,8 +96,23 @@ const LoginPage = () => {
         >
           게스트로 둘러보기
         </Button>
-        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 3 }}>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 1.5 }}>
           별도 회원가입 없이 샘플 게시글로 주요 화면을 확인할 수 있습니다.
+        </Typography>
+
+        {/* 테스트 계정 체험 */}
+        <Button
+          variant="outlined"
+          fullWidth
+          onClick={handleDemoLogin}
+          disabled={loading}
+          aria-label="테스트 계정으로 로그인 체험하기"
+          sx={{ mb: 1, py: 1.2, borderRadius: 2.5, fontWeight: 600, minHeight: 44 }}
+        >
+          테스트 계정으로 체험하기
+        </Button>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 3 }}>
+          데모 계정(demo)으로 실제 로그인 흐름을 체험할 수 있습니다.
         </Typography>
 
         {/* 로그인 폼 */}

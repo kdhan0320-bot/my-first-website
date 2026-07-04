@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box, Container, Typography, TextField, Button, Chip,
-  AppBar, Toolbar, IconButton, Alert, Paper, Skeleton,
+  Alert, Paper, Skeleton,
 } from '@mui/material';
-import { ArrowBack, AddPhotoAlternate, Refresh, Tag } from '@mui/icons-material';
+import { AddPhotoAlternate, Refresh, Tag } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
+import SubPageHeader from '../components/SubPageHeader';
 
 const PICSUM_SEED_URL = 'https://picsum.photos/seed/';
 
@@ -91,17 +92,14 @@ const PostEditPage = () => {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)} aria-label="뒤로 가기">
-            <ArrowBack />
-          </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1, ml: 1 }}>게시물 수정</Typography>
+      <SubPageHeader
+        title="게시물 수정"
+        rightActions={(
           <Button variant="contained" onClick={handleSubmit} disabled={saving} sx={{ px: 3 }}>
             {saving ? '저장 중...' : '수정 완료'}
           </Button>
-        </Toolbar>
-      </AppBar>
+        )}
+      />
 
       <Container maxWidth="md" sx={{ py: 4 }}>
         {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}

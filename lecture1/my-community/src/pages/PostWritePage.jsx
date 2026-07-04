@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Box, Container, Typography, TextField, Button, Chip,
-  AppBar, Toolbar, IconButton, Alert, Paper,
+  Box, Container, Typography, TextField, Button, Chip, Alert, Paper,
 } from '@mui/material';
-import { ArrowBack, AddPhotoAlternate, Refresh, Tag } from '@mui/icons-material';
+import { AddPhotoAlternate, Refresh, Tag } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
+import SubPageHeader from '../components/SubPageHeader';
 
 const PICSUM_SEED_URL = 'https://picsum.photos/seed/';
+
+const FEEDBACK_FOCUS_OPTIONS = ['색상', '여백', '정보구조', '기능 흐름', '취업용 문구', '반응형', '접근성', '코드 구조'];
 
 const PostWritePage = () => {
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ const PostWritePage = () => {
   const [form, setForm] = useState({ title: '', content: '', hashtags: [] });
   const [imageUrl, setImageUrl] = useState('');
   const [tagInput, setTagInput] = useState('');
+  const [feedbackFocus, setFeedbackFocus] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -39,6 +42,10 @@ const PostWritePage = () => {
 
   const removeTag = (tag) => setForm(prev => ({ ...prev, hashtags: prev.hashtags.filter(t => t !== tag) }));
 
+  const toggleFeedbackFocus = (item) => {
+    setFeedbackFocus(prev => prev.includes(item) ? prev.filter(f => f !== item) : [...prev, item]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -48,10 +55,14 @@ const PostWritePage = () => {
     }
     setLoading(true);
     try {
+      const contentWithFocus = feedbackFocus.length > 0
+        ? `[피드백 요청 항목]\n${feedbackFocus.map(f => `- ${f}`).join('\n')}\n\n${form.content.trim()}`
+        : form.content.trim();
+
       const { data, error: err } = await supabase.from('posts').insert({
         user_id: user.id,
         title: form.title.trim(),
-        content: form.content.trim(),
+        content: contentWithFocus,
         image_url: imageUrl || null,
         hashtags: form.hashtags,
       }).select().single();
@@ -64,19 +75,30 @@ const PostWritePage = () => {
     }
   };
 
+  if (!user) {
+    return (
+      <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+        <SubPageHeader title="게시물 작성" />
+        <Container maxWidth="md" sx={{ py: 4 }}>
+          <Alert severity="info" sx={{ mb: 2 }}>글쓰기는 로그인 후 이용할 수 있습니다.</Alert>
+          <Button variant="contained" onClick={() => navigate('/login')}>
+            로그인 하러 가기
+          </Button>
+        </Container>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-      <AppBar position="sticky">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" onClick={() => navigate(-1)} aria-label="뒤로 가기">
-            <ArrowBack />
-          </IconButton>
-          <Typography variant="h6" sx={{ flexGrow: 1, ml: 1 }}>게시물 작성</Typography>
+      <SubPageHeader
+        title="게시물 작성"
+        rightActions={(
           <Button variant="contained" onClick={handleSubmit} disabled={loading} sx={{ px: 3 }}>
             {loading ? '등록 중...' : '게시물 등록'}
           </Button>
-        </Toolbar>
-      </AppBar>
+        )}
+      />
 
       <Container maxWidth="md" sx={{ py: 4 }}>
         {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
@@ -104,6 +126,29 @@ const PostWritePage = () => {
             rows={10}
             sx={{ mb: 3 }}
           />
+
+          {/* 피드백 받고 싶은 부분 */}
+          <Box sx={{ mb: 3 }}>
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+              피드백 받고 싶은 부분 (선택)
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+              {FEEDBACK_FOCUS_OPTIONS.map(item => (
+                <Chip
+                  key={item}
+                  label={item}
+                  clickable
+                  onClick={() => toggleFeedbackFocus(item)}
+                  variant={feedbackFocus.includes(item) ? 'filled' : 'outlined'}
+                  sx={{
+                    bgcolor: feedbackFocus.includes(item) ? 'primary.main' : 'transparent',
+                    color: feedbackFocus.includes(item) ? '#fff' : 'text.secondary',
+                    borderColor: feedbackFocus.includes(item) ? 'primary.main' : 'divider',
+                  }}
+                />
+              ))}
+            </Box>
+          </Box>
 
           {/* 이미지 영역 */}
           <Box sx={{ mb: 3 }}>
