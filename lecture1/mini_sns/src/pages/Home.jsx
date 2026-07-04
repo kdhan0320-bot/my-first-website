@@ -159,7 +159,16 @@ const Home = () => {
               <Chip label="모임 연결" size="small" sx={heroChipSx} />
             </>
           }
+          flowLabel="오늘의 흐름"
+          flowText="작업 기록 → 스터디 참여 → 채팅방 연결"
         />
+        <Box sx={{
+          position: 'relative', mt: '-16px',
+          borderRadius: '20px 20px 0 0',
+          bgcolor: 'background.default',
+          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
+          pt: '16px',
+        }}>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}>
             <CircularProgress />
@@ -191,6 +200,7 @@ const Home = () => {
             ))}
           </>
         )}
+        </Box>
       </Box>
     </MainLayout>
   );

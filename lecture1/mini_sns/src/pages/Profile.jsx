@@ -78,6 +78,8 @@ const Profile = () => {
                 <Chip label="활동 요약" size="small" sx={heroChipSx} />
               </>
             }
+            flowLabel="프로필 흐름"
+            flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
           />
           <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
@@ -146,6 +148,8 @@ const Profile = () => {
               <Chip label="활동 요약" size="small" sx={heroChipSx} />
             </>
           }
+          flowLabel="프로필 흐름"
+          flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
         />
         {/* 프로필 헤더 */}
         <Box

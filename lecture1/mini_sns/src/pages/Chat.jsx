@@ -168,6 +168,8 @@ const Chat = () => {
               />
             </>
           }
+          flowLabel="대화 흐름"
+          flowText="모임별 채팅방에서 작업 기록을 이어갑니다"
         />
 
         <List sx={{ p: 0, bgcolor: 'background.paper' }}>

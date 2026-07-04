@@ -138,8 +138,11 @@ const Meetup = () => {
             <>
               <Chip label={`모임 ${meetups.length}개`} size="small" sx={heroChipSx} />
               <Chip label="채팅 연결" size="small" sx={heroChipSx} />
+              <Chip label="온라인 중심" size="small" sx={heroChipSx} />
             </>
           }
+          flowLabel="참여 흐름"
+          flowText="모임 선택 → 참가하기 → 채팅방 이동"
         />
 
         <Box sx={{ pt: 2 }}>

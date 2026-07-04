@@ -85,26 +85,41 @@ const Notifications = () => {
           borderBottom: '1px solid rgba(255,255,255,0.08)',
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
         }}>
-          <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Typography variant="h2" sx={{ fontWeight: 800, color: '#fff' }}>활동 알림</Typography>
+          <Box sx={{ flex: 1 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="h2" sx={{ fontWeight: 800, color: '#fff' }}>활동 알림</Typography>
+                  {unreadCount > 0 && (
+                    <Chip
+                      label={`새 알림 ${unreadCount}개`}
+                      size="small"
+                      sx={{ bgcolor: 'error.main', color: '#fff', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
+                    />
+                  )}
+                </Box>
+                <Typography variant="body2" sx={{ color: '#C7D2FE', mt: 0.3 }}>
+                  댓글, 좋아요, 모임 소식을 확인하세요
+                </Typography>
+              </Box>
               {unreadCount > 0 && (
-                <Chip
-                  label={`새 알림 ${unreadCount}개`}
-                  size="small"
-                  sx={{ bgcolor: 'error.main', color: '#fff', fontWeight: 700, fontSize: '0.65rem', height: 20 }}
-                />
+                <IconButton size="small" onClick={markAllRead} aria-label="모두 읽음으로 표시" sx={{ color: '#E0E7FF' }}>
+                  <DoneAllIcon fontSize="small" />
+                </IconButton>
               )}
             </Box>
-            <Typography variant="body2" sx={{ color: '#C7D2FE', mt: 0.3 }}>
-              댓글, 좋아요, 모임 소식을 확인하세요
-            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.25 }}>
+              <Chip label="모임 소식" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.16)', color: '#fff', fontWeight: 600, fontSize: '0.68rem', border: '1px solid rgba(255,255,255,0.22)' }} />
+            </Box>
+            <Box sx={{ mt: 1.25, pt: 1.1, borderTop: '1px solid rgba(255,255,255,0.14)' }}>
+              <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.25, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
+                알림 흐름
+              </Typography>
+              <Typography variant="caption" sx={{ color: '#E0E7FF', fontSize: '0.74rem', lineHeight: 1.4 }}>
+                피드 반응과 모임 업데이트를 빠르게 확인합니다
+              </Typography>
+            </Box>
           </Box>
-          {unreadCount > 0 && (
-            <IconButton size="small" onClick={markAllRead} aria-label="모두 읽음으로 표시" sx={{ color: '#E0E7FF' }}>
-              <DoneAllIcon fontSize="small" />
-            </IconButton>
-          )}
         </Box>
 
         {/* 알림 목록 */}
