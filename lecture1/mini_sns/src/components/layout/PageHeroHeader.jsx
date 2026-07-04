@@ -1,35 +1,67 @@
 import { Box, Typography } from "@mui/material";
 
-const dashboardCardSx = {
-  flex: 1,
+const railSegmentSx = {
+  display: "flex",
+  alignItems: "baseline",
+  gap: 0.5,
   minWidth: 0,
-  p: "13px 14px",
-  borderRadius: "18px",
-  bgcolor: "rgba(255,255,255,0.12)",
-  border: "1px solid rgba(255,255,255,0.22)",
+  flex: { sm: 1 },
 };
 
-const DashboardCard = ({ label, text }) => (
-  <Box sx={dashboardCardSx}>
+const RailSegment = ({ label, text }) => (
+  <Box sx={railSegmentSx}>
     <Typography
       variant="caption"
       sx={{
         color: "#A5B4FC",
         fontWeight: 700,
-        display: "block",
-        mb: 0.35,
         fontSize: "0.68rem",
-        letterSpacing: "0.02em",
+        flexShrink: 0,
       }}
     >
       {label}
     </Typography>
     <Typography
       variant="caption"
-      sx={{ color: "#E0E7FF", fontSize: "0.74rem", lineHeight: 1.4 }}
+      noWrap
+      sx={{ color: "#E0E7FF", fontSize: "0.72rem", minWidth: 0 }}
     >
       {text}
     </Typography>
+  </Box>
+);
+
+const SummaryRail = ({ flowLabel, flowText, featureLabel, featureText }) => (
+  <Box
+    sx={{
+      mt: 1.25,
+      px: 1.5,
+      py: 0.9,
+      borderRadius: "14px",
+      bgcolor: "rgba(255,255,255,0.08)",
+      border: "1px solid rgba(255,255,255,0.16)",
+      display: "flex",
+      flexDirection: { xs: "column", sm: "row" },
+      alignItems: { xs: "flex-start", sm: "center" },
+      gap: { xs: 0.4, sm: 0 },
+    }}
+  >
+    <RailSegment label={flowLabel} text={flowText} />
+    {featureText && (
+      <>
+        <Box
+          sx={{
+            display: { xs: "none", sm: "block" },
+            width: "1px",
+            height: 12,
+            bgcolor: "rgba(255,255,255,0.18)",
+            mx: 1.5,
+            flexShrink: 0,
+          }}
+        />
+        <RailSegment label={featureLabel} text={featureText} />
+      </>
+    )}
   </Box>
 );
 
@@ -40,14 +72,14 @@ const PageHeroHeader = ({
   action,
   flowLabel,
   flowText,
-  featureLabel = "볼 수 있는 기능",
+  featureLabel = "기능",
   featureText,
 }) => (
   <Box
     sx={{
       px: 2,
-      pt: 2.75,
-      pb: 2.5,
+      pt: 2.25,
+      pb: 2,
       background:
         "linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #4F46E5 100%)",
       borderBottom: "1px solid rgba(255,255,255,0.08)",
@@ -67,7 +99,7 @@ const PageHeroHeader = ({
         {subtitle && (
           <Typography
             variant="body2"
-            sx={{ color: "#C7D2FE", mt: 0.3, mb: chips ? 1.25 : 0 }}
+            sx={{ color: "#C7D2FE", mt: 0.3, mb: chips ? 1 : 0 }}
           >
             {subtitle}
           </Typography>
@@ -76,30 +108,15 @@ const PageHeroHeader = ({
       {action}
     </Box>
     {chips && (
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 0.75,
-          mb: flowText ? 1.5 : 0,
-        }}
-      >
-        {chips}
-      </Box>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>{chips}</Box>
     )}
     {flowText && (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          gap: 1,
-        }}
-      >
-        <DashboardCard label={flowLabel} text={flowText} />
-        {featureText && (
-          <DashboardCard label={featureLabel} text={featureText} />
-        )}
-      </Box>
+      <SummaryRail
+        flowLabel={flowLabel}
+        flowText={flowText}
+        featureLabel={featureLabel}
+        featureText={featureText}
+      />
     )}
   </Box>
 );
@@ -127,10 +144,10 @@ export const cardCanvasSx = {
 
 export const cardShelfSx = {
   position: "relative",
-  mt: "-16px",
+  mt: "-14px",
   borderRadius: "20px 20px 0 0",
   boxShadow: "0 -8px 16px -8px rgba(15,23,42,0.10)",
-  pt: "16px",
+  pt: "14px",
   ...cardCanvasSx,
 };
 

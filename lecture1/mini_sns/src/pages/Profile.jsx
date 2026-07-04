@@ -107,7 +107,7 @@ const Profile = () => {
                 <Chip label="활동 요약" size="small" sx={heroChipSx} />
               </>
             }
-            flowLabel="프로필 흐름"
+            flowLabel="흐름"
             flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
             featureText="프로필 정보 / 활동 요약 / 작성 기록"
           />
@@ -244,7 +244,7 @@ const Profile = () => {
               <Chip label="활동 요약" size="small" sx={heroChipSx} />
             </>
           }
-          flowLabel="프로필 흐름"
+          flowLabel="흐름"
           flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
           featureText="프로필 정보 / 활동 요약 / 작성 기록"
         />

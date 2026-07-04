@@ -97,12 +97,21 @@ const PostCard = ({ post, onDelete }) => {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
             <Avatar
               src={post.profiles?.profile_image_url}
-              sx={{ width: 36, height: 36 }}
+              sx={{ width: 38, height: 38 }}
             />
-            <Box>
-              <Typography variant="body2" fontWeight={700}>
-                {post.profiles?.nickname}
-              </Typography>
+            <Box sx={{ minWidth: 0 }}>
+              <Box sx={{ display: "flex", alignItems: "baseline", gap: 0.6 }}>
+                <Typography variant="body2" fontWeight={700}>
+                  {post.profiles?.nickname}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ flexShrink: 0 }}
+                >
+                  · {formatDistanceToNow(post.created_at)}
+                </Typography>
+              </Box>
               {post.location && (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <LocationOnOutlinedIcon
@@ -252,15 +261,6 @@ const PostCard = ({ post, onDelete }) => {
               </Typography>
             </Box>
           ))}
-
-          {/* 시간 */}
-          <Typography
-            variant="caption"
-            color="text.secondary"
-            sx={{ display: "block", mt: 0.6 }}
-          >
-            {formatDistanceToNow(post.created_at)}
-          </Typography>
         </CardContent>
       </Card>
 

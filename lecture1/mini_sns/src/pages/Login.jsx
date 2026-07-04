@@ -484,8 +484,16 @@ const Login = () => {
           </Typography>
         </Box>
 
-        {/* CTA */}
-        <Box sx={{ gridArea: "cta" }}>
+        {/* CTA: 독립된 hero action block */}
+        <Box
+          sx={{
+            gridArea: "cta",
+            p: { xs: 2, md: 2.25 },
+            borderRadius: "20px",
+            bgcolor: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(129,140,248,0.22)",
+          }}
+        >
           <Button
             variant="contained"
             fullWidth
@@ -499,6 +507,7 @@ const Login = () => {
               fontSize: "1rem",
               mb: 1.25,
               background: "linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)",
+              boxShadow: "0 12px 24px -8px rgba(79,70,229,0.55)",
               "&:hover": {
                 background: "linear-gradient(135deg, #4F46E5 0%, #4338CA 100%)",
               },
@@ -507,23 +516,19 @@ const Login = () => {
             데모 계정으로 체험하기
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             fullWidth
-            size="large"
+            size="medium"
             onClick={handleGuestMode}
             aria-label="로그인 없이 게스트로 데모 체험하기"
             sx={{
-              py: 1.4,
+              py: 1,
               borderRadius: 3,
-              fontWeight: 700,
-              fontSize: "0.95rem",
+              fontWeight: 600,
+              fontSize: "0.88rem",
               mb: 1,
-              color: "#E0E7FF",
-              borderColor: "rgba(199,210,254,0.5)",
-              "&:hover": {
-                borderColor: "#C7D2FE",
-                bgcolor: "rgba(199,210,254,0.08)",
-              },
+              color: "#C7D2FE",
+              "&:hover": { bgcolor: "rgba(199,210,254,0.08)" },
             }}
           >
             게스트로 둘러보기
@@ -537,7 +542,8 @@ const Login = () => {
               lineHeight: 1.6,
             }}
           >
-            Supabase 연결 없이 데모 계정으로 주요 화면을 체험할 수 있습니다.
+            데모 모드에서는 실제 데이터가 저장되지 않고 주요 화면 흐름만 확인할
+            수 있어요.
           </Typography>
         </Box>
 

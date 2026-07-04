@@ -242,7 +242,7 @@ const Home = () => {
               <Chip label="모임 연결" size="small" sx={heroChipSx} />
             </>
           }
-          flowLabel="오늘의 흐름"
+          flowLabel="흐름"
           flowText="작업 기록 → 스터디 참여 → 채팅방 연결"
           featureText="피드 카드 / 이미지 모달 / 좋아요 / 댓글"
         />
@@ -278,11 +278,18 @@ const Home = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "flex-end",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   px: 2,
-                  py: 0.5,
+                  py: 0.75,
                 }}
               >
+                <Typography
+                  variant="caption"
+                  sx={{ fontWeight: 700, color: "text.secondary" }}
+                >
+                  최근 작업 기록
+                </Typography>
                 <Button
                   size="small"
                   startIcon={<RefreshIcon />}

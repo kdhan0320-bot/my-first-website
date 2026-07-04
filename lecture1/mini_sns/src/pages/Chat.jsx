@@ -341,7 +341,7 @@ const Chat = () => {
               />
             </>
           }
-          flowLabel="대화 흐름"
+          flowLabel="흐름"
           flowText="모임별 채팅방에서 작업 기록을 이어갑니다"
           featureText="채팅 리스트 / 메시지 입력 / 읽지 않음 표시"
         />

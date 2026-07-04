@@ -229,7 +229,7 @@ const Meetup = () => {
               <Chip label="온라인 중심" size="small" sx={heroChipSx} />
             </>
           }
-          flowLabel="참여 흐름"
+          flowLabel="흐름"
           flowText="모임 선택 → 참가하기 → 채팅방 이동"
           featureText="모임 카드 / 참여 상태 / 채팅 연결"
         />
