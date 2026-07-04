@@ -516,7 +516,19 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
 /* ==============================================
    CONTENTS SECTION
    ============================================== */
-.section--contents { background: var(--bg-section); }
+.section--contents { position: relative; background: var(--bg-section); overflow: hidden; }
+.section--contents::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(16,24,39,0.86) 0%, rgba(16,24,39,0.94) 100%),
+    radial-gradient(ellipse 70% 55% at 22% 15%, rgba(0,209,255,0.26) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 55% at 82% 55%, rgba(139,92,246,0.22) 0%, transparent 55%),
+    linear-gradient(150deg, #060e1c 0%, #0d0b22 50%, #050c14 100%);
+  pointer-events: none;
+}
+.section--contents > .container { position: relative; z-index: 1; }
 
 /* Filter Bar */
 .filter-bar {
@@ -883,6 +895,7 @@ h1, h2, h3, h4 { line-height: 1.2; font-weight: 700; }
 .featured-banner__text { flex: 1; min-width: 200px; }
 .featured-banner__title { font-size: clamp(0.95rem, 1.8vw, 1.25rem); font-weight: 800; margin-bottom: 4px; }
 .featured-banner__desc  { font-size: 0.88rem; color: var(--text-sub); }
+.featured-banner__desc + .featured-banner__desc { margin-top: 2px; }
 
 /* ==============================================
    RECOMMEND SECTION

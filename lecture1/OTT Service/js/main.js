@@ -168,7 +168,7 @@ loginForm.addEventListener('submit', (e) => {
   closeLoginModal();
 });
 
-// 데모로 둘러보기 버튼
+// 테스트 계정으로 시작하기 버튼
 const demoEnterBtn = document.getElementById('demoEnterBtn');
 if (demoEnterBtn) {
   demoEnterBtn.addEventListener('click', closeLoginModal);
