@@ -8,7 +8,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SendIcon from '@mui/icons-material/Send';
 import MainLayout from '../components/layout/MainLayout';
-import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx, cardShelfSx } from '../components/layout/PageHeroHeader';
 import { ROUTES } from '../constants/routes';
 import { getRandomProfileAvatar } from '../hooks/useAuth';
 
@@ -170,15 +170,10 @@ const Chat = () => {
           }
           flowLabel="대화 흐름"
           flowText="모임별 채팅방에서 작업 기록을 이어갑니다"
+          featureText="채팅 리스트 / 메시지 입력 / 읽지 않음 표시"
         />
 
-        <Box sx={{
-          position: 'relative', mt: '-16px',
-          borderRadius: '20px 20px 0 0',
-          bgcolor: 'background.default',
-          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
-          pt: '16px',
-        }}>
+        <Box sx={cardShelfSx}>
           <List sx={{ p: 0, bgcolor: 'background.paper', borderRadius: '16px', mx: 2, overflow: 'hidden' }}>
             {MOCK_ROOMS.map((room, idx) => (
               <Box key={room.id}>

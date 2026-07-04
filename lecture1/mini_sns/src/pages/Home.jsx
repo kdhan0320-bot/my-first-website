@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, CircularProgress, Typography, Button, Alert, Chip } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import MainLayout from '../components/layout/MainLayout';
-import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx, cardShelfSx } from '../components/layout/PageHeroHeader';
 import PostCard from '../components/ui/PostCard';
 import { supabase } from '../utils/supabase';
 import { useAuth, getRandomProfileAvatar } from '../hooks/useAuth';
@@ -161,14 +161,9 @@ const Home = () => {
           }
           flowLabel="오늘의 흐름"
           flowText="작업 기록 → 스터디 참여 → 채팅방 연결"
+          featureText="피드 카드 / 이미지 모달 / 좋아요 / 댓글"
         />
-        <Box sx={{
-          position: 'relative', mt: '-16px',
-          borderRadius: '20px 20px 0 0',
-          bgcolor: 'background.default',
-          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
-          pt: '16px',
-        }}>
+        <Box sx={cardShelfSx}>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}>
             <CircularProgress />

@@ -7,7 +7,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MainLayout from '../components/layout/MainLayout';
-import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx, cardShelfSx } from '../components/layout/PageHeroHeader';
 import PostCard from '../components/ui/PostCard';
 import { supabase } from '../utils/supabase';
 import sampleFallback from '../assets/samples/sample-fallback.svg';
@@ -80,14 +80,9 @@ const Profile = () => {
             }
             flowLabel="프로필 흐름"
             flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
+            featureText="프로필 정보 / 활동 요약 / 작성 기록"
           />
-          <Box sx={{
-            position: 'relative', mt: '-16px',
-            borderRadius: '20px 20px 0 0',
-            bgcolor: 'background.default',
-            boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
-            pt: '16px',
-          }}>
+          <Box sx={cardShelfSx}>
             <Box sx={{ bgcolor: 'background.paper', mx: 2, borderRadius: '18px', px: 2, pt: 2, pb: 3 }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
                 <Avatar
@@ -158,14 +153,9 @@ const Profile = () => {
           }
           flowLabel="프로필 흐름"
           flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
+          featureText="프로필 정보 / 활동 요약 / 작성 기록"
         />
-        <Box sx={{
-          position: 'relative', mt: '-16px',
-          borderRadius: '20px 20px 0 0',
-          bgcolor: 'background.default',
-          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
-          pt: '16px',
-        }}>
+        <Box sx={cardShelfSx}>
           {/* 프로필 헤더 */}
           <Box
             sx={{

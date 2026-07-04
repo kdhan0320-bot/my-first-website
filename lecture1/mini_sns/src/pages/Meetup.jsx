@@ -10,7 +10,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import PeopleIcon from '@mui/icons-material/People';
 import GroupsIcon from '@mui/icons-material/Groups';
 import MainLayout from '../components/layout/MainLayout';
-import PageHeroHeader, { heroChipSx, heroSurfaceSx } from '../components/layout/PageHeroHeader';
+import PageHeroHeader, { heroChipSx, heroSurfaceSx, cardShelfSx } from '../components/layout/PageHeroHeader';
 import { chatRoomPath } from '../constants/routes';
 import { getRandomProfileAvatar } from '../hooks/useAuth';
 
@@ -143,15 +143,10 @@ const Meetup = () => {
           }
           flowLabel="참여 흐름"
           flowText="모임 선택 → 참가하기 → 채팅방 이동"
+          featureText="모임 카드 / 참여 상태 / 채팅 연결"
         />
 
-        <Box sx={{
-          position: 'relative', mt: '-16px',
-          borderRadius: '20px 20px 0 0',
-          bgcolor: 'background.default',
-          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
-          pt: '16px',
-        }}>
+        <Box sx={cardShelfSx}>
           {meetups.map((meetup) => (
             <MeetupCard
               key={meetup.id}

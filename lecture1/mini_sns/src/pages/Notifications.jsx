@@ -9,7 +9,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import EventIcon from '@mui/icons-material/Event';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import MainLayout from '../components/layout/MainLayout';
-import { heroSurfaceSx } from '../components/layout/PageHeroHeader';
+import { heroSurfaceSx, cardShelfSx } from '../components/layout/PageHeroHeader';
 import { getRandomProfileAvatar } from '../hooks/useAuth';
 import sampleCardUi from '../assets/samples/sample-card-ui.svg';
 import sampleStudy from '../assets/samples/sample-study.svg';
@@ -111,29 +111,38 @@ const Notifications = () => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.25 }}>
               <Chip label="모임 소식" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.16)', color: '#fff', fontWeight: 600, fontSize: '0.68rem', border: '1px solid rgba(255,255,255,0.22)' }} />
             </Box>
-            <Box sx={{
-              mt: 1.5, p: '13px 14px',
-              borderRadius: '18px',
-              bgcolor: 'rgba(255,255,255,0.12)',
-              border: '1px solid rgba(255,255,255,0.20)',
-            }}>
-              <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.35, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
-                알림 흐름
-              </Typography>
-              <Typography variant="caption" sx={{ color: '#E0E7FF', fontSize: '0.74rem', lineHeight: 1.4 }}>
-                피드 반응과 모임 업데이트를 빠르게 확인합니다
-              </Typography>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 1 }}>
+              <Box sx={{
+                flex: 1, minWidth: 0, p: '13px 14px',
+                borderRadius: '18px',
+                bgcolor: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.20)',
+              }}>
+                <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.35, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
+                  알림 흐름
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#E0E7FF', fontSize: '0.74rem', lineHeight: 1.4 }}>
+                  피드 반응과 모임 업데이트를 빠르게 확인합니다
+                </Typography>
+              </Box>
+              <Box sx={{
+                flex: 1, minWidth: 0, p: '13px 14px',
+                borderRadius: '18px',
+                bgcolor: 'rgba(255,255,255,0.12)',
+                border: '1px solid rgba(255,255,255,0.20)',
+              }}>
+                <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.35, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
+                  볼 수 있는 기능
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#E0E7FF', fontSize: '0.74rem', lineHeight: 1.4 }}>
+                  읽지 않음 / 반응 알림 / 모임 업데이트
+                </Typography>
+              </Box>
             </Box>
           </Box>
         </Box>
 
-        <Box sx={{
-          position: 'relative', mt: '-16px',
-          borderRadius: '20px 20px 0 0',
-          bgcolor: 'background.default',
-          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
-          pt: '16px',
-        }}>
+        <Box sx={cardShelfSx}>
           {/* 알림 목록 */}
           <List sx={{ p: 0, bgcolor: 'background.paper', borderRadius: '16px', mx: 2, overflow: 'hidden' }}>
             {notifications.map((notif, idx) => {

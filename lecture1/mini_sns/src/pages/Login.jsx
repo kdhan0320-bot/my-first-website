@@ -28,7 +28,7 @@ const MiniTab = ({ icon, active }) => (
 
 const AppMockup = () => (
   <Box sx={{
-    width: '100%', maxWidth: 400, mx: 'auto',
+    width: '100%', maxWidth: 440, mx: 'auto',
     borderRadius: '32px',
     p: '10px',
     background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 55%, #4F46E5 100%)',
@@ -167,43 +167,43 @@ const Login = () => {
         py: { xs: 4, md: 7 },
       }}
     >
-      {/* 은은한 배경 blob 애니메이션 - 좌측 카피 뒤 */}
+      {/* 은은한 배경 blob 애니메이션 - 좌측 카피 뒤 바깥쪽 */}
       <Box aria-hidden sx={{
-        position: 'absolute', top: '-16%', left: '-14%', width: 520, height: 520,
+        position: 'absolute', top: '-18%', left: '-16%', width: 540, height: 540,
         borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
         background: 'radial-gradient(circle, #818CF8 0%, transparent 70%)',
-        opacity: 0.46, filter: 'blur(64px)',
+        opacity: 0.5, filter: 'blur(60px)',
         '@keyframes blobFloatA': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(140px, 110px) scale(1.2)' },
+          '50%': { transform: 'translate(180px, 140px) scale(1.25)' },
         },
-        animation: 'blobFloatA 19s ease-in-out infinite',
+        animation: 'blobFloatA 20s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
       {/* 하단 코너 blob */}
       <Box aria-hidden sx={{
-        position: 'absolute', bottom: '-18%', right: '-12%', width: 460, height: 460,
+        position: 'absolute', bottom: '-20%', right: '-14%', width: 500, height: 500,
         borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
         background: 'radial-gradient(circle, #06B6D4 0%, transparent 70%)',
-        opacity: 0.4, filter: 'blur(58px)',
+        opacity: 0.42, filter: 'blur(50px)',
         '@keyframes blobFloatB': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(-130px, -120px) scale(1.22)' },
+          '50%': { transform: 'translate(-170px, -150px) scale(1.28)' },
         },
-        animation: 'blobFloatB 22s ease-in-out infinite',
+        animation: 'blobFloatB 24s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
       {/* 목업 뒤 blob (우측) */}
       <Box aria-hidden sx={{
-        position: 'absolute', top: '28%', right: { xs: '-16%', md: '4%' }, width: 480, height: 480,
+        position: 'absolute', top: '26%', right: { xs: '-18%', md: '2%' }, width: 520, height: 520,
         borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
         background: 'radial-gradient(circle, #A78BFA 0%, transparent 70%)',
-        opacity: 0.44, filter: 'blur(60px)',
+        opacity: 0.48, filter: 'blur(46px)',
         '@keyframes blobFloatC': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(100px, -110px) scale(1.16)' },
+          '50%': { transform: 'translate(140px, -150px) scale(1.2)' },
         },
-        animation: 'blobFloatC 16s ease-in-out infinite',
+        animation: 'blobFloatC 15s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
 
@@ -213,9 +213,9 @@ const Login = () => {
         maxWidth: 1220,
         mx: 'auto',
         display: 'grid',
-        columnGap: { md: 8.25 },
+        columnGap: { md: 8.5 },
         rowGap: 3,
-        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 0.95fr) minmax(420px, 500px)' },
+        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 0.9fr) minmax(440px, 520px)' },
         gridTemplateAreas: {
           xs: `"brand" "cta" "mockup" "form"`,
           md: `"brand mockup" "cta mockup" "form mockup"`,
@@ -289,32 +289,32 @@ const Login = () => {
           <AppMockup />
         </Box>
 
-        {/* 로그인 폼 */}
+        {/* 로그인 폼 (보조 카드) */}
         <Box sx={{ gridArea: 'form' }}>
-          {error && <Alert severity="warning" sx={{ mb: 2, borderRadius: 2 }}>{error}</Alert>}
+          <Typography variant="caption" sx={{ color: '#8B93B8', display: 'block', mb: 1, textAlign: { xs: 'center', md: 'left' } }}>
+            이미 계정이 있다면
+          </Typography>
+          {error && <Alert severity="warning" sx={{ mb: 1.5, borderRadius: 2 }}>{error}</Alert>}
           <Box
             component="form"
             onSubmit={handleLogin}
             sx={{
               width: '100%',
-              bgcolor: 'rgba(255,255,255,0.06)',
-              backdropFilter: 'blur(8px)',
+              bgcolor: 'rgba(255,255,255,0.04)',
+              backdropFilter: 'blur(6px)',
               borderRadius: 3,
-              p: 3,
-              border: '1px solid rgba(199,210,254,0.18)',
+              p: 2.25,
+              border: '1px solid rgba(199,210,254,0.14)',
             }}
           >
-            <Divider sx={{ mb: 2.5, borderColor: 'rgba(199,210,254,0.25)' }}>
-              <Typography variant="caption" sx={{ color: '#A5B4C7' }}>계정으로 로그인</Typography>
-            </Divider>
-
             <TextField
               label="아이디"
               variant="outlined"
+              size="small"
               fullWidth
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              sx={{ mb: 2, '& .MuiInputLabel-root': { color: '#A5B4C7' }, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(255,255,255,0.9)' } }}
+              sx={{ mb: 1.25, '& .MuiInputLabel-root': { color: '#8B93B8' }, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(255,255,255,0.06)', color: '#E0E7FF', '& fieldset': { borderColor: 'rgba(199,210,254,0.25)' } } }}
               autoComplete="username"
               slotProps={{ htmlInput: { 'aria-label': '아이디' } }}
             />
@@ -322,38 +322,38 @@ const Login = () => {
               label="비밀번호"
               type="password"
               variant="outlined"
+              size="small"
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              sx={{ mb: 2.5, '& .MuiInputLabel-root': { color: '#A5B4C7' }, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(255,255,255,0.9)' } }}
+              sx={{ mb: 1.5, '& .MuiInputLabel-root': { color: '#8B93B8' }, '& .MuiOutlinedInput-root': { bgcolor: 'rgba(255,255,255,0.06)', color: '#E0E7FF', '& fieldset': { borderColor: 'rgba(199,210,254,0.25)' } } }}
               autoComplete="current-password"
               slotProps={{ htmlInput: { 'aria-label': '비밀번호' } }}
             />
 
-            <Button
-              type="submit"
-              variant="outlined"
-              fullWidth
-              size="large"
-              disabled={loading}
-              sx={{
-                mb: 1.5, py: 1.3, borderRadius: 3, fontWeight: 700, fontSize: '0.95rem',
-                color: '#E0E7FF', borderColor: 'rgba(199,210,254,0.5)',
-                '&:hover': { borderColor: '#C7D2FE', bgcolor: 'rgba(199,210,254,0.08)' },
-              }}
-            >
-              {loading ? <CircularProgress size={22} color="inherit" /> : '로그인'}
-            </Button>
-
-            <Button
-              variant="text"
-              fullWidth
-              size="large"
-              onClick={() => navigate(ROUTES.SIGNUP)}
-              sx={{ py: 1.2, borderRadius: 3, fontWeight: 600, fontSize: '0.9rem', color: '#A5B4C7' }}
-            >
-              회원가입
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Button
+                type="submit"
+                variant="text"
+                size="small"
+                disabled={loading}
+                sx={{
+                  fontWeight: 700, fontSize: '0.85rem', color: '#C7D2FE', px: 1,
+                  '&:hover': { bgcolor: 'rgba(199,210,254,0.08)' },
+                }}
+              >
+                {loading ? <CircularProgress size={18} color="inherit" /> : '로그인'}
+              </Button>
+              <Divider orientation="vertical" flexItem sx={{ borderColor: 'rgba(199,210,254,0.2)' }} />
+              <Button
+                variant="text"
+                size="small"
+                onClick={() => navigate(ROUTES.SIGNUP)}
+                sx={{ fontWeight: 600, fontSize: '0.85rem', color: '#8B93B8', px: 1 }}
+              >
+                회원가입
+              </Button>
+            </Box>
           </Box>
         </Box>
       </Box>
