@@ -27,7 +27,7 @@ const MainLayout = ({ children }) => {
           <Box sx={{
             mx: 2, mt: 2, mb: 0.5,
             p: 2.5,
-            borderRadius: 3,
+            borderRadius: '22px',
             background: 'linear-gradient(135deg, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.10) 100%)',
             border: '1px solid rgba(99,102,241,0.22)',
           }}>

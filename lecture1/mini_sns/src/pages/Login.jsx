@@ -159,25 +159,66 @@ const Login = () => {
   return (
     <Box
       sx={{
+        position: 'relative',
         minHeight: '100vh',
+        overflow: 'hidden',
         background: 'linear-gradient(160deg, #0F172A 0%, #312E81 55%, #4F46E5 100%)',
         px: { xs: 2.5, md: 5 },
         py: { xs: 4, md: 7 },
       }}
     >
+      {/* 은은한 배경 blob 애니메이션 */}
+      <Box aria-hidden sx={{
+        position: 'absolute', top: '-10%', left: '-8%', width: 380, height: 380,
+        borderRadius: '50%', pointerEvents: 'none',
+        background: 'radial-gradient(circle, #818CF8 0%, transparent 70%)',
+        opacity: 0.22, filter: 'blur(10px)',
+        '@keyframes blobFloatA': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(40px, 30px) scale(1.08)' },
+        },
+        animation: 'blobFloatA 16s ease-in-out infinite',
+        '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+      }} />
+      <Box aria-hidden sx={{
+        position: 'absolute', bottom: '-12%', right: '-6%', width: 420, height: 420,
+        borderRadius: '50%', pointerEvents: 'none',
+        background: 'radial-gradient(circle, #06B6D4 0%, transparent 70%)',
+        opacity: 0.18, filter: 'blur(10px)',
+        '@keyframes blobFloatB': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(-30px, -40px) scale(1.1)' },
+        },
+        animation: 'blobFloatB 18s ease-in-out infinite',
+        '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+      }} />
+      <Box aria-hidden sx={{
+        position: 'absolute', top: '35%', left: '48%', width: 300, height: 300,
+        borderRadius: '50%', pointerEvents: 'none',
+        background: 'radial-gradient(circle, #4F46E5 0%, transparent 70%)',
+        opacity: 0.2, filter: 'blur(10px)',
+        '@keyframes blobFloatC': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '50%': { transform: 'translate(20px, -25px) scale(1.06)' },
+        },
+        animation: 'blobFloatC 14s ease-in-out infinite',
+        '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
+      }} />
+
       <Box sx={{
+        position: 'relative', zIndex: 1,
         width: '100%',
         maxWidth: 1080,
         mx: 'auto',
         display: 'grid',
-        columnGap: { md: 7 },
+        columnGap: { md: 6 },
         rowGap: 3,
         gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
         gridTemplateAreas: {
           xs: `"brand" "cta" "mockup" "form"`,
           md: `"brand mockup" "cta mockup" "form mockup"`,
         },
-        alignItems: 'start',
+        alignItems: { xs: 'start', md: 'center' },
       }}>
         {/* 브랜드 카피 */}
         <Box sx={{ gridArea: 'brand', textAlign: { xs: 'center', md: 'left' } }}>

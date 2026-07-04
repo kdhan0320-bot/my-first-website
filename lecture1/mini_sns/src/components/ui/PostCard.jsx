@@ -52,7 +52,7 @@ const PostCard = ({ post, onDelete }) => {
 
   return (
     <>
-      <Card sx={{ mx: 2, mb: 2, borderRadius: 3, overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
+      <Card sx={{ mx: 2, mb: 2, borderRadius: '22px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
         {/* 상단: 프로필 */}
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 1.5, pb: 1 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>

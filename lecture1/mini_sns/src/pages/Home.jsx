@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, CircularProgress, Typography, Button, Alert } from '@mui/material';
+import { Box, CircularProgress, Typography, Button, Alert, Chip } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import MainLayout from '../components/layout/MainLayout';
 import PostCard from '../components/ui/PostCard';
@@ -150,9 +150,16 @@ const Home = () => {
       <Box sx={{ bgcolor: 'background.default', minHeight: '100%' }}>
         <Box sx={{ px: 2, pt: 2.5, pb: 1.5 }}>
           <Typography variant="h2" sx={{ fontWeight: 800, color: 'text.primary' }}>작업 피드</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3 }}>
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 0.3, mb: 1.25 }}>
             오늘의 작업 기록과 스터디 소식을 확인하세요
           </Typography>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+            {isGuest && (
+              <Chip label="데모 피드" size="small" sx={{ bgcolor: 'secondary.main', color: 'primary.dark', fontWeight: 600, fontSize: '0.68rem' }} />
+            )}
+            <Chip label={`작업 기록 ${posts.length}개`} size="small" sx={{ bgcolor: 'secondary.main', color: 'primary.dark', fontWeight: 600, fontSize: '0.68rem' }} />
+            <Chip label="모임 연결" size="small" sx={{ bgcolor: 'rgba(6,182,212,0.12)', color: '#0891B2', fontWeight: 600, fontSize: '0.68rem' }} />
+          </Box>
         </Box>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', pt: 6 }}>
