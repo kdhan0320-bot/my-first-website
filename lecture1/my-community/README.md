@@ -95,14 +95,18 @@ npm run build
 
 ## 환경 변수
 
-Supabase 연동을 위해 아래 환경 변수가 필요합니다. `.env.example`을 참고해 로컬에 `.env`를 만들어 사용하세요.
+Supabase 연동을 위해 아래 환경 변수가 필요합니다.
+
+`.env.example`을 참고해 로컬에 `.env`를 만들어 사용하세요.
 
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-GitHub Actions 배포 시에는 저장소 Secrets(`SUPABASE_URL`, `SUPABASE_ANON_KEY`)에서 값을 주입받습니다. `src/lib/supabase.js`에는 로컬 환경 변수가 없을 때를 대비한 개발용 fallback 값이 남아있으며, 배포가 이 값에 의존하고 있어 임의로 제거하지 않았습니다.
+GitHub Actions 배포 시에는 저장소 Secrets를 통해 값을 주입받는 구조로 관리하는 것이 좋습니다.
+
+현재 배포가 fallback 값에 의존하고 있다면, GitHub Actions 환경변수 설정을 확인한 뒤 정리해야 합니다.
 
 ---
 
