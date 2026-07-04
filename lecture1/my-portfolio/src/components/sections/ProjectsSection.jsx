@@ -182,18 +182,18 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
         </DetailRow>
       </DialogContent>
       <Divider />
-      <DialogActions sx={{ px: 3, py: 2, gap: 1 }}>
+      <DialogActions sx={{ px: 3, py: 2, gap: 1, flexWrap: 'wrap' }}>
         {liveUrl && (
           <Button component="a" href={liveUrl} target="_blank" rel="noopener noreferrer"
             variant="contained" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
-            sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700 }}>
+            sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
             실행 화면 보기
           </Button>
         )}
         {githubUrl && (
           <Button component="a" href={githubUrl} target="_blank" rel="noopener noreferrer"
             variant="outlined" size="small" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-            sx={{ color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
+            sx={{ color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' }, whiteSpace: 'nowrap' }}>
             GitHub
           </Button>
         )}
