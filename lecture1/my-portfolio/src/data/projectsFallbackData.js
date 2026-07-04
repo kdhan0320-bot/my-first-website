@@ -222,7 +222,7 @@ export const fallbackProjects = [
   {
     id: 'feedback-hub',
     title: 'Portfolio Feedback Hub',
-    description: '포트폴리오 피드백을 주고받는 커뮤니티형 웹앱입니다. 카테고리별 썸네일, 검색·필터·정렬, 댓글/좋아요, 게스트 모드를 구현했습니다.',
+    description: '포트폴리오 피드백을 주고받는 커뮤니티형 웹앱입니다.',
     category: 'AI 도구 활용 커뮤니티',
     categories: ['ai'],
     categoryLabel: 'AI 도구 활용 커뮤니티',

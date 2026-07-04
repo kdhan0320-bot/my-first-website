@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <!-- 전체 배경 -->
+  <rect width="800" height="450" fill="#F6F8FB"/>
+
+  <!-- ── 헤더 ── -->
+  <rect x="0" y="0" width="800" height="48" fill="#FFFFFF" stroke="#E8EDF2" stroke-width="1"/>
+  <rect x="20" y="12" width="24" height="24" rx="6" fill="#2563EB"/>
+  <rect x="27" y="19" width="10" height="7" rx="1.5" fill="#FFFFFF"/>
+  <rect x="27" y="28" width="6" height="3" rx="1" fill="#FFFFFF"/>
+  <text x="54" y="28" font-family="Arial,sans-serif" font-size="13" font-weight="700" fill="#1A1A2E">Portfolio Feedback Hub</text>
+  <rect x="712" y="14" width="68" height="20" rx="10" fill="none" stroke="#2563EB" stroke-width="1.2"/>
+  <text x="746" y="28" font-family="Arial,sans-serif" font-size="8" font-weight="600" fill="#2563EB" text-anchor="middle">로그인</text>
+
+  <!-- ── 검색창 ── -->
+  <rect x="20" y="64" width="760" height="30" rx="15" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="36" y="83" font-family="Arial,sans-serif" font-size="9.5" fill="#94A3B8">제목, 내용, 태그로 피드백 글 검색</text>
+
+  <!-- ── 카테고리 필터 칩 ── -->
+  <rect x="20" y="104" width="52" height="24" rx="12" fill="#2563EB"/>
+  <text x="46" y="120" font-family="Arial,sans-serif" font-size="8.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">전체</text>
+
+  <rect x="78" y="104" width="96" height="24" rx="12" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="126" y="120" font-family="Arial,sans-serif" font-size="8.5" fill="#475569" text-anchor="middle">포트폴리오 피드백</text>
+
+  <rect x="180" y="104" width="52" height="24" rx="12" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="206" y="120" font-family="Arial,sans-serif" font-size="8.5" fill="#475569" text-anchor="middle">Figma</text>
+
+  <rect x="238" y="104" width="52" height="24" rx="12" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="264" y="120" font-family="Arial,sans-serif" font-size="8.5" fill="#475569" text-anchor="middle">UX/UI</text>
+
+  <rect x="296" y="104" width="68" height="24" rx="12" fill="#FFFFFF" stroke="#D6E8F5" stroke-width="1"/>
+  <text x="330" y="120" font-family="Arial,sans-serif" font-size="8.5" fill="#475569" text-anchor="middle">취업 준비</text>
+
+  <text x="780" y="120" font-family="Arial,sans-serif" font-size="8.5" fill="#94A3B8" text-anchor="end">최신순 ▾</text>
+
+  <!-- ── 카드 1 ── -->
+  <rect x="20" y="148" width="240" height="212" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="20" y="148" width="240" height="86" rx="10" fill="#2563EB"/>
+  <rect x="20" y="212" width="240" height="22" fill="#2563EB"/>
+  <rect x="34" y="162" width="70" height="18" rx="9" fill="rgba(255,255,255,0.25)"/>
+  <text x="69" y="174.5" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#FFFFFF" text-anchor="middle">Figma</text>
+  <rect x="34" y="240" width="66" height="16" rx="8" fill="#FFF7ED"/>
+  <text x="67" y="251.5" font-family="Arial,sans-serif" font-size="7" font-weight="700" fill="#EA580C" text-anchor="middle">피드백 요청중</text>
+  <text x="34" y="278" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">카페 앱 메인 화면 색감 피드백</text>
+  <text x="34" y="296" font-family="Arial,sans-serif" font-size="8.5" fill="#64748B">브라운·크림 톤 포인트 컬러 의견 부탁드려요</text>
+  <text x="34" y="310" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">#Figma  #컬러  #포트폴리오</text>
+  <line x1="34" y1="322" x2="246" y2="322" stroke="#F1F5F9" stroke-width="1"/>
+  <circle cx="42" cy="338" r="9" fill="#1E3A5F"/>
+  <text x="42" y="341" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">카</text>
+  <text x="56" y="341" font-family="Arial,sans-serif" font-size="8" fill="#64748B">카페앱디자이너</text>
+  <text x="214" y="341" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">♥4 · 💬2</text>
+
+  <!-- ── 카드 2 ── -->
+  <rect x="280" y="148" width="240" height="212" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="280" y="148" width="240" height="86" rx="10" fill="#0D9488"/>
+  <rect x="280" y="212" width="240" height="22" fill="#0D9488"/>
+  <rect x="294" y="162" width="86" height="18" rx="9" fill="rgba(255,255,255,0.25)"/>
+  <text x="337" y="174.5" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#FFFFFF" text-anchor="middle">AI Coding</text>
+  <rect x="294" y="240" width="56" height="16" rx="8" fill="#ECFDF5"/>
+  <text x="322" y="251.5" font-family="Arial,sans-serif" font-size="7" font-weight="700" fill="#0D9488" text-anchor="middle">답변 완료</text>
+  <text x="294" y="278" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">Supabase 연동 과정 공유</text>
+  <text x="294" y="296" font-family="Arial,sans-serif" font-size="8.5" fill="#64748B">Auth·RLS·댓글 저장 구조를 정리했어요</text>
+  <text x="294" y="310" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">#AI활용  #AICoding</text>
+  <line x1="294" y1="322" x2="506" y2="322" stroke="#F1F5F9" stroke-width="1"/>
+  <circle cx="302" cy="338" r="9" fill="#1E3A5F"/>
+  <text x="302" y="341" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">A</text>
+  <text x="316" y="341" font-family="Arial,sans-serif" font-size="8" fill="#64748B">ai_coder</text>
+  <text x="474" y="341" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">♥12 · 💬5</text>
+
+  <!-- ── 카드 3 ── -->
+  <rect x="540" y="148" width="240" height="212" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="540" y="148" width="240" height="86" rx="10" fill="#1E3A5F"/>
+  <rect x="540" y="212" width="240" height="22" fill="#1E3A5F"/>
+  <rect x="554" y="162" width="66" height="18" rx="9" fill="rgba(255,255,255,0.25)"/>
+  <text x="587" y="174.5" font-family="Arial,sans-serif" font-size="7.5" font-weight="600" fill="#FFFFFF" text-anchor="middle">UX/UI</text>
+  <rect x="554" y="240" width="66" height="16" rx="8" fill="#FFF7ED"/>
+  <text x="587" y="251.5" font-family="Arial,sans-serif" font-size="7" font-weight="700" fill="#EA580C" text-anchor="middle">피드백 요청중</text>
+  <text x="554" y="278" font-family="Arial,sans-serif" font-size="11" font-weight="700" fill="#1A1A2E">회원가입 단계 3단계 분리</text>
+  <text x="554" y="296" font-family="Arial,sans-serif" font-size="8.5" fill="#64748B">이탈률 줄이는 흐름인지 의견 부탁드려요</text>
+  <text x="554" y="310" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8">#UXUI  #회원가입  #플로우</text>
+  <line x1="554" y1="322" x2="766" y2="322" stroke="#F1F5F9" stroke-width="1"/>
+  <circle cx="562" cy="338" r="9" fill="#1E3A5F"/>
+  <text x="562" y="341" font-family="Arial,sans-serif" font-size="8" font-weight="700" fill="#FFFFFF" text-anchor="middle">U</text>
+  <text x="576" y="341" font-family="Arial,sans-serif" font-size="8" fill="#64748B">ux_learner</text>
+  <text x="734" y="341" font-family="Arial,sans-serif" font-size="7.5" fill="#94A3B8" text-anchor="end">♥7 · 💬3</text>
+
+  <!-- 하단 브랜딩 바 -->
+  <rect x="0" y="432" width="800" height="18" fill="#2563EB" opacity="0.08"/>
+  <text x="400" y="444" font-family="Arial,sans-serif" font-size="8.5" fill="#1E3A5F" text-anchor="middle" font-weight="600">Portfolio Feedback Hub · React + Vite + MUI + Supabase · 포트폴리오 피드백 커뮤니티</text>
+</svg>
