@@ -111,8 +111,13 @@ const Notifications = () => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mt: 1.25 }}>
               <Chip label="모임 소식" size="small" sx={{ bgcolor: 'rgba(255,255,255,0.16)', color: '#fff', fontWeight: 600, fontSize: '0.68rem', border: '1px solid rgba(255,255,255,0.22)' }} />
             </Box>
-            <Box sx={{ mt: 1.25, pt: 1.1, borderTop: '1px solid rgba(255,255,255,0.14)' }}>
-              <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.25, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
+            <Box sx={{
+              mt: 1.5, p: '13px 14px',
+              borderRadius: '18px',
+              bgcolor: 'rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.20)',
+            }}>
+              <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.35, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
                 알림 흐름
               </Typography>
               <Typography variant="caption" sx={{ color: '#E0E7FF', fontSize: '0.74rem', lineHeight: 1.4 }}>
@@ -122,76 +127,84 @@ const Notifications = () => {
           </Box>
         </Box>
 
-        {/* 알림 목록 */}
-        <List sx={{ p: 0, bgcolor: 'background.paper' }}>
-          {notifications.map((notif, idx) => {
-            const config = TYPE_CONFIG[notif.type];
-            return (
-              <Box key={notif.id}>
-                <ListItem
-                  onClick={() => markRead(notif.id)}
-                  sx={{
-                    px: 2, py: 1.5,
-                    bgcolor: notif.read ? 'background.paper' : 'rgba(99,102,241,0.06)',
-                    cursor: 'pointer',
-                    '&:hover': { bgcolor: 'action.hover' },
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <ListItemAvatar sx={{ mt: 0.5, minWidth: 56 }}>
-                    <Box sx={{ position: 'relative', width: 44, height: 44 }}>
-                      <Avatar src={notif.avatar} sx={{ width: 44, height: 44 }} />
-                      <Box sx={{
-                        position: 'absolute', bottom: -2, right: -2,
-                        width: 20, height: 20, borderRadius: '50%',
-                        bgcolor: config.bg, border: '2px solid #fff',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: config.color,
-                      }}>
-                        {config.icon}
+        <Box sx={{
+          position: 'relative', mt: '-16px',
+          borderRadius: '20px 20px 0 0',
+          bgcolor: 'background.default',
+          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
+          pt: '16px',
+        }}>
+          {/* 알림 목록 */}
+          <List sx={{ p: 0, bgcolor: 'background.paper', borderRadius: '16px', mx: 2, overflow: 'hidden' }}>
+            {notifications.map((notif, idx) => {
+              const config = TYPE_CONFIG[notif.type];
+              return (
+                <Box key={notif.id}>
+                  <ListItem
+                    onClick={() => markRead(notif.id)}
+                    sx={{
+                      px: 2, py: 1.5,
+                      bgcolor: notif.read ? 'background.paper' : 'rgba(99,102,241,0.06)',
+                      cursor: 'pointer',
+                      '&:hover': { bgcolor: 'action.hover' },
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <ListItemAvatar sx={{ mt: 0.5, minWidth: 56 }}>
+                      <Box sx={{ position: 'relative', width: 44, height: 44 }}>
+                        <Avatar src={notif.avatar} sx={{ width: 44, height: 44 }} />
+                        <Box sx={{
+                          position: 'absolute', bottom: -2, right: -2,
+                          width: 20, height: 20, borderRadius: '50%',
+                          bgcolor: config.bg, border: '2px solid #fff',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: config.color,
+                        }}>
+                          {config.icon}
+                        </Box>
                       </Box>
-                    </Box>
-                  </ListItemAvatar>
+                    </ListItemAvatar>
 
-                  <ListItemText
-                    primary={
-                      <Box>
-                        <Typography component="span" variant="body2" fontWeight={700}>{notif.user}</Typography>
-                        <Typography component="span" variant="body2"> {notif.content}</Typography>
-                      </Box>
-                    }
-                    secondary={
-                      <Typography variant="caption" color="text.secondary">{notif.time}</Typography>
-                    }
-                  />
-
-                  {notif.postImage && (
-                    <Box
-                      component="img"
-                      src={notif.postImage}
-                      alt="관련 게시물 이미지"
-                      sx={{ width: 44, height: 44, borderRadius: 1, objectFit: 'cover', ml: 1, flexShrink: 0 }}
+                    <ListItemText
+                      primary={
+                        <Box>
+                          <Typography component="span" variant="body2" fontWeight={700}>{notif.user}</Typography>
+                          <Typography component="span" variant="body2"> {notif.content}</Typography>
+                        </Box>
+                      }
+                      secondary={
+                        <Typography variant="caption" color="text.secondary">{notif.time}</Typography>
+                      }
                     />
-                  )}
 
-                  {!notif.read && (
-                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'primary.main', ml: 1, mt: 2, flexShrink: 0 }} />
-                  )}
-                </ListItem>
-                {idx < notifications.length - 1 && <Divider />}
-              </Box>
-            );
-          })}
-        </List>
+                    {notif.postImage && (
+                      <Box
+                        component="img"
+                        src={notif.postImage}
+                        alt="관련 게시물 이미지"
+                        sx={{ width: 44, height: 44, borderRadius: 1, objectFit: 'cover', ml: 1, flexShrink: 0 }}
+                      />
+                    )}
 
-        {notifications.length === 0 && (
-          <Box sx={{ textAlign: 'center', pt: 8, px: 3 }}>
-            <Typography variant="h3" gutterBottom>알림이 없어요 🔔</Typography>
-            <Typography variant="body2" color="text.secondary">
-              새로운 알림이 오면 여기에 표시됩니다.
-            </Typography>
-          </Box>
-        )}
+                    {!notif.read && (
+                      <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'primary.main', ml: 1, mt: 2, flexShrink: 0 }} />
+                    )}
+                  </ListItem>
+                  {idx < notifications.length - 1 && <Divider />}
+                </Box>
+              );
+            })}
+          </List>
+
+          {notifications.length === 0 && (
+            <Box sx={{ textAlign: 'center', pt: 8, px: 3 }}>
+              <Typography variant="h3" gutterBottom>알림이 없어요 🔔</Typography>
+              <Typography variant="body2" color="text.secondary">
+                새로운 알림이 오면 여기에 표시됩니다.
+              </Typography>
+            </Box>
+          )}
+        </Box>
       </Box>
     </MainLayout>
   );

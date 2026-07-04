@@ -81,45 +81,53 @@ const Profile = () => {
             flowLabel="프로필 흐름"
             flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
           />
-          <Box sx={{ bgcolor: 'background.paper', px: 2, pt: 2, pb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
-              <Avatar
-                src={displayAvatar}
-                sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
-              />
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="h3" sx={{ mb: 0.5 }}>{displayName}</Typography>
-                <Typography variant="caption" color="text.secondary">{displayHandle}</Typography>
-                <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
-                  {displayBio}
-                </Typography>
+          <Box sx={{
+            position: 'relative', mt: '-16px',
+            borderRadius: '20px 20px 0 0',
+            bgcolor: 'background.default',
+            boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
+            pt: '16px',
+          }}>
+            <Box sx={{ bgcolor: 'background.paper', mx: 2, borderRadius: '18px', px: 2, pt: 2, pb: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
+                <Avatar
+                  src={displayAvatar}
+                  sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
+                />
+                <Box sx={{ flex: 1 }}>
+                  <Typography variant="h3" sx={{ mb: 0.5 }}>{displayName}</Typography>
+                  <Typography variant="caption" color="text.secondary">{displayHandle}</Typography>
+                  <Typography variant="body2" sx={{ mt: 0.5, color: 'text.secondary' }}>
+                    {displayBio}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 2 }}>
+                {GUEST_INTEREST_TAGS.map((tag) => (
+                  <Chip key={tag} label={`#${tag}`} size="small"
+                    sx={{ bgcolor: 'secondary.main', color: 'primary.main', fontSize: '0.72rem' }} />
+                ))}
+              </Box>
+              <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', py: 1.5, bgcolor: 'background.default', borderRadius: 2 }}>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h3" color="primary.main">4</Typography>
+                  <Typography variant="caption" color="text.secondary">게시물</Typography>
+                </Box>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h3" color="primary.main">2</Typography>
+                  <Typography variant="caption" color="text.secondary">참여 모임</Typography>
+                </Box>
+                <Box sx={{ textAlign: 'center' }}>
+                  <Typography variant="h3" color="primary.main">7</Typography>
+                  <Typography variant="caption" color="text.secondary">저장한 글</Typography>
+                </Box>
               </Box>
             </Box>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 2 }}>
-              {GUEST_INTEREST_TAGS.map((tag) => (
-                <Chip key={tag} label={`#${tag}`} size="small"
-                  sx={{ bgcolor: 'secondary.main', color: 'primary.main', fontSize: '0.72rem' }} />
-              ))}
+            <Box sx={{ textAlign: 'center', pt: 6, px: 3 }}>
+              <Typography variant="body2" color="text.secondary">
+                {isDemo ? '데모 모드에서는 실제 데이터가 저장되지 않습니다.' : '게스트 모드에서는 프로필 수정이 제한됩니다.'}
+              </Typography>
             </Box>
-            <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', py: 1.5, bgcolor: 'background.default', borderRadius: 2 }}>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h3" color="primary.main">4</Typography>
-                <Typography variant="caption" color="text.secondary">게시물</Typography>
-              </Box>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h3" color="primary.main">2</Typography>
-                <Typography variant="caption" color="text.secondary">참여 모임</Typography>
-              </Box>
-              <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h3" color="primary.main">7</Typography>
-                <Typography variant="caption" color="text.secondary">저장한 글</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Box sx={{ textAlign: 'center', pt: 6, px: 3 }}>
-            <Typography variant="body2" color="text.secondary">
-              {isDemo ? '데모 모드에서는 실제 데이터가 저장되지 않습니다.' : '게스트 모드에서는 프로필 수정이 제한됩니다.'}
-            </Typography>
           </Box>
         </Box>
       </MainLayout>
@@ -151,84 +159,92 @@ const Profile = () => {
           flowLabel="프로필 흐름"
           flowText="기록한 작업과 참여 모임을 한 곳에서 확인합니다"
         />
-        {/* 프로필 헤더 */}
-        <Box
-          sx={{
-            bgcolor: 'background.paper', px: 2, pt: 2, pb: 3,
-            borderBottom: '1px solid', borderColor: 'divider',
-          }}
-        >
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <IconButton size="small" onClick={handleSignOut} color="default" aria-label="로그아웃">
-              <LogoutIcon fontSize="small" />
-            </IconButton>
+        <Box sx={{
+          position: 'relative', mt: '-16px',
+          borderRadius: '20px 20px 0 0',
+          bgcolor: 'background.default',
+          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
+          pt: '16px',
+        }}>
+          {/* 프로필 헤더 */}
+          <Box
+            sx={{
+              bgcolor: 'background.paper', mx: 2, borderRadius: '18px',
+              px: 2, pt: 2, pb: 3,
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <IconButton size="small" onClick={handleSignOut} color="default" aria-label="로그아웃">
+                <LogoutIcon fontSize="small" />
+              </IconButton>
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
+              <Avatar
+                src={profile.profile_image_url}
+                sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
+              />
+              <Box sx={{ flex: 1 }}>
+                <Typography variant="h3" sx={{ mb: 0.5 }}>{profile.nickname}</Typography>
+                <Typography variant="caption" color="text.secondary">@{profile.username}</Typography>
+                {profile.bio && (
+                  <Typography variant="body2" sx={{ mt: 0.5 }}>{profile.bio}</Typography>
+                )}
+              </Box>
+            </Box>
+
+            {/* 통계 */}
+            <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', py: 1.5, bgcolor: 'background.default', borderRadius: 2 }}>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" color="primary.main">{posts.length}</Typography>
+                <Typography variant="caption" color="text.secondary">게시물</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" color="primary.main">{followerCount}</Typography>
+                <Typography variant="caption" color="text.secondary">팔로워</Typography>
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h3" color="primary.main">{followingCount}</Typography>
+                <Typography variant="caption" color="text.secondary">팔로잉</Typography>
+              </Box>
+            </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, mb: 2 }}>
-            <Avatar
-              src={profile.profile_image_url}
-              sx={{ width: 80, height: 80, border: '3px solid', borderColor: 'primary.main' }}
-            />
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="h3" sx={{ mb: 0.5 }}>{profile.nickname}</Typography>
-              <Typography variant="caption" color="text.secondary">@{profile.username}</Typography>
-              {profile.bio && (
-                <Typography variant="body2" sx={{ mt: 0.5 }}>{profile.bio}</Typography>
-              )}
+          {/* 게시물 그리드 */}
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
+              <CircularProgress />
             </Box>
-          </Box>
-
-          {/* 통계 */}
-          <Box sx={{ display: 'flex', gap: 4, justifyContent: 'center', py: 1.5, bgcolor: 'background.default', borderRadius: 2 }}>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h3" color="primary.main">{posts.length}</Typography>
-              <Typography variant="caption" color="text.secondary">게시물</Typography>
+          ) : posts.length === 0 ? (
+            <Box sx={{ textAlign: 'center', pt: 6 }}>
+              <Typography variant="body1" color="text.secondary">아직 게시물이 없어요.</Typography>
+              <Button variant="contained" sx={{ mt: 2 }} onClick={() => navigate(ROUTES.CREATE_POST)}>
+                첫 게시물 올리기
+              </Button>
             </Box>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h3" color="primary.main">{followerCount}</Typography>
-              <Typography variant="caption" color="text.secondary">팔로워</Typography>
-            </Box>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="h3" color="primary.main">{followingCount}</Typography>
-              <Typography variant="caption" color="text.secondary">팔로잉</Typography>
-            </Box>
-          </Box>
+          ) : (
+            <Grid container spacing={0.5} sx={{ p: 0.5 }}>
+              {posts.map((post) => (
+                <Grid item xs={4} key={post.id}>
+                  <Box
+                    component="img"
+                    src={post.image_url}
+                    alt="썸네일"
+                    loading="lazy"
+                    onError={(e) => { e.target.src = sampleFallback; }}
+                    onClick={() => setSelectedPost(post)}
+                    sx={{
+                      width: '100%', aspectRatio: '1/1', objectFit: 'cover',
+                      cursor: 'pointer',
+                      transition: 'opacity 0.15s',
+                      '&:hover': { opacity: 0.85 },
+                    }}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </Box>
-
-        {/* 게시물 그리드 */}
-        {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', pt: 4 }}>
-            <CircularProgress />
-          </Box>
-        ) : posts.length === 0 ? (
-          <Box sx={{ textAlign: 'center', pt: 6 }}>
-            <Typography variant="body1" color="text.secondary">아직 게시물이 없어요.</Typography>
-            <Button variant="contained" sx={{ mt: 2 }} onClick={() => navigate(ROUTES.CREATE_POST)}>
-              첫 게시물 올리기
-            </Button>
-          </Box>
-        ) : (
-          <Grid container spacing={0.5} sx={{ p: 0.5 }}>
-            {posts.map((post) => (
-              <Grid item xs={4} key={post.id}>
-                <Box
-                  component="img"
-                  src={post.image_url}
-                  alt="썸네일"
-                  loading="lazy"
-                  onError={(e) => { e.target.src = sampleFallback; }}
-                  onClick={() => setSelectedPost(post)}
-                  sx={{
-                    width: '100%', aspectRatio: '1/1', objectFit: 'cover',
-                    cursor: 'pointer',
-                    transition: 'opacity 0.15s',
-                    '&:hover': { opacity: 0.85 },
-                  }}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        )}
       </Box>
 
       {/* 게시물 전체화면 모달 */}

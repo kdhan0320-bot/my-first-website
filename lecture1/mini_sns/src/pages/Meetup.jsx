@@ -145,7 +145,13 @@ const Meetup = () => {
           flowText="모임 선택 → 참가하기 → 채팅방 이동"
         />
 
-        <Box sx={{ pt: 2 }}>
+        <Box sx={{
+          position: 'relative', mt: '-16px',
+          borderRadius: '20px 20px 0 0',
+          bgcolor: 'background.default',
+          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
+          pt: '16px',
+        }}>
           {meetups.map((meetup) => (
             <MeetupCard
               key={meetup.id}
@@ -155,12 +161,12 @@ const Meetup = () => {
               onGoToChat={handleGoToChat}
             />
           ))}
-        </Box>
 
-        <Box sx={{ textAlign: 'center', py: 3 }}>
-          <Typography variant="caption" color="text.secondary">
-            실시간 위치 기능은 준비 중입니다
-          </Typography>
+          <Box sx={{ textAlign: 'center', py: 3 }}>
+            <Typography variant="caption" color="text.secondary">
+              실시간 위치 기능은 준비 중입니다
+            </Typography>
+          </Box>
         </Box>
       </Box>
 

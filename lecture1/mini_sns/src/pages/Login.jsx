@@ -28,7 +28,7 @@ const MiniTab = ({ icon, active }) => (
 
 const AppMockup = () => (
   <Box sx={{
-    width: '100%', maxWidth: 360, mx: 'auto',
+    width: '100%', maxWidth: 400, mx: 'auto',
     borderRadius: '32px',
     p: '10px',
     background: 'linear-gradient(160deg, #1E1B4B 0%, #312E81 55%, #4F46E5 100%)',
@@ -162,61 +162,60 @@ const Login = () => {
         position: 'relative',
         minHeight: '100vh',
         overflow: 'hidden',
-        background: `
-          radial-gradient(circle at 8% 15%, rgba(129,140,248,0.35) 0%, transparent 32%),
-          radial-gradient(circle at 92% 85%, rgba(6,182,212,0.28) 0%, transparent 30%),
-          linear-gradient(160deg, #0F172A 0%, #312E81 55%, #4F46E5 100%)`,
+        background: 'linear-gradient(160deg, #0F172A 0%, #1E1B4B 45%, #312E81 78%, #3730A3 100%)',
         px: { xs: 2.5, md: 5 },
         py: { xs: 4, md: 7 },
       }}
     >
-      {/* 은은한 배경 blob 애니메이션 */}
+      {/* 은은한 배경 blob 애니메이션 - 좌측 카피 뒤 */}
       <Box aria-hidden sx={{
-        position: 'absolute', top: '-14%', left: '-12%', width: 460, height: 460,
-        borderRadius: '50%', pointerEvents: 'none',
+        position: 'absolute', top: '-16%', left: '-14%', width: 520, height: 520,
+        borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
         background: 'radial-gradient(circle, #818CF8 0%, transparent 70%)',
-        opacity: 0.4, filter: 'blur(56px)',
+        opacity: 0.46, filter: 'blur(64px)',
         '@keyframes blobFloatA': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(100px, 80px) scale(1.15)' },
+          '50%': { transform: 'translate(140px, 110px) scale(1.2)' },
         },
-        animation: 'blobFloatA 18s ease-in-out infinite',
+        animation: 'blobFloatA 19s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
+      {/* 하단 코너 blob */}
       <Box aria-hidden sx={{
-        position: 'absolute', bottom: '-16%', right: '-10%', width: 460, height: 460,
-        borderRadius: '50%', pointerEvents: 'none',
+        position: 'absolute', bottom: '-18%', right: '-12%', width: 460, height: 460,
+        borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
         background: 'radial-gradient(circle, #06B6D4 0%, transparent 70%)',
-        opacity: 0.36, filter: 'blur(56px)',
+        opacity: 0.4, filter: 'blur(58px)',
         '@keyframes blobFloatB': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(-90px, -100px) scale(1.18)' },
+          '50%': { transform: 'translate(-130px, -120px) scale(1.22)' },
         },
-        animation: 'blobFloatB 20s ease-in-out infinite',
+        animation: 'blobFloatB 22s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
+      {/* 목업 뒤 blob (우측) */}
       <Box aria-hidden sx={{
-        position: 'absolute', top: '30%', left: '44%', width: 360, height: 360,
-        borderRadius: '50%', pointerEvents: 'none',
-        background: 'radial-gradient(circle, #4F46E5 0%, transparent 70%)',
-        opacity: 0.38, filter: 'blur(56px)',
+        position: 'absolute', top: '28%', right: { xs: '-16%', md: '4%' }, width: 480, height: 480,
+        borderRadius: '50%', pointerEvents: 'none', zIndex: 0,
+        background: 'radial-gradient(circle, #A78BFA 0%, transparent 70%)',
+        opacity: 0.44, filter: 'blur(60px)',
         '@keyframes blobFloatC': {
           '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-          '50%': { transform: 'translate(80px, -90px) scale(1.12)' },
+          '50%': { transform: 'translate(100px, -110px) scale(1.16)' },
         },
-        animation: 'blobFloatC 15s ease-in-out infinite',
+        animation: 'blobFloatC 16s ease-in-out infinite',
         '@media (prefers-reduced-motion: reduce)': { animation: 'none' },
       }} />
 
       <Box sx={{
         position: 'relative', zIndex: 1,
         width: '100%',
-        maxWidth: 1200,
+        maxWidth: 1220,
         mx: 'auto',
         display: 'grid',
-        columnGap: { md: 8 },
+        columnGap: { md: 8.25 },
         rowGap: 3,
-        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 1fr) minmax(400px, 480px)' },
+        gridTemplateColumns: { xs: '1fr', md: 'minmax(0, 0.95fr) minmax(420px, 500px)' },
         gridTemplateAreas: {
           xs: `"brand" "cta" "mockup" "form"`,
           md: `"brand mockup" "cta mockup" "form mockup"`,

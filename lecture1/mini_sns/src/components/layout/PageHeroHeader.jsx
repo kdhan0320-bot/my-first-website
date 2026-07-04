@@ -21,8 +21,13 @@ const PageHeroHeader = ({ title, subtitle, chips, action, flowLabel, flowText })
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: flowText ? 1.5 : 0 }}>{chips}</Box>
     )}
     {flowText && (
-      <Box sx={{ mt: 1.25, pt: 1.1, borderTop: '1px solid rgba(255,255,255,0.14)' }}>
-        <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.25, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
+      <Box sx={{
+        mt: 1.5, p: '13px 14px',
+        borderRadius: '18px',
+        bgcolor: 'rgba(255,255,255,0.12)',
+        border: '1px solid rgba(255,255,255,0.20)',
+      }}>
+        <Typography variant="caption" sx={{ color: '#A5B4FC', fontWeight: 700, display: 'block', mb: 0.35, fontSize: '0.68rem', letterSpacing: '0.02em' }}>
           {flowLabel}
         </Typography>
         <Typography variant="caption" sx={{ color: '#E0E7FF', fontSize: '0.74rem', lineHeight: 1.4 }}>

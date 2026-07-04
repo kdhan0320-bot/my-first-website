@@ -172,52 +172,60 @@ const Chat = () => {
           flowText="모임별 채팅방에서 작업 기록을 이어갑니다"
         />
 
-        <List sx={{ p: 0, bgcolor: 'background.paper' }}>
-          {MOCK_ROOMS.map((room, idx) => (
-            <Box key={room.id}>
-              <ListItem
-                onClick={() => setSelectedRoom(room)}
-                sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, px: 2, py: 1.5 }}
-              >
-                <ListItemAvatar>
-                  <Badge badgeContent={room.unread} color="error" max={9}>
-                    <Avatar src={room.avatar} sx={{ width: 48, height: 48 }} />
-                  </Badge>
-                </ListItemAvatar>
-                <ListItemText
-                  slotProps={{ secondary: { component: 'div' } }}
-                  primary={
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Typography variant="body2" fontWeight={700}>{room.name}</Typography>
-                      <Typography variant="caption" color="text.secondary">{room.time}</Typography>
-                    </Box>
-                  }
-                  secondary={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="caption" color="text.secondary" noWrap sx={{ flex: 1 }}>
-                        {room.lastMsg}
-                      </Typography>
-                      <Chip
-                        label={room.type === 'group' ? '단체' : '1:1'}
-                        size="small"
-                        sx={{ height: 18, fontSize: '0.62rem', bgcolor: room.type === 'group' ? 'secondary.light' : 'background.default' }}
-                      />
-                    </Box>
-                  }
-                />
-              </ListItem>
-              {idx < MOCK_ROOMS.length - 1 && <Divider variant="inset" component="li" />}
-            </Box>
-          ))}
-        </List>
+        <Box sx={{
+          position: 'relative', mt: '-16px',
+          borderRadius: '20px 20px 0 0',
+          bgcolor: 'background.default',
+          boxShadow: '0 -8px 16px -8px rgba(15,23,42,0.10)',
+          pt: '16px',
+        }}>
+          <List sx={{ p: 0, bgcolor: 'background.paper', borderRadius: '16px', mx: 2, overflow: 'hidden' }}>
+            {MOCK_ROOMS.map((room, idx) => (
+              <Box key={room.id}>
+                <ListItem
+                  onClick={() => setSelectedRoom(room)}
+                  sx={{ cursor: 'pointer', '&:hover': { bgcolor: 'action.hover' }, px: 2, py: 1.5 }}
+                >
+                  <ListItemAvatar>
+                    <Badge badgeContent={room.unread} color="error" max={9}>
+                      <Avatar src={room.avatar} sx={{ width: 48, height: 48 }} />
+                    </Badge>
+                  </ListItemAvatar>
+                  <ListItemText
+                    slotProps={{ secondary: { component: 'div' } }}
+                    primary={
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" fontWeight={700}>{room.name}</Typography>
+                        <Typography variant="caption" color="text.secondary">{room.time}</Typography>
+                      </Box>
+                    }
+                    secondary={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography variant="caption" color="text.secondary" noWrap sx={{ flex: 1 }}>
+                          {room.lastMsg}
+                        </Typography>
+                        <Chip
+                          label={room.type === 'group' ? '단체' : '1:1'}
+                          size="small"
+                          sx={{ height: 18, fontSize: '0.62rem', bgcolor: room.type === 'group' ? 'secondary.light' : 'background.default' }}
+                        />
+                      </Box>
+                    }
+                  />
+                </ListItem>
+                {idx < MOCK_ROOMS.length - 1 && <Divider variant="inset" component="li" />}
+              </Box>
+            ))}
+          </List>
 
-        <Box sx={{ textAlign: 'center', py: 4 }}>
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
-            채팅방을 선택해 대화를 시작하세요
-          </Typography>
-          <Typography variant="caption" sx={{ color: '#B0B8C1' }}>
-            실시간 채팅은 준비 중입니다
-          </Typography>
+          <Box sx={{ textAlign: 'center', py: 4 }}>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5 }}>
+              채팅방을 선택해 대화를 시작하세요
+            </Typography>
+            <Typography variant="caption" sx={{ color: '#B0B8C1' }}>
+              실시간 채팅은 준비 중입니다
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </MainLayout>
