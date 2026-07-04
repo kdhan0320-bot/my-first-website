@@ -80,9 +80,9 @@ const PostWritePage = () => {
       <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
         <SubPageHeader title="게시물 작성" />
         <Container maxWidth="md" sx={{ py: 4 }}>
-          <Alert severity="info" sx={{ mb: 2 }}>글쓰기는 로그인 후 이용할 수 있습니다.</Alert>
+          <Alert severity="info" sx={{ mb: 2 }}>글쓰기는 로그인 또는 테스트 계정으로 이용할 수 있습니다.</Alert>
           <Button variant="contained" onClick={() => navigate('/login')}>
-            로그인 하러 가기
+            로그인하러 가기
           </Button>
         </Container>
       </Box>
