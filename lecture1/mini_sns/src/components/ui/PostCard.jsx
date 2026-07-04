@@ -1,22 +1,35 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
-  Card, CardContent, Box, Avatar, Typography, IconButton,
-  Chip, Menu, MenuItem, Snackbar, Alert, Modal, Backdrop, Fade,
-} from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
-import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CloseIcon from '@mui/icons-material/Close';
-import { supabase } from '../../utils/supabase';
-import { useAuth } from '../../hooks/useAuth';
-import { formatDistanceToNow } from '../../utils/timeFormat';
-import CommentModal from './CommentModal';
+  Card,
+  CardContent,
+  Box,
+  Avatar,
+  Typography,
+  IconButton,
+  Chip,
+  Menu,
+  MenuItem,
+  Snackbar,
+  Alert,
+  Modal,
+  Backdrop,
+  Fade,
+} from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
+import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CloseIcon from "@mui/icons-material/Close";
+import { supabase } from "../../utils/supabase";
+import { useAuth } from "../../hooks/useAuth";
+import { formatDistanceToNow } from "../../utils/timeFormat";
+import CommentModal from "./CommentModal";
 
-const GUEST_LIMIT_MESSAGE = '이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.';
-const DEMO_LIMIT_MESSAGE = '데모 모드에서는 실제 데이터가 저장되지 않습니다.';
+const GUEST_LIMIT_MESSAGE =
+  "이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.";
+const DEMO_LIMIT_MESSAGE = "데모 모드에서는 실제 데이터가 저장되지 않습니다.";
 
 const PostCard = ({ post, onDelete }) => {
   const { user, isGuest, isDemo } = useAuth();
@@ -30,13 +43,22 @@ const PostCard = ({ post, onDelete }) => {
   const [guestSnack, setGuestSnack] = useState(false);
 
   const handleLike = async () => {
-    if (isGuest || !user) { setGuestSnack(true); return; }
+    if (isGuest || !user) {
+      setGuestSnack(true);
+      return;
+    }
     if (liked) {
-      await supabase.from('likes').delete().eq('post_id', post.id).eq('user_id', user.id);
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("post_id", post.id)
+        .eq("user_id", user.id);
       setLiked(false);
       setLikesCount((prev) => prev - 1);
     } else {
-      await supabase.from('likes').insert({ post_id: post.id, user_id: user.id });
+      await supabase
+        .from("likes")
+        .insert({ post_id: post.id, user_id: user.id });
       setLiked(true);
       setLikesCount((prev) => prev + 1);
     }
@@ -44,7 +66,7 @@ const PostCard = ({ post, onDelete }) => {
 
   const handleDelete = async () => {
     setAnchorEl(null);
-    await supabase.from('posts').delete().eq('id', post.id);
+    await supabase.from("posts").delete().eq("id", post.id);
     onDelete?.(post.id);
   };
 
@@ -52,29 +74,72 @@ const PostCard = ({ post, onDelete }) => {
 
   return (
     <>
-      <Card sx={{ mx: 2, mb: 2, borderRadius: '22px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(15,23,42,0.06)' }}>
+      <Card
+        sx={{
+          mx: 2,
+          mb: 2,
+          borderRadius: "22px",
+          overflow: "hidden",
+          boxShadow: "0 1px 3px rgba(15,23,42,0.06)",
+        }}
+      >
         {/* 상단: 프로필 */}
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, pt: 1.25, pb: 0.85 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
-            <Avatar src={post.profiles?.profile_image_url} sx={{ width: 36, height: 36 }} />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            px: 2,
+            pt: 1.25,
+            pb: 0.85,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+            <Avatar
+              src={post.profiles?.profile_image_url}
+              sx={{ width: 36, height: 36 }}
+            />
             <Box>
-              <Typography variant="body2" fontWeight={700}>{post.profiles?.nickname}</Typography>
+              <Typography variant="body2" fontWeight={700}>
+                {post.profiles?.nickname}
+              </Typography>
               {post.location && (
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <LocationOnOutlinedIcon sx={{ fontSize: 12, color: 'text.secondary', mr: 0.3 }} />
-                  <Typography variant="caption" color="text.secondary">{post.location}</Typography>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <LocationOnOutlinedIcon
+                    sx={{ fontSize: 12, color: "text.secondary", mr: 0.3 }}
+                  />
+                  <Typography variant="caption" color="text.secondary">
+                    {post.location}
+                  </Typography>
                 </Box>
               )}
             </Box>
           </Box>
           {isOwner && (
             <>
-              <IconButton size="small" onClick={(e) => setAnchorEl(e.currentTarget)} aria-label="게시물 더보기">
+              <IconButton
+                size="small"
+                onClick={(e) => setAnchorEl(e.currentTarget)}
+                aria-label="게시물 더보기"
+              >
                 <MoreVertIcon fontSize="small" />
               </IconButton>
-              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-                <MenuItem onClick={() => { setAnchorEl(null); navigate(`/edit/${post.id}`, { state: { post } }); }}>수정</MenuItem>
-                <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>삭제</MenuItem>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem
+                  onClick={() => {
+                    setAnchorEl(null);
+                    navigate(`/edit/${post.id}`, { state: { post } });
+                  }}
+                >
+                  수정
+                </MenuItem>
+                <MenuItem onClick={handleDelete} sx={{ color: "error.main" }}>
+                  삭제
+                </MenuItem>
               </Menu>
             </>
           )}
@@ -84,66 +149,116 @@ const PostCard = ({ post, onDelete }) => {
         <Box
           component="img"
           src={post.image_url}
-          alt={`${post.profiles?.nickname ?? '작성자'}의 게시물 이미지`}
+          alt={`${post.profiles?.nickname ?? "작성자"}의 게시물 이미지`}
           loading="lazy"
           onClick={() => post.image_url && setImageModalOpen(true)}
-          onError={(e) => { e.target.src = `https://picsum.photos/seed/${post.id}/480/480`; }}
+          onError={(e) => {
+            e.target.src = `https://picsum.photos/seed/${post.id}/480/480`;
+          }}
           sx={{
-            width: '100%', aspectRatio: '1 / 1',
-            objectFit: 'cover', display: 'block',
-            cursor: post.image_url ? 'pointer' : 'default',
+            width: "100%",
+            aspectRatio: "1 / 1",
+            objectFit: "cover",
+            display: "block",
+            cursor: post.image_url ? "pointer" : "default",
           }}
         />
 
         {/* 하단: 반응 */}
-        <CardContent sx={{ px: 2, py: 1.25, '&:last-child': { pb: 1.75 } }}>
+        <CardContent sx={{ px: 2, py: 1.25, "&:last-child": { pb: 1.75 } }}>
           {/* 좋아요 / 댓글 버튼 */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-            <IconButton onClick={handleLike} sx={{ p: 1.25, m: -1.25 }} aria-label={liked ? '좋아요 취소' : '좋아요'}>
-              {liked
-                ? <FavoriteIcon sx={{ color: 'error.main', fontSize: 24 }} />
-                : <FavoriteBorderIcon sx={{ fontSize: 24 }} />
-              }
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+            <IconButton
+              onClick={handleLike}
+              sx={{ p: 1.25, m: -1.25 }}
+              aria-label={liked ? "좋아요 취소" : "좋아요"}
+            >
+              {liked ? (
+                <FavoriteIcon sx={{ color: "error.main", fontSize: 24 }} />
+              ) : (
+                <FavoriteBorderIcon sx={{ fontSize: 24 }} />
+              )}
             </IconButton>
-            <Typography variant="body2" fontWeight={600}>{likesCount}</Typography>
-            <IconButton onClick={() => setCommentOpen(true)} sx={{ p: 1.25, m: -1.25, ml: 0.25 }} aria-label="댓글 보기">
+            <Typography variant="body2" fontWeight={600}>
+              {likesCount}
+            </Typography>
+            <IconButton
+              onClick={() => setCommentOpen(true)}
+              sx={{ p: 1.25, m: -1.25, ml: 0.25 }}
+              aria-label="댓글 보기"
+            >
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
-            <Typography variant="body2" color="text.secondary">{post.comments_count || 0}</Typography>
+            <Typography variant="body2" color="text.secondary">
+              {post.comments_count || 0}
+            </Typography>
           </Box>
 
           {/* 캡션 */}
           <Box sx={{ mb: 0.75 }}>
-            <Typography component="span" variant="body2" fontWeight={700} sx={{ mr: 1 }}>
+            <Typography
+              component="span"
+              variant="body2"
+              fontWeight={700}
+              sx={{ mr: 1 }}
+            >
               {post.profiles?.nickname}
             </Typography>
-            <Typography component="span" variant="body2" sx={{ lineHeight: 1.55 }}>{post.caption}</Typography>
+            <Typography
+              component="span"
+              variant="body2"
+              sx={{ lineHeight: 1.55 }}
+            >
+              {post.caption}
+            </Typography>
           </Box>
 
           {/* 해시태그 */}
           {post.hashtag && (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 0.75 }}>
-              {post.hashtag.split(/\s+/).filter(Boolean).map((tag, i) => (
-                <Chip
-                  key={i}
-                  label={tag.startsWith('#') ? tag : `#${tag}`}
-                  size="small"
-                  sx={{ bgcolor: 'secondary.main', color: 'primary.dark', fontWeight: 500, fontSize: '0.68rem', height: 20 }}
-                />
-              ))}
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 0.75 }}>
+              {post.hashtag
+                .split(/\s+/)
+                .filter(Boolean)
+                .map((tag, i) => (
+                  <Chip
+                    key={i}
+                    label={tag.startsWith("#") ? tag : `#${tag}`}
+                    size="small"
+                    sx={{
+                      bgcolor: "secondary.main",
+                      color: "primary.dark",
+                      fontWeight: 500,
+                      fontSize: "0.68rem",
+                      height: 20,
+                    }}
+                  />
+                ))}
             </Box>
           )}
 
           {/* 최근 댓글 2개 */}
           {post.recent_comments?.slice(0, 2).map((c) => (
-            <Box key={c.id} sx={{ display: 'flex', gap: 0.6, mb: 0.3 }}>
-              <Typography variant="caption" fontWeight={700}>{c.profiles?.nickname}</Typography>
-              <Typography variant="caption" color="text.secondary" noWrap sx={{ lineHeight: 1.5 }}>{c.content}</Typography>
+            <Box key={c.id} sx={{ display: "flex", gap: 0.6, mb: 0.3 }}>
+              <Typography variant="caption" fontWeight={700}>
+                {c.profiles?.nickname}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                noWrap
+                sx={{ lineHeight: 1.5 }}
+              >
+                {c.content}
+              </Typography>
             </Box>
           ))}
 
           {/* 시간 */}
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.6 }}>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ display: "block", mt: 0.6 }}
+          >
             {formatDistanceToNow(post.created_at)}
           </Typography>
         </CardContent>
@@ -164,54 +279,87 @@ const PostCard = ({ post, onDelete }) => {
         onClose={() => setImageModalOpen(false)}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
-        slotProps={{ backdrop: { timeout: 300, sx: { bgcolor: 'rgba(0,0,0,0.85)' } } }}
+        slotProps={{
+          backdrop: { timeout: 300, sx: { bgcolor: "rgba(0,0,0,0.85)" } },
+        }}
       >
         <Fade in={imageModalOpen}>
           <Box
             sx={{
-              position: 'fixed', inset: 0,
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center',
+              position: "fixed",
+              inset: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
               px: { xs: 0, sm: 2 },
-              '&:focus': { outline: 'none' },
+              "&:focus": { outline: "none" },
             }}
           >
-            <Box sx={{
-              width: '100%', maxWidth: 480,
-              maxHeight: '100dvh',
-              bgcolor: 'background.paper',
-              display: 'flex', flexDirection: 'column',
-              overflow: 'hidden',
-            }}>
-              <Box sx={{
-                display: 'flex', justifyContent: 'flex-end',
-                px: 1, py: 0.5, borderBottom: '1px solid', borderColor: 'divider', flexShrink: 0,
-              }}>
-                <IconButton onClick={() => setImageModalOpen(false)} aria-label="이미지 모달 닫기">
+            <Box
+              sx={{
+                width: "100%",
+                maxWidth: 480,
+                maxHeight: "100dvh",
+                bgcolor: "background.paper",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  px: 1,
+                  py: 0.5,
+                  borderBottom: "1px solid",
+                  borderColor: "divider",
+                  flexShrink: 0,
+                }}
+              >
+                <IconButton
+                  onClick={() => setImageModalOpen(false)}
+                  aria-label="이미지 모달 닫기"
+                >
                   <CloseIcon />
                 </IconButton>
               </Box>
               <Box
                 component="img"
                 src={post.image_url}
-                alt={`${post.profiles?.nickname ?? '작성자'}의 게시물 확대 이미지`}
-                sx={{ width: '100%', maxHeight: '60dvh', objectFit: 'contain', bgcolor: '#000', flexShrink: 0 }}
+                alt={`${post.profiles?.nickname ?? "작성자"}의 게시물 확대 이미지`}
+                sx={{
+                  width: "100%",
+                  maxHeight: "60dvh",
+                  objectFit: "contain",
+                  bgcolor: "#000",
+                  flexShrink: 0,
+                }}
               />
-              <Box sx={{ p: 2, overflowY: 'auto' }}>
+              <Box sx={{ p: 2, overflowY: "auto" }}>
                 <Typography variant="body2" fontWeight={700} sx={{ mb: 0.5 }}>
                   {post.profiles?.nickname}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 1 }}
+                >
                   {post.caption}
                 </Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <FavoriteIcon sx={{ fontSize: 18, color: 'error.main' }} />
+                <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <FavoriteIcon sx={{ fontSize: 18, color: "error.main" }} />
                     <Typography variant="caption">{likesCount}</Typography>
                   </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                    <ForumOutlinedIcon sx={{ fontSize: 18, color: 'text.secondary' }} />
-                    <Typography variant="caption">{post.comments_count || 0}</Typography>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                    <ForumOutlinedIcon
+                      sx={{ fontSize: 18, color: "text.secondary" }}
+                    />
+                    <Typography variant="caption">
+                      {post.comments_count || 0}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
@@ -224,10 +372,10 @@ const PostCard = ({ post, onDelete }) => {
         open={guestSnack}
         autoHideDuration={2500}
         onClose={() => setGuestSnack(false)}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         sx={{ mb: 8 }}
       >
-        <Alert severity="info" sx={{ width: '100%', borderRadius: 2 }}>
+        <Alert severity="info" sx={{ width: "100%", borderRadius: 2 }}>
           {isDemo ? DEMO_LIMIT_MESSAGE : GUEST_LIMIT_MESSAGE}
         </Alert>
       </Snackbar>
