@@ -76,7 +76,7 @@ const PostEditPage = () => {
         hashtags: form.hashtags,
       }).eq('id', id);
       if (err) throw err;
-      navigate(`/posts/${id}`);
+      navigate(`/posts/${id}`, { replace: true });
     } catch {
       setError('게시물 수정 중 오류가 발생했습니다.');
     } finally {

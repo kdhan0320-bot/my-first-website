@@ -67,7 +67,7 @@ const PostWritePage = () => {
         hashtags: form.hashtags,
       }).select().single();
       if (err) throw err;
-      navigate(`/posts/${data.id}`);
+      navigate(`/posts/${data.id}`, { replace: true });
     } catch {
       setError('게시물 등록 중 오류가 발생했습니다.');
     } finally {
