@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { Box, Typography, Button } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutlineOutlined';
 import TopBar from './TopBar';
 import BottomNav from './BottomNav';
 import { useAuth } from '../../hooks/useAuth';
@@ -82,7 +82,7 @@ const MainLayout = ({ children }) => {
               target="_blank" rel="noopener noreferrer"
               variant="outlined"
               size="small"
-              startIcon={<ArrowBackIcon sx={{ fontSize: 16 }} />}
+              startIcon={<WorkOutlineIcon sx={{ fontSize: 16 }} />}
               sx={{
                 flex: 1, justifyContent: 'flex-start', borderRadius: 2,
                 color: 'text.secondary', borderColor: 'divider', fontSize: '0.75rem',
