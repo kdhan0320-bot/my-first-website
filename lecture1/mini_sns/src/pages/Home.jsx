@@ -281,7 +281,7 @@ const Home = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                   px: 2,
-                  py: 0.75,
+                  py: 0.4,
                 }}
               >
                 <Typography

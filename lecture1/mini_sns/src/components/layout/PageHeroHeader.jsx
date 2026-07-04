@@ -34,16 +34,16 @@ const RailSegment = ({ label, text }) => (
 const SummaryRail = ({ flowLabel, flowText, featureLabel, featureText }) => (
   <Box
     sx={{
-      mt: 1.25,
-      px: 1.5,
-      py: 0.9,
-      borderRadius: "14px",
+      mt: 0.85,
+      px: 1.25,
+      py: 0.65,
+      borderRadius: "12px",
       bgcolor: "rgba(255,255,255,0.08)",
       border: "1px solid rgba(255,255,255,0.16)",
       display: "flex",
       flexDirection: { xs: "column", sm: "row" },
       alignItems: { xs: "flex-start", sm: "center" },
-      gap: { xs: 0.4, sm: 0 },
+      gap: { xs: 0.25, sm: 0 },
     }}
   >
     <RailSegment label={flowLabel} text={flowText} />
@@ -78,8 +78,8 @@ const PageHeroHeader = ({
   <Box
     sx={{
       px: 2,
-      pt: 2.25,
-      pb: 2,
+      pt: 1.75,
+      pb: 1.5,
       background:
         "linear-gradient(135deg, #1E1B4B 0%, #312E81 60%, #4F46E5 100%)",
       borderBottom: "1px solid rgba(255,255,255,0.08)",
@@ -99,7 +99,7 @@ const PageHeroHeader = ({
         {subtitle && (
           <Typography
             variant="body2"
-            sx={{ color: "#C7D2FE", mt: 0.3, mb: chips ? 1 : 0 }}
+            sx={{ color: "#C7D2FE", mt: 0.15, mb: chips ? 0.75 : 0 }}
           >
             {subtitle}
           </Typography>
@@ -108,7 +108,7 @@ const PageHeroHeader = ({
       {action}
     </Box>
     {chips && (
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.75 }}>{chips}</Box>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.6 }}>{chips}</Box>
     )}
     {flowText && (
       <SummaryRail
@@ -144,10 +144,10 @@ export const cardCanvasSx = {
 
 export const cardShelfSx = {
   position: "relative",
-  mt: "-14px",
-  borderRadius: "20px 20px 0 0",
+  mt: "-10px",
+  borderRadius: "18px 18px 0 0",
   boxShadow: "0 -8px 16px -8px rgba(15,23,42,0.10)",
-  pt: "14px",
+  pt: "10px",
   ...cardCanvasSx,
 };
 

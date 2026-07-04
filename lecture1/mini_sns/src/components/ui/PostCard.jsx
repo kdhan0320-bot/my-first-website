@@ -77,7 +77,7 @@ const PostCard = ({ post, onDelete }) => {
       <Card
         sx={{
           mx: 2,
-          mb: 2,
+          mb: { xs: 1.5, md: 2 },
           borderRadius: "22px",
           overflow: "hidden",
           boxShadow: "0 1px 3px rgba(15,23,42,0.06)",
@@ -90,11 +90,11 @@ const PostCard = ({ post, onDelete }) => {
             alignItems: "center",
             justifyContent: "space-between",
             px: 2,
-            pt: 1.25,
-            pb: 0.85,
+            pt: 1,
+            pb: 0.65,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Avatar
               src={post.profiles?.profile_image_url}
               sx={{ width: 38, height: 38 }}
@@ -174,9 +174,9 @@ const PostCard = ({ post, onDelete }) => {
         />
 
         {/* 하단: 반응 */}
-        <CardContent sx={{ px: 2, py: 1.25, "&:last-child": { pb: 1.75 } }}>
+        <CardContent sx={{ px: 2, py: 1, "&:last-child": { pb: 1.4 } }}>
           {/* 좋아요 / 댓글 버튼 */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.4 }}>
             <IconButton
               onClick={handleLike}
               sx={{ p: 1.25, m: -1.25 }}
@@ -193,7 +193,7 @@ const PostCard = ({ post, onDelete }) => {
             </Typography>
             <IconButton
               onClick={() => setCommentOpen(true)}
-              sx={{ p: 1.25, m: -1.25, ml: 0.25 }}
+              sx={{ p: 1.4, m: -1.4, ml: 0.1 }}
               aria-label="댓글 보기"
             >
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
@@ -204,7 +204,7 @@ const PostCard = ({ post, onDelete }) => {
           </Box>
 
           {/* 캡션 */}
-          <Box sx={{ mb: 0.75 }}>
+          <Box sx={{ mb: 0.5 }}>
             <Typography
               component="span"
               variant="body2"
@@ -224,7 +224,7 @@ const PostCard = ({ post, onDelete }) => {
 
           {/* 해시태그 */}
           {post.hashtag && (
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 0.75 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, mb: 0.5 }}>
               {post.hashtag
                 .split(/\s+/)
                 .filter(Boolean)
@@ -245,8 +245,8 @@ const PostCard = ({ post, onDelete }) => {
             </Box>
           )}
 
-          {/* 최근 댓글 2개 */}
-          {post.recent_comments?.slice(0, 2).map((c) => (
+          {/* 최근 댓글 1개 */}
+          {post.recent_comments?.slice(0, 1).map((c) => (
             <Box key={c.id} sx={{ display: "flex", gap: 0.6, mb: 0.3 }}>
               <Typography variant="caption" fontWeight={700}>
                 {c.profiles?.nickname}
