@@ -113,7 +113,7 @@ const SidebarContent = ({ onNavigate }) => {
             underline="hover"
             sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
           >
-            GitHub →
+            GitHub
           </Link>
           <Link
             href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
@@ -123,7 +123,7 @@ const SidebarContent = ({ onNavigate }) => {
             underline="hover"
             sx={{ color: 'text.secondary', '&:hover': { color: 'primary.main' } }}
           >
-            ← 포트폴리오로 돌아가기
+            포트폴리오로 돌아가기
           </Link>
         </Box>
       </Box>
