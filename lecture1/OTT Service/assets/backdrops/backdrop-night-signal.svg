@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 500" width="1600" height="500" role="img" aria-label="추상 배경 아트">
+  <defs>
+    <linearGradient id="base-backdropnightsignal" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#060e1c"/>
+      <stop offset="50%" stop-color="#0d0b22"/>
+      <stop offset="100%" stop-color="#050c14"/>
+    </linearGradient>
+    <radialGradient id="glowA-backdropnightsignal" cx="22%" cy="15%" r="50%">
+      <stop offset="0%" stop-color="#00D1FF" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#00D1FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB-backdropnightsignal" cx="82%" cy="55%" r="50%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="streak-backdropnightsignal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8fe8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#8fe8ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#8fe8ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft-backdropnightsignal" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="grain-backdropnightsignal">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.02 0"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="500" fill="url(#base-backdropnightsignal)"/>
+  <rect width="1600" height="500" fill="url(#glowA-backdropnightsignal)"/>
+  <rect width="1600" height="500" fill="url(#glowB-backdropnightsignal)"/>
+
+  <g filter="url(#soft-backdropnightsignal)" opacity="0.5">
+    <rect x="-320" y="50" width="2240" height="30" fill="url(#streak-backdropnightsignal)" transform="rotate(-12 800 250)"/>
+  </g>
+
+  <rect width="1600" height="500" filter="url(#grain-backdropnightsignal)" opacity="0.5"/>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" role="img" aria-label="추상 포스터 아트">
+  <defs>
+    <linearGradient id="base-zerocity" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#010b18"/>
+      <stop offset="50%" stop-color="#001628"/>
+      <stop offset="100%" stop-color="#030d1c"/>
+    </linearGradient>
+    <radialGradient id="glowA-zerocity" cx="50%" cy="22%" r="55%">
+      <stop offset="0%" stop-color="#00dcff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#00dcff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB-zerocity" cx="18%" cy="78%" r="55%">
+      <stop offset="0%" stop-color="#5a28ff" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#5a28ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette-zerocity" cx="50%" cy="50%" r="75%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+    </radialGradient>
+    <linearGradient id="streak-zerocity" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#aef2ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#aef2ff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#aef2ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft-zerocity" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="grain-zerocity">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="250" fill="url(#base-zerocity)"/>
+  <rect width="400" height="250" fill="url(#glowA-zerocity)"/>
+  <rect width="400" height="250" fill="url(#glowB-zerocity)"/>
+
+  <g filter="url(#soft-zerocity)" opacity="0.6">
+    <rect x="-80" y="30" width="560" height="22.5" fill="url(#streak-zerocity)" transform="rotate(-18 200 125)"/>
+    <rect x="-80" y="155" width="560" height="12.5" fill="url(#streak-zerocity)" transform="rotate(-18 200 125)"/>
+  </g>
+
+  <rect width="400" height="250" fill="url(#vignette-zerocity)"/>
+  <rect width="400" height="250" filter="url(#grain-zerocity)" opacity="0.5"/>
+</svg>

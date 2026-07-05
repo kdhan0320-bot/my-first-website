@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" role="img" aria-label="추상 포스터 아트">
+  <defs>
+    <linearGradient id="base-bluehour" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#070820"/>
+      <stop offset="50%" stop-color="#130628"/>
+      <stop offset="100%" stop-color="#050618"/>
+    </linearGradient>
+    <radialGradient id="glowA-bluehour" cx="65%" cy="28%" r="55%">
+      <stop offset="0%" stop-color="#e664b4" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#e664b4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB-bluehour" cx="28%" cy="72%" r="55%">
+      <stop offset="0%" stop-color="#2864dc" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#2864dc" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette-bluehour" cx="50%" cy="50%" r="75%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+    </radialGradient>
+    <linearGradient id="streak-bluehour" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffc2e6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#ffc2e6" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#ffc2e6" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft-bluehour" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="grain-bluehour">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="250" fill="url(#base-bluehour)"/>
+  <rect width="400" height="250" fill="url(#glowA-bluehour)"/>
+  <rect width="400" height="250" fill="url(#glowB-bluehour)"/>
+
+  <g filter="url(#soft-bluehour)" opacity="0.6">
+    <rect x="-80" y="30" width="560" height="22.5" fill="url(#streak-bluehour)" transform="rotate(-18 200 125)"/>
+    <rect x="-80" y="155" width="560" height="12.5" fill="url(#streak-bluehour)" transform="rotate(-18 200 125)"/>
+  </g>
+
+  <rect width="400" height="250" fill="url(#vignette-bluehour)"/>
+  <rect width="400" height="250" filter="url(#grain-bluehour)" opacity="0.5"/>
+</svg>

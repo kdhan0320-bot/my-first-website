@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="400" height="250" role="img" aria-label="추상 포스터 아트">
+  <defs>
+    <linearGradient id="base-nightsignal" x1="15%" y1="0%" x2="85%" y2="100%">
+      <stop offset="0%" stop-color="#060e1c"/>
+      <stop offset="50%" stop-color="#0d0b22"/>
+      <stop offset="100%" stop-color="#050c14"/>
+    </linearGradient>
+    <radialGradient id="glowA-nightsignal" cx="28%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#00D1FF" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#00D1FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB-nightsignal" cx="72%" cy="68%" r="55%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="vignette-nightsignal" cx="50%" cy="50%" r="75%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.55"/>
+    </radialGradient>
+    <linearGradient id="streak-nightsignal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8fe8ff" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#8fe8ff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#8fe8ff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft-nightsignal" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="grain-nightsignal">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.035 0"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="250" fill="url(#base-nightsignal)"/>
+  <rect width="400" height="250" fill="url(#glowA-nightsignal)"/>
+  <rect width="400" height="250" fill="url(#glowB-nightsignal)"/>
+
+  <g filter="url(#soft-nightsignal)" opacity="0.6">
+    <rect x="-80" y="30" width="560" height="22.5" fill="url(#streak-nightsignal)" transform="rotate(-18 200 125)"/>
+    <rect x="-80" y="155" width="560" height="12.5" fill="url(#streak-nightsignal)" transform="rotate(-18 200 125)"/>
+  </g>
+
+  <rect width="400" height="250" fill="url(#vignette-nightsignal)"/>
+  <rect width="400" height="250" filter="url(#grain-nightsignal)" opacity="0.5"/>
+</svg>
