@@ -61,7 +61,7 @@
 
   <!-- ── 게스트 배너 ── -->
   <rect x="196" y="56" width="592" height="24" rx="6" fill="#FFF8E1" stroke="#F59E0B" stroke-width="1"/>
-  <text x="210" y="72" font-family="Arial,sans-serif" font-size="8.5" fill="#92400E">게스트 모드 — 샘플 데이터로 체험 중입니다. 데이터를 저장하려면 회원가입 후 로그인하세요.</text>
+  <text x="210" y="72" font-family="Arial,sans-serif" font-size="8.5" fill="#92400E">게스트 모드에서는 샘플 데이터를 체험할 수 있으며, 저장/수정 기능은 제한됩니다.</text>
 
   <!-- ── 요약 카드 4개 ── -->
   <!-- 카드1: 총 지원 -->
