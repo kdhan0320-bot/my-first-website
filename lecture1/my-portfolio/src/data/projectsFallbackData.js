@@ -167,7 +167,8 @@ export const fallbackProjects = [
     github_url: null,
     githubUrl: null,
     figmaPrototypeUrl: 'https://www.figma.com/proto/bzwp6FhsZaaenOA4ABIAFs/%EA%B9%80%EB%8F%84%ED%95%9C_%EB%8C%80%EC%A4%91%EA%B5%90%ED%86%B5-%EB%B2%84%EC%8A%A4-%EB%8F%84%EC%B0%A9%EC%A0%95%EB%B3%B4-%EB%AA%A8%EB%B0%94%EC%9D%BC-%EC%95%B1-UI-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%A0%9C%EC%9E%91?node-id=59-100&p=f&viewport=-153%2C1171%2C1&t=TeIPyxF1TySxWcFF-1&scaling=min-zoom&content-scaling=fixed&page-id=1%3A2',
-    figmaDesignUrl: 'https://www.figma.com/design/bzwp6FhsZaaenOA4ABIAFs/%EA%B9%80%EB%8F%84%ED%95%9C_%EB%8C%80%EC%A4%91%EA%B5%90%ED%86%B5-%EB%B2%84%EC%8A%A4-%EB%8F%84%EC%B0%A9%EC%A0%95%EB%B3%B4-%EB%AA%A8%EB%B0%94%EC%9D%BC-%EC%95%B1-UI-%EB%94%94%EC%9E%90%EC%9D%B8-%EC%A0%9C%EC%9E%91?node-id=1-2&t=ttkZPt30syqSsIiX-1',
+    // 디자인 파일 링크는 면접 제출용으로 카드/상세 모달에 노출하지 않고 참고용으로만 보관한다.
+    // figmaDesignUrl: 'https://www.figma.com/design/bzwp6FhsZaaenOA4ABIAFs/...'
     is_ai_project: false,
     is_figma_project: true,
     is_featured: false,
