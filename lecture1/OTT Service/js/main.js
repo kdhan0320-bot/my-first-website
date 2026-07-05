@@ -154,7 +154,7 @@ function closeLoginModal() {
   if (lastLoginFocused) { lastLoginFocused.focus(); lastLoginFocused = null; }
 }
 
-// 무료로 시작하기 버튼 모두 연결
+// 테스트 계정으로 체험하기 버튼 모두 연결
 document.querySelectorAll('.js-start-btn').forEach((btn) => {
   btn.addEventListener('click', () => openLoginModal(btn));
 });
