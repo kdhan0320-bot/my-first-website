@@ -294,14 +294,6 @@ const ProjectCard = ({ project, onDetail }) => (
             프로토타입 보기
           </Button>
         )}
-        {project.figmaDesignUrl && (
-          <Button component="a" href={project.figmaDesignUrl} target="_blank" rel="noopener noreferrer"
-            size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
-            aria-label={`${project.title} 디자인 파일 보기`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', fontWeight: 600, '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' } }}>
-            디자인 파일 보기
-          </Button>
-        )}
         {project.githubUrl && (
           <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
