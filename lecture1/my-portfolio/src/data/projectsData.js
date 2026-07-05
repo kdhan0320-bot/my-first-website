@@ -12,6 +12,7 @@ const THUMB_MAP = {
   'feedback-hub': `${BASE}thumbnails/community-feedback-hub.svg`,
   gamstagram:   `${BASE}thumbnails/minisns-worklog.svg`,
   'ott-service': `${BASE}thumbnails/ott-service.png`,
+  'bus-arrival-app': `${BASE}thumbnails/bus-arrival-app.svg`,
 };
 
 export const ALL_PROJECTS = [...fallbackProjects]

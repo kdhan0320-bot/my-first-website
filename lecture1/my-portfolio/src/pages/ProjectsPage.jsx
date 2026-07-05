@@ -47,7 +47,7 @@ const DetailRow = ({ label, children }) => (
 
 const DetailModal = ({ project, open, onClose }) => {
   if (!project) return null;
-  const { detail, role, tools, liveUrl, githubUrl } = project;
+  const { detail, role, tools, liveUrl, githubUrl, figmaPrototypeUrl, figmaDesignUrl } = project;
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth scroll="paper"
       aria-labelledby="ppage-detail-title"
@@ -176,6 +176,20 @@ const DetailModal = ({ project, open, onClose }) => {
             실행 화면 보기
           </Button>
         )}
+        {figmaPrototypeUrl && (
+          <Button component="a" href={figmaPrototypeUrl} target="_blank" rel="noopener noreferrer"
+            variant="contained" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
+            sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
+            프로토타입 보기
+          </Button>
+        )}
+        {figmaDesignUrl && (
+          <Button component="a" href={figmaDesignUrl} target="_blank" rel="noopener noreferrer"
+            variant="outlined" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
+            sx={{ color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
+            디자인 파일 보기
+          </Button>
+        )}
         {githubUrl && (
           <Button component="a" href={githubUrl} target="_blank" rel="noopener noreferrer"
             variant="outlined" size="small" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
@@ -270,6 +284,22 @@ const ProjectCard = ({ project, onDetail }) => (
             aria-label={`${project.title} 라이브 데모`}
             sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
             실행 화면 보기
+          </Button>
+        )}
+        {project.figmaPrototypeUrl && (
+          <Button component="a" href={project.figmaPrototypeUrl} target="_blank" rel="noopener noreferrer"
+            size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
+            aria-label={`${project.title} 프로토타입 보기`}
+            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
+            프로토타입 보기
+          </Button>
+        )}
+        {project.figmaDesignUrl && (
+          <Button component="a" href={project.figmaDesignUrl} target="_blank" rel="noopener noreferrer"
+            size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
+            aria-label={`${project.title} 디자인 파일 보기`}
+            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', fontWeight: 600, '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' } }}>
+            디자인 파일 보기
           </Button>
         )}
         {project.githubUrl && (
