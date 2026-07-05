@@ -14,8 +14,8 @@ import { useAuth } from '../context/AuthContext';
 import StatusChip from '../components/ui/StatusChip';
 
 const Field = ({ label, value, fullWidth }) => (
-  <Grid item xs={12} sm={fullWidth ? 12 : 6}>
-    <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase" letterSpacing={0.5}>
+  <Grid size={{ xs: 12, sm: fullWidth ? 12 : 6 }}>
+    <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
       {label}
     </Typography>
     <Typography variant="body2" sx={{ mt: 0.5, wordBreak: 'break-word' }}>
@@ -94,8 +94,8 @@ const ApplicationDetailPage = () => {
             <Field label="지원일" value={app.applied_date} />
             <Field label="마감일" value={app.deadline} />
             <Field label="우선순위" value={app.priority} />
-            <Grid item xs={12} sm={6}>
-              <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase" letterSpacing={0.5}>
+            <Grid size={{ xs: 12, sm: 6 }}>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 제출 현황
               </Typography>
               <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
@@ -120,7 +120,7 @@ const ApplicationDetailPage = () => {
           {app.job_url && (
             <>
               <Divider sx={{ my: 2 }} />
-              <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase" letterSpacing={0.5}>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 공고 링크
               </Typography>
               <Box sx={{ mt: 0.5 }}>
@@ -142,7 +142,7 @@ const ApplicationDetailPage = () => {
           {app.memo && (
             <>
               <Divider sx={{ my: 2 }} />
-              <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase" letterSpacing={0.5}>
+              <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
                 메모
               </Typography>
               <Typography variant="body2" sx={{ mt: 0.5, whiteSpace: 'pre-wrap', lineHeight: 1.8 }}>

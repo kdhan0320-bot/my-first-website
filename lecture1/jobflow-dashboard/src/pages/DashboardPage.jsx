@@ -21,7 +21,7 @@ const StatCard = ({ icon, title, value, subtitle, color = 'primary.main' }) => (
     <CardContent>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
         <Box>
-          <Typography variant="caption" color="text.secondary" fontWeight={600} textTransform="uppercase" letterSpacing={0.5}>
+          <Typography variant="caption" color="text.secondary" sx={{ fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>
             {title}
           </Typography>
           <Typography variant="h4" fontWeight={700} color={color} sx={{ mt: 0.5 }}>
@@ -75,7 +75,10 @@ const DashboardPage = () => {
       {isGuest && (
         <Box sx={{ mb: 3, p: 2, bgcolor: '#EFF6FF', borderRadius: 2, border: '1px solid #BFDBFE' }}>
           <Typography variant="body2" sx={{ color: '#1E40AF', fontWeight: 600 }}>
-            게스트 모드 — 샘플 데이터로 체험 중입니다. 데이터를 저장하려면 회원가입 후 로그인하세요.
+            게스트 모드에서는 샘플 데이터를 체험할 수 있으며, 저장/수정 기능은 제한됩니다.
+          </Typography>
+          <Typography variant="caption" sx={{ color: '#1E40AF' }}>
+            실제 데이터 저장은 회원가입 후 사용할 수 있습니다.
           </Typography>
         </Box>
       )}

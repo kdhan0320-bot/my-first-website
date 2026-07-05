@@ -142,7 +142,7 @@ const ApplicationFormPage = () => {
                   fullWidth
                   value={form.applied_date}
                   onChange={handleChange('applied_date')}
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{ inputLabel: { shrink: true } }}
                 />
               </Grid>
               <Grid size={{ xs: 12, sm: 6 }}>
@@ -152,7 +152,7 @@ const ApplicationFormPage = () => {
                   fullWidth
                   value={form.deadline}
                   onChange={handleChange('deadline')}
-                  InputLabelProps={{ shrink: true }}
+                  slotProps={{ inputLabel: { shrink: true } }}
                 />
               </Grid>
               <Grid size={12}>

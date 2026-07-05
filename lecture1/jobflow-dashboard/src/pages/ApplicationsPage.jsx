@@ -73,7 +73,7 @@ const ApplicationsPage = () => {
               onChange={(e) => setSearch(e.target.value)}
               size="small"
               sx={{ flex: 1 }}
-              InputProps={{ startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> }}
+              slotProps={{ input: { startAdornment: <InputAdornment position="start"><SearchIcon fontSize="small" /></InputAdornment> } }}
             />
             <FormControl size="small" sx={{ minWidth: 140 }}>
               <InputLabel>상태 필터</InputLabel>

@@ -24,10 +24,15 @@ const NAV_ITEMS = [
   { path: '/settings', label: '설정', icon: <SettingsIcon /> },
 ];
 
-const SidebarContent = () => {
+const SidebarContent = ({ onNavigate }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isGuest } = useAuth();
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    onNavigate?.();
+  };
 
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -66,7 +71,7 @@ const SidebarContent = () => {
           return (
             <ListItemButton
               key={item.path}
-              onClick={() => navigate(item.path)}
+              onClick={() => handleNavigate(item.path)}
               selected={active}
               sx={{
                 borderRadius: 2,
@@ -84,7 +89,7 @@ const SidebarContent = () => {
               </ListItemIcon>
               <ListItemText
                 primary={item.label}
-                primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: active ? 600 : 400 }}
+                slotProps={{ primary: { fontSize: '0.875rem', fontWeight: active ? 600 : 400 } }}
               />
             </ListItemButton>
           );
@@ -94,10 +99,10 @@ const SidebarContent = () => {
       <Divider />
       <Box sx={{ p: 2 }}>
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', fontWeight: 600, mb: 0.5 }}>
-          AI-assisted Coding Project
+          AI-assisted Dashboard
         </Typography>
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', lineHeight: 1.5, mb: 1 }}>
-          Claude를 활용해 UI 구조와 기능 구현을 보조받은 학습 목적의 프론트엔드 프로젝트입니다.
+          React/MUI 기반 취업 준비 대시보드입니다. AI 도구를 활용해 화면 구조와 기능 구현을 보조받았습니다.
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
           <Link
@@ -138,7 +143,7 @@ const Sidebar = ({ mobileOpen, onMobileClose }) => (
         '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box' },
       }}
     >
-      <SidebarContent />
+      <SidebarContent onNavigate={onMobileClose} />
     </Drawer>
     <Drawer
       variant="permanent"

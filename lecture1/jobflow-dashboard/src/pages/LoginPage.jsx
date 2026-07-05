@@ -82,7 +82,7 @@ const LoginPage = () => {
           데모로 둘러보기 (로그인 불필요)
         </Button>
         <Typography variant="caption" color="text.secondary" sx={{ display: 'block', textAlign: 'center', mb: 3 }}>
-          회원가입 없이 샘플 데이터로 대시보드를 바로 체험할 수 있습니다
+          샘플 데이터를 바로 체험할 수 있으며, 저장/수정은 회원가입 후 가능합니다
         </Typography>
 
         <Paper elevation={0} sx={{ p: 3, border: '1px solid', borderColor: 'divider', borderRadius: 3 }}>
@@ -113,7 +113,7 @@ const LoginPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               sx={{ mb: 2 }}
               placeholder="example@email.com"
-              inputProps={{ 'aria-label': '이메일' }}
+              slotProps={{ htmlInput: { 'aria-label': '이메일' } }}
             />
             <TextField
               label="비밀번호"
@@ -124,7 +124,7 @@ const LoginPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               sx={{ mb: 3 }}
               placeholder="6자 이상"
-              inputProps={{ 'aria-label': '비밀번호' }}
+              slotProps={{ htmlInput: { 'aria-label': '비밀번호' } }}
             />
             <Button
               type="submit"

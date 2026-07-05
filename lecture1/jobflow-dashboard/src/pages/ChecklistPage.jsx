@@ -116,7 +116,7 @@ const ChecklistPage = () => {
                       onChange={(e) => toggle(item.id, e.target.checked)}
                       size="small"
                       color="success"
-                      inputProps={{ 'aria-label': item.title }}
+                      slotProps={{ input: { 'aria-label': item.title } }}
                       sx={{ p: 0.5, mr: 1 }}
                     />
                     <Typography

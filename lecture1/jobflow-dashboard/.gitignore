@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Environment variables (Supabase 키 등 민감 정보)
+.env
+.env.local
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

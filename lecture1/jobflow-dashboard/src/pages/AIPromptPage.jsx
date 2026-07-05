@@ -74,7 +74,7 @@ const AIPromptPage = () => {
               value={role}
               onChange={(e) => setRole(e.target.value)}
               placeholder="예: UX/UI 디자이너, 웹 퍼블리셔"
-              inputProps={{ 'aria-label': '지원 직무 입력' }}
+              slotProps={{ htmlInput: { 'aria-label': '지원 직무 입력' } }}
             />
             <TextField
               label="회사명 (선택)"
@@ -82,7 +82,7 @@ const AIPromptPage = () => {
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               placeholder="예: 테크기업 A"
-              inputProps={{ 'aria-label': '회사명 입력' }}
+              slotProps={{ htmlInput: { 'aria-label': '회사명 입력' } }}
             />
             <TextField
               label="강조할 프로젝트 (선택)"
@@ -90,7 +90,7 @@ const AIPromptPage = () => {
               value={project}
               onChange={(e) => setProject(e.target.value)}
               placeholder="예: Mini SNS, Portfolio Feedback Hub, JobFlow Dashboard"
-              inputProps={{ 'aria-label': '강조할 프로젝트 입력' }}
+              slotProps={{ htmlInput: { 'aria-label': '강조할 프로젝트 입력' } }}
             />
             <Button
               variant="contained"

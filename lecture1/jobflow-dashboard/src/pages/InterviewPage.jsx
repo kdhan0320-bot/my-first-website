@@ -47,7 +47,7 @@ const NoteCard = ({ note, onToggle, onDelete, isGuest }) => (
             onChange={(e) => onToggle(note.id, e.target.checked)}
             size="small"
             color="success"
-            inputProps={{ 'aria-label': '복습 완료' }}
+            slotProps={{ input: { 'aria-label': '복습 완료' } }}
           />
           {!isGuest && (
             <IconButton size="small" onClick={() => onDelete(note.id)} aria-label="삭제" color="error">
