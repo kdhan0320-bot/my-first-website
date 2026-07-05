@@ -374,9 +374,10 @@ export const featuredFallbackProjects = [...fallbackProjects]
 
 /* 필터 탭 정의 */
 export const FALLBACK_FILTER_TABS = [
-  { label: '전체',         value: 'all'      },
-  { label: '대표 작업',   value: 'featured' },
-  { label: 'AI 도구 활용', value: 'ai'       },
-  { label: 'Figma UX/UI', value: 'figma'    },
-  { label: '리디자인',     value: 'redesign' },
+  { label: '전체',           value: 'all'      },
+  { label: '대표 작업',     value: 'featured' },
+  { label: 'AI 도구 활용',   value: 'ai'       },
+  { label: '프론트엔드 구현', value: 'frontend' },
+  { label: 'Figma UX/UI',   value: 'figma'    },
+  { label: '리디자인',       value: 'redesign' },
 ];
