@@ -148,9 +148,9 @@ const ContactSection = () => {
               <circle cx="380" cy="100" r="3" fill="#7C3AED" opacity="0.6" />
             </Box>
 
-            <Grid container spacing={{ xs: 3, md: 4 }} sx={{ alignItems: 'center' }}>
+            <Grid container spacing={{ xs: 3, sm: 4 }} sx={{ alignItems: 'center' }}>
               {/* 왼쪽: 제목 + 설명 + 연락처 정보 */}
-              <Grid size={{ xs: 12, md: 6 }}>
+              <Grid size={{ xs: 12, sm: 6 }}>
                 <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.4rem' }, mb: 1 }}>
                   함께 이야기해요
                 </Typography>
@@ -187,8 +187,8 @@ const ContactSection = () => {
               </Grid>
 
               {/* 오른쪽: 버튼 */}
-              <Grid size={{ xs: 12, md: 6 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, alignItems: { xs: 'stretch', md: 'flex-end' } }}>
+              <Grid size={{ xs: 12, sm: 6 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, alignItems: { xs: 'stretch', sm: 'flex-end' } }}>
                   <Button
                     component="a"
                     href="mailto:kdhan0320@gmail.com"
