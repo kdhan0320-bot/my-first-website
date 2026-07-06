@@ -43,7 +43,8 @@ const AboutSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: 'background.default',
-        py: { xs: 6, md: 8 },
+        pt: { xs: 6, md: 8 },
+        pb: { xs: 3, md: 8 },
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
@@ -129,7 +130,7 @@ const AboutSection = () => {
 
         {/* 별자리 연결 카드 */}
         <RevealOnScroll delay={0.1}>
-          <Box sx={{ position: 'relative', mb: { xs: 5, md: 7 } }}>
+          <Box sx={{ position: 'relative', mb: { xs: 1, md: 7 } }}>
             {/* 별자리 연결선 (데스크톱) */}
             <Box
               aria-hidden="true"
