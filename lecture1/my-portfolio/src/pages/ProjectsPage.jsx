@@ -10,7 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { supabase } from '../lib/supabase';
 import { ALL_PROJECTS, FILTER_TABS } from '../data/projectsData';
-import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../components/common/ProjectThumbnailArt';
+import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../components/projects/ProjectThumbnailArt';
 
 /* ── Supabase 데이터를 공유 포맷으로 변환 ── */
 const fromSupabase = (row) => ({
@@ -61,7 +61,7 @@ const DetailModal = ({ project, open, onClose }) => {
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
         </Box>
         <IconButton onClick={onClose} aria-label="닫기" size="small"
-          sx={{ color: 'text.secondary', ml: 1, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
+          sx={{ color: 'text.secondary', ml: 1, minWidth: 44, minHeight: 44, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
@@ -232,6 +232,7 @@ const ProjectCard = ({ project, onDetail }) => (
   <Card tabIndex={0} aria-label={`${project.title} 프로젝트`}
     sx={{
       display: 'flex', flexDirection: 'column',
+      minHeight: { md: 480 },
       transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
       '&:hover': {
         transform: 'translateY(-4px)',
@@ -272,7 +273,7 @@ const ProjectCard = ({ project, onDetail }) => (
       <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
         <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
           sx={{
-            fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
+            fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'primary.main',
             borderColor: 'rgba(56,189,248,0.28)', fontWeight: 600,
             '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
           }}>
@@ -282,7 +283,7 @@ const ProjectCard = ({ project, onDetail }) => (
           <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
             aria-label={`${project.title} 라이브 데모`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
+            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
             실행 화면 보기
           </Button>
         )}
@@ -290,7 +291,7 @@ const ProjectCard = ({ project, onDetail }) => (
           <Button component="a" href={project.figmaPrototypeUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
             aria-label={`${project.title} 프로토타입 보기`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
+            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
             프로토타입 보기
           </Button>
         )}
@@ -298,7 +299,7 @@ const ProjectCard = ({ project, onDetail }) => (
           <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
             aria-label={`${project.title} GitHub`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
+            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
             GitHub
           </Button>
         )}
@@ -328,7 +329,7 @@ const SkeletonCard = () => (
 const ProjectsPage = () => {
   const [projects, setProjects]         = useState([]);
   const [loading, setLoading]           = useState(true);
-  const [activeTab, setActiveTab]       = useState('all');
+  const [activeTab, setActiveTab]       = useState('featured');
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalOpen, setModalOpen]       = useState(false);
 
@@ -363,7 +364,7 @@ const ProjectsPage = () => {
 
   const filtered = activeTab === 'all'
     ? projects
-    : projects.filter((p) => p.categories.includes(activeTab));
+    : projects.filter((p) => p.categories?.includes(activeTab));
 
   return (
     <Box component="main" sx={{ bgcolor: 'background.default', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
@@ -394,7 +395,7 @@ const ProjectsPage = () => {
         </Box>
 
         {/* 카드 그리드 */}
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } }}>
           {loading
             ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
             : filtered.map((project) => (

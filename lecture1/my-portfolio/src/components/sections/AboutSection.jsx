@@ -2,8 +2,8 @@ import { Box, Container, Typography, Grid } from '@mui/material';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import DevicesIcon from '@mui/icons-material/Devices';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import RevealOnScroll from '../common/RevealOnScroll';
-import StarField from '../common/StarField';
+import RevealOnScroll from '../ui/RevealOnScroll';
+import StarField from '../ui/StarField';
 
 const SKILL_CARDS = [
   {

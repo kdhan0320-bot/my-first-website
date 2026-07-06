@@ -7,7 +7,6 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   useScrollDirection,
@@ -15,7 +14,7 @@ import {
   useActiveSection,
   scrollToSection,
 } from '../../hooks/useScrollNav';
-import LogoSymbol from '../common/LogoSymbol';
+import LogoSymbol from '../ui/LogoSymbol';
 
 const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 
@@ -179,29 +178,7 @@ const Navbar = () => {
                 );
               })}
 
-              {/* PDF 포트폴리오 (준비 중) */}
-              {/* TODO: 실제 PDF 파일이 public/ 폴더에 준비되면 disabled 해제하고 href 연결 — 최종 제출 전 반드시 확인 */}
-              <Tooltip title="PDF 파일 준비 중입니다. 준비되는 대로 다운로드 링크를 연결할 예정입니다." placement="bottom" arrow>
-                <span>
-                  <Button
-                    disabled
-                    startIcon={<PictureAsPdfIcon aria-hidden="true" sx={{ fontSize: '0.9rem !important' }} />}
-                    aria-label="PDF 포트폴리오 준비 중"
-                    sx={{
-                      ml: 1,
-                      color: 'text.disabled',
-                      fontWeight: 500,
-                      fontSize: '0.875rem',
-                      whiteSpace: 'nowrap',
-                      px: 2,
-                      minHeight: 44,
-                      '&.Mui-disabled': { color: 'text.disabled' },
-                    }}
-                  >
-                    PDF 포트폴리오
-                  </Button>
-                </span>
-              </Tooltip>
+              {/* PDF 포트폴리오 버튼: 실제 PDF 파일이 public/에 준비되면 다시 추가 (portfolio.pdf 필요) */}
 
               {/* GitHub 링크 */}
               <Tooltip
@@ -246,7 +223,7 @@ const Navbar = () => {
             {/* 모바일 우측: 햄버거 */}
             <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 0.5 }}>
               <IconButton
-                sx={{ color: 'text.primary' }}
+                sx={{ color: 'text.primary', minWidth: 44, minHeight: 44 }}
                 onClick={() => setDrawerOpen(true)}
                 aria-label="메뉴 열기"
                 aria-expanded={drawerOpen}
@@ -287,7 +264,7 @@ const Navbar = () => {
             </Typography>
           </Box>
           <IconButton
-            sx={{ color: 'text.secondary' }}
+            sx={{ color: 'text.secondary', minWidth: 44, minHeight: 44 }}
             onClick={() => setDrawerOpen(false)}
             aria-label="메뉴 닫기"
           >
@@ -328,18 +305,6 @@ const Navbar = () => {
             );
           })}
 
-          {/* PDF 포트폴리오 (준비 중) */}
-          {/* TODO: 실제 PDF 파일이 public/ 폴더에 준비되면 disabled 해제하고 href 연결 — 최종 제출 전 반드시 확인 */}
-          <ListItem disablePadding>
-            <ListItemButton disabled sx={{ pl: 3, minHeight: 52 }} aria-label="PDF 포트폴리오 준비 중">
-              <ListItemText
-                primary="PDF 포트폴리오 (준비 중)"
-                slotProps={{
-                  primary: { sx: { fontWeight: 400, fontSize: '0.9rem', color: 'text.disabled', whiteSpace: 'nowrap' } },
-                }}
-              />
-            </ListItemButton>
-          </ListItem>
         </List>
 
         <Divider sx={{ mx: 2 }} />

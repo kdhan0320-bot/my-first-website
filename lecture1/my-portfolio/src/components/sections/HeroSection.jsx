@@ -1,182 +1,90 @@
 import { Box, Container, Typography, Button, Grid, Stack } from '@mui/material';
-import { keyframes } from '@mui/material/styles';
-import EmailIcon from '@mui/icons-material/Email';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { scrollToSection } from '../../hooks/useScrollNav';
-import StarField from '../common/StarField';
+import StarField from '../ui/StarField';
+import { ALL_PROJECTS } from '../../data/projectsData';
+import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
 
 const STRENGTH_KEYWORDS = ['화면 설계', '사용자 흐름 개선', 'React 웹 구현', 'AI 도구 활용'];
 
-/* 프로세스 노드 순차 glow pulse — 01 조사 → 02 설계 → 03 구현 → 04 개선 순서로
- * animationDelay만 다르게 주어 같은 keyframes를 노드마다 다른 타이밍에 재생한다. */
-const processPulse = keyframes`
-  0%, 100% { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
-  8%       { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
-  24%      { filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor); transform: scale(1.02); }
-  36%      { filter: drop-shadow(0 0 0px currentColor); transform: scale(1); }
-`;
+/* 홈 대표 프로젝트 중 첫 번째 항목을 Hero 프리뷰 카드에 사용 */
+const previewProject = ALL_PROJECTS[0];
 
-const NODE_ANIMATION = `${processPulse} 5s ease-in-out infinite`;
-
-const CosmicHeroIllustration = () => {
-  const oc1    = 'rgba(56,189,248,0.52)';
-  const oc2    = 'rgba(167,139,250,0.42)';
-  const star   = 'rgba(255,255,255,0.72)';
-  const starB  = 'rgba(255,255,255,0.48)';
-  const gx     = 'rgba(56,189,248,0.16)';
-  const pFill  = 'rgba(15,23,42,0.96)';
-  const pStroke= 'rgba(56,189,248,0.68)';
-  const tBar   = 'rgba(30,41,59,0.98)';
-  const lnA    = 'rgba(255,255,255,0.22)';
-  const lnB    = 'rgba(255,255,255,0.11)';
-  const cFill  = 'rgba(20,30,50,0.88)';
+/* ── Hero 대표 프로젝트 프리뷰 카드 ── */
+const FeaturedProjectPreview = () => {
+  if (!previewProject) return null;
+  const { title, categoryLabel, description, thumbnailUrl, gradient, tools } = previewProject;
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <svg
-        viewBox="-40 -30 540 460"
-        xmlns="http://www.w3.org/2000/svg"
-        role="img"
-        aria-label="UI 설계 프로세스 일러스트 — 조사, 설계, 구현, 개선"
-        style={{ width: '100%', maxWidth: 500, height: 'auto', display: 'block', overflow: 'visible' }}
+    <Box
+      role="button"
+      tabIndex={0}
+      onClick={() => scrollToSection('projects')}
+      onKeyDown={(e) => e.key === 'Enter' && scrollToSection('projects')}
+      aria-label={`대표 프로젝트 ${title} 보기 — 프로젝트 섹션으로 이동`}
+      sx={{
+        display: 'block',
+        width: '100%',
+        maxWidth: 380,
+        cursor: 'pointer',
+        borderRadius: 3,
+        overflow: 'hidden',
+        border: '1px solid rgba(148,163,184,0.18)',
+        bgcolor: 'rgba(15,23,42,0.72)',
+        backdropFilter: 'blur(8px)',
+        transition: 'transform 0.2s ease, border-color 0.2s ease',
+        '&:hover': { transform: 'translateY(-3px)', borderColor: 'rgba(56,189,248,0.4)' },
+        '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+      }}
+    >
+      <Typography
+        sx={{
+          px: 2, pt: 1.5,
+          color: 'primary.main',
+          fontWeight: 700,
+          fontSize: '0.68rem',
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+        }}
       >
-        {/* 은하수 곡선 */}
-        <path d="M 18 375 Q 230 405 445 222" fill="none" stroke={gx} strokeWidth="2.5"/>
+        대표 프로젝트
+      </Typography>
 
-        {/* 외부 궤도 */}
-        <ellipse cx="230" cy="195" rx="195" ry="153" fill="none" stroke={oc1} strokeWidth="1.4"/>
-        {/* 내부 궤도 (점선) — 노트북을 감싸듯 */}
-        <ellipse cx="230" cy="195" rx="138" ry="100" fill="none" stroke={oc2} strokeWidth="0.9" strokeDasharray="7 12"/>
+      <Box sx={{ position: 'relative', height: 150, mt: 1, background: gradient }}>
+        {thumbnailUrl && (
+          <Box
+            component="img"
+            src={thumbnailUrl}
+            alt={`${title} 썸네일`}
+            loading="lazy"
+            sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', p: 1.5 }}
+          />
+        )}
+      </Box>
 
-        {/* 배경 별 */}
-        <circle cx="32"  cy="42"  r="1.8" fill={star}/>
-        <circle cx="90"  cy="18"  r="1.2" fill={starB}/>
-        <circle cx="164" cy="7"   r="1.8" fill={star}/>
-        <circle cx="400" cy="22"  r="1.8" fill={starB}/>
-        <circle cx="444" cy="64"  r="1.2" fill={star}/>
-        <circle cx="452" cy="210" r="1.2" fill={starB}/>
-        <circle cx="8"   cy="230" r="1.2" fill={starB}/>
-        <circle cx="52"  cy="370" r="1.8" fill={star}/>
-        <circle cx="116" cy="388" r="1.2" fill={starB}/>
-        <circle cx="362" cy="382" r="1.8" fill={star}/>
-        <circle cx="430" cy="348" r="1.2" fill={starB}/>
-
-        {/* 별자리 연결선 */}
-        <line x1="32"  y1="42"  x2="90"  y2="18"  stroke={star} strokeWidth="0.5" opacity="0.45"/>
-        <line x1="90"  y1="18"  x2="164" y2="7"   stroke={star} strokeWidth="0.5" opacity="0.35"/>
-        <line x1="400" y1="22"  x2="444" y2="64"  stroke={star} strokeWidth="0.5" opacity="0.40"/>
-        <line x1="52"  y1="370" x2="116" y2="388" stroke={star} strokeWidth="0.5" opacity="0.45"/>
-        <line x1="116" y1="388" x2="362" y2="382" stroke={star} strokeWidth="0.5" opacity="0.28"/>
-
-        {/* ── 중앙 UI 패널 (브라우저/대시보드 창) ── */}
-        <rect x="84" y="65" width="292" height="188" rx="10" fill={pFill} stroke={pStroke} strokeWidth="1.8"/>
-        {/* 타이틀 바 */}
-        <rect x="84" y="65" width="292" height="22" rx="10" fill={tBar}/>
-        <rect x="84" y="77" width="292" height="10" fill={tBar}/>
-        {/* 창 컨트롤 (맥 스타일) */}
-        <circle cx="100" cy="76" r="4" fill="#EF4444" opacity="0.75"/>
-        <circle cx="115" cy="76" r="4" fill="#F59E0B" opacity="0.75"/>
-        <circle cx="130" cy="76" r="4" fill="#22C55E" opacity="0.75"/>
-        {/* URL 바 */}
-        <rect x="148" y="68" width="88" height="14" rx="3" fill="rgba(255,255,255,0.06)"/>
-        <rect x="155" y="73" width="55" height="4"  rx="2" fill={lnB}/>
-
-        {/* KPI 카드 1 — 청록 */}
-        <rect x="96"  y="96" width="82" height="46" rx="5" fill="rgba(56,189,248,0.11)"/>
-        <rect x="104" y="104" width="32" height="4"  rx="2" fill={lnB}/>
-        <rect x="104" y="113" width="60" height="9"  rx="2" fill="rgba(56,189,248,0.52)"/>
-        <rect x="104" y="129" width="26" height="3.5" rx="1.5" fill={lnB}/>
-
-        {/* KPI 카드 2 — 보라 */}
-        <rect x="187" y="96" width="82" height="46" rx="5" fill="rgba(167,139,250,0.11)"/>
-        <rect x="195" y="104" width="32" height="4"  rx="2" fill={lnB}/>
-        <rect x="195" y="113" width="60" height="9"  rx="2" fill="rgba(167,139,250,0.52)"/>
-        <rect x="195" y="129" width="26" height="3.5" rx="1.5" fill={lnB}/>
-
-        {/* KPI 카드 3 — 시안 */}
-        <rect x="278" y="96" width="82" height="46" rx="5" fill="rgba(34,211,238,0.11)"/>
-        <rect x="286" y="104" width="32" height="4"  rx="2" fill={lnB}/>
-        <rect x="286" y="113" width="60" height="9"  rx="2" fill="rgba(34,211,238,0.52)"/>
-        <rect x="286" y="129" width="26" height="3.5" rx="1.5" fill={lnB}/>
-
-        {/* 바 차트 영역 */}
-        <rect x="96"  y="152" width="162" height="90" rx="5" fill="rgba(255,255,255,0.03)"/>
-        <rect x="103" y="160" width="55"  height="4"  rx="2" fill={lnA}/>
-        <rect x="108" y="199" width="14" height="28" rx="2" fill="#38BDF8" opacity="0.60"/>
-        <rect x="126" y="184" width="14" height="43" rx="2" fill="#A78BFA" opacity="0.55"/>
-        <rect x="144" y="192" width="14" height="35" rx="2" fill="#22D3EE" opacity="0.57"/>
-        <rect x="162" y="178" width="14" height="49" rx="2" fill="#38BDF8" opacity="0.60"/>
-        <rect x="180" y="189" width="14" height="38" rx="2" fill="#F59E0B" opacity="0.55"/>
-        <rect x="198" y="195" width="14" height="32" rx="2" fill="#A78BFA" opacity="0.52"/>
-
-        {/* 작업 목록 영역 */}
-        <rect x="268" y="152" width="96" height="90" rx="5" fill="rgba(255,255,255,0.03)"/>
-        <rect x="275" y="160" width="40" height="4"  rx="2" fill={lnA}/>
-        <rect x="275" y="172" width="80" height="13" rx="3" fill="rgba(56,189,248,0.15)"/>
-        <rect x="275" y="190" width="80" height="13" rx="3" fill="rgba(167,139,250,0.13)"/>
-        <rect x="275" y="208" width="80" height="13" rx="3" fill="rgba(34,211,238,0.12)"/>
-        <rect x="275" y="226" width="58" height="11" rx="3" fill="rgba(245,158,11,0.12)"/>
-
-        {/* 모니터 스탠드 */}
-        <rect x="214" y="253" width="32" height="12" rx="0" fill="rgba(51,65,85,0.58)"/>
-        <rect x="192" y="265" width="76" height="5"  rx="2.5" fill="rgba(51,65,85,0.46)"/>
-
-        {/* ── 프로세스 노드 4개 (궤도 극점) ── */}
-
-        {/* 01 조사 — 상단 cx=230 cy=42 */}
-        <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '0s', transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <circle cx="230" cy="42" r="29" fill={pFill} stroke="#A78BFA" strokeWidth="2.0"/>
-          <circle cx="230" cy="42" r="37" fill="none" stroke="#A78BFA" strokeWidth="0.6" opacity="0.32"/>
-          <text x="230" y="37" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#A78BFA"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">01</text>
-          <text x="230" y="52" textAnchor="middle" fontSize="13" fontWeight="700" fill="#C4B5FD" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">조사</text>
+      <Box sx={{ p: 2 }}>
+        <Typography sx={{ color: 'text.disabled', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.06em', textTransform: 'uppercase', mb: 0.5 }}>
+          {categoryLabel}
+        </Typography>
+        <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1rem', mb: 0.75 }}>
+          {title}
+        </Typography>
+        <Typography
+          sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.6, mb: 1.25, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
+        >
+          {description}
+        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, color: 'primary.main', fontWeight: 600, fontSize: '0.78rem' }}>
+          자세히 보기 <ArrowForwardIcon sx={{ fontSize: '0.9rem' }} />
         </Box>
-
-        {/* 02 설계 — 우측 cx=425 cy=195 */}
-        <Box component="g" sx={{ color: '#38BDF8', animation: NODE_ANIMATION, animationDelay: '1.2s', transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <circle cx="425" cy="195" r="29" fill={pFill} stroke="#38BDF8" strokeWidth="2.0"/>
-          <circle cx="425" cy="195" r="37" fill="none" stroke="#38BDF8" strokeWidth="0.6" opacity="0.32"/>
-          <text x="425" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#38BDF8" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">02</text>
-          <text x="425" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#7DD3FC" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">설계</text>
-        </Box>
-
-        {/* 03 구현 — 하단 cx=230 cy=348 */}
-        <Box component="g" sx={{ color: '#22D3EE', animation: NODE_ANIMATION, animationDelay: '2.4s', transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <circle cx="230" cy="348" r="29" fill={pFill} stroke="#22D3EE" strokeWidth="2.0"/>
-          <circle cx="230" cy="348" r="37" fill="none" stroke="#22D3EE" strokeWidth="0.6" opacity="0.32"/>
-          <text x="230" y="343" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#22D3EE" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">03</text>
-          <text x="230" y="358" textAnchor="middle" fontSize="13" fontWeight="700" fill="#67E8F9" fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">구현</text>
-        </Box>
-
-        {/* 04 개선 — 좌측 cx=35 cy=195 */}
-        <Box component="g" sx={{ color: '#A78BFA', animation: NODE_ANIMATION, animationDelay: '3.6s', transformBox: 'fill-box', transformOrigin: 'center' }}>
-          <circle cx="35" cy="195" r="29" fill={pFill} stroke="#60A5FA" strokeWidth="2.0"/>
-          <circle cx="35" cy="195" r="37" fill="none" stroke="#60A5FA" strokeWidth="0.6" opacity="0.32"/>
-          <text x="35" y="190" textAnchor="middle" fontSize="9"  fontWeight="700" fill="#60A5FA"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">04</text>
-          <text x="35" y="205" textAnchor="middle" fontSize="13" fontWeight="700" fill="#93C5FD"  fontFamily="Pretendard, 'Apple SD Gothic Neo', sans-serif">개선</text>
-        </Box>
-
-        {/* ── 떠 있는 UI 카드 (코너 장식) ── */}
-
-        {/* 좌상단 */}
-        <g opacity="0.68">
-          <rect x="2"   y="34" width="68" height="46" rx="5" fill={cFill} stroke={oc1} strokeWidth="0.9"/>
-          <rect x="8"   y="41" width="28" height="3.5" rx="1.5" fill={lnA}/>
-          <rect x="8"   y="50" width="56" height="2.5" rx="1.2" fill={lnB}/>
-          <rect x="8"   y="57" width="42" height="2.5" rx="1.2" fill={lnB}/>
-          <circle cx="13" cy="70" r="2.5" fill="#38BDF8" opacity="0.85"/>
-          <circle cx="22" cy="70" r="2.5" fill="#A78BFA" opacity="0.75"/>
-          <circle cx="31" cy="70" r="2.5" fill="#818CF8" opacity="0.75"/>
-        </g>
-
-        {/* 우하단 */}
-        <g opacity="0.60">
-          <rect x="390" y="290" width="68" height="48" rx="5" fill={cFill} stroke={oc2} strokeWidth="0.9"/>
-          <rect x="396" y="297" width="30" height="3.5" rx="1.5" fill={lnA}/>
-          <rect x="396" y="306" width="56" height="2.5" rx="1.2" fill={lnB}/>
-          <rect x="396" y="313" width="42" height="2.5" rx="1.2" fill={lnB}/>
-          <rect x="396" y="321" width="35" height="12" rx="2" fill="rgba(56,189,248,0.20)"/>
-          <rect x="434" y="324" width="18" height="9"  rx="2" fill="rgba(167,139,250,0.17)"/>
-        </g>
-      </svg>
+        {tools?.length > 0 && (
+          <Typography sx={{ mt: 1, color: 'text.disabled', fontSize: '0.7rem' }}>
+            {[...new Set(tools)].slice(0, 3).join(' · ')}
+          </Typography>
+        )}
+      </Box>
     </Box>
   );
 };
@@ -197,7 +105,7 @@ const HeroSection = () => {
         pt: { xs: 5, sm: 8, md: 6 },
         pb: { xs: 2, sm: 5, md: 6 },
         bgcolor: 'background.default',
-        background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.05) 0%, transparent 55%), #0B1020',
+        background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
           from: { opacity: 0, transform: 'translateY(20px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
@@ -207,7 +115,7 @@ const HeroSection = () => {
         },
       }}
     >
-      {/* 은하수 밴드 — 굵은 stroke + blur로 은은한 성운 띠 표현 */}
+      {/* 은하수 밴드 — 약화된 은은한 성운 띠 */}
       <Box
         component="svg"
         viewBox="0 0 1200 700"
@@ -220,7 +128,7 @@ const HeroSection = () => {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.55,
+          opacity: 0.32,
           filter: 'blur(34px)',
         }}
       >
@@ -228,7 +136,7 @@ const HeroSection = () => {
         <path d="M -60 660 Q 400 720 700 540 T 1260 240" fill="none" stroke="#A78BFA" strokeWidth="60" strokeLinecap="round" opacity="0.18" />
       </Box>
 
-      {/* 은하수 곡선 — 선명한 라인 레이어 (Hero 전체 폭) */}
+      {/* 은하수 곡선 — 약화된 라인 레이어 */}
       <Box
         component="svg"
         viewBox="0 0 1200 700"
@@ -241,15 +149,15 @@ const HeroSection = () => {
           height: '100%',
           zIndex: 0,
           pointerEvents: 'none',
-          opacity: 0.3,
+          opacity: 0.16,
         }}
       >
         <path d="M -40 560 Q 340 660 620 460 T 1240 180" fill="none" stroke="#38BDF8" strokeWidth="2.5" />
         <path d="M -40 620 Q 380 700 660 520 T 1240 260" fill="none" stroke="#A78BFA" strokeWidth="1.6" opacity="0.7" />
       </Box>
 
-      {/* 별 배경 */}
-      <StarField count={72} />
+      {/* 별 배경 — 약화 */}
+      <StarField count={40} />
 
       {/* Gradient blob 1 - 우측 상단 */}
       <Box
@@ -261,7 +169,7 @@ const HeroSection = () => {
           width: { xs: 300, md: 580 },
           height: { xs: 300, md: 580 },
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
           filter: 'blur(52px)',
@@ -278,38 +186,18 @@ const HeroSection = () => {
           width: { xs: 230, md: 420 },
           height: { xs: 230, md: 420 },
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
           filter: 'blur(52px)',
         }}
       />
 
-      {/* SVG Orbit arc 장식 */}
-      <Box
-        component="svg"
-        viewBox="0 0 800 500"
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: '-5%',
-          right: '-10%',
-          width: { xs: 300, md: 600 },
-          height: 'auto',
-          opacity: 0.12,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      >
-        <ellipse cx="400" cy="250" rx="360" ry="180" fill="none" stroke="#38BDF8" strokeWidth="1" />
-        <ellipse cx="400" cy="250" rx="260" ry="130" fill="none" stroke="#7C3AED" strokeWidth="0.8" strokeDasharray="6 8" />
-      </Box>
-
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
         <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: 'center' }}>
 
           {/* 왼쪽: 텍스트 */}
-          <Grid size={{ xs: 12, md: 7 }}>
+          <Grid size={{ xs: 12, md: 7 }} sx={{ minWidth: 0 }}>
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left' },
@@ -328,7 +216,7 @@ const HeroSection = () => {
                 }}
               >
                 {STRENGTH_KEYWORDS.map((keyword, i) => (
-                  <Box key={keyword} sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box component="span" key={keyword} sx={{ display: 'flex', alignItems: 'center' }}>
                     {i > 0 && (
                       <Typography component="span" sx={{ color: 'text.disabled', mx: 1.2, fontSize: '0.78rem' }}>·</Typography>
                     )}
@@ -352,14 +240,17 @@ const HeroSection = () => {
                 variant="h1"
                 sx={{
                   fontWeight: 800,
-                  fontSize: { xs: '1.85rem', sm: '2.4rem', md: '2.9rem', lg: '3.25rem' },
-                  lineHeight: { xs: 1.25, md: 1.2 },
+                  fontSize: { xs: '1.7rem', sm: '2.15rem', md: '2.75rem', lg: '3.1rem' },
+                  lineHeight: { xs: 1.32, md: 1.22 },
                   letterSpacing: '-0.02em',
                   color: 'text.primary',
                   mb: 1.5,
                 }}
               >
-                Figma로 설계하고 React로 구현하는{' '}
+                Figma 설계부터{' '}
+                <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>
+                  React 구현까지 연결하는
+                </Box>
                 <Box
                   component="span"
                   sx={{
@@ -370,22 +261,10 @@ const HeroSection = () => {
                     backgroundClip: 'text',
                   }}
                 >
-                  UX/UI · 웹 퍼블리싱 포트폴리오
-                </Box>
-              </Typography>
-
-              <Typography
-                variant="h4"
-                sx={{
-                  color: 'text.secondary',
-                  fontWeight: 500,
-                  fontSize: { xs: '0.95rem', md: '1.05rem' },
-                  mb: { xs: 2.5, md: 3 },
-                }}
-              >
-                UX/UI 디자인 · 웹 퍼블리싱 학습자{' '}
-                <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
-                  김도한
+                  AI 활용 UX/UI
+                  <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>
+                    {' '}· 웹 퍼블리싱 포트폴리오
+                  </Box>
                 </Box>
               </Typography>
 
@@ -397,11 +276,14 @@ const HeroSection = () => {
                   maxWidth: { xs: '100%', md: 500 },
                   mx: { xs: 'auto', md: 0 },
                   mb: { xs: 3.5, md: 4.5 },
-                  fontSize: { xs: '0.9rem', md: '0.975rem' },
+                  fontSize: { xs: '0.92rem', md: '1rem' },
                 }}
               >
-                사용자 흐름을 정리하고, 화면 설계부터 웹 구현까지 이어가는
-                신입 UX/UI·웹 퍼블리싱 포트폴리오입니다.
+                사용자 흐름을 정리하고, 화면 설계와 웹 구현으로 연결하는 신입 UX/UI · 웹 퍼블리싱 지원자{' '}
+                <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
+                  김도한
+                </Box>
+                입니다.
               </Typography>
 
               <Stack
@@ -410,13 +292,15 @@ const HeroSection = () => {
                 sx={{
                   alignItems: { xs: 'stretch', sm: 'center' },
                   justifyContent: { xs: 'center', md: 'flex-start' },
+                  flexWrap: 'wrap',
+                  rowGap: 2,
                 }}
               >
                 <Button
                   variant="contained"
                   size="large"
                   onClick={() => scrollToSection('projects')}
-                  aria-label="프로젝트 섹션으로 이동"
+                  aria-label="대표 프로젝트 섹션으로 이동"
                   sx={{
                     bgcolor: 'primary.main',
                     color: 'primary.contrastText',
@@ -435,14 +319,17 @@ const HeroSection = () => {
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
                 >
-                  프로젝트 보기
+                  대표 프로젝트 보기
                 </Button>
                 <Button
                   variant="outlined"
                   size="large"
-                  startIcon={<EmailIcon />}
-                  onClick={() => scrollToSection('contact')}
-                  aria-label="연락처 섹션으로 이동"
+                  component="a"
+                  href={GITHUB_PROFILE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  startIcon={<GitHubIcon />}
+                  aria-label="GitHub 프로필 새 탭으로 열기"
                   sx={{
                     color: 'primary.main',
                     borderColor: 'rgba(56,189,248,0.4)',
@@ -461,19 +348,40 @@ const HeroSection = () => {
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
                 >
-                  연락하기
+                  GitHub
                 </Button>
+                {PORTFOLIO_PDF_URL && (
+                  <Button
+                    variant="text"
+                    size="large"
+                    component="a"
+                    href={PORTFOLIO_PDF_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    startIcon={<PictureAsPdfIcon />}
+                    aria-label="PDF 포트폴리오 새 탭으로 열기"
+                    sx={{
+                      color: 'text.secondary',
+                      px: 2,
+                      minHeight: 50,
+                      fontWeight: 600,
+                      fontSize: '0.95rem',
+                      whiteSpace: 'nowrap',
+                      '&:hover': { color: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
+                      '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+                    }}
+                  >
+                    PDF 포트폴리오
+                  </Button>
+                )}
               </Stack>
             </Box>
           </Grid>
 
-          {/* 오른쪽: 우주형 UI 일러스트 + 프로세스 다이어그램 (모바일 숨김) */}
-          <Grid size={{ xs: 12, md: 5 }} sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Box
-              aria-hidden="true"
-              sx={{ animation: 'fadeInUp 0.6s ease 0.18s both', width: '100%' }}
-            >
-              <CosmicHeroIllustration />
+          {/* 오른쪽: 대표 프로젝트 프리뷰 카드 (모바일 숨김) */}
+          <Grid size={{ xs: 12, md: 5 }} sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+            <Box sx={{ animation: 'fadeInUp 0.6s ease 0.18s both', width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <FeaturedProjectPreview />
             </Box>
           </Grid>
         </Grid>

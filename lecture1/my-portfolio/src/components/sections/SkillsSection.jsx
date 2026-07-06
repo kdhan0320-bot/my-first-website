@@ -6,7 +6,7 @@ import { usePortfolio } from '../../context/PortfolioContext';
 import { ICON_MAP } from '../../constants/iconMap';
 import useInViewOnce from '../../hooks/useInViewOnce';
 import useCountUp from '../../hooks/useCountUp';
-import RevealOnScroll from '../common/RevealOnScroll';
+import RevealOnScroll from '../ui/RevealOnScroll';
 
 const CATEGORY_COLORS = {
   'Frontend':     { color: '#1D4ED8', bg: '#EFF6FF', border: '#BFDBFE' },

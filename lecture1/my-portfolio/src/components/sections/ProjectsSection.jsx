@@ -9,9 +9,9 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
-import RevealOnScroll from '../common/RevealOnScroll';
-import StarField from '../common/StarField';
-import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../common/ProjectThumbnailArt';
+import RevealOnScroll from '../ui/RevealOnScroll';
+import StarField from '../ui/StarField';
+import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../projects/ProjectThumbnailArt';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
 
@@ -74,7 +74,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
         </Box>
         <IconButton onClick={onClose} aria-label="상세 정보 닫기" size="small"
-          sx={{ color: 'text.secondary', ml: 1, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
+          sx={{ color: 'text.secondary', ml: 1, minWidth: 44, minHeight: 44, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
@@ -212,7 +212,7 @@ const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 200, md: 250 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
     {thumbnailUrl ? (
       <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
         <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
@@ -235,17 +235,14 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
   </Box>
 );
 
-const CARD_BADGES = [
-  { label: '대표 작업',    color: '#818CF8', border: 'rgba(129,140,248,0.4)' },
-  { label: '케이스 스터디', color: '#7DD3FC', border: 'rgba(56,189,248,0.4)' },
-  { label: '시안',         color: '#C4B5FD', border: 'rgba(167,139,250,0.4)' },
-];
+/* 홈 대표 섹션은 정의상 대표 프로젝트만 노출되므로 배지는 항상 동일하게 표시 */
+const HOME_BADGE = { label: '대표 작업', color: '#818CF8', border: 'rgba(129,140,248,0.4)' };
 
 /* ── 프로젝트 카드 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
   const uniqueTools = [...new Set(project.tools)].slice(0, 3);
   const hasRole = project.role && project.role !== '—';
-  const badge = CARD_BADGES[idx] ?? CARD_BADGES[1];
+  const badge = HOME_BADGE;
 
   return (
   <RevealOnScroll delay={Math.min(idx % 3, 2) * 0.1} y={16} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -253,7 +250,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={{
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
-        minHeight: { md: 500 },
+        minHeight: { md: 480 },
         bgcolor: 'rgba(30,41,59,0.85)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
@@ -353,7 +350,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
           <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
             sx={{
-              fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'primary.main',
+              fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'primary.main',
               borderColor: 'rgba(56,189,248,0.3)', fontWeight: 600,
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)', transform: 'translateY(-1px)' },
@@ -365,7 +362,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
               aria-label={`${project.title} 실행 화면 보기`}
               sx={{
-                fontSize: '0.72rem', px: 1.5, minHeight: 32, bgcolor: 'primary.main', fontWeight: 600,
+                fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
                 transition: 'transform 0.2s ease',
                 '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
               }}>
@@ -377,7 +374,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
               aria-label={`${project.title} GitHub 보기`}
               sx={{
-                fontSize: '0.72rem', px: 1.5, minHeight: 32, color: 'text.secondary', borderColor: 'divider',
+                fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider',
                 transition: 'transform 0.2s ease',
                 '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-1px)' },
               }}>
@@ -459,7 +456,7 @@ const ProjectsSection = () => {
           </Box>
         </RevealOnScroll>
 
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, md: 3 } }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } }}>
           {projects.map((project, idx) => (
             <ProjectCard key={project.id} project={project} idx={idx}
               onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
