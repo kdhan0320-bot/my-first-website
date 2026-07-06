@@ -64,7 +64,8 @@ const ContactSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: 'background.default',
-        py: { xs: 5, md: 7 },
+        pt: { xs: 4, md: 7 },
+        pb: { xs: 4, md: 7 },
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
@@ -349,7 +350,7 @@ const ContactSection = () => {
         <Box
           component="footer"
           sx={{
-            mt: { xs: 5, md: 6 },
+            mt: { xs: 3, md: 6 },
             pt: { xs: 3, md: 3.5 },
             borderTop: '1px solid rgba(148,163,184,0.14)',
             display: 'flex',
