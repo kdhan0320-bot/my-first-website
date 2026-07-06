@@ -369,7 +369,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               실행 화면 보기
             </Button>
           )}
-          {project.githubUrl && !project.liveUrl && (
+          {project.githubUrl && (
             <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
               aria-label={`${project.title} GitHub 보기`}
