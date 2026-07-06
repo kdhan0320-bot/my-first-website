@@ -64,8 +64,8 @@ const ContactSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: 'background.default',
-        pt: { xs: 4, md: 7 },
-        pb: { xs: 4, md: 7 },
+        pt: { xs: 4, md: 5 },
+        pb: { xs: 4, md: 5 },
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}

@@ -423,8 +423,8 @@ const ProjectsSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: 'background.default',
-        pt: { xs: 5, md: 9 },
-        pb: { xs: 4, md: 9 },
+        pt: { xs: 5, md: 6 },
+        pb: { xs: 4, md: 6 },
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}

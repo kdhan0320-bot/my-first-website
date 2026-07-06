@@ -130,7 +130,7 @@ const AboutSection = () => {
 
         {/* 별자리 연결 카드 */}
         <RevealOnScroll delay={0.1}>
-          <Box sx={{ position: 'relative', mb: { xs: 1, md: 7 } }}>
+          <Box sx={{ position: 'relative', mb: { xs: 1, md: 4 } }}>
             {/* 별자리 연결선 (데스크톱) */}
             <Box
               aria-hidden="true"
