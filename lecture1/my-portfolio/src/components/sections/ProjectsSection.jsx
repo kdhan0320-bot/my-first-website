@@ -423,7 +423,8 @@ const ProjectsSection = () => {
         position: 'relative',
         overflow: 'hidden',
         bgcolor: 'background.default',
-        py: { xs: 7, md: 9 },
+        pt: { xs: 5, md: 9 },
+        pb: { xs: 4, md: 9 },
       }}
     >
       {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
@@ -432,7 +433,7 @@ const ProjectsSection = () => {
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         <RevealOnScroll>
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
+          <Box sx={{ textAlign: 'center', mb: { xs: 4, md: 6 } }}>
             <Typography
               sx={{
                 color: 'primary.main',
@@ -466,7 +467,7 @@ const ProjectsSection = () => {
         </Box>
 
         <RevealOnScroll delay={0.1}>
-          <Box sx={{ textAlign: 'center', mt: 6 }}>
+          <Box sx={{ textAlign: 'center', mt: { xs: 3, md: 6 } }}>
             <Button
               variant="outlined"
               size="large"
