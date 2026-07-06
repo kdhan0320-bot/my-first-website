@@ -3,23 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>나의 첫 번째 웹사이트</title>
+  <title>김도한 UX/UI · Web Publishing Portfolio</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', sans-serif; background: #f0f4ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-    .card { background: white; border-radius: 16px; padding: 48px 40px; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-    .emoji { font-size: 64px; margin-bottom: 16px; }
-    h1 { font-size: 28px; color: #1a1a2e; margin-bottom: 12px; }
-    p { font-size: 16px; color: #666; line-height: 1.7; margin-bottom: 24px; }
-    .badge { display: inline-block; background: #6c63ff; color: white; padding: 8px 20px; border-radius: 20px; font-size: 14px; }
+
+    body {
+      font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #0F172A;
+      color: #E2E8F0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      padding: 48px 36px;
+      border: 1px solid #2D3B55;
+      border-radius: 16px;
+      background: #16223B;
+    }
+
+    .eyebrow {
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #7C93B8;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 24px;
+      line-height: 1.4;
+      color: #FFFFFF;
+      margin-bottom: 16px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #A9B8CF;
+      margin-bottom: 32px;
+    }
+
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    .btn-primary {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #E2E8F0;
+      border: 1px solid #3A4A68;
+    }
+
+    @media (max-width: 420px) {
+      .card { padding: 36px 24px; }
+      h1 { font-size: 21px; }
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="emoji">👋</div>
-    <h1>안녕하세요!</h1>
-    <p>저의 첫 번째 웹사이트에 오신 것을 환영합니다.<br>GitHub Pages로 배포된 페이지입니다.</p>
-    <span class="badge">🚀 GitHub Pages로 배포됨</span>
-  </div>
+  <main class="card">
+    <p class="eyebrow">Portfolio</p>
+    <h1>김도한 UX/UI · Web Publishing Portfolio</h1>
+    <p>
+      사용자 흐름과 정보 구조를 정리하고, Figma 설계와 웹 구현을 연결하는<br>
+      신입 UX/UI · 웹퍼블리싱 포트폴리오입니다.
+    </p>
+    <div class="actions">
+      <a class="btn btn-primary" href="./my-portfolio/">포트폴리오 보기</a>
+      <a class="btn btn-secondary" href="https://github.com/kdhan0320-bot/my-first-website" target="_blank" rel="noopener noreferrer">GitHub 보기</a>
+    </div>
+  </main>
 </body>
 </html>
