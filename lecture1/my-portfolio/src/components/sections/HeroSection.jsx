@@ -194,7 +194,8 @@ const HeroSection = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        py: { xs: 8, sm: 10, md: 6 },
+        pt: { xs: 5, sm: 8, md: 6 },
+        pb: { xs: 2, sm: 5, md: 6 },
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.05) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
@@ -305,7 +306,7 @@ const HeroSection = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <Grid container spacing={{ xs: 5, md: 8 }} sx={{ alignItems: 'center' }}>
+        <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: 'center' }}>
 
           {/* 왼쪽: 텍스트 */}
           <Grid size={{ xs: 12, md: 7 }}>
@@ -466,11 +467,11 @@ const HeroSection = () => {
             </Box>
           </Grid>
 
-          {/* 오른쪽: 우주형 UI 일러스트 + 프로세스 다이어그램 */}
-          <Grid size={{ xs: 12, md: 5 }}>
+          {/* 오른쪽: 우주형 UI 일러스트 + 프로세스 다이어그램 (모바일 숨김) */}
+          <Grid size={{ xs: 12, md: 5 }} sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Box
               aria-hidden="true"
-              sx={{ animation: 'fadeInUp 0.6s ease 0.18s both' }}
+              sx={{ animation: 'fadeInUp 0.6s ease 0.18s both', width: '100%' }}
             >
               <CosmicHeroIllustration />
             </Box>
