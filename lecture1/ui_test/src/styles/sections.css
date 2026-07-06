@@ -1,7 +1,0 @@
-.section-root {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.section-root:last-child {
-  border-bottom: none;
-}
