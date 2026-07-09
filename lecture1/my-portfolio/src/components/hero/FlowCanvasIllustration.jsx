@@ -31,7 +31,7 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 340, sm: 420, md: 600 },
+        maxWidth: { xs: 340, sm: 420, md: 700 },
         mx: 'auto',
         p: { xs: 2.5, sm: 3, md: 3.5 },
         borderRadius: 4,
@@ -54,7 +54,7 @@ const FlowCanvasIllustration = () => {
             textTransform: 'uppercase',
           }}
         >
-          Design to Web Flow
+          Flow to Interface
         </Typography>
         <Typography
           sx={{
@@ -80,14 +80,14 @@ const FlowCanvasIllustration = () => {
           d={FLOW_PATH}
           fill="none"
           stroke="#38BDF8"
-          strokeWidth="2"
+          strokeWidth="2.4"
           strokeLinecap="round"
           pathLength={1}
           style={{
             strokeDasharray: 1,
             strokeDashoffset: isVisible ? 0 : 1,
             transition: 'stroke-dashoffset 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s',
-            opacity: 0.8,
+            opacity: 0.95,
           }}
         />
 
@@ -106,7 +106,7 @@ const FlowCanvasIllustration = () => {
               x={step.x} y={step.y} width={CARD_W} height={CARD_H} rx="10"
               fill={step.isFinal ? '#131C2E' : '#111827'}
               stroke={step.isFinal ? '#A7F3D0' : '#38BDF8'}
-              strokeOpacity={step.isFinal ? 0.45 : 0.18}
+              strokeOpacity={step.isFinal ? 0.45 : 0.26}
               strokeWidth="1.2"
             />
 
@@ -184,7 +184,7 @@ const FlowCanvasIllustration = () => {
       <Box sx={{ mt: 2.5, pt: 2, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
         <Stack
           direction="row"
-          sx={{ flexWrap: 'wrap', rowGap: 1, columnGap: 1, justifyContent: { xs: 'center', md: 'flex-start' } }}
+          sx={{ flexWrap: 'wrap', rowGap: { xs: 0.75, md: 1 }, columnGap: { xs: 0.75, md: 1 }, justifyContent: { xs: 'center', md: 'flex-start' } }}
         >
           {STATUS_BADGES.map((badge) => (
             <Box
@@ -193,8 +193,8 @@ const FlowCanvasIllustration = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 0.75,
-                px: 1.25,
-                py: 0.5,
+                px: { xs: 1.1, md: 1.4 },
+                py: { xs: 0.5, md: 0.6 },
                 borderRadius: 999,
                 border: '1px solid rgba(148,163,184,0.18)',
                 bgcolor: 'rgba(15,23,42,0.4)',
@@ -202,7 +202,7 @@ const FlowCanvasIllustration = () => {
               }}
             >
               <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: badge.accent, flexShrink: 0 }} />
-              <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+              <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
                 {badge.label}
               </Typography>
             </Box>

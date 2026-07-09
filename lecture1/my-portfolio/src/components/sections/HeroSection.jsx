@@ -85,32 +85,32 @@ const HeroSection = () => {
         }}
       />
 
-      {/* DESIGN TO WEB FLOW 보드 뒤 은은한 spotlight */}
+      {/* FLOW TO INTERFACE 보드 뒤 spotlight — 중심 오브젝트로 시선 집중 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
-          top: '40%', right: '4%',
-          width: 480, height: 480,
+          top: '40%', right: '2%',
+          width: 520, height: 520,
           transform: 'translateY(-50%)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.17) 0%, transparent 70%)',
-          filter: 'blur(42px)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 70%)',
+          filter: 'blur(46px)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
       />
 
-      {/* 아주 옅은 guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 WORK FLOW로 시선 유도 */}
+      {/* guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 FLOW TO INTERFACE 보드로 시선 유도 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: 0, right: 0, top: '18%',
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent 5%, rgba(148,163,184,0.1) 35%, rgba(56,189,248,0.24) 75%, transparent 95%)',
+          height: '1.5px',
+          background: 'linear-gradient(90deg, transparent 5%, rgba(148,163,184,0.12) 35%, rgba(56,189,248,0.34) 75%, transparent 95%)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -148,10 +148,10 @@ const HeroSection = () => {
       </Box>
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
-        <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: 'center' }}>
+        <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: 'center' }}>
 
           {/* 왼쪽: 텍스트 */}
-          <Grid size={{ xs: 12, md: 6 }} sx={{ minWidth: 0 }}>
+          <Grid size={{ xs: 12, md: 5.5 }} sx={{ minWidth: 0 }}>
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left' },
@@ -229,7 +229,7 @@ const HeroSection = () => {
                   size="large"
                   onClick={() => scrollToSection('projects')}
                   aria-label="프로젝트 섹션으로 이동"
-                  endIcon={<ArrowForwardIcon sx={{ transition: 'transform 0.2s ease' }} />}
+                  endIcon={<ArrowForwardIcon className="cta-arrow" sx={{ transform: 'translateX(0)', transition: 'transform 0.2s ease' }} />}
                   sx={{
                     bgcolor: 'primary.main',
                     color: 'primary.contrastText',
@@ -244,7 +244,7 @@ const HeroSection = () => {
                       transform: 'translateY(-2px)',
                       boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
                     },
-                    '&:hover .MuiButton-endIcon': { transform: 'translateX(4px)' },
+                    '&:hover .cta-arrow': { transform: 'translateX(4px)' },
                     '&:active': { transform: 'translateY(0)' },
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
@@ -335,7 +335,7 @@ const HeroSection = () => {
           </Grid>
 
           {/* 오른쪽: Flow Canvas Illustration — 모바일에서는 축소되어 텍스트 아래에 노출 */}
-          <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
+          <Grid size={{ xs: 12, md: 6.5 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               <FlowCanvasIllustration />
             </Box>

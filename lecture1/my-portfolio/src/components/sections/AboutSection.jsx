@@ -98,7 +98,7 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              저는 새로운 기능을 계속 추가하기보다, 사용자가 어느 지점에서 헷갈리는지부터 살펴보는 편입니다. 그 다음 화면의 우선순위와 컴포넌트 구조, 반응형 기준을 정리해서 실제 웹 화면으로 구현합니다.
+              새로운 기능을 추가하기 전에 사용자가 어느 지점에서 헷갈리는지부터 확인합니다. 화면의 우선순위와 컴포넌트 구조, 반응형 기준을 정리하고 실제 웹 화면으로 구현합니다.
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1.5 }}>
