@@ -109,7 +109,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
                     bgcolor: 'rgba(56,189,248,0.08)',
                     color: 'primary.main',
                     border: '1px solid rgba(56,189,248,0.18)',
-                    fontWeight: 600, fontSize: '0.72rem',
+                    fontWeight: 600, fontSize: '0.875rem',
                   }} />
               ))}
             </Box>
@@ -141,7 +141,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
                     sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', p: 1 }} />
                 ) : (
                   <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem', letterSpacing: '0.1em' }}>
                       실행 화면 보기 →
                     </Typography>
                   </Box>
@@ -151,7 +151,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
             {project.liveUrl && (
               <Box component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
                 실행 화면 보기 →
               </Box>
             )}
@@ -211,7 +211,7 @@ const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.06)), ${gradient}` }}>
     {thumbnailUrl ? (
       <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
         <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
@@ -269,25 +269,6 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
       }}>
 
-      {/* 배경 번호 */}
-      <Typography component="span" aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          bottom: 8,
-          right: 14,
-          fontSize: '5rem',
-          fontWeight: 900,
-          lineHeight: 1,
-          color: 'rgba(255,255,255,0.028)',
-          pointerEvents: 'none',
-          userSelect: 'none',
-          zIndex: 0,
-          letterSpacing: '-0.04em',
-        }}
-      >
-        0{idx + 1}
-      </Typography>
-
       {/* 배지 */}
       <Box
         sx={{
@@ -307,7 +288,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         <Typography sx={{
           color: badge.color,
           fontWeight: 700,
-          fontSize: '0.75rem',
+          fontSize: '0.875rem',
         }}>
           {badge.label}
         </Typography>
@@ -318,13 +299,13 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       <CardContent sx={{ flexGrow: 1, p: { xs: 2.5, md: 3 }, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
         <Box>
           <Typography variant="caption"
-            sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+            sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
             {project.categoryLabel}
             {project.isPlaceholder && (
-              <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(준비 중)</Box>
+              <Box component="span" sx={{ ml: 1, color: 'text.secondary', fontWeight: 400, fontSize: '0.875rem' }}>(준비 중)</Box>
             )}
           </Typography>
-          <Typography component="h3" sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>
+          <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>
             {project.title}
           </Typography>
         </Box>
@@ -336,11 +317,11 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
         {cardRoleItems.length > 0 && (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.4 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.04em' }}>내가 한 일</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.04em' }}>내가 한 일</Typography>
             {cardRoleItems.map((item) => (
               <Box key={item} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
-                <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '7px', opacity: 0.7 }} />
-                <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{item}</Typography>
+                <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '9px', opacity: 0.7 }} />
+                <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{item}</Typography>
               </Box>
             ))}
           </Box>
@@ -348,22 +329,22 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
         {project.cardScope && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>구현 범위</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.cardScope}</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>구현 범위</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{project.cardScope}</Typography>
           </Box>
         )}
 
         {project.cardLimit && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>한계</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.cardLimit}</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>한계</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{project.cardLimit}</Typography>
           </Box>
         )}
 
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
           <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
             sx={{
-              fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'primary.main',
+              fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main',
               borderColor: 'rgba(56,189,248,0.3)', fontWeight: 600,
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)', transform: 'translateY(-1px)' },
@@ -375,7 +356,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
               aria-label={`${project.title} 화면 보기`}
               sx={{
-                fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
+                fontSize: '0.875rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
                 transition: 'transform 0.2s ease',
                 '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
               }}>
@@ -387,7 +368,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
               aria-label={`${project.title} GitHub 보기`}
               sx={{
-                fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider',
+                fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider',
                 transition: 'transform 0.2s ease',
                 '&:hover': { borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-1px)' },
               }}>
@@ -445,7 +426,7 @@ const ProjectsSection = () => {
               sx={{
                 color: 'primary.main',
                 fontWeight: 700,
-                fontSize: '0.72rem',
+                fontSize: '0.875rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 mb: 1.5,

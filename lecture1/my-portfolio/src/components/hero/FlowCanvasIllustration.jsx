@@ -3,14 +3,14 @@ import useInViewOnce from '../../hooks/useInViewOnce';
 
 /* Flow Board — 요구사항 정리 → 화면 구조 설계 → React UI 구현 → 반응형 QA */
 const FLOW_STEPS = [
-  { n: 1, label: '요구사항 정리', x: 16, y: 40, delay: 0.5 },
-  { n: 2, label: '화면 구조 설계', x: 108, y: 138, delay: 0.66 },
-  { n: 3, label: 'React UI 구현', x: 200, y: 236, delay: 0.82 },
-  { n: 4, label: '반응형 QA', x: 292, y: 334, delay: 0.98, isFinal: true },
+  { n: 1, label: '요구사항 정리', desc: '정보 구조화', x: 16, y: 40, delay: 0.5 },
+  { n: 2, label: '화면 구조 설계', desc: 'Figma 와이어프레임', x: 108, y: 138, delay: 0.66 },
+  { n: 3, label: 'React UI 구현', desc: '반응형 컴포넌트', x: 200, y: 236, delay: 0.82 },
+  { n: 4, label: '반응형 QA', desc: '접근성 점검', x: 292, y: 334, delay: 0.98, isFinal: true },
 ];
 
 const CARD_W = 132;
-const CARD_H = 68;
+const CARD_H = 78;
 
 const FLOW_PATH =
   'M28 74 C 70 104, 70 138, 120 172 C 162 202, 162 236, 212 270 C 254 300, 254 334, 304 368';
@@ -23,7 +23,7 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 280, sm: 340, md: 480 },
+        maxWidth: { xs: 330, sm: 400, md: 560 },
         mx: 'auto',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.96)',
@@ -37,7 +37,7 @@ const FlowCanvasIllustration = () => {
       <Typography
         sx={{
           color: 'text.disabled',
-          fontSize: '0.68rem',
+          fontSize: '0.875rem',
           fontWeight: 700,
           letterSpacing: '0.14em',
           textTransform: 'uppercase',
@@ -110,13 +110,23 @@ const FlowCanvasIllustration = () => {
 
             <text
               x={step.x + 16}
-              y={step.y + 42}
+              y={step.y + 40}
               fontSize="13"
               fontWeight="600"
               fill="#E5E7EB"
               fontFamily="Pretendard, sans-serif"
             >
               {step.label}
+            </text>
+            <text
+              x={step.x + 16}
+              y={step.y + 58}
+              fontSize="10.5"
+              fontWeight="500"
+              fill="#94A3B8"
+              fontFamily="Pretendard, sans-serif"
+            >
+              {step.desc}
             </text>
           </Box>
         ))}

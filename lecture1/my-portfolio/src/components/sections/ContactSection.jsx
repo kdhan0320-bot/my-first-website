@@ -28,7 +28,7 @@ const ContactSection = () => {
               sx={{
                 color: 'primary.main',
                 fontWeight: 700,
-                fontSize: '0.72rem',
+                fontSize: '0.875rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 display: 'flex',

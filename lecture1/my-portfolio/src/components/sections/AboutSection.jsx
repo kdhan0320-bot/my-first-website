@@ -62,7 +62,7 @@ const AboutSection = () => {
               sx={{
                 color: 'primary.main',
                 fontWeight: 700,
-                fontSize: '0.72rem',
+                fontSize: '0.875rem',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
                 mb: 1.5,
@@ -98,11 +98,11 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              복잡한 기능을 많이 넣기보다, 먼저 사용자가 어디에서 막히는지 정리합니다. 그다음 화면 우선순위, 컴포넌트 구조, 반응형 기준을 잡고 실제 웹 화면으로 구현합니다.
+              저는 새로운 기능을 계속 추가하기보다, 사용자가 어느 지점에서 헷갈리는지부터 살펴보는 편입니다. 그 다음 화면의 우선순위와 컴포넌트 구조, 반응형 기준을 정리해서 실제 웹 화면으로 구현합니다.
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1.5 }}>
-              AI 도구는 문장 정리, 코드 오류 점검, 개선안 비교에 보조적으로 사용했으며, 최종 구조와 구현 범위는 직접 검토했습니다.
+              AI 도구는 문장을 다듬거나 코드 오류를 점검하고, 여러 개선안을 비교할 때 보조적으로 활용했습니다. 다만 최종 구조와 구현 범위는 직접 판단하고 검토했습니다.
             </Typography>
 
             {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트 */}
