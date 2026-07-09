@@ -30,6 +30,11 @@ const HeroSection = () => {
           from: { opacity: 0, transform: 'translateY(16px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
         },
+        /* Hero 한정 ambient motion — 아주 느리고 약함, reduced-motion에서 아래 규칙으로 완전 제거 */
+        '@keyframes spotlightBreathe': {
+          '0%, 100%': { opacity: 0.85 },
+          '50%':      { opacity: 1 },
+        },
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
@@ -99,6 +104,7 @@ const HeroSection = () => {
           filter: 'blur(46px)',
           zIndex: 0,
           pointerEvents: 'none',
+          animation: 'spotlightBreathe 16s ease-in-out infinite',
         }}
       />
 

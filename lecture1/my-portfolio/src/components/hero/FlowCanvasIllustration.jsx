@@ -42,6 +42,15 @@ const FlowCanvasIllustration = () => {
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.96)',
         transition: 'opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22,1,0.36,1)',
+        /* Hero 한정 ambient motion — 느리고 약함, prefers-reduced-motion에서는 HeroSection 루트 규칙으로 제거됨 */
+        '@keyframes flowHighlightMove': {
+          '0%':   { strokeDashoffset: 0 },
+          '100%': { strokeDashoffset: -1 },
+        },
+        '@keyframes stripBorderShimmer': {
+          '0%, 100%': { borderTopColor: 'rgba(148,163,184,0.14)' },
+          '50%':      { borderTopColor: 'rgba(56,189,248,0.34)' },
+        },
       }}
     >
       <Box sx={{ mb: 1.5, textAlign: { xs: 'center', md: 'left' } }}>
@@ -88,6 +97,22 @@ const FlowCanvasIllustration = () => {
             strokeDashoffset: isVisible ? 0 : 1,
             transition: 'stroke-dashoffset 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s',
             opacity: 0.95,
+          }}
+        />
+
+        {/* connector line 위를 천천히 흐르는 아주 약한 highlight — 16초 주기, 진입 애니메이션 이후에만 재생 */}
+        <path
+          d={FLOW_PATH}
+          fill="none"
+          stroke="#BAE6FD"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          pathLength={1}
+          style={{
+            strokeDasharray: '0.04 0.96',
+            opacity: isVisible ? 0.8 : 0,
+            animation: isVisible ? 'flowHighlightMove 16s linear infinite' : 'none',
+            transition: 'opacity 0.6s ease 1s',
           }}
         />
 
@@ -180,8 +205,17 @@ const FlowCanvasIllustration = () => {
         />
       </Box>
 
-      {/* status strip — 사용 도구/검증 요약, AI Assist는 마지막 보조 배지로만 표시 */}
-      <Box sx={{ mt: 2.5, pt: 2, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
+      {/* status strip — 사용 도구/검증 요약, AI Assist는 마지막 보조 배지로만 표시. 테두리에 12초 주기의 은은한 shimmer */}
+      <Box
+        sx={{
+          mt: 2.5,
+          pt: 2,
+          borderTopWidth: '1px',
+          borderTopStyle: 'solid',
+          borderTopColor: 'rgba(148,163,184,0.14)',
+          animation: isVisible ? 'stripBorderShimmer 12s ease-in-out infinite' : 'none',
+        }}
+      >
         <Stack
           direction="row"
           sx={{ flexWrap: 'wrap', rowGap: { xs: 0.75, md: 1 }, columnGap: { xs: 0.75, md: 1 }, justifyContent: { xs: 'center', md: 'flex-start' } }}

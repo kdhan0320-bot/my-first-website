@@ -1,34 +1,38 @@
 import { Box, Container, Typography, Grid } from '@mui/material';
-import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
-import DevicesIcon from '@mui/icons-material/Devices';
-import FactCheckIcon from '@mui/icons-material/FactCheck';
+import TroubleshootOutlinedIcon from '@mui/icons-material/TroubleshootOutlined';
+import DesignServicesOutlinedIcon from '@mui/icons-material/DesignServicesOutlined';
+import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
+import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import RevealOnScroll from '../ui/RevealOnScroll';
 
 const SKILL_CARDS = [
   {
-    icon: <TroubleshootIcon sx={{ fontSize: 22 }} />,
+    index: '01',
+    icon: <TroubleshootOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '문제 정리',
     color: '#38BDF8',
-    items: ['흩어진 요구사항 정리', '사용자 흐름 파악', '화면 우선순위 설정'],
+    body: '요구사항과 사용자 흐름을 정리하고, 화면에서 먼저 보여야 할 정보를 구분합니다.',
   },
   {
-    icon: <DesignServicesIcon sx={{ fontSize: 22 }} />,
+    index: '02',
+    icon: <DesignServicesOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '화면 설계',
     color: '#A78BFA',
-    items: ['Figma 와이어프레임', '컴포넌트 구조', '모바일/태블릿 기준 정리'],
+    body: 'Figma에서 와이어프레임과 컴포넌트 구조를 잡고, 모바일/태블릿 기준까지 함께 검토합니다.',
   },
   {
-    icon: <DevicesIcon sx={{ fontSize: 22 }} />,
+    index: '03',
+    icon: <DevicesOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '웹 구현',
     color: '#60A5FA',
-    items: ['React/MUI 화면 구현', 'HTML/CSS/JavaScript', '반응형 레이아웃'],
+    body: 'React/MUI, HTML/CSS, JavaScript로 카드, 모달, 반응형 레이아웃을 구현합니다.',
   },
   {
-    icon: <FactCheckIcon sx={{ fontSize: 22 }} />,
+    index: '04',
+    icon: <FactCheckOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '검증과 보완',
     color: '#A7F3D0',
-    items: ['링크 점검', '접근성 확인', 'Playwright 기반 반응형 QA'],
+    body: '링크, 접근성, 모바일 화면, 프로젝트 한계를 확인하며 제출 가능한 상태로 다듬습니다.',
   },
 ];
 
@@ -130,12 +134,12 @@ const AboutSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* 역량 카드 */}
-        <RevealOnScroll delay={0.1}>
-          <Box sx={{ position: 'relative', mb: { xs: 1, md: 4 } }}>
-            <Grid container spacing={3} sx={{ position: 'relative', zIndex: 2 }}>
-              {SKILL_CARDS.map((card) => (
-                <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
+        {/* 역량 카드 — 카드별 개별 stagger reveal */}
+        <Box sx={{ position: 'relative', mb: { xs: 1, md: 4 } }}>
+          <Grid container spacing={3} sx={{ position: 'relative', zIndex: 2 }}>
+            {SKILL_CARDS.map((card, i) => (
+              <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
+                <RevealOnScroll delay={0.1 + i * 0.06} y={16} sx={{ height: '100%' }}>
                   <Box
                     sx={{
                       height: '100%',
@@ -146,62 +150,52 @@ const AboutSection = () => {
                       borderRadius: 2.5,
                       backdropFilter: 'blur(12px)',
                       WebkitBackdropFilter: 'blur(12px)',
-                      transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                      transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
                       '&:hover': {
                         transform: 'translateY(-4px)',
                         boxShadow: `0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px ${card.color}28`,
+                        borderColor: `${card.color}40`,
                       },
                     }}
                   >
-                    {/* 아이콘 */}
-                    <Box
-                      sx={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: '50%',
-                        bgcolor: `${card.color}18`,
-                        border: `1px solid ${card.color}30`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: card.color,
-                        mb: 2,
-                        boxShadow: `0 0 12px ${card.color}22`,
-                      }}
-                    >
-                      {card.icon}
+                    {/* 아이콘 + 순번 */}
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                      <Box
+                        sx={{
+                          width: 44,
+                          height: 44,
+                          borderRadius: '50%',
+                          bgcolor: `${card.color}18`,
+                          border: `1px solid ${card.color}30`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: card.color,
+                          boxShadow: `0 0 12px ${card.color}22`,
+                        }}
+                      >
+                        {card.icon}
+                      </Box>
+                      <Typography
+                        sx={{ color: card.color, fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', opacity: 0.7 }}
+                      >
+                        {card.index}
+                      </Typography>
                     </Box>
 
-                    <Typography variant="h5" component="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 2 }}>
+                    <Typography variant="h5" component="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 1.25 }}>
                       {card.title}
                     </Typography>
 
-                    <Box component="ul" sx={{ m: 0, pl: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 1 }}>
-                      {card.items.map((item) => (
-                        <Box key={item} component="li" sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                          <Box
-                            sx={{
-                              width: 4,
-                              height: 4,
-                              borderRadius: '50%',
-                              bgcolor: card.color,
-                              flexShrink: 0,
-                              mt: '7px',
-                              opacity: 0.8,
-                            }}
-                          />
-                          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.65, fontSize: '0.875rem' }}>
-                            {item}
-                          </Typography>
-                        </Box>
-                      ))}
-                    </Box>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.65, fontSize: '0.875rem' }}>
+                      {card.body}
+                    </Typography>
                   </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </RevealOnScroll>
+                </RevealOnScroll>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
 
       </Container>
     </Box>
