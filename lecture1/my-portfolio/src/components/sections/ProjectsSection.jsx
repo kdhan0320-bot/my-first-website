@@ -43,7 +43,7 @@ const fromSupabase = (row) => ({
     designPoint: row.designPoint ?? '—',
     process:     row.process     ?? null,
     result:      row.result      ?? null,
-    nextStep:    row.nextStep    ?? '추후 케이스스터디 상세 내용을 추가할 예정입니다.',
+    nextStep:    row.nextStep    ?? '추후 프로젝트 상세 내용을 추가할 예정입니다.',
   },
 });
 
@@ -239,8 +239,10 @@ const HOME_BADGE = { label: '대표 작업', color: '#818CF8', border: 'rgba(129
 
 /* ── 프로젝트 카드 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
-  const uniqueTools = [...new Set(project.tools)].slice(0, 3);
-  const hasRole = project.role && project.role !== '—';
+  const cardProblem = project.cardProblem ?? project.description;
+  const cardRole = project.cardRole ?? project.role;
+  const cardTech = [...new Set(project.cardTech ?? project.tools)].slice(0, 3);
+  const hasRole = cardRole && cardRole !== '—';
   const badge = HOME_BADGE;
 
   return (
@@ -250,14 +252,13 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
         minHeight: { md: 480 },
-        bgcolor: 'rgba(30,41,59,0.85)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
+        bgcolor: '#111827',
         border: '1px solid rgba(148,163,184,0.14)',
         borderTop: '2px solid rgba(56,189,248,0.35)',
-        transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
+          bgcolor: '#131C2E',
           borderTopColor: 'primary.main',
           borderColor: 'rgba(56,189,248,0.35)',
           boxShadow: '0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56,189,248,0.08)',
@@ -329,20 +330,27 @@ const ProjectCard = ({ project, idx, onDetail }) => {
 
         <Typography variant="body2"
           sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-          {project.description}
+          {cardProblem}
         </Typography>
 
         {hasRole && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.role}</Typography>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>역할</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{cardRole}</Typography>
           </Box>
         )}
 
-        {uniqueTools.length > 0 && (
+        {cardTech.length > 0 && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>도구</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{uniqueTools.join(' · ')}</Typography>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>기술</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{cardTech.join(' · ')}</Typography>
+          </Box>
+        )}
+
+        {project.cardLimit && (
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>한계</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.cardLimit}</Typography>
           </Box>
         )}
 
@@ -445,9 +453,9 @@ const ProjectsSection = () => {
             >
               02 대표 작업
             </Typography>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>주요 프로젝트</Typography>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>문제 정의부터 구현까지 정리한 3개의 프로젝트</Typography>
             <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', maxWidth: 480, mx: 'auto' }}>
-              문제 발견부터 화면 설계, 구현까지 이어진 대표 작업입니다.
+              각 프로젝트는 문제 정의, 화면 구조, 구현 범위, 한계를 함께 정리했습니다.
             </Typography>
           </Box>
         </RevealOnScroll>

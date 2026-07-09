@@ -31,7 +31,7 @@ const fromSupabase = (row) => ({
     problem: '—',
     goal: '—',
     designPoint: '—',
-    nextStep: '추후 케이스스터디 상세 내용 추가 예정입니다.',
+    nextStep: '추후 프로젝트 상세 내용 추가 예정입니다.',
   },
 });
 

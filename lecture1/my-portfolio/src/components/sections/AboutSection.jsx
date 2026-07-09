@@ -91,12 +91,19 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              사용자의 불편한 흐름을 발견하고, Figma 기반 화면 설계와 웹 구현으로 개선하는
-              UX/UI·웹 퍼블리싱 학습자{' '}
+              저는 복잡한 정보와 사용자 흐름을 먼저 정리하고, 이를 실제 웹 화면으로 구현하는 신입{' '}
+              UX/UI·웹퍼블리셔 지원자{' '}
               <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
                 김도한
               </Box>
-              입니다.
+              입니다. Figma로 구조를 잡고, React 기반 컴포넌트와 반응형 레이아웃으로 화면을 완성하는 과정에 집중합니다.
+            </Typography>
+
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1.5 }}>
+              AI 도구는 요구사항 정리, 문장 점검, 코드 개선안 검토에 보조적으로 활용했습니다. 최종 구조와 표현, 구현 범위 판단은 직접 검토했습니다.
+            </Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 0.75 }}>
+              문제 정의 → 정보 구조 → 화면 설계 → 구현 → 반응형 검수 → 개선 기록 순서로 프로젝트를 정리합니다.
             </Typography>
 
             {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트 */}
@@ -134,7 +141,7 @@ const AboutSection = () => {
                     sx={{
                       height: '100%',
                       p: { xs: 2.5, md: 3 },
-                      bgcolor: 'rgba(255,255,255,0.04)',
+                      bgcolor: '#111827',
                       border: '1px solid rgba(148,163,184,0.15)',
                       borderTop: `2px solid ${card.color}`,
                       borderRadius: 2.5,

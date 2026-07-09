@@ -40,7 +40,7 @@ export const fallbackProjects = [
     process: '서비스 요구사항 분석 → 사용자 흐름 정의 → 와이어프레임 → 컴포넌트 정의 → UI 디자인',
     result: 'Figma 설계 자료 작업 진행 중 (추후 공개 예정)',
     lesson: '설계 의도를 명확하게 전달하려면 화면 그 자체보다 구조와 흐름을 먼저 정리하는 것이 중요하다는 점을 배웠습니다.',
-    nextStep: '설계 자료 정리 완료 후 케이스스터디 문서와 함께 공개 예정',
+    nextStep: '설계 자료 정리 완료 후 프로젝트 문서와 함께 공개 예정',
     isPlaceholder: true,
   },
   /* ── 그 외 프로젝트 (Projects 페이지에서 전체 표시) ── */
@@ -184,6 +184,10 @@ export const fallbackProjects = [
     lesson: '정보량이 많은 화면일수록 카드 단위로 정보를 묶고 우선순위를 정하는 것이 가독성에 큰 영향을 준다는 점을 배웠습니다.',
     nextStep: '즐겨찾기 노선 관리 화면과 알림 상세 설정 화면을 추가로 설계할 수 있습니다.',
     limitation: 'Figma로 제작한 UI/UX 프로토타입이며, 실제 버스 도착 정보 API나 실시간 데이터 연동은 포함되어 있지 않습니다.',
+    cardProblem: '모바일에서 정류장, 노선, 도착시간 정보를 빠르게 확인할 수 있도록 정보 우선순위를 정리했습니다.',
+    cardRole: '모바일 화면 설계, Figma 프로토타입, 핵심 정보 구조 정리',
+    cardTech: ['Figma', 'Prototype', 'Mobile UI'],
+    cardLimit: '실제 교통 API 연동 전 Figma 프로토타입',
   },
 
   /* ── AI 도구 활용 ── */
@@ -222,6 +226,10 @@ export const fallbackProjects = [
     nextStep: '데이터 저장 방식 개선, 일정 알림, 지원 통계 시각화 차트 기능을 추가로 보완할 수 있습니다.',
     aiContribution: 'Claude를 활용해 화면 구조, 컴포넌트 설계, 코드 구현 방향을 보조받았습니다. 단순히 AI가 생성한 결과물을 그대로 사용하기보다, 포트폴리오 목적에 맞게 기능과 화면 흐름을 직접 정리하며 개선했습니다.',
     limitation: 'Supabase Auth·PostgreSQL을 연동해 지원 현황, 체크리스트, 면접 메모가 실제로 저장되지만, 실시간 알림이나 통계 시각화 차트 같은 부가 기능은 아직 없습니다.',
+    cardProblem: '지원 현황과 할 일이 흩어져 우선순위를 파악하기 어려운 흐름을 정리했습니다.',
+    cardRole: '화면 구조 설계, React/MUI UI 구현, 반응형 레이아웃 정리',
+    cardTech: ['React', 'MUI', 'JavaScript'],
+    cardLimit: '정적 데이터 기반 포트폴리오용 데모',
   },
   {
     id: 'feedback-hub',
@@ -258,6 +266,10 @@ export const fallbackProjects = [
     nextStep: 'Supabase Storage 기반 실제 이미지 업로드, 테스트 계정/RLS 정책 검증, 모바일 실기기 사용성 점검, 신고/관리 기능, 실제 사용자 피드백 기반 기능 개선을 추가로 보완할 수 있습니다.',
     aiContribution: 'Claude를 활용해 라우팅 구조, 게시판 UI, 컴포넌트 설계, 기능 구현 방향을 보조받았습니다. 단순히 AI가 만든 코드를 그대로 사용하지 않고, 포트폴리오 목적에 맞게 게스트 접근성, 정보 구조, 상태 배지, 썸네일, 문구를 직접 정리하며 개선했습니다.',
     limitation: '현재는 취업용 포트폴리오 데모 프로젝트이며, 실제 운영 서비스 수준의 관리자 기능, 신고/알림, 파일 업로드, 실사용자 관리 기능은 제한적입니다. 테스트 계정과 Supabase 권한 정책은 배포 환경 설정에 따라 별도 검증이 필요합니다.',
+    cardProblem: '포트폴리오 피드백을 한곳에서 수집하고 상태별로 정리하는 흐름을 설계했습니다.',
+    cardRole: '게시글/피드백 구조 설계, React UI 구현, 입력 흐름 정리',
+    cardTech: ['React', 'JavaScript', 'UI Structure'],
+    cardLimit: '실제 백엔드/API 연동 전 정적 데이터 기반 데모',
   },
   {
     id: 'gamstagram',

@@ -3,90 +3,10 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { scrollToSection } from '../../hooks/useScrollNav';
-import { ALL_PROJECTS } from '../../data/projectsData';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
+import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
 
-const STRENGTH_KEYWORDS = ['화면 설계', '사용자 흐름 개선', 'React 웹 구현'];
-
-/* 홈 대표 프로젝트 중 첫 번째 항목을 Hero 프리뷰 카드에 사용 */
-const previewProject = ALL_PROJECTS[0];
-
-/* ── Hero 대표 프로젝트 프리뷰 카드 ── */
-const FeaturedProjectPreview = () => {
-  if (!previewProject) return null;
-  const { title, categoryLabel, description, thumbnailUrl, gradient, tools } = previewProject;
-
-  return (
-    <Box
-      role="button"
-      tabIndex={0}
-      onClick={() => scrollToSection('projects')}
-      onKeyDown={(e) => e.key === 'Enter' && scrollToSection('projects')}
-      aria-label={`대표 프로젝트 ${title} 보기 — 프로젝트 섹션으로 이동`}
-      sx={{
-        display: 'block',
-        width: '100%',
-        maxWidth: 380,
-        cursor: 'pointer',
-        borderRadius: 3,
-        overflow: 'hidden',
-        border: '1px solid rgba(148,163,184,0.18)',
-        bgcolor: 'rgba(15,23,42,0.72)',
-        backdropFilter: 'blur(8px)',
-        transition: 'transform 0.2s ease, border-color 0.2s ease',
-        '&:hover': { transform: 'translateY(-3px)', borderColor: 'rgba(56,189,248,0.4)' },
-        '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
-      }}
-    >
-      <Typography
-        sx={{
-          px: 2, pt: 1.5,
-          color: 'primary.main',
-          fontWeight: 700,
-          fontSize: '0.68rem',
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-        }}
-      >
-        대표 프로젝트
-      </Typography>
-
-      <Box sx={{ position: 'relative', height: 150, mt: 1, background: gradient }}>
-        {thumbnailUrl && (
-          <Box
-            component="img"
-            src={thumbnailUrl}
-            alt={`${title} 썸네일`}
-            loading="lazy"
-            sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', p: 1.5 }}
-          />
-        )}
-      </Box>
-
-      <Box sx={{ p: 2 }}>
-        <Typography sx={{ color: 'text.disabled', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.06em', textTransform: 'uppercase', mb: 0.5 }}>
-          {categoryLabel}
-        </Typography>
-        <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1rem', mb: 0.75 }}>
-          {title}
-        </Typography>
-        <Typography
-          sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.6, mb: 1.25, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
-        >
-          {description}
-        </Typography>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, color: 'primary.main', fontWeight: 600, fontSize: '0.78rem' }}>
-          자세히 보기 <ArrowForwardIcon sx={{ fontSize: '0.9rem' }} />
-        </Box>
-        {tools?.length > 0 && (
-          <Typography sx={{ mt: 1, color: 'text.disabled', fontSize: '0.7rem' }}>
-            {[...new Set(tools)].slice(0, 3).join(' · ')}
-          </Typography>
-        )}
-      </Box>
-    </Box>
-  );
-};
+const STRENGTH_KEYWORDS = ['Figma 구조화', 'React/MUI 구현', 'Responsive 검수'];
 
 const HeroSection = () => {
   return (
@@ -148,6 +68,34 @@ const HeroSection = () => {
         }}
       />
 
+      {/* 아주 옅은 guide line — 구조화된 느낌의 미세 디테일 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          left: 0, right: 0, top: '18%',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent, rgba(148,163,184,0.14) 30%, rgba(148,163,184,0.14) 70%, transparent)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* 다음 섹션(About)으로 이어지는 아주 약한 flow line 커넥터 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          left: '50%', bottom: 0, transform: 'translateX(-50%)',
+          width: '1px', height: 48,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      />
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
         <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: 'center' }}>
 
@@ -202,16 +150,9 @@ const HeroSection = () => {
                   mb: 1.5,
                 }}
               >
-                사용자 흐름을 화면 설계와{' '}
-                <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>
-                  웹 구현으로 연결하는
-                </Box>
+                복잡한 흐름을 정리하고,
                 <Box component="span" sx={{ display: 'block' }}>
-                  신입 웹퍼블리셔{' '}
-                  <Box component="span" sx={{ color: 'primary.main' }}>
-                    김도한
-                  </Box>
-                  입니다
+                  실제 웹 화면으로 구현합니다.
                 </Box>
               </Typography>
 
@@ -222,11 +163,24 @@ const HeroSection = () => {
                   lineHeight: 1.85,
                   maxWidth: { xs: '100%', md: 500 },
                   mx: { xs: 'auto', md: 0 },
-                  mb: { xs: 3.5, md: 4.5 },
+                  mb: { xs: 1, md: 1.25 },
                   fontSize: { xs: '0.92rem', md: '1rem' },
                 }}
               >
-                Figma로 화면 구조를 정리하고, React 기반 웹 화면으로 구현하며, AI 도구는 아이디어 정리와 코드 검토 보조에 활용했습니다.
+                사용자 흐름과 정보 구조를 정리한 뒤, Figma 설계와 React 구현으로 연결합니다.
+              </Typography>
+
+              <Typography
+                sx={{
+                  color: 'text.disabled',
+                  lineHeight: 1.7,
+                  maxWidth: { xs: '100%', md: 460 },
+                  mx: { xs: 'auto', md: 0 },
+                  mb: { xs: 3.5, md: 4.5 },
+                  fontSize: '0.75rem',
+                }}
+              >
+                AI는 요구사항 정리와 코드 개선안 도출을 보조하는 도구로 활용했습니다.
               </Typography>
 
               <Stack
@@ -243,7 +197,8 @@ const HeroSection = () => {
                   variant="contained"
                   size="large"
                   onClick={() => scrollToSection('projects')}
-                  aria-label="대표 프로젝트 섹션으로 이동"
+                  aria-label="프로젝트 섹션으로 이동"
+                  endIcon={<ArrowForwardIcon sx={{ transition: 'transform 0.2s ease' }} />}
                   sx={{
                     bgcolor: 'primary.main',
                     color: 'primary.contrastText',
@@ -258,11 +213,12 @@ const HeroSection = () => {
                       transform: 'translateY(-2px)',
                       boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
                     },
+                    '&:hover .MuiButton-endIcon': { transform: 'translateX(3px)' },
                     '&:active': { transform: 'translateY(0)' },
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
                 >
-                  대표 프로젝트 보기
+                  프로젝트 보기
                 </Button>
                 <Button
                   variant="outlined"
@@ -321,10 +277,10 @@ const HeroSection = () => {
             </Box>
           </Grid>
 
-          {/* 오른쪽: 대표 프로젝트 프리뷰 카드 (모바일 숨김) */}
-          <Grid size={{ xs: 12, md: 5 }} sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
-            <Box sx={{ animation: 'fadeInUp 0.6s ease 0.18s both', width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <FeaturedProjectPreview />
+          {/* 오른쪽: Flow Canvas Illustration — 모바일에서는 축소되어 텍스트 아래에 노출 */}
+          <Grid size={{ xs: 12, md: 5 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <FlowCanvasIllustration />
             </Box>
           </Grid>
         </Grid>
