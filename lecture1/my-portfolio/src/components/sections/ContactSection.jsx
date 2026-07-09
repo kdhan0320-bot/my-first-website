@@ -190,21 +190,21 @@ const ContactSection = () => {
             textAlign: { xs: 'center', sm: 'left' },
           }}
         >
-          <Typography sx={{ color: 'text.secondary', fontSize: '0.78rem', fontWeight: 600 }}>
+          <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', fontWeight: 600 }}>
             Dohan.K
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
             <Box component="a" href="mailto:kdhan0320@gmail.com"
-              sx={{ color: 'text.secondary', fontSize: '0.78rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
+              sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
               kdhan0320@gmail.com
             </Box>
-            <Typography component="span" sx={{ color: 'text.disabled', fontSize: '0.78rem' }}>·</Typography>
+            <Typography component="span" sx={{ color: 'text.disabled', fontSize: '0.875rem' }}>·</Typography>
             <Box component="a" href="https://github.com/kdhan0320-bot" target="_blank" rel="noopener noreferrer"
-              sx={{ color: 'text.secondary', fontSize: '0.78rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
+              sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
               GitHub
             </Box>
           </Box>
-          <Typography sx={{ color: 'text.disabled', fontSize: '0.72rem', whiteSpace: 'nowrap' }}>
+          <Typography sx={{ color: 'text.disabled', fontSize: '0.875rem', whiteSpace: 'nowrap' }}>
             © 2026 Kim Dohan
           </Typography>
         </Box>

@@ -122,6 +122,7 @@ const Navbar = () => {
               aria-label="Dohan.K 홈으로 이동"
               sx={{
                 display: 'flex', alignItems: 'center', gap: 1.2,
+                minHeight: 44,
                 textDecoration: 'none', cursor: 'pointer',
                 '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '4px', borderRadius: '4px' },
               }}

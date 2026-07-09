@@ -26,10 +26,10 @@ const SKILL_CARDS = [
 ];
 
 const STRENGTH_SUMMARY = [
-  { label: '화면 설계', desc: '사용자 흐름을 정리하고 Figma로 구조화합니다.' },
-  { label: '사용자 흐름 개선', desc: '불편한 흐름을 찾아 화면 우선순위를 정리합니다.' },
-  { label: 'React 웹 구현', desc: 'HTML/CSS, JavaScript, React로 화면을 구현합니다.' },
-  { label: 'AI 도구 활용', desc: '아이디어 정리와 코드 보조에 AI를 활용합니다.' },
+  { label: '정보 구조 정리', desc: '흩어진 요구사항을 화면 흐름과 섹션 구조로 정리합니다.' },
+  { label: 'Figma 화면 설계', desc: '와이어프레임, 컴포넌트, 반응형 기준을 고려해 화면을 설계합니다.' },
+  { label: 'React 화면 구현', desc: 'HTML/CSS, JavaScript, React/MUI로 실제 웹 화면을 구현합니다.' },
+  { label: 'AI 보조 활용', desc: 'AI 제안을 그대로 쓰지 않고 문장 정리, 코드 점검, 개선안 비교에 보조적으로 활용합니다.' },
 ];
 
 const AboutSection = () => {
@@ -91,19 +91,11 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              저는 복잡한 정보와 사용자 흐름을 먼저 정리하고, 이를 실제 웹 화면으로 구현하는 신입{' '}
-              UX/UI·웹퍼블리셔 지원자{' '}
-              <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
-                김도한
-              </Box>
-              입니다. Figma로 구조를 잡고, React 기반 컴포넌트와 반응형 레이아웃으로 화면을 완성하는 과정에 집중합니다.
+              복잡한 기능을 많이 넣기보다, 사용자가 어디에서 막히는지 먼저 정리하고 화면 우선순위를 잡는 방식으로 작업합니다. 개인 프로젝트에서는 문제 정의, 화면 설계, 반응형 구현, 링크 점검까지 직접 반복하며 완성도를 높였습니다.
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1.5 }}>
               AI 도구는 요구사항 정리, 문장 점검, 코드 개선안 검토에 보조적으로 활용했습니다. 최종 구조와 표현, 구현 범위 판단은 직접 검토했습니다.
-            </Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 0.75 }}>
-              문제 정의 → 정보 구조 → 화면 설계 → 구현 → 반응형 검수 → 개선 기록 순서로 프로젝트를 정리합니다.
             </Typography>
 
             {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트 */}
@@ -119,7 +111,7 @@ const AboutSection = () => {
                   <Grid key={s.label} size={{ xs: 12, sm: 6 }}>
                     <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
                       <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '8px', opacity: 0.85 }} />
-                      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.85rem' }}>
+                      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.875rem' }}>
                         <Box component="span" sx={{ color: 'text.primary', fontWeight: 700 }}>{s.label}</Box>
                         {': '}{s.desc}
                       </Typography>

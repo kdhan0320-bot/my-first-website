@@ -41,8 +41,9 @@ const FlowCanvasIllustration = () => {
         component="svg"
         viewBox="0 0 440 400"
         width="100%"
-        height="auto"
-        sx={{ display: 'block', overflow: 'visible' }}
+        aria-hidden="true"
+        focusable="false"
+        sx={{ display: 'block', height: 'auto', overflow: 'visible' }}
       >
         {/* 옅은 guide line — 모바일에서는 생략 */}
         <Box

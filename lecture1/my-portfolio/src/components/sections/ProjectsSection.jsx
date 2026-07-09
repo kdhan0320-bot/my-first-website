@@ -329,7 +329,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         </Box>
 
         <Typography variant="body2"
-          sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {cardProblem}
         </Typography>
 
@@ -367,13 +367,13 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           {project.liveUrl && (
             <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
               size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
-              aria-label={`${project.title} 실행 화면 보기`}
+              aria-label={`${project.title} 화면 보기`}
               sx={{
                 fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
                 transition: 'transform 0.2s ease',
                 '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
               }}>
-              실행 화면 보기
+              화면 보기
             </Button>
           )}
           {project.githubUrl && (

@@ -6,7 +6,7 @@ import { scrollToSection } from '../../hooks/useScrollNav';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
 import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
 
-const STRENGTH_KEYWORDS = ['Figma 구조화', 'React/MUI 구현', 'Responsive 검수'];
+const HERO_BADGE = 'UX/UI · Web Publishing · AI-assisted Workflow';
 
 const HeroSection = () => {
   return (
@@ -107,37 +107,19 @@ const HeroSection = () => {
                 animation: 'fadeInUp 0.6s ease both',
               }}
             >
-              {/* 강점 키워드 — 클릭 불가 텍스트 나열 (버튼처럼 보이지 않게) */}
-              <Box
+              {/* Hero Badge */}
+              <Typography
                 sx={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  justifyContent: { xs: 'center', md: 'flex-start' },
-                  alignItems: 'center',
-                  gap: 0,
+                  display: 'inline-block',
+                  color: 'primary.main',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.04em',
                   mb: { xs: 2, md: 2.5 },
                 }}
               >
-                {STRENGTH_KEYWORDS.map((keyword, i) => (
-                  <Box component="span" key={keyword} sx={{ display: 'flex', alignItems: 'center' }}>
-                    {i > 0 && (
-                      <Typography component="span" sx={{ color: 'text.disabled', mx: 1.2, fontSize: '0.78rem' }}>·</Typography>
-                    )}
-                    <Typography
-                      component="span"
-                      sx={{
-                        color: 'primary.main',
-                        fontSize: '0.78rem',
-                        fontWeight: 700,
-                        letterSpacing: '0.02em',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {keyword}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
+                {HERO_BADGE}
+              </Typography>
 
               <Typography
                 variant="h1"
@@ -150,9 +132,13 @@ const HeroSection = () => {
                   mb: 1.5,
                 }}
               >
-                복잡한 흐름을 정리하고,
+                사용자 흐름을 화면 구조로 정리하고,
                 <Box component="span" sx={{ display: 'block' }}>
-                  실제 웹 화면으로 구현합니다.
+                  웹 화면으로 구현하는{' '}
+                  <Box component="span" sx={{ color: 'primary.main' }}>
+                    김도한
+                  </Box>
+                  입니다.
                 </Box>
               </Typography>
 
@@ -163,24 +149,11 @@ const HeroSection = () => {
                   lineHeight: 1.85,
                   maxWidth: { xs: '100%', md: 500 },
                   mx: { xs: 'auto', md: 0 },
-                  mb: { xs: 1, md: 1.25 },
+                  mb: { xs: 3.5, md: 4.5 },
                   fontSize: { xs: '0.92rem', md: '1rem' },
                 }}
               >
-                사용자 흐름과 정보 구조를 정리한 뒤, Figma 설계와 React 구현으로 연결합니다.
-              </Typography>
-
-              <Typography
-                sx={{
-                  color: 'text.disabled',
-                  lineHeight: 1.7,
-                  maxWidth: { xs: '100%', md: 460 },
-                  mx: { xs: 'auto', md: 0 },
-                  mb: { xs: 3.5, md: 4.5 },
-                  fontSize: '0.75rem',
-                }}
-              >
-                AI는 요구사항 정리와 코드 개선안 도출을 보조하는 도구로 활용했습니다.
+                Figma로 정보 구조와 화면 흐름을 설계하고, React·MUI 기반으로 반응형 웹 화면까지 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교를 돕는 보조 도구로 활용했습니다.
               </Typography>
 
               <Stack
@@ -219,6 +192,32 @@ const HeroSection = () => {
                   }}
                 >
                   프로젝트 보기
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={() => scrollToSection('about')}
+                  aria-label="작업 방식 섹션으로 이동"
+                  sx={{
+                    color: 'text.secondary',
+                    borderColor: 'rgba(148,163,184,0.28)',
+                    px: 3.5,
+                    minHeight: 50,
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
+                    whiteSpace: 'nowrap',
+                    transition: 'transform 0.2s ease, border-color 0.2s ease',
+                    '&:hover': {
+                      color: 'primary.main',
+                      borderColor: 'primary.main',
+                      bgcolor: 'rgba(56,189,248,0.06)',
+                      transform: 'translateY(-2px)',
+                    },
+                    '&:active': { transform: 'translateY(0)' },
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+                  }}
+                >
+                  작업 방식 보기
                 </Button>
                 <Button
                   variant="outlined"
