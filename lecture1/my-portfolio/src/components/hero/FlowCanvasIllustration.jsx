@@ -3,14 +3,14 @@ import useInViewOnce from '../../hooks/useInViewOnce';
 
 /* Flow Board — 요구사항 정리 → 화면 구조 설계 → React UI 구현 → 반응형 QA */
 const FLOW_STEPS = [
-  { n: 1, label: '요구사항 정리', desc: '정보 구조화', x: 16, y: 40, delay: 0.5 },
-  { n: 2, label: '화면 구조 설계', desc: 'Figma 와이어프레임', x: 108, y: 138, delay: 0.66 },
-  { n: 3, label: 'React UI 구현', desc: '반응형 컴포넌트', x: 200, y: 236, delay: 0.82 },
-  { n: 4, label: '반응형 QA', desc: '접근성 점검', x: 292, y: 334, delay: 0.98, isFinal: true },
+  { n: 1, label: '요구사항 정리', desc: '정보 구조화', x: 16, y: 40, delay: 0.45 },
+  { n: 2, label: '화면 구조 설계', desc: 'Figma 와이어프레임', x: 108, y: 138, delay: 0.58 },
+  { n: 3, label: 'React UI 구현', desc: '반응형 컴포넌트', x: 200, y: 236, delay: 0.71 },
+  { n: 4, label: '반응형 QA', desc: '접근성 점검', x: 292, y: 334, delay: 0.84, isFinal: true },
 ];
 
 const CARD_W = 132;
-const CARD_H = 78;
+const CARD_H = 84;
 
 const FLOW_PATH =
   'M28 74 C 70 104, 70 138, 120 172 C 162 202, 162 236, 212 270 C 254 300, 254 334, 304 368';
@@ -28,10 +28,6 @@ const FlowCanvasIllustration = () => {
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.96)',
         transition: 'opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22,1,0.36,1)',
-        '@keyframes pulseGlow': {
-          '0%, 100%': { opacity: 0.55 },
-          '50%': { opacity: 1 },
-        },
       }}
     >
       <Box sx={{ mb: 1, textAlign: { xs: 'center', md: 'left' } }}>
@@ -44,7 +40,7 @@ const FlowCanvasIllustration = () => {
             textTransform: 'uppercase',
           }}
         >
-          Work Flow
+          Design to Web Flow
         </Typography>
         <Typography
           sx={{
@@ -59,7 +55,7 @@ const FlowCanvasIllustration = () => {
 
       <Box
         component="svg"
-        viewBox="0 0 440 420"
+        viewBox="0 0 440 440"
         width="100%"
         aria-hidden="true"
         focusable="false"
@@ -76,7 +72,7 @@ const FlowCanvasIllustration = () => {
           style={{
             strokeDasharray: 1,
             strokeDashoffset: isVisible ? 0 : 1,
-            transition: 'stroke-dashoffset 0.9s cubic-bezier(0.22,1,0.36,1) 0.15s',
+            transition: 'stroke-dashoffset 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s',
             opacity: 0.8,
           }}
         />
@@ -88,7 +84,7 @@ const FlowCanvasIllustration = () => {
             style={{
               transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
               opacity: isVisible ? 1 : 0,
-              transition: `transform 0.55s cubic-bezier(0.22,1,0.36,1) ${step.delay}s, opacity 0.55s ease ${step.delay}s`,
+              transition: `transform 0.5s cubic-bezier(0.22,1,0.36,1) ${step.delay}s, opacity 0.5s ease ${step.delay}s`,
             }}
           >
             {/* 카드 */}
@@ -100,26 +96,29 @@ const FlowCanvasIllustration = () => {
               strokeWidth="1.2"
             />
 
-            {step.isFinal ? (
-              /* 마지막 카드: 브라우저 크롬 느낌의 점 3개 */
+            {step.isFinal && (
+              /* 마지막 카드: 브라우저 크롬 느낌의 점 3개 (완료된 화면 은유) */
               <>
-                <circle cx={step.x + 16} cy={step.y + 16} r="2.5" fill="#A7F3D0" opacity="0.8" />
-                <circle cx={step.x + 26} cy={step.y + 16} r="2.5" fill="#94A3B8" opacity="0.4" />
-                <circle cx={step.x + 36} cy={step.y + 16} r="2.5" fill="#94A3B8" opacity="0.4" />
+                <circle cx={step.x + CARD_W - 36} cy={step.y + 15} r="2.5" fill="#A7F3D0" opacity="0.8" />
+                <circle cx={step.x + CARD_W - 26} cy={step.y + 15} r="2.5" fill="#94A3B8" opacity="0.4" />
+                <circle cx={step.x + CARD_W - 16} cy={step.y + 15} r="2.5" fill="#94A3B8" opacity="0.4" />
               </>
-            ) : (
-              /* 스텝 번호 배지 */
-              <circle cx={step.x + 16} cy={step.y + 16} r="9" fill="none" stroke="#38BDF8" strokeWidth="1" opacity="0.6" />
-            )}
-            {!step.isFinal && (
-              <text x={step.x + 16} y={step.y + 20} textAnchor="middle" fontSize="10" fontWeight="700" fill="#38BDF8" fontFamily="sans-serif">
-                {step.n}
-              </text>
             )}
 
             <text
               x={step.x + 16}
-              y={step.y + 40}
+              y={step.y + 22}
+              fontSize="9.5"
+              fontWeight="700"
+              letterSpacing="0.06em"
+              fill={step.isFinal ? '#A7F3D0' : '#38BDF8'}
+              fontFamily="sans-serif"
+            >
+              {`STEP 0${step.n}`}
+            </text>
+            <text
+              x={step.x + 16}
+              y={step.y + 44}
               fontSize="13"
               fontWeight="600"
               fill="#E5E7EB"
@@ -129,7 +128,7 @@ const FlowCanvasIllustration = () => {
             </text>
             <text
               x={step.x + 16}
-              y={step.y + 58}
+              y={step.y + 62}
               fontSize="10.5"
               fontWeight="500"
               fill="#94A3B8"
@@ -140,7 +139,7 @@ const FlowCanvasIllustration = () => {
           </Box>
         ))}
 
-        {/* QA 완료 표시 — 마지막 카드 우측 상단에 점등 */}
+        {/* QA 완료 표시 — 마지막 카드 우측 상단에 1회 점등(무한 반복 없음) */}
         <circle
           cx={FLOW_STEPS[3].x + CARD_W - 14}
           cy={FLOW_STEPS[3].y + 14}
@@ -150,8 +149,19 @@ const FlowCanvasIllustration = () => {
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'scale(1)' : 'scale(0.4)',
             transformOrigin: `${FLOW_STEPS[3].x + CARD_W - 14}px ${FLOW_STEPS[3].y + 14}px`,
-            transition: 'opacity 0.4s ease 1.2s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 1.2s',
-            animation: isVisible ? 'pulseGlow 7s ease-in-out 1.6s infinite' : 'none',
+            transition: 'opacity 0.4s ease 1.05s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 1.05s',
+          }}
+        />
+        <circle
+          cx={FLOW_STEPS[3].x + CARD_W - 14}
+          cy={FLOW_STEPS[3].y + 14}
+          r="13"
+          fill="none"
+          stroke="#A7F3D0"
+          strokeWidth="1"
+          style={{
+            opacity: isVisible ? 0.35 : 0,
+            transition: 'opacity 0.4s ease 1.1s',
           }}
         />
       </Box>

@@ -199,21 +199,13 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
       <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
         <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease' }} />
+          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
       </Box>
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
     ) : (
       <GenericPreviewArt />
     )}
-    {/* hover overlay */}
-    <Box className="thumb-overlay" sx={{
-      position: 'absolute', inset: 0,
-      background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.12) 100%)',
-      opacity: 0,
-      transition: 'opacity 0.3s ease',
-      pointerEvents: 'none',
-    }} />
   </Box>
 );
 
@@ -248,8 +240,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           borderColor: `${accent}59`,
           boxShadow: `0 16px 40px rgba(0,0,0,0.5), 0 0 20px ${accent}22`,
         },
-        '&:hover .thumb-img': { transform: 'scale(1.05)' },
-        '&:hover .thumb-overlay': { opacity: 1 },
+        '&:hover .thumb-img': { transform: 'scale(1.05)', filter: 'brightness(1.08)' },
         '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
       }}>
 

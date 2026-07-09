@@ -212,12 +212,12 @@ const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: gradient }}>
+  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}` }}>
     {thumbnailUrl ? (
       <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
         <Box component="img" src={thumbnailUrl} alt={`${title} 썸네일`} loading="lazy" className="thumb-img"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease' }} />
+          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
       </Box>
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
@@ -235,19 +235,25 @@ const ProjectCard = ({ project, onDetail }) => {
     ? cardRoleRaw
     : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
   const hasRichCard = Boolean(project.cardProblem);
+  const accent = project.accentColor ?? '#38BDF8';
+  const archiveLimitText = !hasRichCard && project.categories?.includes('archive')
+    ? (project.limitation ?? (project.isPlaceholder ? '실제 구현 전 Figma 설계 단계입니다.' : null))
+    : null;
 
   return (
   <Card tabIndex={0} aria-label={`${project.title} 프로젝트`}
     sx={{
       display: 'flex', flexDirection: 'column',
       minHeight: { md: 480 },
+      borderTop: hasRichCard ? `2px solid ${accent}59` : undefined,
       transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
       '&:hover': {
         transform: 'translateY(-4px)',
         boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
-        borderColor: 'primary.main',
+        borderColor: hasRichCard ? `${accent}59` : 'primary.main',
+        ...(hasRichCard && { borderTopColor: accent }),
       },
-      '&:hover .thumb-img': { transform: 'scale(1.05)' },
+      '&:hover .thumb-img': { transform: 'scale(1.05)', filter: 'brightness(1.08)' },
       '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
     }}>
     <Thumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} projectId={project.id} />
@@ -307,6 +313,12 @@ const ProjectCard = ({ project, onDetail }) => {
             <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
               <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>도구</Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{[...new Set(project.tools)].slice(0, 3).join(' · ')}</Typography>
+            </Box>
+          )}
+          {archiveLimitText && (
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>한계</Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{archiveLimitText}</Typography>
             </Box>
           )}
         </>

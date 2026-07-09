@@ -2,6 +2,7 @@ import { Box, Container, Typography, Button, Grid, Stack } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { scrollToSection } from '../../hooks/useScrollNav';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
 import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
@@ -26,7 +27,7 @@ const HeroSection = () => {
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
-          from: { opacity: 0, transform: 'translateY(20px)' },
+          from: { opacity: 0, transform: 'translateY(16px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
         },
         '@media (prefers-reduced-motion: reduce)': {
@@ -68,7 +69,40 @@ const HeroSection = () => {
         }}
       />
 
-      {/* 아주 옅은 guide line — 구조화된 느낌의 미세 디테일 */}
+      {/* 아주 옅은 grid texture — 배경이 비어 보이지 않게, 중앙에서 가장자리로 페이드 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.07) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+          maskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
+        }}
+      />
+
+      {/* WORK FLOW 카드 뒤 은은한 spotlight */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '38%', right: '6%',
+          width: 420, height: 420,
+          transform: 'translateY(-50%)',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%)',
+          filter: 'blur(38px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* 아주 옅은 guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 WORK FLOW로 시선 유도 */}
       <Box
         aria-hidden="true"
         sx={{
@@ -76,7 +110,7 @@ const HeroSection = () => {
           position: 'absolute',
           left: 0, right: 0, top: '18%',
           height: '1px',
-          background: 'linear-gradient(90deg, transparent, rgba(148,163,184,0.14) 30%, rgba(148,163,184,0.14) 70%, transparent)',
+          background: 'linear-gradient(90deg, transparent 5%, rgba(148,163,184,0.1) 35%, rgba(56,189,248,0.24) 75%, transparent 95%)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -96,6 +130,23 @@ const HeroSection = () => {
         }}
       />
 
+      {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음) */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'flex' },
+          position: 'absolute',
+          left: '50%', bottom: 20, transform: 'translateX(-50%)',
+          zIndex: 1,
+          pointerEvents: 'none',
+          color: 'text.disabled',
+          opacity: 0,
+          animation: 'fadeInUp 0.6s ease 0.9s both',
+        }}
+      >
+        <KeyboardArrowDownIcon sx={{ fontSize: 20 }} />
+      </Box>
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
         <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: 'center' }}>
 
@@ -104,7 +155,6 @@ const HeroSection = () => {
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left' },
-                animation: 'fadeInUp 0.6s ease both',
               }}
             >
               {/* Hero 오버라인 */}
@@ -116,6 +166,8 @@ const HeroSection = () => {
                   fontWeight: 700,
                   letterSpacing: '0.04em',
                   mb: { xs: 2, md: 2.5 },
+                  opacity: 0,
+                  animation: 'fadeInUp 0.6s ease 0s both',
                 }}
               >
                 {HERO_BADGE}
@@ -130,6 +182,8 @@ const HeroSection = () => {
                   letterSpacing: '-0.02em',
                   color: 'text.primary',
                   mb: 1.5,
+                  opacity: 0,
+                  animation: 'fadeInUp 0.6s ease 0.08s both',
                 }}
               >
                 사용자 흐름을 정리하고,
@@ -151,6 +205,8 @@ const HeroSection = () => {
                   mx: { xs: 'auto', md: 0 },
                   mb: { xs: 3.5, md: 4.5 },
                   fontSize: { xs: '0.92rem', md: '1rem' },
+                  opacity: 0,
+                  animation: 'fadeInUp 0.6s ease 0.2s both',
                 }}
               >
                 Figma로 정보 구조와 화면 흐름을 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 초안 비교, 문장 정리, 코드 점검을 돕는 보조 도구로 활용했습니다.
@@ -164,6 +220,8 @@ const HeroSection = () => {
                   justifyContent: { xs: 'center', md: 'flex-start' },
                   flexWrap: 'wrap',
                   rowGap: 2,
+                  opacity: 0,
+                  animation: 'fadeInUp 0.6s ease 0.32s both',
                 }}
               >
                 <Button
@@ -186,7 +244,7 @@ const HeroSection = () => {
                       transform: 'translateY(-2px)',
                       boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
                     },
-                    '&:hover .MuiButton-endIcon': { transform: 'translateX(3px)' },
+                    '&:hover .MuiButton-endIcon': { transform: 'translateX(4px)' },
                     '&:active': { transform: 'translateY(0)' },
                     '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                   }}
