@@ -97,7 +97,7 @@ const DetailModal = ({ project, open, onClose }) => {
                     bgcolor: 'rgba(56,189,248,0.08)',
                     color: 'primary.main',
                     border: '1px solid rgba(56,189,248,0.18)',
-                    fontWeight: 600, fontSize: '0.72rem',
+                    fontWeight: 600, fontSize: '0.875rem',
                   }} />
               ))}
             </Box>
@@ -128,7 +128,7 @@ const DetailModal = ({ project, open, onClose }) => {
                     sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', p: 1 }} />
                 ) : (
                   <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.72rem', letterSpacing: '0.1em' }}>
+                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem', letterSpacing: '0.1em' }}>
                       실행 화면 보기 →
                     </Typography>
                   </Box>
@@ -138,7 +138,7 @@ const DetailModal = ({ project, open, onClose }) => {
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
             {project.liveUrl && (
               <Box component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.8rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
+                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
                 실행 화면 보기 →
               </Box>
             )}
@@ -228,7 +228,15 @@ const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 );
 
 /* ── 카드 ── */
-const ProjectCard = ({ project, onDetail }) => (
+const ProjectCard = ({ project, onDetail }) => {
+  const cardProblem = project.cardProblem ?? project.description;
+  const cardRoleRaw = project.cardRole ?? project.role;
+  const cardRoleItems = Array.isArray(cardRoleRaw)
+    ? cardRoleRaw
+    : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
+  const hasRichCard = Boolean(project.cardProblem);
+
+  return (
   <Card tabIndex={0} aria-label={`${project.title} 프로젝트`}
     sx={{
       display: 'flex', flexDirection: 'column',
@@ -246,52 +254,84 @@ const ProjectCard = ({ project, onDetail }) => (
     <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
       <Box>
         <Typography variant="caption"
-          sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.65rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+          sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
           {project.categoryLabel}
           {project.isPlaceholder && (
-            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(Figma 준비 중)</Box>
+            <Box component="span" sx={{ ml: 1, color: 'text.secondary', fontWeight: 400, fontSize: '0.875rem' }}>({project.archiveStatus ?? 'Figma 준비 중'})</Box>
+          )}
+          {!project.isPlaceholder && project.archiveStatus && (
+            <Box component="span" sx={{ ml: 1, color: 'text.secondary', fontWeight: 400, fontSize: '0.875rem' }}>({project.archiveStatus})</Box>
           )}
         </Typography>
-        <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3 }}>{project.title}</Typography>
+        <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>{project.title}</Typography>
       </Box>
       <Typography variant="body2"
-        sx={{ color: 'text.secondary', fontSize: '0.8rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-        {project.description}
+        sx={{ color: 'text.primary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: hasRichCard ? 3 : 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        {cardProblem}
       </Typography>
-      {project.role && project.role !== '—' && (
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-          <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
-          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>{project.role}</Typography>
-        </Box>
-      )}
-      {project.tools.length > 0 && (
-        <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-          <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>도구</Typography>
-          <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.72rem', lineHeight: 1.5 }}>{[...new Set(project.tools)].slice(0, 3).join(' · ')}</Typography>
-        </Box>
+      {hasRichCard ? (
+        <>
+          {cardRoleItems.length > 0 && (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.4 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.04em' }}>내가 한 일</Typography>
+              {cardRoleItems.map((item) => (
+                <Box key={item} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
+                  <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '9px', opacity: 0.7 }} />
+                  <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{item}</Typography>
+                </Box>
+              ))}
+            </Box>
+          )}
+          {project.cardScope && (
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>구현 범위</Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{project.cardScope}</Typography>
+            </Box>
+          )}
+          {project.cardLimit && (
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>한계</Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{project.cardLimit}</Typography>
+            </Box>
+          )}
+        </>
+      ) : (
+        <>
+          {project.role && project.role !== '—' && (
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{project.role}</Typography>
+            </Box>
+          )}
+          {project.tools.length > 0 && (
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>도구</Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{[...new Set(project.tools)].slice(0, 3).join(' · ')}</Typography>
+            </Box>
+          )}
+        </>
       )}
       <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
-        <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
+        <Button size="small" variant="contained" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
           sx={{
-            fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'primary.main',
-            borderColor: 'rgba(56,189,248,0.28)', fontWeight: 600,
-            '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
+            fontSize: '0.875rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
+            '&:hover': { bgcolor: 'primary.dark' },
           }}>
           작업 과정 보기
         </Button>
         {project.liveUrl && (
           <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-            size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
+            size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
             aria-label={`${project.title} 라이브 데모`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
-            실행 화면 보기
+            sx={{ fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' }, fontWeight: 600 }}>
+            화면 보기
           </Button>
         )}
         {project.figmaPrototypeUrl && (
           <Button component="a" href={project.figmaPrototypeUrl} target="_blank" rel="noopener noreferrer"
-            size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
+            size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
             aria-label={`${project.title} 프로토타입 보기`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 600 }}>
+            sx={{ fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' }, fontWeight: 600 }}>
             프로토타입 보기
           </Button>
         )}
@@ -299,14 +339,15 @@ const ProjectCard = ({ project, onDetail }) => (
           <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
             size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
             aria-label={`${project.title} GitHub`}
-            sx={{ fontSize: '0.72rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
+            sx={{ fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
             GitHub
           </Button>
         )}
       </Stack>
     </CardContent>
   </Card>
-);
+  );
+};
 
 const SkeletonCard = () => (
   <Card sx={{ border: '1px solid', borderColor: 'divider' }}>
@@ -365,6 +406,10 @@ const ProjectsPage = () => {
   const filtered = activeTab === 'all'
     ? projects
     : projects.filter((p) => p.categories?.includes(activeTab));
+  const featuredProjects = projects.filter((p) => p.categories?.includes('featured'));
+  const archiveProjects = projects.filter((p) => p.categories?.includes('archive'));
+  const showSplitView = activeTab === 'all' && !loading;
+  const gridSx = { display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } };
 
   return (
     <Box component="main" sx={{ bgcolor: 'background.default', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
@@ -372,15 +417,15 @@ const ProjectsPage = () => {
 
         {/* 헤더 */}
         <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
-          <Typography sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.7rem', textTransform: 'uppercase', mb: 1.5 }}>
+          <Typography sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.875rem', textTransform: 'uppercase', mb: 1.5 }}>
             전체 작업
           </Typography>
           <Typography variant="h1" sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '2rem', md: '2.5rem' } }}>
             전체 프로젝트
           </Typography>
           <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
-          <Typography sx={{ mt: 2.5, color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.8 }}>
-            Figma UX/UI 설계와 AI 도구 활용 웹 구현으로 직접 기획하고 구현한 프로젝트들입니다.
+          <Typography sx={{ mt: 2.5, color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.8, maxWidth: 560, mx: 'auto' }}>
+            Home에서는 취업 포트폴리오에서 먼저 보여줄 대표 프로젝트만 선별했고, 이 페이지에서는 학습 과정과 추가 작업을 함께 정리했습니다.
           </Typography>
         </Box>
 
@@ -389,23 +434,47 @@ const ProjectsPage = () => {
           <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}
             variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile
             slotProps={{ indicator: { style: { height: 2 } } }}
-            sx={{ '& .MuiTab-root': { fontSize: '0.8rem', fontWeight: 600, minHeight: 44, textTransform: 'none', color: 'text.secondary', '&.Mui-selected': { color: 'primary.main' } } }}>
+            sx={{ '& .MuiTab-root': { fontSize: '0.875rem', fontWeight: 600, minHeight: 44, textTransform: 'none', color: 'text.secondary', '&.Mui-selected': { color: 'primary.main' } } }}>
             {FILTER_TABS.map((tab) => <Tab key={tab.value} label={tab.label} value={tab.value} />)}
           </Tabs>
         </Box>
 
         {/* 카드 그리드 */}
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } }}>
-          {loading
-            ? Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)
-            : filtered.map((project) => (
+        {loading ? (
+          <Box sx={gridSx}>
+            {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
+          </Box>
+        ) : showSplitView ? (
+          <>
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.25rem', mb: 2.5 }}>대표 프로젝트</Typography>
+            <Box sx={gridSx}>
+              {featuredProjects.map((project) => (
                 <ProjectCard key={project.id} project={project}
                   onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
-              ))
-          }
-        </Box>
+              ))}
+            </Box>
+            <Divider sx={{ my: { xs: 5, md: 6 } }} />
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.25rem', mb: 2.5 }}>Archive</Typography>
+            <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.7, mb: 2.5 }}>
+              학습 과정에서 진행한 프로토타입과 추가 작업입니다.
+            </Typography>
+            <Box sx={gridSx}>
+              {archiveProjects.map((project) => (
+                <ProjectCard key={project.id} project={project}
+                  onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
+              ))}
+            </Box>
+          </>
+        ) : (
+          <Box sx={gridSx}>
+            {filtered.map((project) => (
+              <ProjectCard key={project.id} project={project}
+                onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
+            ))}
+          </Box>
+        )}
 
-        {!loading && filtered.length === 0 && (
+        {!loading && !showSplitView && filtered.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 12 }}>
             <Typography sx={{ color: 'text.secondary', fontSize: '1rem' }}>
               해당 카테고리의 프로젝트가 없습니다.
