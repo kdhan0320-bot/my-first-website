@@ -132,13 +132,13 @@ const HeroSection = () => {
                   mb: 1.5,
                 }}
               >
-                흩어진 요구사항을 정리해,
+                사용자 흐름을 정리하고,
                 <Box component="span" sx={{ display: 'block' }}>
-                  사용자가 이해하기 쉬운{' '}
+                  화면{' '}
                   <Box component="span" sx={{ color: 'primary.main' }}>
-                    화면
+                    설계
                   </Box>
-                  으로 연결합니다.
+                  와 웹 구현까지 연결합니다.
                 </Box>
               </Typography>
 
@@ -153,7 +153,7 @@ const HeroSection = () => {
                   fontSize: { xs: '0.92rem', md: '1rem' },
                 }}
               >
-                Figma로 화면 흐름과 정보 구조를 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 초안 비교, 문장 정리, 코드 점검을 돕는 보조 도구로 활용했습니다.
+                Figma로 정보 구조와 화면 흐름을 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 초안 비교, 문장 정리, 코드 점검을 돕는 보조 도구로 활용했습니다.
               </Typography>
 
               <Stack
