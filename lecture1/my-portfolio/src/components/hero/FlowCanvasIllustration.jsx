@@ -1,12 +1,20 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Stack } from '@mui/material';
 import useInViewOnce from '../../hooks/useInViewOnce';
 
 /* Flow Board — 요구사항 정리 → 화면 구조 설계 → React UI 구현 → 반응형 QA */
 const FLOW_STEPS = [
-  { n: 1, label: '요구사항 정리', desc: '정보 구조화', x: 16, y: 40, delay: 0.45 },
-  { n: 2, label: '화면 구조 설계', desc: 'Figma 와이어프레임', x: 108, y: 138, delay: 0.58 },
-  { n: 3, label: 'React UI 구현', desc: '반응형 컴포넌트', x: 200, y: 236, delay: 0.71 },
-  { n: 4, label: '반응형 QA', desc: '접근성 점검', x: 292, y: 334, delay: 0.84, isFinal: true },
+  { n: 1, label: '요구사항 정리', desc: '정보 구조화', x: 16, y: 40, delay: 0.15 },
+  { n: 2, label: '화면 구조 설계', desc: 'Figma 와이어프레임', x: 108, y: 138, delay: 0.25 },
+  { n: 3, label: 'React UI 구현', desc: '반응형 컴포넌트', x: 200, y: 236, delay: 0.35 },
+  { n: 4, label: '반응형 QA', desc: '접근성 점검', x: 292, y: 334, delay: 0.45, isFinal: true },
+];
+
+/* 패널 하단 status strip — AI Assist는 보조 배지로 마지막에만 노출 */
+const STATUS_BADGES = [
+  { label: 'Figma', accent: '#F97316' },
+  { label: 'React/MUI', accent: '#38BDF8' },
+  { label: 'Responsive QA', accent: '#A7F3D0' },
+  { label: 'AI Assist', accent: '#94A3B8', muted: true },
 ];
 
 const CARD_W = 132;
@@ -23,14 +31,20 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 330, sm: 400, md: 560 },
+        maxWidth: { xs: 340, sm: 420, md: 600 },
         mx: 'auto',
+        p: { xs: 2.5, sm: 3, md: 3.5 },
+        borderRadius: 4,
+        border: '1px solid rgba(56,189,248,0.16)',
+        background: 'linear-gradient(180deg, rgba(19,28,46,0.6) 0%, rgba(11,16,32,0.42) 100%)',
+        backdropFilter: 'blur(18px)',
+        boxShadow: '0 24px 60px rgba(2,6,23,0.35)',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.96)',
         transition: 'opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22,1,0.36,1)',
       }}
     >
-      <Box sx={{ mb: 1, textAlign: { xs: 'center', md: 'left' } }}>
+      <Box sx={{ mb: 1.5, textAlign: { xs: 'center', md: 'left' } }}>
         <Typography
           sx={{
             color: 'text.disabled',
@@ -149,7 +163,7 @@ const FlowCanvasIllustration = () => {
             opacity: isVisible ? 1 : 0,
             transform: isVisible ? 'scale(1)' : 'scale(0.4)',
             transformOrigin: `${FLOW_STEPS[3].x + CARD_W - 14}px ${FLOW_STEPS[3].y + 14}px`,
-            transition: 'opacity 0.4s ease 1.05s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 1.05s',
+            transition: 'opacity 0.4s ease 0.95s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.95s',
           }}
         />
         <circle
@@ -161,9 +175,39 @@ const FlowCanvasIllustration = () => {
           strokeWidth="1"
           style={{
             opacity: isVisible ? 0.35 : 0,
-            transition: 'opacity 0.4s ease 1.1s',
+            transition: 'opacity 0.4s ease 1s',
           }}
         />
+      </Box>
+
+      {/* status strip — 사용 도구/검증 요약, AI Assist는 마지막 보조 배지로만 표시 */}
+      <Box sx={{ mt: 2.5, pt: 2, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
+        <Stack
+          direction="row"
+          sx={{ flexWrap: 'wrap', rowGap: 1, columnGap: 1, justifyContent: { xs: 'center', md: 'flex-start' } }}
+        >
+          {STATUS_BADGES.map((badge) => (
+            <Box
+              key={badge.label}
+              sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 0.75,
+                px: 1.25,
+                py: 0.5,
+                borderRadius: 999,
+                border: '1px solid rgba(148,163,184,0.18)',
+                bgcolor: 'rgba(15,23,42,0.4)',
+                opacity: badge.muted ? 0.7 : 1,
+              }}
+            >
+              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: badge.accent, flexShrink: 0 }} />
+              <Typography sx={{ fontSize: '0.7rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
+                {badge.label}
+              </Typography>
+            </Box>
+          ))}
+        </Stack>
       </Box>
     </Box>
   );

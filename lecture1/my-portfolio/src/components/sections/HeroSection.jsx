@@ -78,25 +78,25 @@ const HeroSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.07) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.09) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
           WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
         }}
       />
 
-      {/* WORK FLOW 카드 뒤 은은한 spotlight */}
+      {/* DESIGN TO WEB FLOW 보드 뒤 은은한 spotlight */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
-          top: '38%', right: '6%',
-          width: 420, height: 420,
+          top: '40%', right: '4%',
+          width: 480, height: 480,
           transform: 'translateY(-50%)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%)',
-          filter: 'blur(38px)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.17) 0%, transparent 70%)',
+          filter: 'blur(42px)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -151,7 +151,7 @@ const HeroSection = () => {
         <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: 'center' }}>
 
           {/* 왼쪽: 텍스트 */}
-          <Grid size={{ xs: 12, md: 7 }} sx={{ minWidth: 0 }}>
+          <Grid size={{ xs: 12, md: 6 }} sx={{ minWidth: 0 }}>
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left' },
@@ -209,7 +209,7 @@ const HeroSection = () => {
                   animation: 'fadeInUp 0.6s ease 0.2s both',
                 }}
               >
-                Figma로 정보 구조와 화면 흐름을 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 초안 비교, 문장 정리, 코드 점검을 돕는 보조 도구로 활용했습니다.
+                Figma로 정보 구조와 화면 흐름을 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교를 돕는 보조 도구로 활용했습니다.
               </Typography>
 
               <Stack
@@ -335,7 +335,7 @@ const HeroSection = () => {
           </Grid>
 
           {/* 오른쪽: Flow Canvas Illustration — 모바일에서는 축소되어 텍스트 아래에 노출 */}
-          <Grid size={{ xs: 12, md: 5 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
+          <Grid size={{ xs: 12, md: 6 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               <FlowCanvasIllustration />
             </Box>
