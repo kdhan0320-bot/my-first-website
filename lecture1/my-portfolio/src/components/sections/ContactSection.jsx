@@ -4,7 +4,6 @@ import {
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import RevealOnScroll from '../ui/RevealOnScroll';
-import StarField from '../ui/StarField';
 
 const ContactSection = () => {
   return (
@@ -20,25 +19,6 @@ const ContactSection = () => {
         pb: { xs: 4, md: 5 },
       }}
     >
-      {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.07 }} />
-
-      {/* 배경 blob */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: '20%',
-          right: '-8%',
-          width: 260,
-          height: 260,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.04) 0%, transparent 70%)',
-          filter: 'blur(40px)',
-          pointerEvents: 'none',
-        }}
-      />
-
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}

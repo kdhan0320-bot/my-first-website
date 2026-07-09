@@ -3,11 +3,10 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { scrollToSection } from '../../hooks/useScrollNav';
-import StarField from '../ui/StarField';
 import { ALL_PROJECTS } from '../../data/projectsData';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
 
-const STRENGTH_KEYWORDS = ['화면 설계', '사용자 흐름 개선', 'React 웹 구현', 'AI 도구 활용'];
+const STRENGTH_KEYWORDS = ['화면 설계', '사용자 흐름 개선', 'React 웹 구현'];
 
 /* 홈 대표 프로젝트 중 첫 번째 항목을 Hero 프리뷰 카드에 사용 */
 const previewProject = ALL_PROJECTS[0];
@@ -115,50 +114,6 @@ const HeroSection = () => {
         },
       }}
     >
-      {/* 은하수 밴드 — 약화된 은은한 성운 띠 */}
-      <Box
-        component="svg"
-        viewBox="0 0 1200 700"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          pointerEvents: 'none',
-          opacity: 0.32,
-          filter: 'blur(34px)',
-        }}
-      >
-        <path d="M -60 620 Q 360 700 660 480 T 1260 160" fill="none" stroke="#38BDF8" strokeWidth="90" strokeLinecap="round" opacity="0.22" />
-        <path d="M -60 660 Q 400 720 700 540 T 1260 240" fill="none" stroke="#A78BFA" strokeWidth="60" strokeLinecap="round" opacity="0.18" />
-      </Box>
-
-      {/* 은하수 곡선 — 약화된 라인 레이어 */}
-      <Box
-        component="svg"
-        viewBox="0 0 1200 700"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 0,
-          pointerEvents: 'none',
-          opacity: 0.16,
-        }}
-      >
-        <path d="M -40 560 Q 340 660 620 460 T 1240 180" fill="none" stroke="#38BDF8" strokeWidth="2.5" />
-        <path d="M -40 620 Q 380 700 660 520 T 1240 260" fill="none" stroke="#A78BFA" strokeWidth="1.6" opacity="0.7" />
-      </Box>
-
-      {/* 별 배경 — 약화 */}
-      <StarField count={40} />
-
       {/* Gradient blob 1 - 우측 상단 */}
       <Box
         aria-hidden="true"
@@ -169,7 +124,7 @@ const HeroSection = () => {
           width: { xs: 300, md: 580 },
           height: { xs: 300, md: 580 },
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.06) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
           filter: 'blur(52px)',
@@ -186,7 +141,7 @@ const HeroSection = () => {
           width: { xs: 230, md: 420 },
           height: { xs: 230, md: 420 },
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.09) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 70%)',
           zIndex: 0,
           pointerEvents: 'none',
           filter: 'blur(52px)',
@@ -247,24 +202,16 @@ const HeroSection = () => {
                   mb: 1.5,
                 }}
               >
-                Figma 설계부터{' '}
+                사용자 흐름을 화면 설계와{' '}
                 <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>
-                  React 구현까지 연결하는
+                  웹 구현으로 연결하는
                 </Box>
-                <Box
-                  component="span"
-                  sx={{
-                    display: 'block',
-                    background: 'linear-gradient(90deg, #38BDF8 0%, #A78BFA 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  AI 활용 UX/UI
-                  <Box component="span" sx={{ display: { xs: 'block', sm: 'inline' } }}>
-                    {' '}· 웹 퍼블리싱 포트폴리오
+                <Box component="span" sx={{ display: 'block' }}>
+                  신입 웹퍼블리셔{' '}
+                  <Box component="span" sx={{ color: 'primary.main' }}>
+                    김도한
                   </Box>
+                  입니다
                 </Box>
               </Typography>
 
@@ -279,11 +226,7 @@ const HeroSection = () => {
                   fontSize: { xs: '0.92rem', md: '1rem' },
                 }}
               >
-                사용자 흐름을 정리하고, 화면 설계와 웹 구현으로 연결하는 신입 UX/UI · 웹 퍼블리싱 지원자{' '}
-                <Box component="span" sx={{ color: 'primary.main', fontWeight: 700 }}>
-                  김도한
-                </Box>
-                입니다.
+                Figma로 화면 구조를 정리하고, React 기반 웹 화면으로 구현하며, AI 도구는 아이디어 정리와 코드 검토 보조에 활용했습니다.
               </Typography>
 
               <Stack

@@ -3,7 +3,6 @@ import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import DevicesIcon from '@mui/icons-material/Devices';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import RevealOnScroll from '../ui/RevealOnScroll';
-import StarField from '../ui/StarField';
 
 const SKILL_CARDS = [
   {
@@ -47,9 +46,6 @@ const AboutSection = () => {
         pb: { xs: 3, md: 8 },
       }}
     >
-      {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.08 }} />
-
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}
@@ -128,72 +124,14 @@ const AboutSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* 별자리 연결 카드 */}
+        {/* 역량 카드 */}
         <RevealOnScroll delay={0.1}>
           <Box sx={{ position: 'relative', mb: { xs: 1, md: 4 } }}>
-            {/* 별자리 연결선 (데스크톱) */}
-            <Box
-              aria-hidden="true"
-              sx={{
-                display: { xs: 'none', md: 'block' },
-                position: 'absolute',
-                top: '42px',
-                left: 'calc(16.67% + 22px)',
-                right: 'calc(16.67% + 22px)',
-                height: '1px',
-                background: 'linear-gradient(90deg, rgba(56,189,248,0.4), rgba(167,139,250,0.4), rgba(129,140,248,0.4))',
-                zIndex: 0,
-              }}
-            />
-            {/* 연결선 위 작은 점들 */}
-            {[33, 50, 67].map((pos) => (
-              <Box
-                key={pos}
-                aria-hidden="true"
-                sx={{
-                  display: { xs: 'none', md: 'block' },
-                  position: 'absolute',
-                  top: '38px',
-                  left: `${pos}%`,
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  bgcolor: 'rgba(148,163,184,0.5)',
-                  transform: 'translateX(-50%)',
-                  zIndex: 1,
-                }}
-              />
-            ))}
-
             <Grid container spacing={3} sx={{ position: 'relative', zIndex: 2 }}>
               {SKILL_CARDS.map((card) => (
                 <Grid key={card.title} size={{ xs: 12, sm: 4 }}>
-                  <Box sx={{ position: 'relative', height: '100%' }}>
-                    {/* 카드 뒤 orbit ring */}
-                    <Box
-                      component="svg"
-                      viewBox="0 0 120 120"
-                      aria-hidden="true"
-                      sx={{
-                        position: 'absolute',
-                        top: -18,
-                        right: -18,
-                        width: 110,
-                        height: 110,
-                        pointerEvents: 'none',
-                        opacity: 0.18,
-                        zIndex: 0,
-                        color: card.color,
-                      }}
-                    >
-                      <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="5 8" />
-                      <circle cx="60" cy="60" r="36" fill="none" stroke="currentColor" strokeWidth="0.6" />
-                    </Box>
-
                   <Box
                     sx={{
-                      position: 'relative',
-                      zIndex: 1,
                       height: '100%',
                       p: { xs: 2.5, md: 3 },
                       bgcolor: 'rgba(255,255,255,0.04)',
@@ -252,7 +190,6 @@ const AboutSection = () => {
                         </Box>
                       ))}
                     </Box>
-                  </Box>
                   </Box>
                 </Grid>
               ))}

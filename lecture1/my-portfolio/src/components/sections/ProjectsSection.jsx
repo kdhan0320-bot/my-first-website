@@ -10,7 +10,6 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
-import StarField from '../ui/StarField';
 import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../projects/ProjectThumbnailArt';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
@@ -424,9 +423,6 @@ const ProjectsSection = () => {
         pb: { xs: 4, md: 6 },
       }}
     >
-      {/* 옅은 별 배경 — 전체 콘셉트 통일 */}
-      <StarField count={18} sx={{ opacity: 0.07 }} />
-
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         <RevealOnScroll>
