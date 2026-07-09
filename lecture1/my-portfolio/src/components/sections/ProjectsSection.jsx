@@ -226,7 +226,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
     {/* hover overlay */}
     <Box className="thumb-overlay" sx={{
       position: 'absolute', inset: 0,
-      background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.32) 100%)',
+      background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.18) 100%)',
       opacity: 0,
       transition: 'opacity 0.3s ease',
       pointerEvents: 'none',
@@ -240,9 +240,10 @@ const HOME_BADGE = { label: '대표 작업', color: '#818CF8', border: 'rgba(129
 /* ── 프로젝트 카드 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
   const cardProblem = project.cardProblem ?? project.description;
-  const cardRole = project.cardRole ?? project.role;
-  const cardTech = [...new Set(project.cardTech ?? project.tools)].slice(0, 3);
-  const hasRole = cardRole && cardRole !== '—';
+  const cardRoleRaw = project.cardRole ?? project.role;
+  const cardRoleItems = Array.isArray(cardRoleRaw)
+    ? cardRoleRaw
+    : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
   const badge = HOME_BADGE;
 
   return (
@@ -251,7 +252,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={{
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
-        minHeight: { md: 480 },
+        minHeight: { md: 520 },
         bgcolor: '#111827',
         border: '1px solid rgba(148,163,184,0.14)',
         borderTop: '2px solid rgba(56,189,248,0.35)',
@@ -323,27 +324,32 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.6rem' }}>(준비 중)</Box>
             )}
           </Typography>
-          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3 }}>
+          <Typography component="h3" sx={{ fontSize: '0.95rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>
             {project.title}
           </Typography>
         </Box>
 
         <Typography variant="body2"
-          sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {cardProblem}
         </Typography>
 
-        {hasRole && (
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>역할</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{cardRole}</Typography>
+        {cardRoleItems.length > 0 && (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.4 }}>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, fontSize: '0.65rem', letterSpacing: '0.04em' }}>내가 한 일</Typography>
+            {cardRoleItems.map((item) => (
+              <Box key={item} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
+                <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '7px', opacity: 0.7 }} />
+                <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{item}</Typography>
+              </Box>
+            ))}
           </Box>
         )}
 
-        {cardTech.length > 0 && (
+        {project.cardScope && (
           <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>기술</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{cardTech.join(' · ')}</Typography>
+            <Typography variant="caption" sx={{ color: 'text.disabled', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.65rem', letterSpacing: '0.04em' }}>구현 범위</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.72rem' }}>{project.cardScope}</Typography>
           </Box>
         )}
 
@@ -451,11 +457,11 @@ const ProjectsSection = () => {
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               }}
             >
-              02 대표 작업
+              02 SELECTED PROJECTS
             </Typography>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>문제 정의부터 구현까지 정리한 3개의 프로젝트</Typography>
-            <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', maxWidth: 480, mx: 'auto' }}>
-              각 프로젝트는 문제 정의, 화면 구조, 구현 범위, 한계를 함께 정리했습니다.
+            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>문제 정의부터 구현 범위까지 정리한 프로젝트</Typography>
+            <Typography variant="body2" sx={{ mt: 2, color: 'text.secondary', maxWidth: 520, mx: 'auto' }}>
+              각 프로젝트는 문제 상황, 화면 구조, 구현 범위, 한계를 함께 정리했습니다. 실제 없는 성과 수치나 운영 서비스처럼 보이는 표현은 사용하지 않았습니다.
             </Typography>
           </Box>
         </RevealOnScroll>

@@ -6,7 +6,7 @@ import { scrollToSection } from '../../hooks/useScrollNav';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
 import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
 
-const HERO_BADGE = 'UX/UI · Web Publishing · AI-assisted Workflow';
+const HERO_BADGE = '김도한 | UX/UI · Web Publishing Portfolio';
 
 const HeroSection = () => {
   return (
@@ -17,12 +17,12 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 'auto', md: '90vh' },
+        minHeight: { xs: 'auto', md: 'auto' },
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        pt: { xs: 5, sm: 8, md: 6 },
-        pb: { xs: 2, sm: 5, md: 6 },
+        justifyContent: 'flex-start',
+        pt: { xs: 5, sm: 8, md: 13 },
+        pb: { xs: 2, sm: 5, md: 8 },
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
@@ -107,12 +107,12 @@ const HeroSection = () => {
                 animation: 'fadeInUp 0.6s ease both',
               }}
             >
-              {/* Hero Badge */}
+              {/* Hero 오버라인 */}
               <Typography
                 sx={{
                   display: 'inline-block',
                   color: 'primary.main',
-                  fontSize: '0.78rem',
+                  fontSize: '0.875rem',
                   fontWeight: 700,
                   letterSpacing: '0.04em',
                   mb: { xs: 2, md: 2.5 },
@@ -132,13 +132,13 @@ const HeroSection = () => {
                   mb: 1.5,
                 }}
               >
-                사용자 흐름을 화면 구조로 정리하고,
+                흩어진 요구사항을 정리해,
                 <Box component="span" sx={{ display: 'block' }}>
-                  웹 화면으로 구현하는{' '}
+                  사용자가 이해하기 쉬운{' '}
                   <Box component="span" sx={{ color: 'primary.main' }}>
-                    김도한
+                    화면
                   </Box>
-                  입니다.
+                  으로 연결합니다.
                 </Box>
               </Typography>
 
@@ -153,7 +153,7 @@ const HeroSection = () => {
                   fontSize: { xs: '0.92rem', md: '1rem' },
                 }}
               >
-                Figma로 정보 구조와 화면 흐름을 설계하고, React·MUI 기반으로 반응형 웹 화면까지 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교를 돕는 보조 도구로 활용했습니다.
+                Figma로 화면 흐름과 정보 구조를 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 초안 비교, 문장 정리, 코드 점검을 돕는 보조 도구로 활용했습니다.
               </Typography>
 
               <Stack

@@ -87,7 +87,7 @@ const ContactSection = () => {
                   함께 이야기해요
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 2.5 }}>
-                  채용, 협업, 피드백과 관련된 이야기를 편하게 남겨주세요.
+                  포트폴리오 검토, 피드백, 채용 관련 연락을 편하게 남겨주세요.
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   {[
@@ -107,7 +107,7 @@ const ContactSection = () => {
                         minHeight: 44,
                         textDecoration: 'none',
                         color: 'text.secondary',
-                        fontSize: '0.82rem',
+                        fontSize: '0.875rem',
                         transition: 'color 0.2s',
                         '&:hover': { color: 'primary.main' },
                         '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' },

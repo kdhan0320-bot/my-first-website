@@ -1,27 +1,34 @@
 import { Box, Container, Typography, Grid } from '@mui/material';
+import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import DevicesIcon from '@mui/icons-material/Devices';
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 import RevealOnScroll from '../ui/RevealOnScroll';
 
 const SKILL_CARDS = [
   {
-    icon: <DesignServicesIcon sx={{ fontSize: 22 }} />,
-    title: 'UX/UI 디자인',
+    icon: <TroubleshootIcon sx={{ fontSize: 22 }} />,
+    title: '문제 정리',
     color: '#38BDF8',
-    items: ['사용자 흐름 분석', '와이어프레임', '화면 설계', '컴포넌트 정리'],
+    items: ['흩어진 요구사항 정리', '사용자 흐름 파악', '화면 우선순위 설정'],
+  },
+  {
+    icon: <DesignServicesIcon sx={{ fontSize: 22 }} />,
+    title: '화면 설계',
+    color: '#A78BFA',
+    items: ['Figma 와이어프레임', '컴포넌트 구조', '모바일/태블릿 기준 정리'],
   },
   {
     icon: <DevicesIcon sx={{ fontSize: 22 }} />,
     title: '웹 구현',
-    color: '#A78BFA',
-    items: ['HTML/CSS', 'JavaScript', 'React 기반 화면 구현', '반응형 레이아웃'],
+    color: '#60A5FA',
+    items: ['React/MUI 화면 구현', 'HTML/CSS/JavaScript', '반응형 레이아웃'],
   },
   {
-    icon: <AutoAwesomeIcon sx={{ fontSize: 22 }} />,
-    title: 'AI 도구 활용',
-    color: '#818CF8',
-    items: ['아이디어 정리', '코드 보조', '웹 프로토타입 제작', '코드 리뷰 보조'],
+    icon: <FactCheckIcon sx={{ fontSize: 22 }} />,
+    title: '검증과 보완',
+    color: '#A7F3D0',
+    items: ['링크 점검', '접근성 확인', 'Playwright 기반 반응형 QA'],
   },
 ];
 
@@ -67,10 +74,10 @@ const AboutSection = () => {
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               }}
             >
-              01 소개
+              01 WORK STYLE
             </Typography>
             <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
-              소개 및 역량
+              정리하고, 설계하고, 구현하는 방식
             </Typography>
           </Box>
         </RevealOnScroll>
@@ -91,11 +98,11 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              복잡한 기능을 많이 넣기보다, 사용자가 어디에서 막히는지 먼저 정리하고 화면 우선순위를 잡는 방식으로 작업합니다. 개인 프로젝트에서는 문제 정의, 화면 설계, 반응형 구현, 링크 점검까지 직접 반복하며 완성도를 높였습니다.
+              복잡한 기능을 많이 넣기보다, 먼저 사용자가 어디에서 막히는지 정리합니다. 그다음 화면 우선순위, 컴포넌트 구조, 반응형 기준을 잡고 실제 웹 화면으로 구현합니다.
             </Typography>
 
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1.5 }}>
-              AI 도구는 요구사항 정리, 문장 점검, 코드 개선안 검토에 보조적으로 활용했습니다. 최종 구조와 표현, 구현 범위 판단은 직접 검토했습니다.
+              AI 도구는 문장 정리, 코드 오류 점검, 개선안 비교에 보조적으로 사용했으며, 최종 구조와 구현 범위는 직접 검토했습니다.
             </Typography>
 
             {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트 */}
@@ -128,7 +135,7 @@ const AboutSection = () => {
           <Box sx={{ position: 'relative', mb: { xs: 1, md: 4 } }}>
             <Grid container spacing={3} sx={{ position: 'relative', zIndex: 2 }}>
               {SKILL_CARDS.map((card) => (
-                <Grid key={card.title} size={{ xs: 12, sm: 4 }}>
+                <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
                   <Box
                     sx={{
                       height: '100%',
@@ -165,7 +172,7 @@ const AboutSection = () => {
                       {card.icon}
                     </Box>
 
-                    <Typography variant="h5" sx={{ fontWeight: 700, color: 'text.primary', mb: 2 }}>
+                    <Typography variant="h5" component="h3" sx={{ fontWeight: 700, color: 'text.primary', mb: 2 }}>
                       {card.title}
                     </Typography>
 
