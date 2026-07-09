@@ -188,6 +188,7 @@ export const fallbackProjects = [
     cardRole: ['핵심 정보 우선순위 정리', 'Figma 기반 모바일 화면 설계'],
     cardScope: '정류장/노선/도착 시간 중심의 모바일 UI 프로토타입',
     cardLimit: '실제 버스 도착 API와 실시간 데이터 연동은 포함하지 않았습니다.',
+    accentColor: '#6366F1',
   },
 
   /* ── AI 도구 활용 ── */
@@ -230,6 +231,7 @@ export const fallbackProjects = [
     cardRole: ['지원 상태와 일정 정보를 카드/리스트 구조로 정리', 'React/MUI 기반 대시보드 UI 구현'],
     cardScope: '지원 현황, 할 일, 일정, 상태별 정보 구조',
     cardLimit: '정적 데이터 기반 데모이며 실시간 알림과 통계 차트는 포함하지 않았습니다.',
+    accentColor: '#2563EB',
   },
   {
     id: 'feedback-hub',
@@ -270,6 +272,7 @@ export const fallbackProjects = [
     cardRole: ['피드백 등록과 상태 구분 구조 설계', 'React 기반 커뮤니티형 화면 구현'],
     cardScope: '게시글/피드백 카드/상태 라벨 중심의 UI',
     cardLimit: '관리자 기능, 신고/알림, 파일 업로드 등은 제한적입니다.',
+    accentColor: '#0D9488',
   },
   {
     id: 'gamstagram',

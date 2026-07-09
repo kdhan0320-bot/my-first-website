@@ -34,19 +34,28 @@ const FlowCanvasIllustration = () => {
         },
       }}
     >
-      <Typography
-        sx={{
-          color: 'text.disabled',
-          fontSize: '0.875rem',
-          fontWeight: 700,
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-          mb: 1,
-          textAlign: { xs: 'center', md: 'left' },
-        }}
-      >
-        Flow Board
-      </Typography>
+      <Box sx={{ mb: 1, textAlign: { xs: 'center', md: 'left' } }}>
+        <Typography
+          sx={{
+            color: 'text.disabled',
+            fontSize: '0.875rem',
+            fontWeight: 700,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+          }}
+        >
+          Work Flow
+        </Typography>
+        <Typography
+          sx={{
+            color: 'text.disabled',
+            fontSize: '0.875rem',
+            mt: 0.25,
+          }}
+        >
+          문제 정리부터 반응형 QA까지
+        </Typography>
+      </Box>
 
       <Box
         component="svg"

@@ -72,7 +72,7 @@ const SkillCard = ({ skill }) => {
               flexShrink: 0,
               color: icon.color,
               fontWeight: 700,
-              fontSize: '0.82rem',
+              fontSize: '0.875rem',
               letterSpacing: '-0.02em',
               transition: 'transform 0.2s ease',
             }}
@@ -87,8 +87,8 @@ const SkillCard = ({ skill }) => {
               label={skill.category ?? '기타'}
               size="small"
               sx={{
-                mt: 0.5, height: 20,
-                fontSize: '0.68rem', fontWeight: 600,
+                mt: 0.5, height: 22,
+                fontSize: '0.875rem', fontWeight: 600,
                 color: catColor.color, bgcolor: catColor.bg,
                 border: `1px solid ${catColor.border}`,
                 '& .MuiChip-label': { px: 1 },
@@ -103,7 +103,7 @@ const SkillCard = ({ skill }) => {
           size="small"
           sx={{
             alignSelf: 'flex-start', mb: 1.5,
-            fontSize: '0.72rem', fontWeight: 600,
+            fontSize: '0.875rem', fontWeight: 600,
             color: statusColor.color, bgcolor: statusColor.bg,
             border: `1px solid ${statusColor.border}`,
           }}
@@ -120,13 +120,13 @@ const SkillCard = ({ skill }) => {
         {/* 학습 적용도 프로그레스 바 */}
         <Box>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.68rem' }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>
               학습 적용도
             </Typography>
             <Typography
               variant="caption"
               aria-hidden="true"
-              sx={{ color: 'primary.main', fontSize: '0.68rem', fontWeight: 600, minWidth: '2.5ch', textAlign: 'right' }}
+              sx={{ color: 'primary.main', fontSize: '0.875rem', fontWeight: 600, minWidth: '2.5ch', textAlign: 'right' }}
             >
               {animCount}%
             </Typography>
@@ -206,7 +206,7 @@ const SkillsSection = () => {
             sx={(theme) => ({
               color: 'text.secondary',
               borderColor: theme.palette.divider,
-              fontSize: '0.8rem',
+              fontSize: '0.875rem',
               '&:hover': { borderColor: 'primary.main', color: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
             })}
           >

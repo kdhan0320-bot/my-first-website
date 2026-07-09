@@ -79,29 +79,25 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
       </DialogTitle>
       <Divider />
       <DialogContent sx={{ pt: 2.5 }}>
-        <DetailRow label="작업 개요">
+        {/* 1. 프로젝트 개요 */}
+        <DetailRow label="프로젝트 개요">
           <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
         </DetailRow>
+
+        {/* 2. 문제 정의 */}
         {detail.problem && detail.problem !== '—' && (
-          <DetailRow label="문제">
+          <DetailRow label="문제 정의">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.problem}</Typography>
+            {detail.goal && detail.goal !== '—' && (
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1 }}>{detail.goal}</Typography>
+            )}
           </DetailRow>
         )}
-        {detail.goal && detail.goal !== '—' && (
-          <DetailRow label="목표">
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.goal}</Typography>
-          </DetailRow>
-        )}
-        {detail.targetUser && (
-          <DetailRow label="대상 사용자">
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.targetUser}</Typography>
-          </DetailRow>
-        )}
-        <DetailRow label="맡은 일">
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>{role}</Typography>
-        </DetailRow>
-        {tools.length > 0 && (
-          <DetailRow label="도구">
+
+        {/* 3. 내 역할 */}
+        <DetailRow label="내 역할">
+          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: tools.length > 0 ? 1 : 0 }}>{role}</Typography>
+          {tools.length > 0 && (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
@@ -113,21 +109,22 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
                   }} />
               ))}
             </Box>
-          </DetailRow>
-        )}
+          )}
+        </DetailRow>
+
+        {/* 4. 화면 구조 */}
         {detail.designPoint && detail.designPoint !== '—' && (
-          <DetailRow label="핵심 설계 방향">
+          <DetailRow label="화면 구조">
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
+            {detail.process && (
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1 }}>{detail.process}</Typography>
+            )}
           </DetailRow>
         )}
-        {detail.process && (
-          <DetailRow label="작업 과정">
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.process}</Typography>
-          </DetailRow>
-        )}
-        {detail.result && (
-          <DetailRow label="결과 화면">
-            {/* 썸네일 미리보기 */}
+
+        {/* 5. 구현 범위 */}
+        {(project.cardScope || detail.result) && (
+          <DetailRow label="구현 범위">
             {(project.thumbnailUrl || project.liveUrl) && (
               <Box sx={{
                 mb: 1.5, borderRadius: 1.5, overflow: 'hidden',
@@ -148,7 +145,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
                 )}
               </Box>
             )}
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{project.cardScope ?? detail.result}</Typography>
             {project.liveUrl && (
               <Box component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
                 sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
@@ -157,27 +154,13 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
             )}
           </DetailRow>
         )}
-        {detail.lesson && (
-          <DetailRow label="배운 점">
-            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.18)' }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
-            </Box>
-          </DetailRow>
-        )}
-        {detail.aiContribution && (
-          <DetailRow label="AI 도구 활용">
-            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)' }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
-            </Box>
-          </DetailRow>
-        )}
-        {detail.limitation && (
-          <DetailRow label="한계 및 개선점">
+
+        {/* 6. 한계와 다음 개선점 */}
+        <DetailRow label="한계와 다음 개선점">
+          {detail.limitation && (
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.limitation}</Typography>
-          </DetailRow>
-        )}
-        <DetailRow label="다음 단계">
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.nextStep}</Typography>
+          )}
+          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: detail.limitation ? 1 : 0 }}>{detail.nextStep}</Typography>
         </DetailRow>
       </DialogContent>
       <Divider />
@@ -211,7 +194,7 @@ const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.06)), ${gradient}` }}>
+  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}` }}>
     {thumbnailUrl ? (
       <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
         <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
@@ -226,7 +209,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
     {/* hover overlay */}
     <Box className="thumb-overlay" sx={{
       position: 'absolute', inset: 0,
-      background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.18) 100%)',
+      background: 'linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.12) 100%)',
       opacity: 0,
       transition: 'opacity 0.3s ease',
       pointerEvents: 'none',
@@ -245,6 +228,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
     ? cardRoleRaw
     : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
   const badge = HOME_BADGE;
+  const accent = project.accentColor ?? '#38BDF8';
 
   return (
   <RevealOnScroll delay={Math.min(idx % 3, 2) * 0.1} y={16} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -255,14 +239,14 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         minHeight: { md: 520 },
         bgcolor: '#111827',
         border: '1px solid rgba(148,163,184,0.14)',
-        borderTop: '2px solid rgba(56,189,248,0.35)',
+        borderTop: `2px solid ${accent}59`,
         transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease',
         '&:hover': {
           transform: 'translateY(-4px)',
           bgcolor: '#131C2E',
-          borderTopColor: 'primary.main',
-          borderColor: 'rgba(56,189,248,0.35)',
-          boxShadow: '0 16px 40px rgba(0,0,0,0.5), 0 0 20px rgba(56,189,248,0.08)',
+          borderTopColor: accent,
+          borderColor: `${accent}59`,
+          boxShadow: `0 16px 40px rgba(0,0,0,0.5), 0 0 20px ${accent}22`,
         },
         '&:hover .thumb-img': { transform: 'scale(1.05)' },
         '&:hover .thumb-overlay': { opacity: 1 },
@@ -311,7 +295,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         </Box>
 
         <Typography variant="body2"
-          sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          sx={{ color: 'text.primary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {cardProblem}
         </Typography>
 
@@ -342,23 +326,23 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         )}
 
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
-          <Button size="small" variant="outlined" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
+          <Button size="small" variant="contained" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
             sx={{
-              fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main',
-              borderColor: 'rgba(56,189,248,0.3)', fontWeight: 600,
+              fontSize: '0.875rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-              '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)', transform: 'translateY(-1px)' },
+              '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
             }}>
             작업 과정 보기
           </Button>
           {project.liveUrl && (
             <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-              size="small" variant="contained" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
+              size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
               aria-label={`${project.title} 화면 보기`}
               sx={{
-                fontSize: '0.875rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
+                fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main',
+                borderColor: 'rgba(56,189,248,0.3)', fontWeight: 600,
                 transition: 'transform 0.2s ease',
-                '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-1px)' },
+                '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)', transform: 'translateY(-1px)' },
               }}>
               화면 보기
             </Button>

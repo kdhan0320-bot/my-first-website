@@ -1,6 +1,6 @@
-# 김도한 | UX/UI 기반 웹디자인 포트폴리오
+# 김도한 | UX/UI · 웹퍼블리싱 포트폴리오
 
-사용자 흐름을 정리하고 실제 작동하는 웹서비스 화면으로 구현하는 것을 목표로 제작한 UX/UI 기반 웹디자인 포트폴리오입니다.
+사용자 흐름과 정보 구조를 정리하고, Figma 설계와 React/MUI 구현으로 연결하는 신입 UX/UI 웹디자이너·웹퍼블리셔 포트폴리오입니다.
 
 배포 주소: https://kdhan0320-bot.github.io/my-first-website/my-portfolio/
 
@@ -8,9 +8,9 @@
 
 ## 목표 직무
 
-- UX/UI 기반 웹디자이너
+- 신입 UX/UI 웹디자이너
 - 웹퍼블리셔 (HTML·CSS 기반 화면 구현)
-- React 기반 웹서비스 화면 구현
+- 서비스기획형 프론트엔드 주니어
 
 ---
 
@@ -21,21 +21,19 @@
 | Frontend | HTML, CSS, JavaScript |
 | Framework | React 18, MUI (Material UI v9) |
 | Design | Figma |
-| Backend / DB | Supabase |
-| Tool | GitHub, GitHub Pages |
-| Workflow | AI Tools (Claude, ChatGPT) |
+| Routing | React Router v7 |
+| Tool | GitHub, GitHub Pages, GitHub Actions |
+| Workflow | AI 도구(Claude 등)를 문장 정리·코드 점검·개선안 비교에 보조적으로 활용 |
 
 ---
 
-## 주요 기능
+## 페이지 구조
 
-- **다크모드 / 라이트모드 토글** — localStorage 저장, 시스템 테마 자동 감지, 깜빡임 방지
-- **스크롤 기반 네비게이션** — 현재 섹션 자동 감지 및 헤더 하이라이트
-- **스크롤 등장 애니메이션** — IntersectionObserver 기반 1회 실행, prefers-reduced-motion 대응
-- **방명록 (Guestbook)** — Supabase CRUD, 이모지 / 별점 / 키워드, 편집·삭제 토큰 인증
-- **프로젝트 목록** — Supabase 실시간 조회, 스켈레톤 로딩, 배포·GitHub 링크 연결
-- **반응형 레이아웃** — 360px ~ 1440px 전 구간 대응, 모바일 Drawer 메뉴
-- **읽기 진행률 바** — 스크롤 위치 기반 Navbar 상단 표시
+- `/` — Hero(Work Flow 보드), About(작업 방식 4카드), Projects(대표 프로젝트 3개 카드 + 상세 모달), Contact
+- `/about` — 기본 정보, 작업 방식 소개, Skills(기술 학습 적용도 카드)
+- `/projects` — 전체 프로젝트 목록(필터 탭 + 카드)
+
+프로젝트 데이터는 `src/data/projectsFallbackData.js`를 기본 소스로 사용하며, Supabase 연결이 가능한 경우에 한해 프로젝트 목록을 추가로 조회합니다(연결 실패 시 정적 데이터로 자동 대체).
 
 ---
 
@@ -44,15 +42,17 @@
 ```
 src/
 ├── components/
-│   ├── common/       CustomCursor, MorphingKeyword, RevealOnScroll, ThemeToggle
-│   ├── guestbook/    GuestbookCard, GuestbookForm
-│   ├── layout/       Navbar
-│   └── sections/     HeroSection, AboutSection, SkillTreeSection, ProjectsSection, ContactSection
-├── context/          PortfolioContext, ThemeModeContext
-├── hooks/            useCountUp, useInViewOnce, useScrollNav
-├── lib/              supabase, guestbookTokens
-├── pages/            HomePage, AboutPage, ProjectsPage
-└── theme.js          MUI 라이트/다크 테마 토큰 정의
+│   ├── hero/         FlowCanvasIllustration (Hero 우측 Work Flow 보드)
+│   ├── layout/        Navbar
+│   ├── projects/      ProjectThumbnailArt
+│   ├── sections/       HeroSection, AboutSection, ProjectsSection, ContactSection, SkillsSection
+│   └── ui/             RevealOnScroll, LogoSymbol
+├── context/            PortfolioContext (소개/Skills 데이터)
+├── data/                projectsFallbackData.js, projectsData.js
+├── hooks/               useCountUp, useInViewOnce, useScrollNav
+├── lib/                 supabase.js
+├── pages/               HomePage, AboutPage, ProjectsPage
+└── theme.js             MUI 다크 테마 토큰 정의
 ```
 
 ---
@@ -68,26 +68,15 @@ npm run dev
 
 # 프로덕션 빌드
 npm run build
-
-# GitHub Pages 배포
-npx gh-pages -d dist --dest my-portfolio -r https://github.com/kdhan0320-bot/my-first-website.git -b gh-pages
 ```
 
----
-
-## 개선 예정
-
-- 프로젝트 상세 케이스스터디 페이지 추가
-- 이력서 PDF 다운로드 링크 연결
-- Open Graph 이미지 설정
-- 기업 홈페이지 리뉴얼 프로젝트 추가
+배포는 저장소 루트의 GitHub Actions 워크플로(`.github/workflows/deploy.yml`)가 `main` 브랜치 push 시 자동으로 빌드해 GitHub Pages에 반영합니다.
 
 ---
 
-## 기술 스택 상세
+## 접근성 / 반응형
 
-- **React 18** + **Vite 5** — 컴포넌트 기반 화면 구성 및 빠른 빌드
-- **MUI v9** — 디자인 시스템 기반 UI 컴포넌트 및 테마 토큰
-- **React Router v7** — HashRouter 기반 SPA 라우팅 (GitHub Pages 호환)
-- **Supabase** — 프로젝트·방명록 데이터 실시간 조회 및 CRUD
-- **GitHub Actions** — Supabase 연결 유지 자동화 (Keep Alive)
+- heading 계층(h1 → h2 → h3) 유지
+- 터치 영역 44px 이상, 모바일 본문 14px 이상, line-height 1.6 이상
+- 장식용 SVG는 `aria-hidden`/`focusable="false"` 처리, `prefers-reduced-motion` 대응
+- 375px ~ 1440px 반응형 확인
