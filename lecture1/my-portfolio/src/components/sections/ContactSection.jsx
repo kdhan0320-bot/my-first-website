@@ -44,52 +44,48 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* CTA 카드 — 2열 레이아웃 */}
+        {/* CTA 카드 — 2열 레이아웃, 마지막 인상 섹션답게 위계를 명확히 강화 */}
         <RevealOnScroll delay={0.08}>
           <Box
             sx={{
               position: 'relative',
               overflow: 'hidden',
-              bgcolor: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(56,189,248,0.18)',
-              borderRadius: 3,
-              p: { xs: 3, md: 4 },
+              bgcolor: 'rgba(255,255,255,0.045)',
+              border: '1px solid rgba(56,189,248,0.22)',
+              borderLeft: '4px solid',
+              borderLeftColor: 'primary.main',
+              borderRadius: '0 12px 12px 0',
+              p: { xs: 3, md: 4.5 },
               mb: { xs: 4, md: 5 },
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
             }}
           >
-            {/* SVG 궤도 장식 */}
+            {/* Flow Stream 끝자락 — Hero/About과 이어지는 정적 glow, 무한 반복 없음 */}
             <Box
-              component="svg"
-              viewBox="0 0 400 200"
               aria-hidden="true"
               sx={{
+                display: { xs: 'none', md: 'block' },
                 position: 'absolute',
-                bottom: '-15%',
-                right: '-3%',
-                width: { xs: 160, md: 240 },
-                height: 'auto',
-                opacity: 0.04,
+                top: '-40%', right: '-10%',
+                width: 420, height: 420,
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, rgba(56,189,248,0.14) 0%, transparent 70%)',
+                filter: 'blur(50px)',
                 pointerEvents: 'none',
               }}
-            >
-              <ellipse cx="200" cy="100" rx="180" ry="80" fill="none" stroke="#38BDF8" strokeWidth="1.2" />
-              <ellipse cx="200" cy="100" rx="120" ry="55" fill="none" stroke="#7C3AED" strokeWidth="0.9" strokeDasharray="5 7" />
-              <circle cx="20" cy="100" r="3" fill="#38BDF8" opacity="0.6" />
-              <circle cx="380" cy="100" r="3" fill="#7C3AED" opacity="0.6" />
-            </Box>
+            />
 
-            <Grid container spacing={{ xs: 3, sm: 4 }} sx={{ alignItems: 'center' }}>
+            <Grid container spacing={{ xs: 3, sm: 4 }} sx={{ alignItems: 'center', position: 'relative' }}>
               {/* 왼쪽: 제목 + 설명 + 연락처 정보 */}
               <Grid size={{ xs: 12, sm: 6 }}>
-                <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '1.35rem', md: '1.55rem' }, mb: 1 }}>
+                <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '1.5rem', md: '1.75rem' }, mb: 1.25 }}>
                   함께 이야기해요
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 1 }}>
                   포트폴리오 검토, 피드백, 채용 관련 연락을 편하게 남겨주세요.
                 </Typography>
-                <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '0.9375rem', lineHeight: 1.7, mb: 2.5 }}>
+                <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.0625rem', lineHeight: 1.7, mb: 2.5 }}>
                   정리된 화면과 구현 가능한 구조로 이야기하겠습니다.
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -141,7 +137,7 @@ const ContactSection = () => {
                       fontWeight: 700,
                       whiteSpace: 'nowrap',
                       transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                      '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-2px)', boxShadow: '0 8px 20px rgba(37,99,235,0.3)' },
+                      '&:hover': { bgcolor: 'primary.dark', transform: 'translateY(-3px)', boxShadow: '0 10px 26px rgba(37,99,235,0.42)' },
                       '&:active': { transform: 'translateY(0)' },
                     }}
                   >
@@ -166,7 +162,7 @@ const ContactSection = () => {
                       fontWeight: 700,
                       whiteSpace: 'nowrap',
                       transition: 'transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease',
-                      '&:hover': { bgcolor: 'rgba(148,163,184,0.2)', borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-2px)' },
+                      '&:hover': { bgcolor: 'rgba(148,163,184,0.24)', borderColor: 'primary.main', color: 'primary.main', transform: 'translateY(-3px)', boxShadow: '0 10px 26px rgba(0,0,0,0.28)' },
                       '&:active': { transform: 'translateY(0)' },
                     }}
                   >
@@ -189,9 +185,9 @@ const ContactSection = () => {
             '&::before': {
               content: '""',
               position: 'absolute',
-              top: -1, left: '20%', right: '20%',
-              height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.44), transparent)',
+              top: -1, left: '10%', right: '10%',
+              height: '1.5px',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.6), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },

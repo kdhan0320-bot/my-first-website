@@ -44,19 +44,19 @@ const HeroSection = () => {
         },
       }}
     >
-      {/* Flow Stream — 은하수 대신 아주 옅은 대각선 라이트 리본, 18~24초 느린 drift */}
+      {/* Flow Stream — 은하수 대신 대각선 라이트 리본. 지금 화면에서 분명히 체감되도록 대비를 올림 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
-          top: '-10%', left: '-10%',
-          width: '140%', height: '70%',
-          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.1) 48%, rgba(129,140,248,0.08) 52%, transparent 70%)',
-          filter: 'blur(30px)',
+          top: '-14%', left: '-12%',
+          width: '145%', height: '78%',
+          background: 'linear-gradient(100deg, transparent 26%, rgba(56,189,248,0.16) 47%, rgba(129,140,248,0.13) 53%, transparent 74%)',
+          filter: 'blur(28px)',
           zIndex: 0,
           pointerEvents: 'none',
-          animation: 'flowStreamDrift 22s ease-in-out infinite',
+          animation: 'flowStreamDrift 24s ease-in-out infinite',
         }}
       />
 

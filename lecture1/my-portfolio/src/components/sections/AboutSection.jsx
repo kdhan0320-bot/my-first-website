@@ -57,30 +57,44 @@ const AboutSection = () => {
         pb: { xs: 3, md: 8 },
       }}
     >
-      {/* 배경이 비어 보이지 않도록 아주 약한 radial glow — Hero보다 절제된 톤 */}
+      {/* Hero의 Flow Stream이 이어지는 느낌의 정적 리본 — About 밖에서는 무한 반복 모션을 쓰지 않으므로 정지 상태로 배치 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '-18%', left: '-15%',
+          width: '130%', height: '55%',
+          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.09) 48%, rgba(129,140,248,0.07) 53%, transparent 72%)',
+          filter: 'blur(30px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* 배경이 비어 보이지 않도록 radial glow — 텍스트 가독성은 유지하는 선에서 체감되게 강화 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           top: '10%', right: '-6%',
-          width: 420, height: 420,
+          width: 460, height: 460,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.056) 0%, transparent 70%)',
-          filter: 'blur(60px)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%)',
+          filter: 'blur(64px)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
       />
-      {/* 카드 행 뒤 아주 약한 horizontal guide line — 4개 카드가 하나의 흐름임을 은은하게 표시 */}
+      {/* 카드 행 뒤 process line — 4개 카드가 하나의 흐름임을 표시, 체감되게 강화 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: 0, right: 0, bottom: '14%',
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.14) 50%, transparent 92%)',
+          height: '1.5px',
+          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.26) 50%, transparent 92%)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -164,7 +178,7 @@ const AboutSection = () => {
           <Grid container spacing={3} sx={{ position: 'relative', zIndex: 2 }}>
             {SKILL_CARDS.map((card, i) => (
               <Grid key={card.title} size={{ xs: 12, sm: 6, md: 3 }}>
-                <RevealOnScroll delay={0.1 + i * 0.06} y={16} sx={{ height: '100%' }}>
+                <RevealOnScroll delay={0.1 + i * 0.1} y={18} sx={{ height: '100%' }}>
                   <Box
                     sx={{
                       height: '100%',

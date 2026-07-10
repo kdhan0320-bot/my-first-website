@@ -26,7 +26,7 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 355, sm: 400, md: 450 },
+        maxWidth: { xs: 410, sm: 460, md: 520 },
         mx: 'auto',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.94)',
@@ -42,21 +42,29 @@ const FlowCanvasIllustration = () => {
       <Box
         sx={{
           position: 'relative',
-          width: { xs: 260, sm: 295, md: 330 },
-          height: { xs: 260, sm: 295, md: 330 },
+          width: { xs: 300, sm: 340, md: 380 },
+          height: { xs: 300, sm: 340, md: 380 },
           mx: 'auto',
         }}
       >
-        {/* orbit guide — 얇은 원형 라인 하나만 사용(과한 궤도 연출 지양) */}
+        {/* orbit guide — 라벨 4개 위치(상/우/하/좌)에 정확히 갭을 낸 SVG 링.
+            배경 마스크에 의존하지 않고 실제로 라인을 끊어 라벨 뒤에 선이 보이지 않게 한다. */}
         <Box
+          component="svg"
           aria-hidden="true"
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '50%',
-            border: '1px solid rgba(56,189,248,0.32)',
-          }}
-        />
+          viewBox="0 0 100 100"
+          sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' }}
+        >
+          <circle
+            cx="50" cy="50" r="49.3"
+            fill="none"
+            stroke="rgba(56,189,248,0.46)"
+            strokeWidth="0.55"
+            pathLength={400}
+            strokeDasharray="60 40"
+            strokeDashoffset="80"
+          />
+        </Box>
 
         {/* orbit 위를 도는 아주 약한 highlight — 16초 1회전, reduced-motion에서 제거 */}
         <Box
@@ -73,11 +81,11 @@ const FlowCanvasIllustration = () => {
               top: 0,
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: 9,
-              height: 9,
+              width: 10,
+              height: 10,
               borderRadius: '50%',
               bgcolor: '#BAE6FD',
-              boxShadow: '0 0 12px 2px rgba(186,230,253,0.65)',
+              boxShadow: '0 0 14px 3px rgba(186,230,253,0.75)',
               opacity: isVisible ? 0.9 : 0,
               transition: 'opacity 0.6s ease 0.9s',
             }}
@@ -91,10 +99,10 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: 168, md: 215 },
-            height: { xs: 168, md: 215 },
+            width: { xs: 195, md: 250 },
+            height: { xs: 195, md: 250 },
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.35) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.46) 0%, transparent 70%)',
             filter: 'blur(20px)',
             animation: 'spotlightBreathe 16s ease-in-out infinite',
           }}
@@ -106,20 +114,20 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: 90, sm: 104, md: 118 },
-            height: { xs: 90, sm: 104, md: 118 },
+            width: { xs: 104, sm: 120, md: 136 },
+            height: { xs: 104, sm: 120, md: 136 },
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'linear-gradient(160deg, rgba(30,58,95,0.9) 0%, rgba(11,16,32,0.9) 100%)',
-            border: '1px solid rgba(56,189,248,0.54)',
-            boxShadow: '0 0 40px rgba(56,189,248,0.36), inset 0 0 22px rgba(56,189,248,0.16)',
+            border: '1px solid rgba(56,189,248,0.66)',
+            boxShadow: '0 0 48px rgba(56,189,248,0.48), inset 0 0 24px rgba(56,189,248,0.22)',
             opacity: isVisible ? 1 : 0,
             transition: 'opacity 0.6s ease 0.15s',
           }}
         >
-          <LogoSymbol size={48} />
+          <LogoSymbol size={56} />
         </Box>
 
         {/* 코어 주변 라벨 4개 — AI Assist는 마지막 보조 라벨 */}

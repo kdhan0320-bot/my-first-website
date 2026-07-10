@@ -394,6 +394,22 @@ const ProjectsSection = () => {
         pb: { xs: 4, md: 6 },
       }}
     >
+      {/* Flow Stream이 이어지는 아주 옅은 blueprint grid — 카드 가독성을 해치지 않는 선에서만 배치, 은하처럼 보이지 않게 절제 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.06) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+          maskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
+        }}
+      />
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         <RevealOnScroll>
@@ -424,6 +440,16 @@ const ProjectsSection = () => {
         </RevealOnScroll>
 
         <ProjectsPreviewMonitor />
+
+        {/* Preview(미리보기)와 아래 상세 카드 영역을 시각적으로 구분 */}
+        <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
+          <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.0625rem' }}>
+            상세 프로젝트 카드
+          </Typography>
+          <Typography sx={{ mt: 0.5, color: 'text.secondary', fontSize: '0.9375rem', lineHeight: 1.6 }}>
+            각 프로젝트의 문제 정의부터 구현 범위, 한계까지 자세히 정리했습니다.
+          </Typography>
+        </Box>
 
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } }}>
           {projects.map((project, idx) => (
