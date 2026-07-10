@@ -38,7 +38,7 @@ const fromSupabase = (row) => ({
 /* ── 상세 모달 ── */
 const DetailRow = ({ label, children }) => (
   <Box sx={{ mb: 2 }}>
-    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
       {label}
     </Typography>
     {children}
@@ -55,7 +55,7 @@ const DetailModal = ({ project, open, onClose }) => {
       <DialogTitle id="ppage-detail-title"
         sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
         <Box>
-          <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {project.categoryLabel}
           </Typography>
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
@@ -262,17 +262,17 @@ const ProjectCard = ({ project, onDetail }) => {
         <Typography variant="caption"
           component="span"
           sx={{
-            display: 'inline-block', color: 'text.secondary', fontWeight: 700, fontSize: '0.8125rem',
+            display: 'inline-block', color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem',
             letterSpacing: '0.06em', textTransform: 'uppercase', mb: 0.75,
             px: 1, py: 0.25, borderRadius: 999,
             bgcolor: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.22)',
           }}>
           {project.categoryLabel}
           {project.isPlaceholder && (
-            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.8125rem' }}>({project.archiveStatus ?? 'Figma 준비 중'})</Box>
+            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.875rem' }}>({project.archiveStatus ?? 'Figma 준비 중'})</Box>
           )}
           {!project.isPlaceholder && project.archiveStatus && (
-            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.8125rem' }}>({project.archiveStatus})</Box>
+            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.875rem' }}>({project.archiveStatus})</Box>
           )}
         </Typography>
         <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>{project.title}</Typography>

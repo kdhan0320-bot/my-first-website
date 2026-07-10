@@ -1,5 +1,5 @@
 import {
-  Box, Container, Typography, Grid, Button,
+  Box, Container, Typography, Grid, Button, Stack,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -174,7 +174,7 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* Footer — 왼쪽 브랜드 / 가운데 한 줄 문장 / 오른쪽 저작권. 이메일·GitHub·소개는 위 CTA 카드·nav와 중복되어 제거 */}
+        {/* Footer — 링크 없이 Dohan.K 브랜드 마감. Contact 카드와 내용 중복 없음 */}
         <Box
           component="footer"
           sx={{
@@ -191,18 +191,37 @@ const ContactSection = () => {
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: 'center',
+            alignItems: { xs: 'center', sm: 'flex-end' },
             justifyContent: 'space-between',
-            gap: 1,
+            gap: 1.5,
             textAlign: { xs: 'center', sm: 'left' },
           }}
         >
-          <Typography sx={{ color: 'text.primary', fontSize: '1.0625rem', fontWeight: 800, letterSpacing: '-0.01em' }}>
-            Dohan.K
-          </Typography>
-          <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', textAlign: 'center' }}>
-            정보를 정리하고 화면으로 구현합니다.
-          </Typography>
+          {/* 왼쪽: 브랜드 블록 — 아주 약한 glow로 마무리 존재감만 보강 */}
+          <Box sx={{ position: 'relative' }}>
+            <Box
+              aria-hidden="true"
+              sx={{
+                position: 'absolute',
+                top: '50%', left: { xs: '50%', sm: 0 },
+                transform: { xs: 'translate(-50%, -50%)', sm: 'translateY(-50%)' },
+                width: 140, height: 60,
+                background: 'radial-gradient(ellipse, rgba(56,189,248,0.16) 0%, transparent 72%)',
+                filter: 'blur(18px)',
+                pointerEvents: 'none',
+              }}
+            />
+            <Stack direction="row" alignItems="center" spacing={0.75} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main' }} />
+              <Typography sx={{ color: 'text.primary', fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.01em' }}>
+                Dohan.K
+              </Typography>
+            </Stack>
+            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.25 }}>
+              Design to Web Interface
+            </Typography>
+          </Box>
+
           <Typography sx={{ color: 'text.disabled', fontSize: '0.875rem', whiteSpace: 'nowrap' }}>
             © 2026 Kim Dohan
           </Typography>

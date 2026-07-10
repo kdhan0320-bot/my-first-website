@@ -3,19 +3,19 @@ import useInViewOnce from '../../hooks/useInViewOnce';
 import LogoSymbol from '../ui/LogoSymbol';
 
 /* Flow Core — FEConf식 "하나의 중심 오브젝트" 표현. 행성/궤도 이미지를 직접 쓰지 않고
- * 작업 방식(Figma/React·MUI/Responsive QA/AI Assist)을 원형 코어 주변 라벨로 추상화했다. */
+ * 핵심 작업 축(Figma/React·MUI/Responsive QA)만 원형 코어 주변 3개 라벨로 추상화했다.
+ * AI Assist 라벨은 과강조로 지적되어 제거 — AI 언급은 Hero 설명 문장 1회로 충분하다. */
 const CORE_LABELS = [
   { label: 'Figma',          accent: '#F97316', pos: 'top' },
   { label: 'React/MUI',      accent: '#38BDF8', pos: 'right' },
-  { label: 'Responsive QA',  accent: '#A7F3D0', pos: 'bottom' },
-  { label: 'AI Assist',      accent: '#94A3B8', pos: 'left', muted: true },
+  { label: 'Responsive QA',  accent: '#A7F3D0', pos: 'left' },
 ];
 
+/* 원의 중심(50%,50%)에서 반지름 49.3%인 3개 지점 — 12시/4시/8시 방향(120도 간격) */
 const POS_SX = {
-  top:    { top: 0,      left: '50%', transform: 'translate(-50%, -50%)' },
-  right:  { top: '50%',  right: 0,    transform: 'translate(50%, -50%)' },
-  bottom: { bottom: 0,   left: '50%', transform: 'translate(-50%, 50%)' },
-  left:   { top: '50%',  left: 0,     transform: 'translate(-50%, -50%)' },
+  top:   { top: '0.7%',  left: '50%',   transform: 'translate(-50%, -50%)' },
+  right: { top: '74.6%', left: '92.7%', transform: 'translate(-50%, -50%)' },
+  left:  { top: '74.6%', left: '7.3%',  transform: 'translate(-50%, -50%)' },
 };
 
 const FlowCanvasIllustration = () => {
@@ -47,7 +47,7 @@ const FlowCanvasIllustration = () => {
           mx: 'auto',
         }}
       >
-        {/* orbit guide — 라벨 4개 위치(상/우/하/좌)에 정확히 갭을 낸 SVG 링.
+        {/* orbit guide — 라벨 3개 위치(12시/4시/8시, 120도 간격)에 정확히 갭을 낸 SVG 링.
             배경 마스크에 의존하지 않고 실제로 라인을 끊어 라벨 뒤에 선이 보이지 않게 한다. */}
         <Box
           component="svg"
@@ -61,8 +61,8 @@ const FlowCanvasIllustration = () => {
             stroke="rgba(56,189,248,0.46)"
             strokeWidth="0.55"
             pathLength={400}
-            strokeDasharray="60 40"
-            strokeDashoffset="80"
+            strokeDasharray="80 53.333"
+            strokeDashoffset="73.333"
           />
         </Box>
 
@@ -127,10 +127,10 @@ const FlowCanvasIllustration = () => {
             transition: 'opacity 0.6s ease 0.15s',
           }}
         >
-          <LogoSymbol size={56} />
+          <LogoSymbol size={60} />
         </Box>
 
-        {/* 코어 주변 라벨 4개 — AI Assist는 보조 도구이므로 시각적으로 가장 약하게 표시 */}
+        {/* 코어 주변 핵심 작업 축 3개 */}
         {CORE_LABELS.map((item, i) => (
           <Box
             key={item.label}
@@ -140,18 +140,18 @@ const FlowCanvasIllustration = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 0.75,
-              px: item.muted ? 1 : 1.25,
-              py: item.muted ? 0.45 : 0.6,
+              px: 1.25,
+              py: 0.6,
               borderRadius: 999,
-              border: `1px solid rgba(148,163,184,${item.muted ? 0.16 : 0.24})`,
+              border: '1px solid rgba(148,163,184,0.24)',
               bgcolor: 'rgba(13,19,33,0.96)',
               whiteSpace: 'nowrap',
-              opacity: isVisible ? (item.muted ? 0.55 : 1) : 0,
+              opacity: isVisible ? 1 : 0,
               transition: `opacity 0.5s ease ${0.15 + i * 0.15}s`,
             }}
           >
-            <Box sx={{ width: item.muted ? 5 : 6, height: item.muted ? 5 : 6, borderRadius: '50%', bgcolor: item.accent, flexShrink: 0 }} />
-            <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: item.muted ? 'text.disabled' : 'text.secondary', letterSpacing: '0.02em' }}>
+            <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: item.accent, flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em' }}>
               {item.label}
             </Typography>
           </Box>

@@ -51,7 +51,7 @@ const fromSupabase = (row) => ({
 /* ── View Detail 모달 ── */
 const DetailRow = ({ label, children }) => (
   <Box sx={{ mb: 2 }}>
-    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
+    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
       {label}
     </Typography>
     {children}
@@ -68,7 +68,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
       <DialogTitle id="project-detail-title"
         sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
         <Box>
-          <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {project.categoryLabel}
           </Typography>
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
@@ -195,12 +195,12 @@ const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}` }}>
+  <Box sx={{ position: 'relative', height: { xs: 190, sm: 220, md: 250 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}` }}>
     {thumbnailUrl ? (
       <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
         <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
           onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
+          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '4px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
       </Box>
     ) : hasThumbnailArt(projectId) ? (
       <ProjectThumbnailArt projectId={projectId} />
@@ -224,7 +224,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={{
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
-        minHeight: { md: 420 },
+        minHeight: { md: 430 },
         bgcolor: '#111827',
         border: '1px solid rgba(148,163,184,0.14)',
         borderTop: `2px solid ${accent}59`,
@@ -272,14 +272,14 @@ const ProjectCard = ({ project, idx, onDetail }) => {
           <Typography variant="caption"
             component="span"
             sx={{
-              display: 'inline-block', color: 'text.secondary', fontWeight: 700, fontSize: '0.8125rem',
+              display: 'inline-block', color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem',
               letterSpacing: '0.06em', textTransform: 'uppercase', mb: 0.75,
               px: 1, py: 0.25, borderRadius: 999,
               bgcolor: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.22)',
             }}>
             {project.categoryLabel}
             {project.isPlaceholder && (
-              <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.8125rem' }}>(준비 중)</Box>
+              <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.875rem' }}>(준비 중)</Box>
             )}
           </Typography>
           <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>
@@ -419,7 +419,7 @@ const ProjectsSection = () => {
         {/* Preview는 대표 프로젝트 쇼케이스, List는 각 프로젝트 상세(모달)로 들어가는 진입 카드 — 역할을 분리해 중복을 없앤다 */}
         <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
           <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.0625rem', letterSpacing: '0.04em' }}>
-            PROJECT LIST
+            SELECTED WORKS
           </Typography>
           <Typography sx={{ mt: 0.5, color: 'text.secondary', fontSize: '0.9375rem', lineHeight: 1.6 }}>
             카드를 눌러 문제 정의, 구현 범위, 한계까지 자세한 내용을 확인할 수 있습니다.

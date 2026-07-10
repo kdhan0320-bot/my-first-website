@@ -6,39 +6,19 @@ import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import RevealOnScroll from '../ui/RevealOnScroll';
 
 /* Home용 About Snapshot — /about 페이지의 핵심만 축약해 Home 한 화면 흐름 안에서 보여준다 */
-const APPLICATION_FOCUS = [
-  '신입 UX/UI 웹디자이너',
-  '웹퍼블리셔',
-  '서비스기획형 프론트엔드 주니어',
-  'AI 활용 UX/UI 포트폴리오',
-  'B2B/업무툴 UI 구현형 주니어',
-];
+const APPLICATION_FOCUS = ['UX/UI', 'Web Publishing', 'React/MUI', 'Responsive QA'];
 
-const TOOL_CHIPS = ['Figma', 'React/MUI', 'HTML/CSS/JavaScript', 'GitHub', 'Supabase', 'AI Tools'];
+const TOOL_LINE = 'Figma · React/MUI · HTML/CSS/JavaScript · GitHub · Supabase · AI Tools';
 
-const ChipRow = ({ label, items }) => (
-  <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
+const InlineRow = ({ label, children }) => (
+  <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 1, mt: 1.75 }}>
     <Typography
       variant="caption"
-      sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', mb: 1.25 }}
+      sx={{ color: 'text.disabled', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}
     >
       {label}
     </Typography>
-    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-      {items.map((item) => (
-        <Box
-          key={item}
-          sx={{
-            px: 1.25, py: 0.5, borderRadius: 999,
-            bgcolor: 'rgba(148,163,184,0.08)', border: '1px solid rgba(148,163,184,0.2)',
-          }}
-        >
-          <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', fontWeight: 600, whiteSpace: 'nowrap' }}>
-            {item}
-          </Typography>
-        </Box>
-      ))}
-    </Box>
+    {children}
   </Box>
 );
 
@@ -151,10 +131,10 @@ const AboutSection = () => {
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               }}
             >
-              01 ABOUT / WORKING STANDARD
+              01 ABOUT / WORKFLOW
             </Typography>
             <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
-              정리하고, 설계하고, 구현하는 방식
+              정리하고, 설계하고, 구현하는 사람
             </Typography>
           </Box>
         </RevealOnScroll>
@@ -175,24 +155,38 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              화려한 그래픽보다 사용자가 화면을 이해하는 순서와 실제 구현 가능한 구조를 먼저 정리합니다. Figma에서 흐름과 컴포넌트를 잡고, React/MUI 기반으로 반응형 화면을 구현하며, 구현하지 않은 기능과 프로젝트 한계는 명확히 구분합니다.
+              저는 화려한 그래픽보다 사용자가 화면을 이해하는 순서와 실제 구현 가능한 구조를 먼저 정리합니다. Figma에서 흐름과 컴포넌트를 잡고, React/MUI 기반으로 반응형 화면을 구현하며, 구현하지 않은 기능과 프로젝트 한계는 명확히 구분합니다.
             </Typography>
 
-            <ChipRow label="지원 방향" items={APPLICATION_FOCUS} />
-            <ChipRow label="사용 도구" items={TOOL_CHIPS} />
+            <InlineRow label="지원 방향">
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+                {APPLICATION_FOCUS.map((item) => (
+                  <Box
+                    key={item}
+                    sx={{
+                      px: 1.1, py: 0.4, borderRadius: 999,
+                      bgcolor: 'rgba(148,163,184,0.08)', border: '1px solid rgba(148,163,184,0.2)',
+                    }}
+                  >
+                    <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                      {item}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
+            </InlineRow>
 
-            {/* 현재 한계 — /about 페이지의 3줄 목록을 한 줄로 축약 */}
-            <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
-              <Typography
-                variant="caption"
-                sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', mb: 1 }}
-              >
-                현재 한계
+            <InlineRow label="사용 도구">
+              <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', lineHeight: 1.6 }}>
+                {TOOL_LINE}
               </Typography>
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.875rem' }}>
-                실제 사용자 테스트와 정량 성과 데이터는 아직 부족하며, 반응형·접근성·설명력을 계속 보완하고 있습니다.
+            </InlineRow>
+
+            <InlineRow label="현재 한계">
+              <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', lineHeight: 1.6 }}>
+                실제 사용자 테스트와 정량 성과 데이터는 아직 부족합니다.
               </Typography>
-            </Box>
+            </InlineRow>
           </Box>
         </RevealOnScroll>
 

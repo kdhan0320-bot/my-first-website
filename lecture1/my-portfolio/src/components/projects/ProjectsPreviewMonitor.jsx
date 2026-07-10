@@ -78,7 +78,7 @@ const ProjectsPreviewMonitor = () => {
               <Typography
                 component="span"
                 sx={{
-                  display: 'inline-block', fontSize: '0.8125rem', fontWeight: 700, color: 'text.primary',
+                  display: 'inline-block', fontSize: '0.875rem', fontWeight: 700, color: 'text.primary',
                   letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1.25,
                   px: 1, py: 0.25, borderRadius: 999,
                   bgcolor: `${accent}22`, border: `1px solid ${accent}55`,
@@ -112,7 +112,7 @@ const ProjectsPreviewMonitor = () => {
                   <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#94A3B8', opacity: 0.4 }} />
                 </Box>
                 <Stack direction="row" alignItems="center" spacing={0.25}>
-                  <Typography sx={{ fontSize: '0.8125rem', fontWeight: 700, color: 'text.disabled', mr: 0.5, fontVariantNumeric: 'tabular-nums' }}>
+                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.disabled', mr: 0.5, fontVariantNumeric: 'tabular-nums' }}>
                     {String(activeIndex + 1).padStart(2, '0')} / {String(PREVIEW_PROJECTS.length).padStart(2, '0')}
                   </Typography>
                   <Box
