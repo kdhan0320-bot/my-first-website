@@ -1,15 +1,22 @@
-import { Box, Typography, Stack } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import useInViewOnce from '../../hooks/useInViewOnce';
-import { scrollToSection } from '../../hooks/useScrollNav';
-import { ALL_PROJECTS } from '../../data/projectsData';
+import LogoSymbol from '../ui/LogoSymbol';
 
-/* Portfolio Preview Monitor — Projects 섹션과 동일한 대표 프로젝트 소스를 재사용해 정합성 유지 */
-const PREVIEW_PROJECTS = [...ALL_PROJECTS]
-  .filter((p) => p.is_featured)
-  .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99))
-  .slice(0, 3);
+/* Flow Core — FEConf식 "하나의 중심 오브젝트" 표현. 행성/궤도 이미지를 직접 쓰지 않고
+ * 작업 방식(Figma/React·MUI/Responsive QA/AI Assist)을 원형 코어 주변 라벨로 추상화했다. */
+const CORE_LABELS = [
+  { label: 'Figma',          accent: '#F97316', pos: 'top' },
+  { label: 'React/MUI',      accent: '#38BDF8', pos: 'right' },
+  { label: 'Responsive QA',  accent: '#A7F3D0', pos: 'bottom' },
+  { label: 'AI Assist',      accent: '#94A3B8', pos: 'left', muted: true },
+];
 
-const WORKFLOW_STEPS = ['Figma', 'React/MUI', 'Responsive QA', 'AI Assist'];
+const POS_SX = {
+  top:    { top: 0,      left: '50%', transform: 'translate(-50%, -50%)' },
+  right:  { top: '50%',  right: 0,    transform: 'translate(50%, -50%)' },
+  bottom: { bottom: 0,   left: '50%', transform: 'translate(-50%, 50%)' },
+  left:   { top: '50%',  left: 0,     transform: 'translate(-50%, -50%)' },
+};
 
 const FlowCanvasIllustration = () => {
   const [ref, isVisible] = useInViewOnce(0.3);
@@ -19,36 +26,133 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 340, sm: 420, md: 700 },
+        maxWidth: { xs: 300, sm: 340, md: 380 },
         mx: 'auto',
-        p: { xs: 2.5, sm: 3, md: 3.5 },
-        borderRadius: 4,
-        border: '1px solid rgba(56,189,248,0.16)',
-        background: 'linear-gradient(180deg, rgba(19,28,46,0.6) 0%, rgba(11,16,32,0.42) 100%)',
-        backdropFilter: 'blur(18px)',
-        boxShadow: '0 24px 60px rgba(2,6,23,0.35)',
         opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'scale(1)' : 'scale(0.96)',
+        transform: isVisible ? 'scale(1)' : 'scale(0.94)',
         transition: 'opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22,1,0.36,1)',
         /* Hero 한정 ambient motion — 느리고 약함, prefers-reduced-motion에서는 HeroSection 루트 규칙으로 제거됨 */
-        '@keyframes workflowHighlightSweep': {
-          '0%':   { left: '-12%' },
-          '100%': { left: '104%' },
-        },
-        '@keyframes stripBorderShimmer': {
-          '0%, 100%': { borderTopColor: 'rgba(148,163,184,0.14)' },
-          '50%':      { borderTopColor: 'rgba(56,189,248,0.34)' },
+        '@keyframes coreOrbitSpin': {
+          from: { transform: 'rotate(0deg)' },
+          to:   { transform: 'rotate(360deg)' },
         },
       }}
     >
-      {/* 모니터 chrome bar — 완료된 화면 은유 */}
-      <Box aria-hidden="true" sx={{ display: 'flex', gap: 0.75, mb: 2 }}>
-        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#A7F3D0', opacity: 0.8 }} />
-        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#94A3B8', opacity: 0.4 }} />
-        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#94A3B8', opacity: 0.4 }} />
+      {/* 원형 코어 + orbit 라벨 영역 */}
+      <Box
+        sx={{
+          position: 'relative',
+          width: { xs: 220, sm: 250, md: 280 },
+          height: { xs: 220, sm: 250, md: 280 },
+          mx: 'auto',
+        }}
+      >
+        {/* orbit guide — 얇은 원형 라인 하나만 사용(과한 궤도 연출 지양) */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            border: '1px solid rgba(56,189,248,0.22)',
+          }}
+        />
+
+        {/* orbit 위를 도는 아주 약한 highlight — 16초 1회전, reduced-motion에서 제거 */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            animation: isVisible ? 'coreOrbitSpin 16s linear infinite' : 'none',
+          }}
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              bgcolor: '#BAE6FD',
+              boxShadow: '0 0 10px 2px rgba(186,230,253,0.55)',
+              opacity: isVisible ? 0.9 : 0,
+              transition: 'opacity 0.6s ease 0.9s',
+            }}
+          />
+        </Box>
+
+        {/* 코어 뒤 은은한 glow — spotlightBreathe는 HeroSection에서 전역 등록된 keyframe 재사용 */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            position: 'absolute',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: { xs: 140, md: 180 },
+            height: { xs: 140, md: 180 },
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.28) 0%, transparent 70%)',
+            filter: 'blur(20px)',
+            animation: 'spotlightBreathe 16s ease-in-out infinite',
+          }}
+        />
+
+        {/* 코어 — 개인 브랜드 마크를 중심 오브젝트로 사용 */}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: { xs: 76, sm: 88, md: 100 },
+            height: { xs: 76, sm: 88, md: 100 },
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'linear-gradient(160deg, rgba(30,58,95,0.9) 0%, rgba(11,16,32,0.9) 100%)',
+            border: '1px solid rgba(56,189,248,0.4)',
+            boxShadow: '0 0 32px rgba(56,189,248,0.25), inset 0 0 20px rgba(56,189,248,0.1)',
+            opacity: isVisible ? 1 : 0,
+            transition: 'opacity 0.6s ease 0.15s',
+          }}
+        >
+          <LogoSymbol size={40} />
+        </Box>
+
+        {/* 코어 주변 라벨 4개 — AI Assist는 마지막 보조 라벨 */}
+        {CORE_LABELS.map((item, i) => (
+          <Box
+            key={item.label}
+            sx={{
+              position: 'absolute',
+              ...POS_SX[item.pos],
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 0.75,
+              px: 1.25,
+              py: 0.6,
+              borderRadius: 999,
+              border: '1px solid rgba(148,163,184,0.18)',
+              bgcolor: 'rgba(15,23,42,0.72)',
+              backdropFilter: 'blur(6px)',
+              whiteSpace: 'nowrap',
+              opacity: isVisible ? (item.muted ? 0.75 : 1) : 0,
+              transition: `opacity 0.5s ease ${0.15 + i * 0.15}s`,
+            }}
+          >
+            <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: item.accent, flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em' }}>
+              {item.label}
+            </Typography>
+          </Box>
+        ))}
       </Box>
 
-      <Box sx={{ mb: 2, textAlign: { xs: 'center', md: 'left' } }}>
+      {/* 하단 캡션 */}
+      <Box sx={{ mt: 3, textAlign: 'center' }}>
         <Typography
           sx={{
             color: 'text.disabled',
@@ -58,144 +162,11 @@ const FlowCanvasIllustration = () => {
             textTransform: 'uppercase',
           }}
         >
-          Portfolio Preview
+          Flow Core
         </Typography>
-        <Typography
-          sx={{
-            color: 'text.disabled',
-            fontSize: '0.875rem',
-            mt: 0.25,
-          }}
-        >
-          대표 프로젝트 미리보기
+        <Typography sx={{ color: 'text.disabled', fontSize: '0.875rem', mt: 0.25 }}>
+          Figma · React/MUI · Responsive QA를 오가는 작업 흐름
         </Typography>
-      </Box>
-
-      {/* 대표 프로젝트 3개 미니 카드 — 실제 작업물, 순차 등장 */}
-      <Stack component="ul" sx={{ listStyle: 'none', p: 0, m: 0, gap: 1.25, display: 'flex', flexDirection: 'column' }}>
-        {PREVIEW_PROJECTS.map((project, i) => {
-          const accent = project.accentColor ?? '#38BDF8';
-          const delay = 0.15 + i * 0.15;
-          return (
-            <Box
-              component="li"
-              key={project.id}
-              sx={{
-                opacity: isVisible ? 1 : 0,
-                transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
-                transition: `opacity 0.5s ease ${delay}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
-              }}
-            >
-              <Box
-                component="button"
-                type="button"
-                onClick={() => scrollToSection('projects')}
-                aria-label={`${project.title} 프로젝트로 이동`}
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 0.5,
-                  p: 1.5,
-                  bgcolor: 'rgba(15,23,42,0.4)',
-                  border: '1px solid rgba(148,163,184,0.16)',
-                  borderLeft: `2px solid ${accent}`,
-                  borderRadius: 2,
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  font: 'inherit',
-                  color: 'inherit',
-                  transition: 'transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
-                  '&:hover': {
-                    transform: 'translateX(2px)',
-                    borderColor: `${accent}80`,
-                    bgcolor: 'rgba(15,23,42,0.6)',
-                  },
-                  '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
-                }}
-              >
-                <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
-                  <Typography sx={{ fontWeight: 700, fontSize: '0.9375rem', color: 'text.primary' }}>
-                    {project.title}
-                  </Typography>
-                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: accent, whiteSpace: 'nowrap', flexShrink: 0 }}>
-                    {project.categoryLabel}
-                  </Typography>
-                </Stack>
-                <Typography
-                  sx={{
-                    fontSize: '0.875rem',
-                    color: 'text.secondary',
-                    lineHeight: 1.55,
-                    display: '-webkit-box',
-                    WebkitLineClamp: { xs: 1, md: 2 },
-                    WebkitBoxOrient: 'vertical',
-                    overflow: 'hidden',
-                  }}
-                >
-                  {project.description}
-                </Typography>
-              </Box>
-            </Box>
-          );
-        })}
-      </Stack>
-
-      {/* workflow 라벨 스트립 — AI Assist는 마지막 보조 라벨, highlight가 14~18초 주기로 천천히 이동 */}
-      <Box
-        sx={{
-          position: 'relative',
-          overflow: 'hidden',
-          mt: 2.5,
-          pt: 2,
-          borderTopWidth: '1px',
-          borderTopStyle: 'solid',
-          borderTopColor: 'rgba(148,163,184,0.14)',
-          animation: isVisible ? 'stripBorderShimmer 12s ease-in-out infinite' : 'none',
-        }}
-      >
-        <Box
-          aria-hidden="true"
-          sx={{
-            display: isVisible ? 'block' : 'none',
-            position: 'absolute',
-            top: 0,
-            width: '16%',
-            height: '1px',
-            background: 'linear-gradient(90deg, transparent, rgba(186,230,253,0.9), transparent)',
-            animation: 'workflowHighlightSweep 16s linear infinite',
-          }}
-        />
-        <Stack
-          direction="row"
-          alignItems="center"
-          sx={{ flexWrap: 'wrap', rowGap: 0.75, columnGap: 0.75, justifyContent: { xs: 'center', md: 'flex-start' } }}
-        >
-          {WORKFLOW_STEPS.map((label, i) => {
-            const isLast = i === WORKFLOW_STEPS.length - 1;
-            return (
-              <Box key={label} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75 }}>
-                <Typography
-                  sx={{
-                    fontSize: '0.875rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.02em',
-                    color: isLast ? 'text.disabled' : 'text.secondary',
-                    opacity: isLast ? 0.75 : 1,
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {label}
-                </Typography>
-                {!isLast && (
-                  <Typography aria-hidden="true" sx={{ fontSize: '0.875rem', color: 'text.disabled', opacity: 0.6 }}>
-                    →
-                  </Typography>
-                )}
-              </Box>
-            );
-          })}
-        </Stack>
       </Box>
     </Box>
   );

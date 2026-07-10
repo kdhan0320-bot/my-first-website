@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../projects/ProjectThumbnailArt';
+import ProjectsPreviewMonitor from '../projects/ProjectsPreviewMonitor';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
 
@@ -421,6 +422,8 @@ const ProjectsSection = () => {
             </Typography>
           </Box>
         </RevealOnScroll>
+
+        <ProjectsPreviewMonitor />
 
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } }}>
           {projects.map((project, idx) => (

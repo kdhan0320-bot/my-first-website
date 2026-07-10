@@ -90,25 +90,25 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Portfolio Preview 모니터 뒤 spotlight — 중심 오브젝트로 시선 집중 */}
+      {/* Flow Core 중심 오브젝트 뒤 은은한 room spotlight — 오브젝트 자체 glow와 별개로 넓은 분위기광만 담당 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
-          top: '40%', right: '2%',
-          width: 520, height: 520,
+          top: '42%', right: '10%',
+          width: 360, height: 360,
           transform: 'translateY(-50%)',
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 70%)',
-          filter: 'blur(46px)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%)',
+          filter: 'blur(40px)',
           zIndex: 0,
           pointerEvents: 'none',
           animation: 'spotlightBreathe 16s ease-in-out infinite',
         }}
       />
 
-      {/* guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 Portfolio Preview 모니터로 시선 유도 */}
+      {/* guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 Flow Core로 시선 유도 */}
       <Box
         aria-hidden="true"
         sx={{
@@ -157,7 +157,7 @@ const HeroSection = () => {
         <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: 'center' }}>
 
           {/* 왼쪽: 텍스트 */}
-          <Grid size={{ xs: 12, md: 5.5 }} sx={{ minWidth: 0 }}>
+          <Grid size={{ xs: 12, md: 6.5 }} sx={{ minWidth: 0 }}>
             <Box
               sx={{
                 textAlign: { xs: 'center', md: 'left' },
@@ -192,13 +192,12 @@ const HeroSection = () => {
                   animation: 'fadeInUp 0.6s ease 0.08s both',
                 }}
               >
-                사용자 흐름을 정리하고,
+                흩어진 흐름을 정리해,
                 <Box component="span" sx={{ display: 'block' }}>
-                  화면{' '}
                   <Box component="span" sx={{ color: 'primary.main' }}>
-                    설계
+                    구현 가능한
                   </Box>
-                  와 웹 구현까지 연결합니다.
+                  {' '}화면으로 연결합니다.
                 </Box>
               </Typography>
 
@@ -215,7 +214,7 @@ const HeroSection = () => {
                   animation: 'fadeInUp 0.6s ease 0.2s both',
                 }}
               >
-                Figma로 정보 구조와 화면 흐름을 설계하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교를 돕는 보조 도구로 활용했습니다.
+                Figma로 화면 흐름과 정보 구조를 정리하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교를 돕는 보조 도구로 활용했습니다.
               </Typography>
 
               <Stack
@@ -341,7 +340,7 @@ const HeroSection = () => {
           </Grid>
 
           {/* 오른쪽: Flow Canvas Illustration — 모바일에서는 축소되어 텍스트 아래에 노출 */}
-          <Grid size={{ xs: 12, md: 6.5 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
+          <Grid size={{ xs: 12, md: 5.5 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
             <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
               <FlowCanvasIllustration />
             </Box>
