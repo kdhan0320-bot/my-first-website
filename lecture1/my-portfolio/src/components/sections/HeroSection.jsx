@@ -30,6 +30,12 @@ const HeroSection = () => {
           from: { opacity: 0, transform: 'translateY(16px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
         },
+        /* CTA 버튼 각각에 직접 적용하는 진입 모션 — Stack(부모)에만 걸면 버튼 자체의 computed style에는
+           반영되지 않아 "entry motion 없음"으로 보일 수 있어 각 버튼에 개별 적용한다 */
+        '@keyframes ctaFadeInUp': {
+          from: { opacity: 0, transform: 'translateY(12px)' },
+          to:   { opacity: 1, transform: 'translateY(0)' },
+        },
         /* Hero 한정 ambient motion — 아주 느리고 약함, reduced-motion에서 아래 규칙으로 완전 제거 */
         '@keyframes spotlightBreathe': {
           '0%, 100%': { opacity: 0.85 },
@@ -254,8 +260,6 @@ const HeroSection = () => {
                   justifyContent: { xs: 'center', md: 'flex-start' },
                   flexWrap: 'wrap',
                   rowGap: 2,
-                  opacity: 0,
-                  animation: 'fadeInUp 0.6s ease 0.32s both',
                 }}
               >
                 <Button
@@ -272,6 +276,8 @@ const HeroSection = () => {
                     fontWeight: 700,
                     fontSize: '0.95rem',
                     whiteSpace: 'nowrap',
+                    opacity: 0,
+                    animation: 'ctaFadeInUp 0.6s ease 0.32s both',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                     '&:hover': {
                       bgcolor: 'primary.dark',
@@ -298,6 +304,8 @@ const HeroSection = () => {
                     fontWeight: 600,
                     fontSize: '0.95rem',
                     whiteSpace: 'nowrap',
+                    opacity: 0,
+                    animation: 'ctaFadeInUp 0.6s ease 0.38s both',
                     transition: 'transform 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
                       color: 'primary.main',
@@ -328,6 +336,8 @@ const HeroSection = () => {
                     fontWeight: 600,
                     fontSize: '0.95rem',
                     whiteSpace: 'nowrap',
+                    opacity: 0,
+                    animation: 'ctaFadeInUp 0.6s ease 0.44s both',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
                       bgcolor: 'rgba(56,189,248,0.07)',
@@ -357,6 +367,8 @@ const HeroSection = () => {
                       fontWeight: 600,
                       fontSize: '0.95rem',
                       whiteSpace: 'nowrap',
+                      opacity: 0,
+                      animation: 'ctaFadeInUp 0.6s ease 0.5s both',
                       '&:hover': { color: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
                       '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
                     }}

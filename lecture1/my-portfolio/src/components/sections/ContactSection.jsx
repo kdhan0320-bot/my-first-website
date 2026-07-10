@@ -185,9 +185,9 @@ const ContactSection = () => {
             '&::before': {
               content: '""',
               position: 'absolute',
-              top: -1, left: '10%', right: '10%',
-              height: '1.5px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.6), transparent)',
+              top: -1, left: '18%', right: '18%',
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.5), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
