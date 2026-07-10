@@ -5,6 +5,43 @@ import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import RevealOnScroll from '../ui/RevealOnScroll';
 
+/* Home용 About Snapshot — /about 페이지의 핵심만 축약해 Home 한 화면 흐름 안에서 보여준다 */
+const APPLICATION_FOCUS = [
+  '신입 UX/UI 웹디자이너',
+  '웹퍼블리셔',
+  '서비스기획형 프론트엔드 주니어',
+  'AI 활용 UX/UI 포트폴리오',
+  'B2B/업무툴 UI 구현형 주니어',
+];
+
+const TOOL_CHIPS = ['Figma', 'React/MUI', 'HTML/CSS/JavaScript', 'GitHub', 'Supabase', 'AI Tools'];
+
+const ChipRow = ({ label, items }) => (
+  <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
+    <Typography
+      variant="caption"
+      sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', mb: 1.25 }}
+    >
+      {label}
+    </Typography>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+      {items.map((item) => (
+        <Box
+          key={item}
+          sx={{
+            px: 1.25, py: 0.5, borderRadius: 999,
+            bgcolor: 'rgba(148,163,184,0.08)', border: '1px solid rgba(148,163,184,0.2)',
+          }}
+        >
+          <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', fontWeight: 600, whiteSpace: 'nowrap' }}>
+            {item}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
+  </Box>
+);
+
 const SKILL_CARDS = [
   {
     index: '01',
@@ -34,13 +71,6 @@ const SKILL_CARDS = [
     color: '#A7F3D0',
     body: '링크, 접근성, 모바일 화면, 프로젝트 한계를 확인하며 제출 가능한 상태로 다듬습니다.',
   },
-];
-
-const STRENGTH_SUMMARY = [
-  { label: '정보 구조 정리', desc: '흩어진 요구사항을 화면 흐름과 섹션 구조로 정리합니다.' },
-  { label: 'Figma 화면 설계', desc: '와이어프레임, 컴포넌트, 반응형 기준을 고려해 화면을 설계합니다.' },
-  { label: 'React 화면 구현', desc: 'HTML/CSS, JavaScript, React/MUI로 실제 웹 화면을 구현합니다.' },
-  { label: 'AI 보조 활용', desc: 'AI 제안을 그대로 쓰지 않고 문장 정리, 코드 점검, 개선안 비교에 보조적으로 활용합니다.' },
 ];
 
 const AboutSection = () => {
@@ -121,7 +151,7 @@ const AboutSection = () => {
                 '&::after':  { content: '""', display: 'block', width: 28, height: 1, bgcolor: 'primary.main', opacity: 0.45 },
               }}
             >
-              01 WORK STYLE
+              01 ABOUT / WORKING STANDARD
             </Typography>
             <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 800 }}>
               정리하고, 설계하고, 구현하는 방식
@@ -145,30 +175,23 @@ const AboutSection = () => {
             }}
           >
             <Typography variant="body1" sx={{ color: 'text.primary', lineHeight: 1.85, fontWeight: 500 }}>
-              새로운 기능을 추가하기 전에 사용자가 어느 지점에서 헷갈리는지부터 확인합니다. 화면의 우선순위와 컴포넌트 구조, 반응형 기준을 정리하고 실제 웹 화면으로 구현합니다.
+              화려한 그래픽보다 사용자가 화면을 이해하는 순서와 실제 구현 가능한 구조를 먼저 정리합니다. Figma에서 흐름과 컴포넌트를 잡고, React/MUI 기반으로 반응형 화면을 구현하며, 구현하지 않은 기능과 프로젝트 한계는 명확히 구분합니다.
             </Typography>
 
-            {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트. AI 보조 활용 언급은 여기 한 곳으로만 제한 */}
+            <ChipRow label="지원 방향" items={APPLICATION_FOCUS} />
+            <ChipRow label="사용 도구" items={TOOL_CHIPS} />
+
+            {/* 현재 한계 — /about 페이지의 3줄 목록을 한 줄로 축약 */}
             <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
               <Typography
                 variant="caption"
-                sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', mb: 1.5 }}
+                sx={{ color: 'text.secondary', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', mb: 1 }}
               >
-                강점 요약
+                현재 한계
               </Typography>
-              <Grid container spacing={1.5}>
-                {STRENGTH_SUMMARY.map((s) => (
-                  <Grid key={s.label} size={{ xs: 12, sm: 6 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                      <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'text.disabled', flexShrink: 0, mt: '8px', opacity: 0.9 }} />
-                      <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.875rem' }}>
-                        <Box component="span" sx={{ color: 'text.primary', fontWeight: 700 }}>{s.label}</Box>
-                        {': '}{s.desc}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
+              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.875rem' }}>
+                실제 사용자 테스트와 정량 성과 데이터는 아직 부족하며, 반응형·접근성·설명력을 계속 보완하고 있습니다.
+              </Typography>
             </Box>
           </Box>
         </RevealOnScroll>

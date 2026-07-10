@@ -18,7 +18,7 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 'auto', md: 'auto' },
+        minHeight: { xs: 'auto', md: '86vh' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -131,20 +131,6 @@ const HeroSection = () => {
           zIndex: 0,
           pointerEvents: 'none',
           animation: 'spotlightBreathe 16s ease-in-out infinite',
-        }}
-      />
-
-      {/* guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 Flow Core로 시선 유도 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          left: 0, right: 0, top: '18%',
-          height: '1.5px',
-          background: 'linear-gradient(90deg, transparent 5%, rgba(148,163,184,0.12) 35%, rgba(56,189,248,0.34) 75%, transparent 95%)',
-          zIndex: 0,
-          pointerEvents: 'none',
         }}
       />
 

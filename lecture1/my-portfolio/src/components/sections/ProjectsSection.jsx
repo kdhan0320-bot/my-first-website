@@ -213,13 +213,8 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 /* 홈 대표 섹션은 정의상 대표 프로젝트만 노출되므로 배지는 항상 동일하게 표시 */
 const HOME_BADGE = { label: '대표 작업', color: '#818CF8', border: 'rgba(129,140,248,0.4)' };
 
-/* ── 프로젝트 카드 ── */
+/* ── 프로젝트 카드 — 썸네일 중심 리스트 카드. 문제/역할/구현 범위/한계 같은 상세 설명은 모달에서만 보여준다 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
-  const cardProblem = project.cardProblem ?? project.description;
-  const cardRoleRaw = project.cardRole ?? project.role;
-  const cardRoleItems = Array.isArray(cardRoleRaw)
-    ? cardRoleRaw
-    : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
   const badge = HOME_BADGE;
   const accent = project.accentColor ?? '#38BDF8';
 
@@ -229,7 +224,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={{
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
-        minHeight: { md: 520 },
+        minHeight: { md: 420 },
         bgcolor: '#111827',
         border: '1px solid rgba(148,163,184,0.14)',
         borderTop: `2px solid ${accent}59`,
@@ -293,35 +288,9 @@ const ProjectCard = ({ project, idx, onDetail }) => {
         </Box>
 
         <Typography variant="body2"
-          sx={{ color: 'text.primary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-          {cardProblem}
+          sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          {project.description}
         </Typography>
-
-        {cardRoleItems.length > 0 && (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.4 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.04em' }}>내가 한 일</Typography>
-            {cardRoleItems.map((item) => (
-              <Box key={item} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
-                <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '9px', opacity: 0.7 }} />
-                <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{item}</Typography>
-              </Box>
-            ))}
-          </Box>
-        )}
-
-        {project.cardScope && (
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>구현 범위</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{project.cardScope}</Typography>
-          </Box>
-        )}
-
-        {project.cardLimit && (
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-            <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>한계</Typography>
-            <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{project.cardLimit}</Typography>
-          </Box>
-        )}
 
         <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
           <Button size="small" variant="contained" onClick={() => onDetail(project)} aria-label={`${project.title} 작업 과정 보기`}
@@ -447,13 +416,13 @@ const ProjectsSection = () => {
 
         <ProjectsPreviewMonitor />
 
-        {/* Preview(미리보기)와 아래 상세 카드 영역을 시각적으로 구분 */}
+        {/* Preview는 대표 프로젝트 쇼케이스, List는 각 프로젝트 상세(모달)로 들어가는 진입 카드 — 역할을 분리해 중복을 없앤다 */}
         <Box sx={{ textAlign: 'center', mb: { xs: 3, md: 4 } }}>
-          <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.0625rem' }}>
-            상세 프로젝트 카드
+          <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.0625rem', letterSpacing: '0.04em' }}>
+            PROJECT LIST
           </Typography>
           <Typography sx={{ mt: 0.5, color: 'text.secondary', fontSize: '0.9375rem', lineHeight: 1.6 }}>
-            각 프로젝트의 문제 정의부터 구현 범위, 한계까지 자세히 정리했습니다.
+            카드를 눌러 문제 정의, 구현 범위, 한계까지 자세한 내용을 확인할 수 있습니다.
           </Typography>
         </Box>
 

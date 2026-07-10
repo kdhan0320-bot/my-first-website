@@ -3,7 +3,6 @@ import {
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Link as RouterLink } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
 
 const ContactSection = () => {
@@ -175,7 +174,7 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* Footer — 상단에 아주 약한 glow line으로 마무리 인상 보강 */}
+        {/* Footer — 왼쪽 브랜드 / 가운데 한 줄 문장 / 오른쪽 저작권. 이메일·GitHub·소개는 위 CTA 카드·nav와 중복되어 제거 */}
         <Box
           component="footer"
           sx={{
@@ -186,37 +185,24 @@ const ContactSection = () => {
             '&::before': {
               content: '""',
               position: 'absolute',
-              top: -1, left: '18%', right: '18%',
+              top: -1, left: '30%', right: '30%',
               height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.5), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.35), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: 1.5,
+            gap: 1,
             textAlign: { xs: 'center', sm: 'left' },
           }}
         >
-          <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', fontWeight: 600 }}>
+          <Typography sx={{ color: 'text.primary', fontSize: '1.0625rem', fontWeight: 800, letterSpacing: '-0.01em' }}>
             Dohan.K
           </Typography>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
-            <Box component={RouterLink} to="/about"
-              sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
-              소개
-            </Box>
-            <Typography component="span" sx={{ color: 'text.disabled', fontSize: '0.875rem' }}>·</Typography>
-            <Box component="a" href="mailto:kdhan0320@gmail.com"
-              sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
-              kdhan0320@gmail.com
-            </Box>
-            <Typography component="span" sx={{ color: 'text.disabled', fontSize: '0.875rem' }}>·</Typography>
-            <Box component="a" href="https://github.com/kdhan0320-bot" target="_blank" rel="noopener noreferrer"
-              sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
-              GitHub
-            </Box>
-          </Box>
+          <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', textAlign: 'center' }}>
+            정보를 정리하고 화면으로 구현합니다.
+          </Typography>
           <Typography sx={{ color: 'text.disabled', fontSize: '0.875rem', whiteSpace: 'nowrap' }}>
             © 2026 Kim Dohan
           </Typography>

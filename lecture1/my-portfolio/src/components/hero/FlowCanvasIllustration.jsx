@@ -130,7 +130,7 @@ const FlowCanvasIllustration = () => {
           <LogoSymbol size={56} />
         </Box>
 
-        {/* 코어 주변 라벨 4개 — AI Assist는 마지막 보조 라벨 */}
+        {/* 코어 주변 라벨 4개 — AI Assist는 보조 도구이므로 시각적으로 가장 약하게 표시 */}
         {CORE_LABELS.map((item, i) => (
           <Box
             key={item.label}
@@ -140,18 +140,18 @@ const FlowCanvasIllustration = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: 0.75,
-              px: 1.25,
-              py: 0.6,
+              px: item.muted ? 1 : 1.25,
+              py: item.muted ? 0.45 : 0.6,
               borderRadius: 999,
-              border: '1px solid rgba(148,163,184,0.24)',
+              border: `1px solid rgba(148,163,184,${item.muted ? 0.16 : 0.24})`,
               bgcolor: 'rgba(13,19,33,0.96)',
               whiteSpace: 'nowrap',
-              opacity: isVisible ? (item.muted ? 0.75 : 1) : 0,
+              opacity: isVisible ? (item.muted ? 0.55 : 1) : 0,
               transition: `opacity 0.5s ease ${0.15 + i * 0.15}s`,
             }}
           >
-            <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: item.accent, flexShrink: 0 }} />
-            <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em' }}>
+            <Box sx={{ width: item.muted ? 5 : 6, height: item.muted ? 5 : 6, borderRadius: '50%', bgcolor: item.accent, flexShrink: 0 }} />
+            <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: item.muted ? 'text.disabled' : 'text.secondary', letterSpacing: '0.02em' }}>
               {item.label}
             </Typography>
           </Box>
