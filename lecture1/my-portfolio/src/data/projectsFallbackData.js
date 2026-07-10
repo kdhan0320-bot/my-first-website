@@ -234,7 +234,7 @@ export const fallbackProjects = [
     cardProblem: '취업 준비 과정에서 지원 현황, 할 일, 면접 일정을 한 화면에서 보기 어렵다는 문제를 정리했습니다.',
     cardRole: ['지원 상태와 일정 정보를 카드/리스트 구조로 정리', 'React/MUI 기반 대시보드 UI 구현'],
     cardScope: '지원 현황, 할 일, 일정, 상태별 정보 구조',
-    cardLimit: '정적 데이터 기반 데모이며 실시간 알림과 통계 차트는 포함하지 않았습니다.',
+    cardLimit: '지원 현황과 체크리스트 저장 구조는 Supabase 기반으로 구현했지만, 실시간 알림과 통계 차트는 포함하지 않았습니다.',
     accentColor: '#2563EB',
   },
   {

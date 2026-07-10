@@ -138,7 +138,7 @@ const AboutSection = () => {
               mb: { xs: 4, md: 5 },
               p: { xs: 3, md: 4 },
               bgcolor: 'rgba(56,189,248,0.05)',
-              border: '1px solid rgba(56,189,248,0.18)',
+              border: '1px solid rgba(148,163,184,0.16)',
               borderLeft: '4px solid',
               borderLeftColor: 'primary.main',
               borderRadius: '0 12px 12px 0',
@@ -160,7 +160,7 @@ const AboutSection = () => {
                 {STRENGTH_SUMMARY.map((s) => (
                   <Grid key={s.label} size={{ xs: 12, sm: 6 }}>
                     <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1 }}>
-                      <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '8px', opacity: 0.85 }} />
+                      <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'text.disabled', flexShrink: 0, mt: '8px', opacity: 0.9 }} />
                       <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.6, fontSize: '0.875rem' }}>
                         <Box component="span" sx={{ color: 'text.primary', fontWeight: 700 }}>{s.label}</Box>
                         {': '}{s.desc}

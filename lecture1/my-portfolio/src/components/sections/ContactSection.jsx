@@ -3,6 +3,7 @@ import {
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { Link as RouterLink } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
 
 const ContactSection = () => {
@@ -51,7 +52,7 @@ const ContactSection = () => {
               position: 'relative',
               overflow: 'hidden',
               bgcolor: 'rgba(255,255,255,0.045)',
-              border: '1px solid rgba(56,189,248,0.22)',
+              border: '1px solid rgba(148,163,184,0.16)',
               borderLeft: '4px solid',
               borderLeftColor: 'primary.main',
               borderRadius: '0 12px 12px 0',
@@ -201,6 +202,11 @@ const ContactSection = () => {
             Dohan.K
           </Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+            <Box component={RouterLink} to="/about"
+              sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
+              소개
+            </Box>
+            <Typography component="span" sx={{ color: 'text.disabled', fontSize: '0.875rem' }}>·</Typography>
             <Box component="a" href="mailto:kdhan0320@gmail.com"
               sx={{ display: 'inline-flex', alignItems: 'center', minHeight: 44, color: 'text.secondary', fontSize: '0.875rem', textDecoration: 'none', whiteSpace: 'nowrap', '&:hover': { color: 'primary.main' }, '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px', borderRadius: '4px' } }}>
               kdhan0320@gmail.com

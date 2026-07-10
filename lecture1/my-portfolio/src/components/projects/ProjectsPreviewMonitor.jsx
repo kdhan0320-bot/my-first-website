@@ -39,7 +39,7 @@ const ProjectsPreviewMonitor = () => {
           mb: { xs: 5, md: 9 },
           p: { xs: 2.5, sm: 3, md: 3.5 },
           borderRadius: 4,
-          border: '1px solid rgba(56,189,248,0.16)',
+          border: '1px solid rgba(148,163,184,0.16)',
           background: 'linear-gradient(180deg, rgba(19,28,46,0.6) 0%, rgba(11,16,32,0.42) 100%)',
           backdropFilter: 'blur(18px)',
           boxShadow: '0 24px 60px rgba(2,6,23,0.35)',
@@ -72,10 +72,18 @@ const ProjectsPreviewMonitor = () => {
 
             {/* 선택된 프로젝트 상세 — 이름 / 유형 / 한 줄 문제 / 구현 범위 / 한계. 프로젝트 전환 버튼은 오른쪽 모니터에만 배치 */}
             <Box key={active.id}>
-              <Typography sx={{ fontSize: '1.0625rem', fontWeight: 700, color: 'text.primary', mb: 0.25 }}>
+              <Typography sx={{ fontSize: '1.0625rem', fontWeight: 700, color: 'text.primary', mb: 0.5 }}>
                 {active.title}
               </Typography>
-              <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: accent, mb: 1 }}>
+              <Typography
+                component="span"
+                sx={{
+                  display: 'inline-block', fontSize: '0.8125rem', fontWeight: 700, color: 'text.primary',
+                  letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1.25,
+                  px: 1, py: 0.25, borderRadius: 999,
+                  bgcolor: `${accent}22`, border: `1px solid ${accent}55`,
+                }}
+              >
                 {active.categoryLabel}
               </Typography>
               <Typography sx={{ fontSize: '0.9375rem', color: 'text.primary', lineHeight: 1.65 }}>

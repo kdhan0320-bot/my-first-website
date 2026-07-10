@@ -87,7 +87,7 @@ const AboutPage = () => {
             {WORK_STANDARDS.map((item) => (
               <Grid key={item.label} size={{ xs: 12, sm: 6 }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 1.25, p: 2.5, height: '100%', bgcolor: '#111827', border: '1px solid rgba(148,163,184,0.15)', borderRadius: 2.5 }}>
-                  <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '9px', opacity: 0.85 }} />
+                  <Box sx={{ width: 5, height: 5, borderRadius: '50%', bgcolor: 'text.disabled', flexShrink: 0, mt: '9px', opacity: 0.9 }} />
                   <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.7, fontSize: '0.875rem' }}>
                     <Box component="span" sx={{ color: 'text.primary', fontWeight: 700 }}>{item.label}</Box>
                     {': '}{item.desc}
