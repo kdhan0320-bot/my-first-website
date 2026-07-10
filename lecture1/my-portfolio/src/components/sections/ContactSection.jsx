@@ -86,8 +86,11 @@ const ContactSection = () => {
                 <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.4rem' }, mb: 1 }}>
                   함께 이야기해요
                 </Typography>
-                <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 2.5 }}>
+                <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 1 }}>
                   포트폴리오 검토, 피드백, 채용 관련 연락을 편하게 남겨주세요.
+                </Typography>
+                <Typography sx={{ color: 'text.primary', fontWeight: 700, fontSize: '0.9375rem', lineHeight: 1.7, mb: 2.5 }}>
+                  정리된 화면과 구현 가능한 구조로 이야기하겠습니다.
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                   {[
@@ -175,13 +178,21 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* Footer */}
+        {/* Footer — 상단에 아주 약한 glow line으로 마무리 인상 보강 */}
         <Box
           component="footer"
           sx={{
+            position: 'relative',
             mt: { xs: 3, md: 6 },
             pt: { xs: 3, md: 3.5 },
             borderTop: '1px solid rgba(148,163,184,0.14)',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: -1, left: '20%', right: '20%',
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent)',
+            },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
             alignItems: 'center',

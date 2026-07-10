@@ -57,6 +57,35 @@ const AboutSection = () => {
         pb: { xs: 3, md: 8 },
       }}
     >
+      {/* 배경이 비어 보이지 않도록 아주 약한 radial glow — Hero보다 절제된 톤 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '10%', right: '-6%',
+          width: 420, height: 420,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.05) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* 카드 행 뒤 아주 약한 horizontal guide line — 4개 카드가 하나의 흐름임을 은은하게 표시 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          left: 0, right: 0, bottom: '14%',
+          height: '1px',
+          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.14) 50%, transparent 92%)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}
@@ -105,11 +134,7 @@ const AboutSection = () => {
               새로운 기능을 추가하기 전에 사용자가 어느 지점에서 헷갈리는지부터 확인합니다. 화면의 우선순위와 컴포넌트 구조, 반응형 기준을 정리하고 실제 웹 화면으로 구현합니다.
             </Typography>
 
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1.5 }}>
-              AI 도구는 문장을 다듬거나 코드 오류를 점검하고, 여러 개선안을 비교할 때 보조적으로 활용했습니다. 다만 최종 구조와 구현 범위는 직접 판단하고 검토했습니다.
-            </Typography>
-
-            {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트 */}
+            {/* 강점 요약 — 소개문 바로 아래, 2열 메타 리스트. AI 보조 활용 언급은 여기 한 곳으로만 제한 */}
             <Box sx={{ mt: 2.5, pt: 2.5, borderTop: '1px solid rgba(148,163,184,0.14)' }}>
               <Typography
                 variant="caption"
@@ -187,7 +212,7 @@ const AboutSection = () => {
                       {card.title}
                     </Typography>
 
-                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.65, fontSize: '0.875rem' }}>
+                    <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.65, fontSize: '0.9375rem' }}>
                       {card.body}
                     </Typography>
                   </Box>

@@ -26,7 +26,7 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 300, sm: 340, md: 380 },
+        maxWidth: { xs: 330, sm: 375, md: 420 },
         mx: 'auto',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.94)',
@@ -42,8 +42,8 @@ const FlowCanvasIllustration = () => {
       <Box
         sx={{
           position: 'relative',
-          width: { xs: 220, sm: 250, md: 280 },
-          height: { xs: 220, sm: 250, md: 280 },
+          width: { xs: 242, sm: 275, md: 310 },
+          height: { xs: 242, sm: 275, md: 310 },
           mx: 'auto',
         }}
       >
@@ -54,7 +54,7 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             inset: 0,
             borderRadius: '50%',
-            border: '1px solid rgba(56,189,248,0.22)',
+            border: '1px solid rgba(56,189,248,0.28)',
           }}
         />
 
@@ -73,11 +73,11 @@ const FlowCanvasIllustration = () => {
               top: 0,
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: 8,
-              height: 8,
+              width: 9,
+              height: 9,
               borderRadius: '50%',
               bgcolor: '#BAE6FD',
-              boxShadow: '0 0 10px 2px rgba(186,230,253,0.55)',
+              boxShadow: '0 0 12px 2px rgba(186,230,253,0.65)',
               opacity: isVisible ? 0.9 : 0,
               transition: 'opacity 0.6s ease 0.9s',
             }}
@@ -91,10 +91,10 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: 140, md: 180 },
-            height: { xs: 140, md: 180 },
+            width: { xs: 155, md: 200 },
+            height: { xs: 155, md: 200 },
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.28) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.32) 0%, transparent 70%)',
             filter: 'blur(20px)',
             animation: 'spotlightBreathe 16s ease-in-out infinite',
           }}
@@ -106,20 +106,20 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: 76, sm: 88, md: 100 },
-            height: { xs: 76, sm: 88, md: 100 },
+            width: { xs: 84, sm: 97, md: 110 },
+            height: { xs: 84, sm: 97, md: 110 },
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'linear-gradient(160deg, rgba(30,58,95,0.9) 0%, rgba(11,16,32,0.9) 100%)',
-            border: '1px solid rgba(56,189,248,0.4)',
-            boxShadow: '0 0 32px rgba(56,189,248,0.25), inset 0 0 20px rgba(56,189,248,0.1)',
+            border: '1px solid rgba(56,189,248,0.48)',
+            boxShadow: '0 0 36px rgba(56,189,248,0.32), inset 0 0 20px rgba(56,189,248,0.14)',
             opacity: isVisible ? 1 : 0,
             transition: 'opacity 0.6s ease 0.15s',
           }}
         >
-          <LogoSymbol size={40} />
+          <LogoSymbol size={44} />
         </Box>
 
         {/* 코어 주변 라벨 4개 — AI Assist는 마지막 보조 라벨 */}
@@ -135,8 +135,8 @@ const FlowCanvasIllustration = () => {
               px: 1.25,
               py: 0.6,
               borderRadius: 999,
-              border: '1px solid rgba(148,163,184,0.18)',
-              bgcolor: 'rgba(15,23,42,0.72)',
+              border: '1px solid rgba(148,163,184,0.22)',
+              bgcolor: 'rgba(15,23,42,0.78)',
               backdropFilter: 'blur(6px)',
               whiteSpace: 'nowrap',
               opacity: isVisible ? (item.muted ? 0.75 : 1) : 0,

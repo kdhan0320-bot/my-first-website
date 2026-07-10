@@ -22,8 +22,8 @@ const HeroSection = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        pt: { xs: 5, sm: 8, md: 13 },
-        pb: { xs: 2, sm: 5, md: 8 },
+        pt: { xs: 4, sm: 7, md: 11 },
+        pb: { xs: 1.5, sm: 4, md: 7 },
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
@@ -83,7 +83,7 @@ const HeroSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.1) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.115) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.115) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
           WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
@@ -171,7 +171,7 @@ const HeroSection = () => {
                   fontSize: '0.875rem',
                   fontWeight: 700,
                   letterSpacing: '0.04em',
-                  mb: { xs: 2, md: 2.5 },
+                  mb: { xs: 1.75, md: 2 },
                   opacity: 0,
                   animation: 'fadeInUp 0.6s ease 0s both',
                 }}
@@ -187,17 +187,26 @@ const HeroSection = () => {
                   lineHeight: { xs: 1.32, md: 1.22 },
                   letterSpacing: '-0.02em',
                   color: 'text.primary',
-                  mb: 1.5,
+                  mb: 1.25,
                   opacity: 0,
                   animation: 'fadeInUp 0.6s ease 0.08s both',
                 }}
               >
-                흩어진 흐름을 정리해,
+                복잡한 정보를 정리해,
                 <Box component="span" sx={{ display: 'block' }}>
-                  <Box component="span" sx={{ color: 'primary.main' }}>
+                  <Box
+                    component="span"
+                    sx={{
+                      color: 'primary.main',
+                      textDecoration: 'underline',
+                      textDecorationColor: 'rgba(56,189,248,0.4)',
+                      textDecorationThickness: '2px',
+                      textUnderlineOffset: '5px',
+                    }}
+                  >
                     구현 가능한
                   </Box>
-                  {' '}화면으로 연결합니다.
+                  {' '}웹 화면으로 연결합니다.
                 </Box>
               </Typography>
 
@@ -208,13 +217,13 @@ const HeroSection = () => {
                   lineHeight: 1.85,
                   maxWidth: { xs: '100%', md: 500 },
                   mx: { xs: 'auto', md: 0 },
-                  mb: { xs: 3.5, md: 4.5 },
+                  mb: { xs: 3, md: 3.75 },
                   fontSize: { xs: '0.92rem', md: '1rem' },
                   opacity: 0,
                   animation: 'fadeInUp 0.6s ease 0.2s both',
                 }}
               >
-                Figma로 화면 흐름과 정보 구조를 정리하고, React/MUI 기반으로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교를 돕는 보조 도구로 활용했습니다.
+                Figma로 화면 흐름과 정보 구조를 정리하고, React/MUI로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교에 보조적으로 활용했습니다.
               </Typography>
 
               <Stack
