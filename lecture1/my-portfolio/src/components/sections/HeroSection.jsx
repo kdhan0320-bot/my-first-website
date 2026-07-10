@@ -83,14 +83,14 @@ const HeroSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.09) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.1) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
           WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
         }}
       />
 
-      {/* FLOW TO INTERFACE 보드 뒤 spotlight — 중심 오브젝트로 시선 집중 */}
+      {/* Portfolio Preview 모니터 뒤 spotlight — 중심 오브젝트로 시선 집중 */}
       <Box
         aria-hidden="true"
         sx={{
@@ -108,7 +108,7 @@ const HeroSection = () => {
         }}
       />
 
-      {/* guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 FLOW TO INTERFACE 보드로 시선 유도 */}
+      {/* guide line — 좌(옅음)에서 우(cyan 강조)로, H1에서 Portfolio Preview 모니터로 시선 유도 */}
       <Box
         aria-hidden="true"
         sx={{

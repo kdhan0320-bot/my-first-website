@@ -1,27 +1,15 @@
 import { Box, Typography, Stack } from '@mui/material';
 import useInViewOnce from '../../hooks/useInViewOnce';
+import { scrollToSection } from '../../hooks/useScrollNav';
+import { ALL_PROJECTS } from '../../data/projectsData';
 
-/* Flow Board — 요구사항 정리 → 화면 구조 설계 → React UI 구현 → 반응형 QA */
-const FLOW_STEPS = [
-  { n: 1, label: '요구사항 정리', desc: '정보 구조화', x: 16, y: 40, delay: 0.15 },
-  { n: 2, label: '화면 구조 설계', desc: 'Figma 와이어프레임', x: 108, y: 138, delay: 0.25 },
-  { n: 3, label: 'React UI 구현', desc: '반응형 컴포넌트', x: 200, y: 236, delay: 0.35 },
-  { n: 4, label: '반응형 QA', desc: '접근성 점검', x: 292, y: 334, delay: 0.45, isFinal: true },
-];
+/* Portfolio Preview Monitor — Projects 섹션과 동일한 대표 프로젝트 소스를 재사용해 정합성 유지 */
+const PREVIEW_PROJECTS = [...ALL_PROJECTS]
+  .filter((p) => p.is_featured)
+  .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99))
+  .slice(0, 3);
 
-/* 패널 하단 status strip — AI Assist는 보조 배지로 마지막에만 노출 */
-const STATUS_BADGES = [
-  { label: 'Figma', accent: '#F97316' },
-  { label: 'React/MUI', accent: '#38BDF8' },
-  { label: 'Responsive QA', accent: '#A7F3D0' },
-  { label: 'AI Assist', accent: '#94A3B8', muted: true },
-];
-
-const CARD_W = 132;
-const CARD_H = 84;
-
-const FLOW_PATH =
-  'M28 74 C 70 104, 70 138, 120 172 C 162 202, 162 236, 212 270 C 254 300, 254 334, 304 368';
+const WORKFLOW_STEPS = ['Figma', 'React/MUI', 'Responsive QA', 'AI Assist'];
 
 const FlowCanvasIllustration = () => {
   const [ref, isVisible] = useInViewOnce(0.3);
@@ -43,9 +31,9 @@ const FlowCanvasIllustration = () => {
         transform: isVisible ? 'scale(1)' : 'scale(0.96)',
         transition: 'opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.22,1,0.36,1)',
         /* Hero 한정 ambient motion — 느리고 약함, prefers-reduced-motion에서는 HeroSection 루트 규칙으로 제거됨 */
-        '@keyframes flowHighlightMove': {
-          '0%':   { strokeDashoffset: 0 },
-          '100%': { strokeDashoffset: -1 },
+        '@keyframes workflowHighlightSweep': {
+          '0%':   { left: '-12%' },
+          '100%': { left: '104%' },
         },
         '@keyframes stripBorderShimmer': {
           '0%, 100%': { borderTopColor: 'rgba(148,163,184,0.14)' },
@@ -53,7 +41,14 @@ const FlowCanvasIllustration = () => {
         },
       }}
     >
-      <Box sx={{ mb: 1.5, textAlign: { xs: 'center', md: 'left' } }}>
+      {/* 모니터 chrome bar — 완료된 화면 은유 */}
+      <Box aria-hidden="true" sx={{ display: 'flex', gap: 0.75, mb: 2 }}>
+        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#A7F3D0', opacity: 0.8 }} />
+        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#94A3B8', opacity: 0.4 }} />
+        <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: '#94A3B8', opacity: 0.4 }} />
+      </Box>
+
+      <Box sx={{ mb: 2, textAlign: { xs: 'center', md: 'left' } }}>
         <Typography
           sx={{
             color: 'text.disabled',
@@ -63,7 +58,7 @@ const FlowCanvasIllustration = () => {
             textTransform: 'uppercase',
           }}
         >
-          Flow to Interface
+          Portfolio Preview
         </Typography>
         <Typography
           sx={{
@@ -72,142 +67,85 @@ const FlowCanvasIllustration = () => {
             mt: 0.25,
           }}
         >
-          문제 정리부터 반응형 QA까지
+          대표 프로젝트 미리보기
         </Typography>
       </Box>
 
-      <Box
-        component="svg"
-        viewBox="0 0 440 440"
-        width="100%"
-        aria-hidden="true"
-        focusable="false"
-        sx={{ display: 'block', height: 'auto', overflow: 'visible' }}
-      >
-        {/* 연결 스텝 라인 */}
-        <path
-          d={FLOW_PATH}
-          fill="none"
-          stroke="#38BDF8"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          pathLength={1}
-          style={{
-            strokeDasharray: 1,
-            strokeDashoffset: isVisible ? 0 : 1,
-            transition: 'stroke-dashoffset 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s',
-            opacity: 0.95,
-          }}
-        />
-
-        {/* connector line 위를 천천히 흐르는 아주 약한 highlight — 16초 주기, 진입 애니메이션 이후에만 재생 */}
-        <path
-          d={FLOW_PATH}
-          fill="none"
-          stroke="#BAE6FD"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          pathLength={1}
-          style={{
-            strokeDasharray: '0.04 0.96',
-            opacity: isVisible ? 0.8 : 0,
-            animation: isVisible ? 'flowHighlightMove 16s linear infinite' : 'none',
-            transition: 'opacity 0.6s ease 1s',
-          }}
-        />
-
-        {FLOW_STEPS.map((step) => (
-          <Box
-            component="g"
-            key={step.n}
-            style={{
-              transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
-              opacity: isVisible ? 1 : 0,
-              transition: `transform 0.5s cubic-bezier(0.22,1,0.36,1) ${step.delay}s, opacity 0.5s ease ${step.delay}s`,
-            }}
-          >
-            {/* 카드 */}
-            <rect
-              x={step.x} y={step.y} width={CARD_W} height={CARD_H} rx="10"
-              fill={step.isFinal ? '#131C2E' : '#111827'}
-              stroke={step.isFinal ? '#A7F3D0' : '#38BDF8'}
-              strokeOpacity={step.isFinal ? 0.45 : 0.26}
-              strokeWidth="1.2"
-            />
-
-            {step.isFinal && (
-              /* 마지막 카드: 브라우저 크롬 느낌의 점 3개 (완료된 화면 은유) */
-              <>
-                <circle cx={step.x + CARD_W - 36} cy={step.y + 15} r="2.5" fill="#A7F3D0" opacity="0.8" />
-                <circle cx={step.x + CARD_W - 26} cy={step.y + 15} r="2.5" fill="#94A3B8" opacity="0.4" />
-                <circle cx={step.x + CARD_W - 16} cy={step.y + 15} r="2.5" fill="#94A3B8" opacity="0.4" />
-              </>
-            )}
-
-            <text
-              x={step.x + 16}
-              y={step.y + 22}
-              fontSize="9.5"
-              fontWeight="700"
-              letterSpacing="0.06em"
-              fill={step.isFinal ? '#A7F3D0' : '#38BDF8'}
-              fontFamily="sans-serif"
+      {/* 대표 프로젝트 3개 미니 카드 — 실제 작업물, 순차 등장 */}
+      <Stack component="ul" sx={{ listStyle: 'none', p: 0, m: 0, gap: 1.25, display: 'flex', flexDirection: 'column' }}>
+        {PREVIEW_PROJECTS.map((project, i) => {
+          const accent = project.accentColor ?? '#38BDF8';
+          const delay = 0.15 + i * 0.15;
+          return (
+            <Box
+              component="li"
+              key={project.id}
+              sx={{
+                opacity: isVisible ? 1 : 0,
+                transform: isVisible ? 'translateY(0)' : 'translateY(10px)',
+                transition: `opacity 0.5s ease ${delay}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${delay}s`,
+              }}
             >
-              {`STEP 0${step.n}`}
-            </text>
-            <text
-              x={step.x + 16}
-              y={step.y + 44}
-              fontSize="13"
-              fontWeight="600"
-              fill="#E5E7EB"
-              fontFamily="Pretendard, sans-serif"
-            >
-              {step.label}
-            </text>
-            <text
-              x={step.x + 16}
-              y={step.y + 62}
-              fontSize="10.5"
-              fontWeight="500"
-              fill="#94A3B8"
-              fontFamily="Pretendard, sans-serif"
-            >
-              {step.desc}
-            </text>
-          </Box>
-        ))}
+              <Box
+                component="button"
+                type="button"
+                onClick={() => scrollToSection('projects')}
+                aria-label={`${project.title} 프로젝트로 이동`}
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 0.5,
+                  p: 1.5,
+                  bgcolor: 'rgba(15,23,42,0.4)',
+                  border: '1px solid rgba(148,163,184,0.16)',
+                  borderLeft: `2px solid ${accent}`,
+                  borderRadius: 2,
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  font: 'inherit',
+                  color: 'inherit',
+                  transition: 'transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease',
+                  '&:hover': {
+                    transform: 'translateX(2px)',
+                    borderColor: `${accent}80`,
+                    bgcolor: 'rgba(15,23,42,0.6)',
+                  },
+                  '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+                }}
+              >
+                <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
+                  <Typography sx={{ fontWeight: 700, fontSize: '0.9375rem', color: 'text.primary' }}>
+                    {project.title}
+                  </Typography>
+                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: accent, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    {project.categoryLabel}
+                  </Typography>
+                </Stack>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    color: 'text.secondary',
+                    lineHeight: 1.55,
+                    display: '-webkit-box',
+                    WebkitLineClamp: { xs: 1, md: 2 },
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {project.description}
+                </Typography>
+              </Box>
+            </Box>
+          );
+        })}
+      </Stack>
 
-        {/* QA 완료 표시 — 마지막 카드 우측 상단에 1회 점등(무한 반복 없음) */}
-        <circle
-          cx={FLOW_STEPS[3].x + CARD_W - 14}
-          cy={FLOW_STEPS[3].y + 14}
-          r="5"
-          fill="#A7F3D0"
-          style={{
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'scale(1)' : 'scale(0.4)',
-            transformOrigin: `${FLOW_STEPS[3].x + CARD_W - 14}px ${FLOW_STEPS[3].y + 14}px`,
-            transition: 'opacity 0.4s ease 0.95s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.95s',
-          }}
-        />
-        <circle
-          cx={FLOW_STEPS[3].x + CARD_W - 14}
-          cy={FLOW_STEPS[3].y + 14}
-          r="13"
-          fill="none"
-          stroke="#A7F3D0"
-          strokeWidth="1"
-          style={{
-            opacity: isVisible ? 0.35 : 0,
-            transition: 'opacity 0.4s ease 1s',
-          }}
-        />
-      </Box>
-
-      {/* status strip — 사용 도구/검증 요약, AI Assist는 마지막 보조 배지로만 표시. 테두리에 12초 주기의 은은한 shimmer */}
+      {/* workflow 라벨 스트립 — AI Assist는 마지막 보조 라벨, highlight가 14~18초 주기로 천천히 이동 */}
       <Box
         sx={{
+          position: 'relative',
+          overflow: 'hidden',
           mt: 2.5,
           pt: 2,
           borderTopWidth: '1px',
@@ -216,31 +154,47 @@ const FlowCanvasIllustration = () => {
           animation: isVisible ? 'stripBorderShimmer 12s ease-in-out infinite' : 'none',
         }}
       >
+        <Box
+          aria-hidden="true"
+          sx={{
+            display: isVisible ? 'block' : 'none',
+            position: 'absolute',
+            top: 0,
+            width: '16%',
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(186,230,253,0.9), transparent)',
+            animation: 'workflowHighlightSweep 16s linear infinite',
+          }}
+        />
         <Stack
           direction="row"
-          sx={{ flexWrap: 'wrap', rowGap: { xs: 0.75, md: 1 }, columnGap: { xs: 0.75, md: 1 }, justifyContent: { xs: 'center', md: 'flex-start' } }}
+          alignItems="center"
+          sx={{ flexWrap: 'wrap', rowGap: 0.75, columnGap: 0.75, justifyContent: { xs: 'center', md: 'flex-start' } }}
         >
-          {STATUS_BADGES.map((badge) => (
-            <Box
-              key={badge.label}
-              sx={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 0.75,
-                px: { xs: 1.1, md: 1.4 },
-                py: { xs: 0.5, md: 0.6 },
-                borderRadius: 999,
-                border: '1px solid rgba(148,163,184,0.18)',
-                bgcolor: 'rgba(15,23,42,0.4)',
-                opacity: badge.muted ? 0.7 : 1,
-              }}
-            >
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: badge.accent, flexShrink: 0 }} />
-              <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: 'text.secondary', letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>
-                {badge.label}
-              </Typography>
-            </Box>
-          ))}
+          {WORKFLOW_STEPS.map((label, i) => {
+            const isLast = i === WORKFLOW_STEPS.length - 1;
+            return (
+              <Box key={label} sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.75 }}>
+                <Typography
+                  sx={{
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.02em',
+                    color: isLast ? 'text.disabled' : 'text.secondary',
+                    opacity: isLast ? 0.75 : 1,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {label}
+                </Typography>
+                {!isLast && (
+                  <Typography aria-hidden="true" sx={{ fontSize: '0.875rem', color: 'text.disabled', opacity: 0.6 }}>
+                    →
+                  </Typography>
+                )}
+              </Box>
+            );
+          })}
         </Stack>
       </Box>
     </Box>
