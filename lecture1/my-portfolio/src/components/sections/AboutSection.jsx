@@ -66,7 +66,7 @@ const AboutSection = () => {
           top: '10%', right: '-6%',
           width: 420, height: 420,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.056) 0%, transparent 70%)',
           filter: 'blur(60px)',
           zIndex: 0,
           pointerEvents: 'none',

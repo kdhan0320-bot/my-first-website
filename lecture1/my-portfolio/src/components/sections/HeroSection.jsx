@@ -35,11 +35,31 @@ const HeroSection = () => {
           '0%, 100%': { opacity: 0.85 },
           '50%':      { opacity: 1 },
         },
+        '@keyframes flowStreamDrift': {
+          '0%, 100%': { transform: 'translate(-4%, -2%) rotate(-18deg)' },
+          '50%':      { transform: 'translate(4%, 2%) rotate(-18deg)' },
+        },
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
       }}
     >
+      {/* Flow Stream — 은하수 대신 아주 옅은 대각선 라이트 리본, 18~24초 느린 drift */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '-10%', left: '-10%',
+          width: '140%', height: '70%',
+          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.1) 48%, rgba(129,140,248,0.08) 52%, transparent 70%)',
+          filter: 'blur(30px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+          animation: 'flowStreamDrift 22s ease-in-out infinite',
+        }}
+      />
+
       {/* Gradient blob 1 - 우측 상단 */}
       <Box
         aria-hidden="true"

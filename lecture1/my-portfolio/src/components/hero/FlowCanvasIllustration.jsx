@@ -26,7 +26,7 @@ const FlowCanvasIllustration = () => {
       ref={ref}
       sx={{
         width: '100%',
-        maxWidth: { xs: 330, sm: 375, md: 420 },
+        maxWidth: { xs: 355, sm: 400, md: 450 },
         mx: 'auto',
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'scale(1)' : 'scale(0.94)',
@@ -42,8 +42,8 @@ const FlowCanvasIllustration = () => {
       <Box
         sx={{
           position: 'relative',
-          width: { xs: 242, sm: 275, md: 310 },
-          height: { xs: 242, sm: 275, md: 310 },
+          width: { xs: 260, sm: 295, md: 330 },
+          height: { xs: 260, sm: 295, md: 330 },
           mx: 'auto',
         }}
       >
@@ -54,7 +54,7 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             inset: 0,
             borderRadius: '50%',
-            border: '1px solid rgba(56,189,248,0.28)',
+            border: '1px solid rgba(56,189,248,0.32)',
           }}
         />
 
@@ -91,10 +91,10 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: 155, md: 200 },
-            height: { xs: 155, md: 200 },
+            width: { xs: 168, md: 215 },
+            height: { xs: 168, md: 215 },
             borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(56,189,248,0.32) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(56,189,248,0.35) 0%, transparent 70%)',
             filter: 'blur(20px)',
             animation: 'spotlightBreathe 16s ease-in-out infinite',
           }}
@@ -106,20 +106,20 @@ const FlowCanvasIllustration = () => {
             position: 'absolute',
             top: '50%', left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: 84, sm: 97, md: 110 },
-            height: { xs: 84, sm: 97, md: 110 },
+            width: { xs: 90, sm: 104, md: 118 },
+            height: { xs: 90, sm: 104, md: 118 },
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             background: 'linear-gradient(160deg, rgba(30,58,95,0.9) 0%, rgba(11,16,32,0.9) 100%)',
-            border: '1px solid rgba(56,189,248,0.48)',
-            boxShadow: '0 0 36px rgba(56,189,248,0.32), inset 0 0 20px rgba(56,189,248,0.14)',
+            border: '1px solid rgba(56,189,248,0.54)',
+            boxShadow: '0 0 40px rgba(56,189,248,0.36), inset 0 0 22px rgba(56,189,248,0.16)',
             opacity: isVisible ? 1 : 0,
             transition: 'opacity 0.6s ease 0.15s',
           }}
         >
-          <LogoSymbol size={44} />
+          <LogoSymbol size={48} />
         </Box>
 
         {/* 코어 주변 라벨 4개 — AI Assist는 마지막 보조 라벨 */}
@@ -135,9 +135,8 @@ const FlowCanvasIllustration = () => {
               px: 1.25,
               py: 0.6,
               borderRadius: 999,
-              border: '1px solid rgba(148,163,184,0.22)',
-              bgcolor: 'rgba(15,23,42,0.78)',
-              backdropFilter: 'blur(6px)',
+              border: '1px solid rgba(148,163,184,0.24)',
+              bgcolor: 'rgba(13,19,33,0.96)',
               whiteSpace: 'nowrap',
               opacity: isVisible ? (item.muted ? 0.75 : 1) : 0,
               transition: `opacity 0.5s ease ${0.15 + i * 0.15}s`,

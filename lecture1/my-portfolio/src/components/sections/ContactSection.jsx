@@ -83,7 +83,7 @@ const ContactSection = () => {
             <Grid container spacing={{ xs: 3, sm: 4 }} sx={{ alignItems: 'center' }}>
               {/* 왼쪽: 제목 + 설명 + 연락처 정보 */}
               <Grid size={{ xs: 12, sm: 6 }}>
-                <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.4rem' }, mb: 1 }}>
+                <Typography variant="h3" sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '1.35rem', md: '1.55rem' }, mb: 1 }}>
                   함께 이야기해요
                 </Typography>
                 <Typography variant="body1" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: 1 }}>
@@ -191,7 +191,7 @@ const ContactSection = () => {
               position: 'absolute',
               top: -1, left: '20%', right: '20%',
               height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.4), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.44), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },

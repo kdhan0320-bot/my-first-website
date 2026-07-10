@@ -4,12 +4,23 @@ import RevealOnScroll from '../ui/RevealOnScroll';
 import { ALL_PROJECTS } from '../../data/projectsData';
 
 /* SELECTED PROJECTS PREVIEW — i-AWARD식 "모니터 화면 안에 작품이 보이는" 구조.
- * 왼쪽 탭에서 프로젝트를 고르면 오른쪽 모니터의 썸네일과 설명이 함께 바뀐다.
+ * 왼쪽은 선택된 프로젝트 1개의 상세만 보여주고, 나머지는 컴팩트 탭으로만 노출한다.
  * Home 대표 프로젝트 카드와 동일한 소스/필터를 사용해 데이터 정합성을 유지한다. */
 const PREVIEW_PROJECTS = [...ALL_PROJECTS]
   .filter((p) => p.is_featured)
   .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99))
   .slice(0, 3);
+
+const DetailRow = ({ label, children }) => (
+  <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75, mt: 1 }}>
+    <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.secondary', flexShrink: 0, pt: '1px' }}>
+      {label}
+    </Typography>
+    <Typography sx={{ fontSize: '0.9375rem', color: 'text.secondary', lineHeight: 1.65 }}>
+      {children}
+    </Typography>
+  </Box>
+);
 
 const ProjectsPreviewMonitor = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -39,7 +50,7 @@ const ProjectsPreviewMonitor = () => {
             alignItems: 'center',
           }}
         >
-          {/* 왼쪽: 설명 + 탭 */}
+          {/* 왼쪽: 선택된 프로젝트 1개 상세 + 컴팩트 탭 */}
           <Box>
             <Typography
               sx={{
@@ -52,16 +63,12 @@ const ProjectsPreviewMonitor = () => {
             >
               Selected Projects Preview
             </Typography>
-            <Typography sx={{ color: 'text.disabled', fontSize: '0.875rem', mt: 0.25, lineHeight: 1.6, mb: 2.5 }}>
+            <Typography sx={{ color: 'text.disabled', fontSize: '0.875rem', mt: 0.25, lineHeight: 1.6, mb: 2 }}>
               대표 프로젝트 3개의 문제와 구현 범위를 미리 살펴보는 영역입니다.
             </Typography>
 
-            {/* 프로젝트 탭 */}
-            <Stack
-              component="div"
-              aria-label="대표 프로젝트 선택"
-              sx={{ gap: 1, mb: 2.5 }}
-            >
+            {/* 컴팩트 탭 — 프로젝트 선택만 담당, 상세 정보는 아래 한 곳에만 표시 */}
+            <Stack direction="row" sx={{ flexWrap: 'wrap', gap: 0.75, mb: 2.5 }} aria-label="대표 프로젝트 선택">
               {PREVIEW_PROJECTS.map((project, i) => {
                 const isActive = i === activeIndex;
                 const projectAccent = project.accentColor ?? '#38BDF8';
@@ -73,47 +80,38 @@ const ProjectsPreviewMonitor = () => {
                     aria-pressed={isActive}
                     onClick={() => setActiveIndex(i)}
                     sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 0.25,
-                      width: '100%',
-                      textAlign: 'left',
+                      minHeight: 44,
+                      px: 1.5,
                       cursor: 'pointer',
                       font: 'inherit',
-                      color: 'inherit',
-                      p: 1.25,
-                      borderRadius: 2,
+                      fontSize: '0.875rem',
+                      fontWeight: 700,
+                      color: isActive ? projectAccent : 'text.secondary',
+                      borderRadius: 999,
                       border: '1px solid',
-                      borderColor: isActive ? `${projectAccent}59` : 'rgba(148,163,184,0.14)',
-                      borderLeft: `2px solid ${isActive ? projectAccent : 'rgba(148,163,184,0.2)'}`,
-                      bgcolor: isActive ? 'rgba(15,23,42,0.55)' : 'transparent',
-                      transition: 'border-color 0.2s ease, background-color 0.2s ease',
-                      '&:hover': { bgcolor: 'rgba(15,23,42,0.45)' },
+                      borderColor: isActive ? `${projectAccent}66` : 'rgba(148,163,184,0.2)',
+                      bgcolor: isActive ? `${projectAccent}14` : 'transparent',
+                      transition: 'border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease',
+                      '&:hover': { borderColor: `${projectAccent}66`, color: projectAccent },
                       '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
                     }}
                   >
-                    <Typography sx={{ fontWeight: 700, fontSize: '0.9375rem', color: 'text.primary' }}>
-                      {project.title}
-                    </Typography>
-                    <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: projectAccent }}>
-                      {project.categoryLabel}
-                    </Typography>
+                    {project.title}
                   </Box>
                 );
               })}
             </Stack>
 
-            {/* 선택된 프로젝트 요약 */}
+            {/* 선택된 프로젝트 상세 — 유형 / 한 줄 문제 / 구현 범위 / 한계 */}
             <Box key={active.id}>
-              <Typography sx={{ fontSize: '0.9375rem', color: 'text.secondary', lineHeight: 1.7 }}>
-                {active.description}
+              <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: accent, mb: 0.5 }}>
+                {active.categoryLabel}
               </Typography>
-              {active.cardLimit && (
-                <Typography sx={{ fontSize: '0.875rem', color: 'text.disabled', lineHeight: 1.6, mt: 1 }}>
-                  <Box component="span" sx={{ color: 'text.secondary', fontWeight: 700 }}>한계</Box>
-                  {' '}{active.cardLimit}
-                </Typography>
-              )}
+              <Typography sx={{ fontSize: '0.9375rem', color: 'text.primary', lineHeight: 1.65 }}>
+                {active.cardProblem ?? active.description}
+              </Typography>
+              {active.cardScope && <DetailRow label="구현 범위">{active.cardScope}</DetailRow>}
+              {active.cardLimit && <DetailRow label="한계">{active.cardLimit}</DetailRow>}
             </Box>
           </Box>
 
@@ -159,8 +157,8 @@ const ProjectsPreviewMonitor = () => {
               </Box>
             </Box>
 
-            {/* 인디케이터 — 왼쪽 탭과 동일 상태 공유 */}
-            <Stack direction="row" justifyContent="center" spacing={1} sx={{ mt: 1.75 }}>
+            {/* 인디케이터 — 시각적 점은 작지만 실제 hit area는 44x44px 이상 확보 */}
+            <Stack direction="row" justifyContent="center" sx={{ mt: 0.5 }}>
               {PREVIEW_PROJECTS.map((project, i) => (
                 <Box
                   component="button"
@@ -170,17 +168,28 @@ const ProjectsPreviewMonitor = () => {
                   aria-pressed={i === activeIndex}
                   onClick={() => setActiveIndex(i)}
                   sx={{
-                    width: i === activeIndex ? 22 : 8,
-                    height: 8,
+                    width: 44,
+                    height: 44,
                     p: 0,
                     border: 'none',
-                    borderRadius: 999,
-                    bgcolor: i === activeIndex ? accent : 'rgba(148,163,184,0.3)',
+                    bgcolor: 'transparent',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     cursor: 'pointer',
-                    transition: 'width 0.25s ease, background-color 0.25s ease',
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '-2px', borderRadius: 999 },
                   }}
-                />
+                >
+                  <Box
+                    sx={{
+                      width: i === activeIndex ? 22 : 8,
+                      height: 8,
+                      borderRadius: 999,
+                      bgcolor: i === activeIndex ? accent : 'rgba(148,163,184,0.3)',
+                      transition: 'width 0.25s ease, background-color 0.25s ease',
+                    }}
+                  />
+                </Box>
               ))}
             </Stack>
           </Box>
