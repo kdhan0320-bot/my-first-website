@@ -4,6 +4,7 @@ import {
 import EmailIcon from '@mui/icons-material/Email';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import RevealOnScroll from '../ui/RevealOnScroll';
+import LogoSymbol from '../ui/LogoSymbol';
 
 const ContactSection = () => {
   return (
@@ -19,6 +20,22 @@ const ContactSection = () => {
         pb: { xs: 4, md: 5 },
       }}
     >
+      {/* 배경 리듬 — Projects의 blueprint grid와 구분되는 저채도 radial glow, 정적 배치 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '-6%', left: '-8%',
+          width: 360, height: 360,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(129,140,248,0.06) 0%, transparent 70%)',
+          filter: 'blur(56px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
         {/* 섹션 헤더 */}
@@ -211,13 +228,13 @@ const ContactSection = () => {
                 pointerEvents: 'none',
               }}
             />
-            <Stack direction="row" alignItems="center" spacing={0.75} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: 'primary.main' }} />
-              <Typography sx={{ color: 'text.primary', fontSize: '1.25rem', fontWeight: 800, letterSpacing: '0.01em' }}>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+              <LogoSymbol size={26} />
+              <Typography sx={{ color: 'text.primary', fontSize: '1.5rem', fontWeight: 800, letterSpacing: '0.02em' }}>
                 Dohan.K
               </Typography>
             </Stack>
-            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.25 }}>
+            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.5, ml: { sm: '34px' } }}>
               Design to Web Interface
             </Typography>
           </Box>

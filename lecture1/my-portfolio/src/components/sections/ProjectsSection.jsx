@@ -10,6 +10,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
+import DMark from '../ui/DMark';
 import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../projects/ProjectThumbnailArt';
 import ProjectsPreviewMonitor from '../projects/ProjectsPreviewMonitor';
 import { supabase } from '../../lib/supabase';
@@ -194,19 +195,37 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
 const THUMB_ZOOM = {};
 
 /* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
+/* Project Stage Frame — 단순 이미지 박스가 아니라 작업물이 놓인 화면처럼 보이도록
+ * 상단 chrome bar(window dots) + inner shadow를 더한다. objectFit은 항상 contain 유지,
+ * dots는 좌상단 Evidence Badge(대표 작업)와 겹치지 않게 우측 정렬한다. */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 190, sm: 220, md: 250 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}` }}>
-    {thumbnailUrl ? (
-      <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
-        <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
-          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '4px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
-      </Box>
-    ) : hasThumbnailArt(projectId) ? (
-      <ProjectThumbnailArt projectId={projectId} />
-    ) : (
-      <GenericPreviewArt />
-    )}
+  <Box sx={{ position: 'relative', flexShrink: 0 }}>
+    <Box
+      aria-hidden="true"
+      sx={{
+        display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0.75,
+        px: 1.5, py: 0.85,
+        bgcolor: 'rgba(15,23,42,0.55)',
+        borderBottom: '1px solid rgba(148,163,184,0.14)',
+      }}
+    >
+      <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#F87171', opacity: 0.5 }} />
+      <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#FBBF24', opacity: 0.5 }} />
+      <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#34D399', opacity: 0.5 }} />
+    </Box>
+    <Box sx={{ position: 'relative', height: { xs: 164, sm: 192, md: 220 }, overflow: 'hidden', background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}`, boxShadow: 'inset 0 0 28px rgba(0,0,0,0.4)' }}>
+      {thumbnailUrl ? (
+        <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
+          <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '4px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
+        </Box>
+      ) : hasThumbnailArt(projectId) ? (
+        <ProjectThumbnailArt projectId={projectId} />
+      ) : (
+        <GenericPreviewArt />
+      )}
+    </Box>
   </Box>
 );
 
@@ -244,7 +263,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       <Box
         sx={{
           position: 'absolute',
-          top: 12,
+          top: 9,
           left: 12,
           zIndex: 2,
           px: 1.25,
@@ -382,6 +401,21 @@ const ProjectsSection = () => {
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
           WebkitMaskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
+        }}
+      />
+      {/* D 모노그램 workmark — About과 다른 코너에 배치해 반복이지만 과하지 않게 */}
+      <DMark size={200} sx={{ bottom: '2%', left: '0%' }} />
+      {/* Process Line — 다음 섹션(Contact)으로 흐름 연결, 정적 커넥터 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          left: '50%', bottom: 0, transform: 'translateX(-50%)',
+          width: '1px', height: 48,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+          zIndex: 1,
+          pointerEvents: 'none',
         }}
       />
 

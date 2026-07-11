@@ -3,7 +3,9 @@ import TroubleshootOutlinedIcon from '@mui/icons-material/TroubleshootOutlined';
 import DesignServicesOutlinedIcon from '@mui/icons-material/DesignServicesOutlined';
 import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RevealOnScroll from '../ui/RevealOnScroll';
+import DMark from '../ui/DMark';
 
 /* Home용 About Snapshot — /about 페이지의 핵심만 축약해 Home 한 화면 흐름 안에서 보여준다 */
 const APPLICATION_FOCUS = ['UX/UI', 'Web Publishing', 'React/MUI', 'Responsive QA'];
@@ -21,6 +23,15 @@ const InlineRow = ({ label, children }) => (
     {children}
   </Box>
 );
+
+/* mini process strip — 정리→설계→구현→검증. SKILL_CARDS와 같은 순서/컬러를 재사용해
+ * intro 카드 안(요약)과 아래 4장 카드(상세) 두 자리가 같은 흐름을 가리키게 한다. */
+const PROCESS_STEPS = [
+  { step: '01', label: '정리', color: '#38BDF8' },
+  { step: '02', label: '설계', color: '#A78BFA' },
+  { step: '03', label: '구현', color: '#60A5FA' },
+  { step: '04', label: '검증', color: '#A7F3D0' },
+];
 
 const SKILL_CARDS = [
   {
@@ -96,6 +107,8 @@ const AboutSection = () => {
           pointerEvents: 'none',
         }}
       />
+      {/* D 모노그램 workmark — Hero/Footer의 실물 로고와 구분되는 옅은 배경 마크 */}
+      <DMark size={220} sx={{ top: '4%', right: '0%' }} />
       {/* 카드 행 뒤 process line — 4개 카드가 하나의 흐름임을 표시, 체감되게 강화 */}
       <Box
         aria-hidden="true"
@@ -106,6 +119,19 @@ const AboutSection = () => {
           height: '1.5px',
           background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.26) 50%, transparent 92%)',
           zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Process Line — Hero 하단 커넥터와 동일한 정적 패턴, 다음 섹션(Projects)으로 흐름 연결 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          left: '50%', bottom: 0, transform: 'translateX(-50%)',
+          width: '1px', height: 48,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+          zIndex: 1,
           pointerEvents: 'none',
         }}
       />
@@ -187,6 +213,59 @@ const AboutSection = () => {
                 실제 사용자 테스트와 정량 성과 데이터는 아직 부족합니다.
               </Typography>
             </InlineRow>
+
+            {/* mini process strip — 정리→설계→구현→검증을 표가 아니라 흐름으로 보여준다 */}
+            <Box
+              sx={{
+                mt: 2.5,
+                pt: 2.25,
+                borderTop: '1px solid rgba(148,163,184,0.14)',
+                display: 'grid',
+                gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' },
+                gap: { xs: 1.5, sm: 0 },
+              }}
+            >
+              {PROCESS_STEPS.map((item, i) => (
+                <Box
+                  key={item.step}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    justifyContent: { xs: 'flex-start', sm: i === 0 ? 'flex-start' : 'center' },
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 26, height: 26, flexShrink: 0,
+                      borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      bgcolor: `${item.color}18`,
+                      border: `1px solid ${item.color}55`,
+                    }}
+                  >
+                    <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: item.color }}>
+                      {item.step}
+                    </Typography>
+                  </Box>
+                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.primary' }}>
+                    {item.label}
+                  </Typography>
+                  {i < PROCESS_STEPS.length - 1 && (
+                    <ArrowForwardIcon
+                      aria-hidden="true"
+                      sx={{
+                        display: { xs: 'none', sm: 'inline-flex' },
+                        fontSize: 16,
+                        color: 'text.disabled',
+                        opacity: 0.5,
+                        ml: 'auto',
+                      }}
+                    />
+                  )}
+                </Box>
+              ))}
+            </Box>
           </Box>
         </RevealOnScroll>
 
