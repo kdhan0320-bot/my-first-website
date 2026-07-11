@@ -237,7 +237,8 @@ const ProjectCard = ({ project, onDetail }) => {
     ? cardRoleRaw
     : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
   const hasRichCard = Boolean(project.cardProblem);
-  const accent = project.accentColor ?? '#38BDF8';
+  /* 카드 top-border/hover glow는 프로젝트별 accentColor 대신 고정 cyan으로 통일 */
+  const accent = '#38BDF8';
   const archiveLimitText = !hasRichCard && project.categories?.includes('archive')
     ? (project.limitation ?? (project.isPlaceholder ? '실제 구현 전 Figma 설계 단계입니다.' : null))
     : null;

@@ -28,7 +28,8 @@ const DetailRow = ({ label, children }) => (
 const ProjectsPreviewMonitor = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = PREVIEW_PROJECTS[activeIndex];
-  const accent = active.accentColor ?? '#38BDF8';
+  /* 카테고리 pill/인디케이터 dot은 프로젝트별 accentColor 대신 고정 cyan으로 통일 */
+  const accent = '#38BDF8';
 
   return (
     <RevealOnScroll>

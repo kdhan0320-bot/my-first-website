@@ -106,9 +106,23 @@ Node / Project Stage / Evidence Badge / Brand Ending** 6가지다. 아래 요소
   제한적으로 사용.
 - **violet (`#7C3AED`/`#818CF8`)** — depth glow(2차 그라디언트 stop 등)에만
   아주 약하게 사용.
-- About의 4단계 timeline/역량카드 색상(cyan/violet/blue/emerald 4색 배정)과
-  프로젝트별 `accentColor`는 이미 확립된 별도 시스템이므로 이 규칙 적용
-  대상이 아니다 — 그대로 유지하고 변경하지 않는다.
+- About의 4단계 timeline/역량카드 색상(cyan/violet/blue/emerald 4색 배정)은
+  이미 확립된 별도 시스템이므로 이 규칙 적용 대상이 아니다 — 그대로 유지한다.
+- 21회차부터 Selected Projects/Works의 카드 top-border, hover glow, Preview의
+  카테고리 pill·인디케이터 dot 같은 **공통 chrome 요소**는 프로젝트마다 다른
+  `accentColor`를 쓰지 않고 고정 cyan(`#38BDF8`)으로 통일한다("프로젝트별
+  무작위 accent color 금지"를 실제로 적용). `projectsFallbackData.js`의
+  `accentColor` 필드 자체는 삭제하지 않되, 카드/Preview 렌더링에서는
+  참조하지 않는다.
+
+### Route Line 표준화
+Route Line(섹션 하단 커넥터 + 다음 섹션 상단 "받는" 글로우 + `FlowNode`
+마커)은 Hero→About→Projects→Contact 전 구간에서 **동일한 규격**을 쓴다:
+받는 글로우는 320×220·opacity 0.13으로 통일하고, 섹션마다 크기를 다르게
+만들지 않는다. `FlowNode`(8px cyan 원+glow)는 "보내는" 섹션의 하단
+경계에 하나씩 두어 흐름이 이어지는 지점을 시각적으로 표시한다. Projects의
+Preview Monitor 뒤 "stage focus" 스포트라이트처럼 목적이 다른 글로우는
+이 표준화 대상이 아니다.
 
 ### 금지
 파티클·별·우주·은하·네온·AI 회로·AI 로봇·3D 오브젝트·캐릭터 일러스트·사람

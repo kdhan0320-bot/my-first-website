@@ -6,6 +6,7 @@ import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
+import FlowNode from '../ui/FlowNode';
 import useInViewOnce from '../../hooks/useInViewOnce';
 
 /* Home용 About Snapshot — /about 페이지의 핵심만 축약해 Home 한 화면 흐름 안에서 보여준다 */
@@ -139,7 +140,7 @@ const TimelineStep = ({ item, index, isLast }) => {
           bgcolor: '#0F172A',
           border: `1.5px solid ${item.color}55`,
           transform: show ? 'scale(1)' : 'scale(0.85)',
-          boxShadow: show ? `0 0 16px ${item.color}70` : `0 0 0px ${item.color}00`,
+          boxShadow: show ? `0 0 19px ${item.color}8A` : `0 0 0px ${item.color}00`,
           transition: `transform 0.4s ease ${nodeDelay}s, box-shadow 0.4s ease ${nodeDelay}s, border-color 0.25s ease, background-color 0.25s ease`,
         }}
       >
@@ -195,7 +196,7 @@ const AboutSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           top: '-4%', left: '50%', transform: 'translateX(-50%)',
-          width: 340, height: 230,
+          width: 320, height: 220,
           borderRadius: '50%',
           background: 'radial-gradient(ellipse, rgba(56,189,248,0.13) 0%, transparent 72%)',
           filter: 'blur(52px)',
@@ -260,6 +261,8 @@ const AboutSection = () => {
           pointerEvents: 'none',
         }}
       />
+      {/* Flow Node — About→Projects 경계 마디, Route Line 표준 마커 */}
+      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }} />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
@@ -389,11 +392,16 @@ const AboutSection = () => {
                         boxShadow: `0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px ${card.color}28`,
                         borderColor: `${card.color}40`,
                       },
+                      '&:hover .skill-icon': {
+                        borderColor: `${card.color}70`,
+                        boxShadow: `0 0 18px ${card.color}40`,
+                      },
                     }}
                   >
                     {/* 아이콘 + 순번 */}
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                       <Box
+                        className="skill-icon"
                         sx={{
                           width: 44,
                           height: 44,
@@ -405,6 +413,7 @@ const AboutSection = () => {
                           justifyContent: 'center',
                           color: card.color,
                           boxShadow: `0 0 12px ${card.color}22`,
+                          transition: 'border-color 0.25s ease, box-shadow 0.25s ease',
                         }}
                       >
                         {card.icon}

@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { scrollToSection } from '../../hooks/useScrollNav';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
 import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
+import FlowNode from '../ui/FlowNode';
 
 const HERO_BADGE = '김도한 | UX/UI · Web Publishing Portfolio';
 
@@ -21,9 +22,9 @@ const HeroSection = () => {
         minHeight: { xs: 'auto', md: '86vh' },
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         pt: { xs: 4, sm: 7, md: 11 },
-        pb: { xs: 1.5, sm: 4, md: 7 },
+        pb: { xs: 1.5, sm: 3, md: 5 },
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
@@ -147,6 +148,8 @@ const HeroSection = () => {
           pointerEvents: 'none',
         }}
       />
+      {/* Flow Node — Hero→About 경계 마디, Route Line 표준 마커 */}
+      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }} />
 
       {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음) */}
       <Box

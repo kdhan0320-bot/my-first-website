@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
+import FlowNode from '../ui/FlowNode';
 import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../projects/ProjectThumbnailArt';
 import EvidenceBadges from '../projects/EvidenceBadges';
 import ProjectsPreviewMonitor from '../projects/ProjectsPreviewMonitor';
@@ -237,7 +238,9 @@ const HOME_BADGE = { label: '대표 작업', color: '#818CF8', border: 'rgba(129
 /* ── 프로젝트 카드 — 썸네일 중심 리스트 카드. 문제/역할/구현 범위/한계 같은 상세 설명은 모달에서만 보여준다 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {
   const badge = HOME_BADGE;
-  const accent = project.accentColor ?? '#38BDF8';
+  /* Selected Works 카드 chrome(top-border/hover glow)은 프로젝트별 accentColor 대신
+   * 고정 cyan을 써서 카드마다 색이 제각각으로 보이지 않게 통일한다 */
+  const accent = '#38BDF8';
 
   return (
   <RevealOnScroll delay={Math.min(idx % 3, 2) * 0.1} y={16} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -397,7 +400,7 @@ const ProjectsSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           top: '-4%', left: '50%', transform: 'translateX(-50%)',
-          width: 280, height: 200,
+          width: 320, height: 220,
           borderRadius: '50%',
           background: 'radial-gradient(ellipse, rgba(56,189,248,0.13) 0%, transparent 72%)',
           filter: 'blur(52px)',
@@ -515,11 +518,15 @@ const ProjectsSection = () => {
           aria-hidden="true"
           sx={{
             display: { xs: 'none', md: 'block' },
+            position: 'relative',
             width: '1px', height: 56, mt: 5, mx: 'auto',
             background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.5))',
             pointerEvents: 'none',
           }}
-        />
+        >
+          {/* Flow Node — Projects→Contact 경계 마디, Route Line 표준 마커. 버튼과 물리적으로 겹치지 않는 정상 흐름 위치 */}
+          <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }} />
+        </Box>
 
       </Container>
       <ProjectDetailModal project={selectedProject} open={modalOpen} onClose={() => setModalOpen(false)} />
