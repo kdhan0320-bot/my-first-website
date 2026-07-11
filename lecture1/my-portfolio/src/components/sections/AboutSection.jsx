@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Box, Container, Typography, Grid } from '@mui/material';
 import TroubleshootOutlinedIcon from '@mui/icons-material/TroubleshootOutlined';
 import DesignServicesOutlinedIcon from '@mui/icons-material/DesignServicesOutlined';
@@ -5,6 +6,7 @@ import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
+import useInViewOnce from '../../hooks/useInViewOnce';
 
 /* Home용 About Snapshot — /about 페이지의 핵심만 축약해 Home 한 화면 흐름 안에서 보여준다 */
 const APPLICATION_FOCUS = ['UX/UI', 'Web Publishing', 'React/MUI', 'Responsive QA'];
@@ -62,6 +64,100 @@ const SKILL_CARDS = [
     body: '링크, 접근성, 모바일 화면, 프로젝트 한계를 확인하며 제출 가능한 상태로 다듬습니다.',
   },
 ];
+
+/* timeline 아이템 — node-only 순차 점등(scale+glow)을 위해 각자 useInViewOnce를 갖는다.
+ * .map() 콜백 안에서는 훅을 호출할 수 없어 별도 컴포넌트로 분리했다. */
+const TimelineStep = ({ item, index, isLast }) => {
+  const prefersReduced = useRef(
+    typeof window !== 'undefined'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      : false,
+  );
+  const [ref, isVisible] = useInViewOnce(0.3);
+  const show = prefersReduced.current || isVisible;
+  const nodeDelay = index * 0.13 + 0.15;
+
+  return (
+    <Box
+      ref={ref}
+      sx={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: { xs: 'row', md: 'column' },
+        alignItems: { xs: 'flex-start', md: 'center' },
+        textAlign: { xs: 'left', md: 'center' },
+        gap: { xs: 1.5, md: 1 },
+        px: { md: 1.5 },
+        opacity: show ? 1 : 0,
+        transform: show ? 'translateY(0)' : { xs: 'translateY(8px)', md: 'translateY(14px)' },
+        transition: `opacity 0.5s ease ${index * 0.12}s, transform 0.5s cubic-bezier(0.22,1,0.36,1) ${index * 0.12}s`,
+        '&:hover .timeline-node': {
+          borderColor: item.color,
+          boxShadow: `0 0 14px ${item.color}55`,
+          transform: 'scale(1.06)',
+        },
+        '&:hover .timeline-connector': {
+          background: `linear-gradient(90deg, ${item.color}, ${item.color}40)`,
+        },
+      }}
+    >
+      {/* 모바일/태블릿: 이전 노드에서 내려오는 세로 커넥터 — node 원 앞에서 여유를 두고 끊김 */}
+      {index > 0 && (
+        <Box
+          aria-hidden="true"
+          sx={{
+            display: { xs: 'block', md: 'none' },
+            position: 'absolute',
+            left: 21, top: -22, width: '2px', height: 18,
+            background: 'linear-gradient(180deg, rgba(56,189,248,0.08), rgba(56,189,248,0.35))',
+          }}
+        />
+      )}
+      {/* 데스크톱: 다음 노드로 이어지는 가로 커넥터 — 양쪽 node 반지름(22px)만큼 gap을 둬 node 내부를 지나가지 않음 */}
+      {!isLast && (
+        <Box
+          aria-hidden="true"
+          className="timeline-connector"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            position: 'absolute',
+            left: 'calc(50% + 22px)', top: 22, width: 'calc(100% - 44px)', height: '2px',
+            background: 'linear-gradient(90deg, rgba(56,189,248,0.32), rgba(56,189,248,0.14))',
+            opacity: show ? 1 : 0,
+            transition: `opacity 0.4s ease ${nodeDelay + 0.1}s, background 0.25s ease`,
+            zIndex: 0,
+          }}
+        />
+      )}
+      {/* node — 완전 불투명한 배경으로 뒤 커넥터가 절대 비치지 않게 함 */}
+      <Box
+        className="timeline-node"
+        sx={{
+          position: 'relative', zIndex: 1, flexShrink: 0,
+          width: 44, height: 44, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          bgcolor: '#0F172A',
+          border: `1.5px solid ${item.color}55`,
+          transform: show ? 'scale(1)' : 'scale(0.85)',
+          boxShadow: show ? `0 0 16px ${item.color}70` : `0 0 0px ${item.color}00`,
+          transition: `transform 0.4s ease ${nodeDelay}s, box-shadow 0.4s ease ${nodeDelay}s, border-color 0.25s ease, background-color 0.25s ease`,
+        }}
+      >
+        <Typography sx={{ fontSize: '0.8125rem', fontWeight: 700, color: item.color }}>
+          {item.step}
+        </Typography>
+      </Box>
+      <Box sx={{ minWidth: 0 }}>
+        <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700, color: 'text.primary' }}>
+          {item.label}
+        </Typography>
+        <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', lineHeight: 1.6, mt: 0.25 }}>
+          {item.desc}
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
 
 const AboutSection = () => {
   return (
@@ -251,78 +347,7 @@ const AboutSection = () => {
             }}
           >
             {PROCESS_STEPS.map((item, i) => (
-              <RevealOnScroll key={item.step} delay={i * 0.12} y={14}>
-                <Box
-                  sx={{
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: { xs: 'row', md: 'column' },
-                    alignItems: { xs: 'flex-start', md: 'center' },
-                    textAlign: { xs: 'left', md: 'center' },
-                    gap: { xs: 1.5, md: 1 },
-                    px: { md: 1.5 },
-                    '&:hover .timeline-node': {
-                      borderColor: item.color,
-                      boxShadow: `0 0 14px ${item.color}55`,
-                      transform: 'scale(1.06)',
-                    },
-                    '&:hover .timeline-connector': {
-                      background: `linear-gradient(90deg, ${item.color}, ${item.color}40)`,
-                    },
-                  }}
-                >
-                  {/* 모바일/태블릿: 이전 노드에서 내려오는 세로 커넥터 */}
-                  {i > 0 && (
-                    <Box
-                      aria-hidden="true"
-                      sx={{
-                        display: { xs: 'block', md: 'none' },
-                        position: 'absolute',
-                        left: 21, top: -22, width: '2px', height: 22,
-                        background: 'linear-gradient(180deg, rgba(56,189,248,0.08), rgba(56,189,248,0.35))',
-                      }}
-                    />
-                  )}
-                  {/* 데스크톱: 다음 노드로 이어지는 가로 커넥터(마지막 제외) */}
-                  {i < PROCESS_STEPS.length - 1 && (
-                    <Box
-                      aria-hidden="true"
-                      className="timeline-connector"
-                      sx={{
-                        display: { xs: 'none', md: 'block' },
-                        position: 'absolute',
-                        left: '50%', top: 22, width: '100%', height: '2px',
-                        background: 'linear-gradient(90deg, rgba(56,189,248,0.32), rgba(56,189,248,0.14))',
-                        transition: 'background 0.25s ease',
-                        zIndex: 0,
-                      }}
-                    />
-                  )}
-                  <Box
-                    className="timeline-node"
-                    sx={{
-                      position: 'relative', zIndex: 1, flexShrink: 0,
-                      width: 44, height: 44, borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      bgcolor: `${item.color}18`,
-                      border: `1.5px solid ${item.color}55`,
-                      transition: 'border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
-                    }}
-                  >
-                    <Typography sx={{ fontSize: '0.8125rem', fontWeight: 700, color: item.color }}>
-                      {item.step}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ minWidth: 0 }}>
-                    <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700, color: 'text.primary' }}>
-                      {item.label}
-                    </Typography>
-                    <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', lineHeight: 1.6, mt: 0.25 }}>
-                      {item.desc}
-                    </Typography>
-                  </Box>
-                </Box>
-              </RevealOnScroll>
+              <TimelineStep key={item.step} item={item} index={i} isLast={i === PROCESS_STEPS.length - 1} />
             ))}
           </Box>
         </Box>

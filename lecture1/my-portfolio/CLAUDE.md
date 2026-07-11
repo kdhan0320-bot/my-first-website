@@ -104,7 +104,12 @@ Hero에서 시작한 흐름이 About timeline → Projects stage → Footer bran
   하는 소프트 확산)를 짝지어 Hero→About→Projects→Contact가 한 흐름으로
   이어지는 느낌을 준다. 무한 반복 애니메이션 없이 정적으로만 사용하고,
   하드 라인 하나만으로 경계를 긋지 않는다(섹션 경계가 선처럼 끊겨 보이면
-  실패로 간주한다).
+  실패로 간주한다). Timeline connector는 node 내부를 지나가 보이면 안
+  된다 — node 반지름만큼 gap을 두고 시작/종료하거나 node 배경을 완전
+  불투명하게 처리해 뒤의 선이 절대 비치지 않게 한다. CTA/Button 뒤로
+  장식선이 직접 겹치면 안 되며, 버튼 앞뒤로 충분한 여백을 두고 배치한다
+  (절대 위치로 섹션 끝에 라인을 고정하기보다, 버튼 블록 다음 정상 흐름에
+  배치해 콘텐츠 길이가 바뀌어도 겹치지 않게 한다).
 - **Evidence Badge**: `EvidenceBadges` 컴포넌트가 프로젝트 상세 모달 상단에
   표시하는 검증 배지(구현/설계 완료, 한계 명시, 반응형 확인 등). `status`,
   `limitation`, `is_figma_project` 같은 실제 데이터 필드에서만 도출하고,
@@ -117,6 +122,13 @@ Hero에서 시작한 흐름이 About timeline → Projects stage → Footer bran
   Interface" 조합을 마지막 장면으로 강화한 마감. Dohan.K 텍스트 크기/weight/
   letter-spacing을 Footer 안에서 가장 강한 타이포로 두고, 상단 accent line과
   브랜드 glow로 경계를 분명히 한다.
+- **Contact 모션 예외**: Contact CTA 카드는 Flow Motion의 마지막 행동
+  지점이므로, 카드 배경에 한해 24~36초 이상의 아주 느린 diagonal drift
+  애니메이션을 예외적으로 허용한다(Hero 예외와 동급). opacity는 낮게
+  유지하고 텍스트/버튼 위를 직접 지나가 가독성을 해치면 안 되며, 데스크톱
+  전용으로만 적용하고 모바일에서는 표시하지 않는다. `index.css`의 전역
+  reduced-motion 규칙(`*, *::before, *::after`)이 모든 `animation`에
+  자동 적용되므로 별도 처리는 불필요하다.
 
 ## Header 내비게이션 최소화
 Home에 About Snapshot이 이미 있으므로 헤더 nav에서 "소개"를 별도 항목으로

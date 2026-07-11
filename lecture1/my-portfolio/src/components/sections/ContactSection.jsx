@@ -98,8 +98,36 @@ const ContactSection = () => {
               mb: { xs: 4, md: 5 },
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
+              '@keyframes contactFlowDrift': {
+                '0%, 100%': { transform: 'translate(-3%, -2%) rotate(-14deg)' },
+                '50%':      { transform: 'translate(3%, 2%) rotate(-14deg)' },
+              },
             }}
           >
+            {/* Contact 모션 예외 — Flow Motion의 마지막 행동 지점이라 카드 배경에 한해 아주 느린(30s) diagonal
+                drift를 허용한다. 데스크톱 전용, 텍스트/버튼보다 항상 뒤(zIndex 0, DOM 최상단 배치) */}
+            <Box
+              aria-hidden="true"
+              sx={{
+                display: { xs: 'none', md: 'block' },
+                position: 'absolute',
+                inset: 0,
+                overflow: 'hidden',
+                zIndex: 0,
+                pointerEvents: 'none',
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '-30%', left: '-20%',
+                  width: '160%', height: '90%',
+                  background: 'linear-gradient(100deg, transparent 32%, rgba(56,189,248,0.09) 50%, rgba(129,140,248,0.07) 56%, transparent 76%)',
+                  filter: 'blur(34px)',
+                  animation: 'contactFlowDrift 30s ease-in-out infinite',
+                }}
+              />
+            </Box>
             {/* Flow Stream 끝자락 — Hero/About과 이어지는 정적 glow, 무한 반복 없음 */}
             <Box
               aria-hidden="true"

@@ -437,19 +437,6 @@ const ProjectsSection = () => {
       />
       {/* D 모노그램 workmark — About과 다른 코너에 배치해 반복이지만 과하지 않게 */}
       <DMark size={200} sx={{ bottom: '2%', left: '0%' }} />
-      {/* Flow Path — 다음 섹션(Contact)으로 흐름 연결, 정적 커넥터 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 85,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.55))',
-          zIndex: 1,
-          pointerEvents: 'none',
-        }}
-      />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
@@ -522,6 +509,17 @@ const ProjectsSection = () => {
             </Button>
           </Box>
         </RevealOnScroll>
+
+        {/* Flow Path — 버튼과 충분한 간격을 둔 뒤 정상 흐름에 배치해 버튼 뒤로 선이 지나가지 않게 함 */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            width: '1px', height: 56, mt: 5, mx: 'auto',
+            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.5))',
+            pointerEvents: 'none',
+          }}
+        />
 
       </Container>
       <ProjectDetailModal project={selectedProject} open={modalOpen} onClose={() => setModalOpen(false)} />
