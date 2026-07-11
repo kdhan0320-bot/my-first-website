@@ -51,7 +51,7 @@ const ProjectsPreviewMonitor = () => {
             display: 'grid',
             gridTemplateColumns: { xs: '1fr', md: '0.85fr 1.15fr' },
             gap: { xs: 3, md: 4 },
-            alignItems: 'center',
+            alignItems: 'flex-start',
           }}
         >
           {/* 왼쪽: 선택된 프로젝트 1개 상세 + 컴팩트 탭 */}
@@ -79,10 +79,10 @@ const ProjectsPreviewMonitor = () => {
               <Typography
                 component="span"
                 sx={{
-                  display: 'inline-block', fontSize: '0.875rem', fontWeight: 700, color: 'text.primary',
+                  display: 'inline-block', fontSize: '0.875rem', fontWeight: 700, color: 'text.secondary',
                   letterSpacing: '0.04em', textTransform: 'uppercase', mb: 1.25,
                   px: 1, py: 0.25, borderRadius: 999,
-                  bgcolor: `${accent}22`, border: `1px solid ${accent}55`,
+                  bgcolor: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.22)',
                 }}
               >
                 {active.categoryLabel}

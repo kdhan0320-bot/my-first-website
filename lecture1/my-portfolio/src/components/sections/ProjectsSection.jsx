@@ -306,7 +306,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
               <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.875rem' }}>(준비 중)</Box>
             )}
           </Typography>
-          <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>
+          <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0, minHeight: '2.6rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {project.title}
           </Typography>
         </Box>
@@ -432,10 +432,10 @@ const ProjectsSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(59,130,246,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.09) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.11) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.11) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 98% 70% at 50% 0%, black 15%, transparent 88%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 98% 70% at 50% 0%, black 15%, transparent 88%)',
+          maskImage: 'radial-gradient(ellipse 112% 75% at 50% 0%, black 15%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 112% 75% at 50% 0%, black 15%, transparent 90%)',
         }}
       />
       {/* D 모노그램 workmark — About과 다른 코너에 배치해 반복이지만 과하지 않게 */}

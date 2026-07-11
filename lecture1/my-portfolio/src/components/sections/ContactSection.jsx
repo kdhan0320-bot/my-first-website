@@ -36,10 +36,10 @@ const ContactSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.1) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 98% 72% at 50% 30%, black 15%, transparent 90%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 98% 72% at 50% 30%, black 15%, transparent 90%)',
+          maskImage: 'radial-gradient(ellipse 112% 77% at 50% 30%, black 15%, transparent 92%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 112% 77% at 50% 30%, black 15%, transparent 92%)',
         }}
       />
       {/* Projects Flow Path를 받는 소프트 글로우 — Flow Motion이 Contact/Footer 도착점으로 모여드는 느낌의 시작점 */}
@@ -257,24 +257,15 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* CTA 카드와 Footer를 잇는 정적 Flow Path 세그먼트 — 두 영역이 분리된 카드처럼 끊기지 않게 함 */}
-        <Box
-          aria-hidden="true"
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            width: '1px', height: 28, mx: 'auto',
-            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.4))',
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* Footer — 링크 없이 Dohan.K 브랜드 마감(도착점). Contact 카드와 내용 중복 없음 */}
+        {/* Footer — 링크 없이 Dohan.K 브랜드 마감(도착점). Contact 카드와 내용 중복 없음.
+            CTA 카드와의 사이에 고립된 커넥터 세그먼트를 두지 않는다 — 다른 섹션 커넥터와 규격이
+            달라 "떠 있는 선"처럼 보였다. top accent line + halo만으로 도착점 느낌을 낸다. */}
         <Box
           component="footer"
           sx={{
             position: 'relative',
-            mt: { xs: 3, md: 4 },
-            pt: { xs: 3, md: 3.5 },
+            mt: { xs: 3, md: 3 },
+            pt: { xs: 2.5, md: 2.5 },
             borderTop: '1px solid rgba(148,163,184,0.14)',
             '&::before': {
               content: '""',
@@ -306,15 +297,15 @@ const ContactSection = () => {
               }}
             />
             <Stack direction="row" alignItems="center" spacing={1.25} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-              <LogoSymbol size={32} />
-              <Typography sx={{ color: 'text.primary', fontSize: '1.85rem', fontWeight: 800, letterSpacing: '0.03em' }}>
+              <LogoSymbol size={30} />
+              <Typography sx={{ color: 'text.primary', fontSize: '1.85rem', fontWeight: 800, letterSpacing: '0.03em', lineHeight: 1 }}>
                 Dohan.K
               </Typography>
             </Stack>
-            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.5, ml: { sm: '40px' } }}>
+            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.4, ml: { sm: '38px' } }}>
               Design to Web Interface
             </Typography>
-            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.75rem', letterSpacing: '0.04em', mt: 0.5, ml: { sm: '40px' } }}>
+            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.75rem', letterSpacing: '0.04em', mt: 0.4, ml: { sm: '38px' } }}>
               정리 · 설계 · 구현 · 검증
             </Typography>
           </Box>

@@ -25,7 +25,7 @@ const DMark = ({ size = 260, sx }) => (
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        opacity: 0.085,
+        opacity: 0.1,
       }}
     >
       <Box

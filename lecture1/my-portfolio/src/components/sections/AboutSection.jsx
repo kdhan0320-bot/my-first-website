@@ -130,7 +130,8 @@ const TimelineStep = ({ item, index, isLast }) => {
           }}
         />
       )}
-      {/* node — 완전 불투명한 배경으로 뒤 커넥터가 절대 비치지 않게 함 */}
+      {/* node — 완전 불투명한 배경으로 뒤 커넥터가 절대 비치지 않게 함. 점등 순간 살짝 튀는 펄스로
+          "불이 들어오는" 느낌을 명확하게 준다(hover는 보조 기능, 자동 점등이 메인) */}
       <Box
         className="timeline-node"
         sx={{
@@ -140,8 +141,14 @@ const TimelineStep = ({ item, index, isLast }) => {
           bgcolor: '#0F172A',
           border: `1.5px solid ${item.color}55`,
           transform: show ? 'scale(1)' : 'scale(0.85)',
-          boxShadow: show ? `0 0 19px ${item.color}8A` : `0 0 0px ${item.color}00`,
-          transition: `transform 0.4s ease ${nodeDelay}s, box-shadow 0.4s ease ${nodeDelay}s, border-color 0.25s ease, background-color 0.25s ease`,
+          boxShadow: show ? `0 0 22px ${item.color}A5` : `0 0 0px ${item.color}00`,
+          transition: `box-shadow 0.4s ease ${nodeDelay}s, border-color 0.25s ease, background-color 0.25s ease`,
+          '@keyframes nodePulse': {
+            '0%':   { transform: 'scale(0.8)' },
+            '55%':  { transform: 'scale(1.22)' },
+            '100%': { transform: 'scale(1)' },
+          },
+          animation: show ? `nodePulse 0.5s cubic-bezier(0.34,1.56,0.64,1) ${nodeDelay}s both` : 'none',
         }}
       >
         <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: item.color }}>
@@ -183,10 +190,10 @@ const AboutSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(59,130,246,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.09) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.11) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.11) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 98% 75% at 50% 40%, black 15%, transparent 90%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 98% 75% at 50% 40%, black 15%, transparent 90%)',
+          maskImage: 'radial-gradient(ellipse 112% 80% at 50% 40%, black 15%, transparent 92%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 112% 80% at 50% 40%, black 15%, transparent 92%)',
         }}
       />
       {/* Hero Flow Path를 받는 소프트 글로우 — 위 섹션 커넥터가 번져 들어오는 느낌, 하드 라인으로 끊기지 않게 함 */}
@@ -235,34 +242,6 @@ const AboutSection = () => {
       />
       {/* D 모노그램 workmark — Hero/Footer의 실물 로고와 구분되는 옅은 배경 마크 */}
       <DMark size={220} sx={{ top: '4%', right: '0%' }} />
-      {/* 카드 행 뒤 process line — 4개 카드가 하나의 흐름임을 표시, 체감되게 강화 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          left: 0, right: 0, bottom: '14%',
-          height: '1.5px',
-          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.38) 50%, transparent 92%)',
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Flow Path — Hero 하단 커넥터와 동일한 정적 패턴, 다음 섹션(Projects)으로 흐름 연결 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 85,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
-          zIndex: 1,
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Flow Node — About→Projects 경계 마디, Route Line 표준 마커 */}
-      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
@@ -437,6 +416,20 @@ const AboutSection = () => {
               </Grid>
             ))}
           </Grid>
+        </Box>
+
+        {/* Flow Path — Hero/Projects와 완전히 동일한 규격(정상 흐름, mt:5, height:56)으로 통일 */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            position: 'relative',
+            width: '1px', height: 56, mt: 5, mx: 'auto',
+            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+            pointerEvents: 'none',
+          }}
+        >
+          <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
         </Box>
 
       </Container>

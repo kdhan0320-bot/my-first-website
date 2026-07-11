@@ -118,10 +118,10 @@ const HeroSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(59,130,246,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.16) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.19) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.19) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 98% 80% at 50% 25%, black 15%, transparent 92%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 98% 80% at 50% 25%, black 15%, transparent 92%)',
+          maskImage: 'radial-gradient(ellipse 112% 85% at 50% 25%, black 15%, transparent 94%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 112% 85% at 50% 25%, black 15%, transparent 94%)',
         }}
       />
 
@@ -142,22 +142,6 @@ const HeroSection = () => {
           animation: 'spotlightBreathe 16s ease-in-out infinite',
         }}
       />
-
-      {/* 다음 섹션(About)으로 이어지는 아주 약한 flow line 커넥터 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 85,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
-          zIndex: 1,
-          pointerEvents: 'none',
-        }}
-      />
-      {/* Flow Node — Hero→About 경계 마디, Route Line 표준 마커 */}
-      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
 
       {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음). left/right:0 + flex 중앙정렬로
           left:50%+translateX(-50%) 방식보다 확실하게 전체 폭 기준 정가운데에 놓는다 */}
@@ -386,6 +370,21 @@ const HeroSection = () => {
             </Box>
           </Grid>
         </Grid>
+
+        {/* Flow Path — About/Projects와 완전히 동일한 규격(정상 흐름, mt:5, height:56)으로 통일해
+            섹션 경계 커넥터가 위치·모양 다르게 보이던 문제를 없앤다 */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            position: 'relative',
+            width: '1px', height: 56, mt: 5, mx: 'auto',
+            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+            pointerEvents: 'none',
+          }}
+        >
+          <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
+        </Box>
       </Container>
     </Box>
   );
