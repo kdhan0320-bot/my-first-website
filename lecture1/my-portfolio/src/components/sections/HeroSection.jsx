@@ -19,7 +19,7 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 'auto', md: '86vh' },
+        minHeight: { xs: 'auto', md: '100vh' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -149,7 +149,7 @@ const HeroSection = () => {
         }}
       />
       {/* Flow Node — Hero→About 경계 마디, Route Line 표준 마커 */}
-      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }} />
+      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
 
       {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음) */}
       <Box

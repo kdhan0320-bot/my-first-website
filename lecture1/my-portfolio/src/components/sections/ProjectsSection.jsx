@@ -233,7 +233,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
 );
 
 /* 홈 대표 섹션은 정의상 대표 프로젝트만 노출되므로 배지는 항상 동일하게 표시 */
-const HOME_BADGE = { label: '대표 작업', color: '#818CF8', border: 'rgba(129,140,248,0.4)' };
+const HOME_BADGE = { label: '대표 작업', color: '#38BDF8', border: 'rgba(56,189,248,0.4)' };
 
 /* ── 프로젝트 카드 — 썸네일 중심 리스트 카드. 문제/역할/구현 범위/한계 같은 상세 설명은 모달에서만 보여준다 ── */
 const ProjectCard = ({ project, idx, onDetail }) => {

@@ -262,7 +262,7 @@ const AboutSection = () => {
         }}
       />
       {/* Flow Node — About→Projects 경계 마디, Route Line 표준 마커 */}
-      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translate(-50%, 50%)' }} />
+      <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
 
