@@ -406,7 +406,7 @@ const PostListPage = () => {
               variant="outlined"
               startIcon={<GitHub />}
               component="a"
-              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/my-community"
+              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/projects/my-community"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ width: { xs: '100%', sm: 'auto' } }}

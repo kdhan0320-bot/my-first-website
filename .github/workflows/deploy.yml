@@ -23,11 +23,11 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies (mini_sns)
-        working-directory: lecture1/mini_sns
+        working-directory: projects/mini_sns
         run: npm install
 
       - name: Build mini_sns
-        working-directory: lecture1/mini_sns
+        working-directory: projects/mini_sns
         env:
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -35,33 +35,33 @@ jobs:
         run: npm run build
 
       - name: Install dependencies (my-portfolio)
-        working-directory: lecture1/my-portfolio
+        working-directory: projects/my-portfolio
         run: npm install
 
       - name: Build my-portfolio
-        working-directory: lecture1/my-portfolio
+        working-directory: projects/my-portfolio
         env:
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Install dependencies (my-community)
-        working-directory: lecture1/my-community
+        working-directory: projects/my-community
         run: npm install
 
       - name: Build my-community
-        working-directory: lecture1/my-community
+        working-directory: projects/my-community
         env:
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Install dependencies (jobflow-dashboard)
-        working-directory: lecture1/jobflow-dashboard
+        working-directory: projects/jobflow-dashboard
         run: npm install
 
       - name: Build jobflow-dashboard
-        working-directory: lecture1/jobflow-dashboard
+        working-directory: projects/jobflow-dashboard
         env:
           VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -72,16 +72,16 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
-          cp -r lecture1/mini_sns/dist/. _site/mini-sns
+          cp -r projects/mini_sns/dist/. _site/mini-sns
           cp _site/mini-sns/index.html _site/mini-sns/404.html
-          cp -r lecture1/my-portfolio/dist/. _site/my-portfolio
+          cp -r projects/my-portfolio/dist/. _site/my-portfolio
           cp _site/my-portfolio/index.html _site/my-portfolio/404.html
-          cp -r lecture1/my-community/dist/. _site/my-community
+          cp -r projects/my-community/dist/. _site/my-community
           cp _site/my-community/index.html _site/my-community/404.html
-          cp -r lecture1/jobflow-dashboard/dist/. _site/jobflow-dashboard
+          cp -r projects/jobflow-dashboard/dist/. _site/jobflow-dashboard
           cp _site/jobflow-dashboard/index.html _site/jobflow-dashboard/404.html
           mkdir -p _site/ott-service
-          cp -r "lecture1/OTT Service/." _site/ott-service
+          cp -r "projects/OTT Service/." _site/ott-service
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4

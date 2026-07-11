@@ -5,11 +5,11 @@
 학원 수업용 테스트 자료, 예제 폴더, 임시 파일은 유지하지 않습니다.
 
 ## 최종 유지 대상
-- `lecture1/my-portfolio` — 메인 포트폴리오 사이트 (React + Vite + MUI + Supabase)
-- `lecture1/jobflow-dashboard` — JobFlow Dashboard 대표 프로젝트
-- `lecture1/my-community` — Portfolio Feedback Hub 대표 프로젝트
-- `lecture1/OTT Service` — OTT Service 웹퍼블리싱 프로젝트
-- `lecture1/mini_sns` — 보조 프로젝트. **참조가 없으면 삭제 후보** (현재는 deploy.yml 배포 + 포트폴리오 카드 링크로 참조 중이므로 유지)
+- `projects/my-portfolio` — 메인 포트폴리오 사이트 (React + Vite + MUI + Supabase)
+- `projects/jobflow-dashboard` — JobFlow Dashboard 대표 프로젝트
+- `projects/my-community` — Portfolio Feedback Hub 대표 프로젝트
+- `projects/OTT Service` — OTT Service 웹퍼블리싱 프로젝트
+- `projects/mini_sns` — 보조 프로젝트. **참조가 없으면 삭제 후보** (현재는 deploy.yml 배포 + 포트폴리오 카드 링크로 참조 중이므로 유지)
 
 배포는 `.github/workflows/deploy.yml`이 담당하며, 각 프로젝트를 빌드해 GitHub Pages 하위 경로로 배포합니다.
 
@@ -47,4 +47,4 @@
 - 기술적 내용을 쉽게 설명
 
 ## 프로젝트별 세부 규칙
-각 프로젝트 폴더의 `CLAUDE.md`(있는 경우)를 우선 따른다 (예: `lecture1/my-portfolio/CLAUDE.md`).
+각 프로젝트 폴더의 `CLAUDE.md`(있는 경우)를 우선 따른다 (예: `projects/my-portfolio/CLAUDE.md`).
