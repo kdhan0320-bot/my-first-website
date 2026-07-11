@@ -27,6 +27,21 @@ const ContactSection = () => {
         justifyContent: 'center',
       }}
     >
+      {/* Projects Flow Path를 받는 소프트 글로우 — Flow Motion이 Contact/Footer 도착점으로 모여드는 느낌의 시작점 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '-4%', left: '50%', transform: 'translateX(-50%)',
+          width: 280, height: 200,
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(56,189,248,0.13) 0%, transparent 72%)',
+          filter: 'blur(52px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
       {/* 배경 리듬 — Projects의 blueprint grid와 구분되는 저채도 radial glow, 정적 배치 */}
       <Box
         aria-hidden="true"
@@ -36,7 +51,7 @@ const ContactSection = () => {
           top: '-6%', left: '-8%',
           width: 360, height: 360,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(129,140,248,0.1) 0%, transparent 70%)',
           filter: 'blur(56px)',
           zIndex: 0,
           pointerEvents: 'none',
@@ -94,7 +109,7 @@ const ContactSection = () => {
                 top: '-40%', right: '-10%',
                 width: 420, height: 420,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(56,189,248,0.19) 0%, transparent 70%)',
                 filter: 'blur(50px)',
                 pointerEvents: 'none',
               }}
@@ -198,20 +213,31 @@ const ContactSection = () => {
           </Box>
         </RevealOnScroll>
 
-        {/* Footer — 링크 없이 Dohan.K 브랜드 마감. Contact 카드와 내용 중복 없음 */}
+        {/* CTA 카드와 Footer를 잇는 정적 Flow Path 세그먼트 — 두 영역이 분리된 카드처럼 끊기지 않게 함 */}
+        <Box
+          aria-hidden="true"
+          sx={{
+            display: { xs: 'none', md: 'block' },
+            width: '1px', height: 28, mx: 'auto',
+            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.4))',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Footer — 링크 없이 Dohan.K 브랜드 마감(도착점). Contact 카드와 내용 중복 없음 */}
         <Box
           component="footer"
           sx={{
             position: 'relative',
-            mt: { xs: 3, md: 6 },
-            pt: { xs: 3, md: 3.5 },
+            mt: { xs: 3, md: 4 },
+            pt: { xs: 3.5, md: 4.5 },
             borderTop: '1px solid rgba(148,163,184,0.14)',
             '&::before': {
               content: '""',
               position: 'absolute',
-              top: -1, left: '24%', right: '24%',
+              top: -1, left: '18%', right: '18%',
               height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.42), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.5), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
@@ -229,19 +255,19 @@ const ContactSection = () => {
                 position: 'absolute',
                 top: '50%', left: { xs: '50%', sm: 0 },
                 transform: { xs: 'translate(-50%, -50%)', sm: 'translateY(-50%)' },
-                width: 140, height: 60,
-                background: 'radial-gradient(ellipse, rgba(56,189,248,0.18) 0%, transparent 72%)',
-                filter: 'blur(18px)',
+                width: 170, height: 74,
+                background: 'radial-gradient(ellipse, rgba(56,189,248,0.22) 0%, transparent 72%)',
+                filter: 'blur(20px)',
                 pointerEvents: 'none',
               }}
             />
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
-              <LogoSymbol size={26} />
-              <Typography sx={{ color: 'text.primary', fontSize: '1.65rem', fontWeight: 800, letterSpacing: '0.03em' }}>
+            <Stack direction="row" alignItems="center" spacing={1.25} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
+              <LogoSymbol size={32} />
+              <Typography sx={{ color: 'text.primary', fontSize: '1.85rem', fontWeight: 800, letterSpacing: '0.03em' }}>
                 Dohan.K
               </Typography>
             </Stack>
-            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.5, ml: { sm: '34px' } }}>
+            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.5, ml: { sm: '40px' } }}>
               Design to Web Interface
             </Typography>
           </Box>

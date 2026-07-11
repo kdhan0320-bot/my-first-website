@@ -3,7 +3,6 @@ import TroubleshootOutlinedIcon from '@mui/icons-material/TroubleshootOutlined';
 import DesignServicesOutlinedIcon from '@mui/icons-material/DesignServicesOutlined';
 import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
 
@@ -24,13 +23,13 @@ const InlineRow = ({ label, children }) => (
   </Box>
 );
 
-/* mini process strip — 정리→설계→구현→검증. SKILL_CARDS와 같은 순서/컬러를 재사용해
- * intro 카드 안(요약)과 아래 4장 카드(상세) 두 자리가 같은 흐름을 가리키게 한다. */
+/* About timeline — 정리→설계→구현→검증. SKILL_CARDS와 같은 순서/컬러를 재사용해
+ * timeline(요약, node+라벨+1줄 설명)과 아래 4장 카드(상세) 두 자리가 같은 흐름을 가리키게 한다. */
 const PROCESS_STEPS = [
-  { step: '01', label: '정리', color: '#38BDF8' },
-  { step: '02', label: '설계', color: '#A78BFA' },
-  { step: '03', label: '구현', color: '#60A5FA' },
-  { step: '04', label: '검증', color: '#A7F3D0' },
+  { step: '01', label: '정리', color: '#38BDF8', desc: '정보 구조와 사용자 흐름 정리' },
+  { step: '02', label: '설계', color: '#A78BFA', desc: 'Figma 화면과 컴포넌트 설계' },
+  { step: '03', label: '구현', color: '#60A5FA', desc: 'React/MUI 반응형 화면 구현' },
+  { step: '04', label: '검증', color: '#A7F3D0', desc: '접근성·반응형·한계 확인' },
 ];
 
 const SKILL_CARDS = [
@@ -78,6 +77,21 @@ const AboutSection = () => {
         pb: { xs: 3, md: 8 },
       }}
     >
+      {/* Hero Flow Path를 받는 소프트 글로우 — 위 섹션 커넥터가 번져 들어오는 느낌, 하드 라인으로 끊기지 않게 함 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '-4%', left: '50%', transform: 'translateX(-50%)',
+          width: 280, height: 200,
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(56,189,248,0.13) 0%, transparent 72%)',
+          filter: 'blur(52px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
       {/* Hero의 Flow Stream이 이어지는 느낌의 정적 리본 — About 밖에서는 무한 반복 모션을 쓰지 않으므로 정지 상태로 배치 */}
       <Box
         aria-hidden="true"
@@ -86,7 +100,7 @@ const AboutSection = () => {
           position: 'absolute',
           top: '-18%', left: '-15%',
           width: '130%', height: '55%',
-          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.105) 48%, rgba(129,140,248,0.08) 53%, transparent 72%)',
+          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.135) 48%, rgba(129,140,248,0.1) 53%, transparent 72%)',
           filter: 'blur(30px)',
           zIndex: 0,
           pointerEvents: 'none',
@@ -101,7 +115,7 @@ const AboutSection = () => {
           top: '10%', right: '-6%',
           width: 460, height: 460,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.155) 0%, transparent 70%)',
           filter: 'blur(64px)',
           zIndex: 0,
           pointerEvents: 'none',
@@ -117,20 +131,20 @@ const AboutSection = () => {
           position: 'absolute',
           left: 0, right: 0, bottom: '14%',
           height: '1.5px',
-          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.3) 50%, transparent 92%)',
+          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.38) 50%, transparent 92%)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
       />
-      {/* Process Line — Hero 하단 커넥터와 동일한 정적 패턴, 다음 섹션(Projects)으로 흐름 연결 */}
+      {/* Flow Path — Hero 하단 커넥터와 동일한 정적 패턴, 다음 섹션(Projects)으로 흐름 연결 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 64,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.42))',
+          width: '1px', height: 85,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.55))',
           zIndex: 1,
           pointerEvents: 'none',
         }}
@@ -222,61 +236,96 @@ const AboutSection = () => {
                 실제 사용자 테스트와 정량 성과 데이터는 아직 부족합니다.
               </Typography>
             </InlineRow>
+          </Box>
+        </RevealOnScroll>
 
-            {/* mini process strip — 정리→설계→구현→검증을 표가 아니라 흐름으로 보여준다 */}
-            <Box
-              sx={{
-                mt: 2.5,
-                pt: 2.25,
-                borderTop: '1px solid rgba(148,163,184,0.14)',
-                display: 'grid',
-                gridTemplateColumns: { xs: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)' },
-                gap: { xs: 1.5, sm: 0 },
-              }}
-            >
-              {PROCESS_STEPS.map((item, i) => (
+        {/* About timeline — 정리→설계→구현→검증을 node+커넥터로 잇는 독립 블록.
+            데스크톱은 가로 4열+중앙 흐름선, 태블릿은 2×2, 모바일은 세로 1열 */}
+        <Box sx={{ maxWidth: 900, mx: 'auto', mb: { xs: 5, md: 6 } }}>
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' },
+              rowGap: { xs: 2.5, sm: 3, md: 0 },
+              columnGap: { sm: 2 },
+            }}
+          >
+            {PROCESS_STEPS.map((item, i) => (
+              <RevealOnScroll key={item.step} delay={i * 0.12} y={14}>
                 <Box
-                  key={item.step}
                   sx={{
+                    position: 'relative',
                     display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    justifyContent: { xs: 'flex-start', sm: i === 0 ? 'flex-start' : 'center' },
+                    flexDirection: { xs: 'row', md: 'column' },
+                    alignItems: { xs: 'flex-start', md: 'center' },
+                    textAlign: { xs: 'left', md: 'center' },
+                    gap: { xs: 1.5, md: 1 },
+                    px: { md: 1.5 },
+                    '&:hover .timeline-node': {
+                      borderColor: item.color,
+                      boxShadow: `0 0 14px ${item.color}55`,
+                      transform: 'scale(1.06)',
+                    },
+                    '&:hover .timeline-connector': {
+                      background: `linear-gradient(90deg, ${item.color}, ${item.color}40)`,
+                    },
                   }}
                 >
-                  <Box
-                    sx={{
-                      width: 26, height: 26, flexShrink: 0,
-                      borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      bgcolor: `${item.color}18`,
-                      border: `1px solid ${item.color}55`,
-                    }}
-                  >
-                    <Typography sx={{ fontSize: '0.75rem', fontWeight: 700, color: item.color }}>
-                      {item.step}
-                    </Typography>
-                  </Box>
-                  <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: 'text.primary' }}>
-                    {item.label}
-                  </Typography>
-                  {i < PROCESS_STEPS.length - 1 && (
-                    <ArrowForwardIcon
+                  {/* 모바일/태블릿: 이전 노드에서 내려오는 세로 커넥터 */}
+                  {i > 0 && (
+                    <Box
                       aria-hidden="true"
                       sx={{
-                        display: { xs: 'none', sm: 'inline-flex' },
-                        fontSize: 16,
-                        color: 'text.disabled',
-                        opacity: 0.5,
-                        ml: 'auto',
+                        display: { xs: 'block', md: 'none' },
+                        position: 'absolute',
+                        left: 21, top: -22, width: '2px', height: 22,
+                        background: 'linear-gradient(180deg, rgba(56,189,248,0.08), rgba(56,189,248,0.35))',
                       }}
                     />
                   )}
+                  {/* 데스크톱: 다음 노드로 이어지는 가로 커넥터(마지막 제외) */}
+                  {i < PROCESS_STEPS.length - 1 && (
+                    <Box
+                      aria-hidden="true"
+                      className="timeline-connector"
+                      sx={{
+                        display: { xs: 'none', md: 'block' },
+                        position: 'absolute',
+                        left: '50%', top: 22, width: '100%', height: '2px',
+                        background: 'linear-gradient(90deg, rgba(56,189,248,0.32), rgba(56,189,248,0.14))',
+                        transition: 'background 0.25s ease',
+                        zIndex: 0,
+                      }}
+                    />
+                  )}
+                  <Box
+                    className="timeline-node"
+                    sx={{
+                      position: 'relative', zIndex: 1, flexShrink: 0,
+                      width: 44, height: 44, borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      bgcolor: `${item.color}18`,
+                      border: `1.5px solid ${item.color}55`,
+                      transition: 'border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
+                    }}
+                  >
+                    <Typography sx={{ fontSize: '0.8125rem', fontWeight: 700, color: item.color }}>
+                      {item.step}
+                    </Typography>
+                  </Box>
+                  <Box sx={{ minWidth: 0 }}>
+                    <Typography sx={{ fontSize: '0.9375rem', fontWeight: 700, color: 'text.primary' }}>
+                      {item.label}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', lineHeight: 1.6, mt: 0.25 }}>
+                      {item.desc}
+                    </Typography>
+                  </Box>
                 </Box>
-              ))}
-            </Box>
+              </RevealOnScroll>
+            ))}
           </Box>
-        </RevealOnScroll>
+        </Box>
 
         {/* 역량 카드 — 카드별 개별 stagger reveal */}
         <Box sx={{ position: 'relative', mb: { xs: 1, md: 4 } }}>

@@ -201,7 +201,7 @@ const THUMB_ZOOM = {};
  * 상단 chrome bar(window dots) + inner shadow를 더한다. objectFit은 항상 contain 유지,
  * dots는 좌상단 Evidence Badge(대표 작업)와 겹치지 않게 우측 정렬한다. */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', flexShrink: 0, border: '1px solid rgba(255,255,255,0.07)' }}>
+  <Box sx={{ position: 'relative', flexShrink: 0, border: '1px solid rgba(255,255,255,0.07)', boxShadow: '0 0 22px rgba(56,189,248,0.05)' }}>
     <Box
       aria-hidden="true"
       sx={{
@@ -390,6 +390,36 @@ const ProjectsSection = () => {
         pb: { xs: 4, md: 6 },
       }}
     >
+      {/* About Flow Path를 받는 소프트 글로우 — 하드 라인으로 끊기지 않고 번져 들어오는 느낌 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '-4%', left: '50%', transform: 'translateX(-50%)',
+          width: 280, height: 200,
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(56,189,248,0.13) 0%, transparent 72%)',
+          filter: 'blur(52px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+      {/* Stage focus — Projects Preview Monitor 뒤 은은한 스포트라이트, 컴포넌트 구조는 건드리지 않음 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          top: '14%', left: '50%', transform: 'translateX(-50%)',
+          width: 700, height: 340,
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(56,189,248,0.09) 0%, transparent 72%)',
+          filter: 'blur(60px)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
       {/* Flow Stream이 이어지는 아주 옅은 blueprint grid — 카드 가독성을 해치지 않는 선에서만 배치, 은하처럼 보이지 않게 절제 */}
       <Box
         aria-hidden="true"
@@ -399,7 +429,7 @@ const ProjectsSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.07) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.09) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
           WebkitMaskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
@@ -407,15 +437,15 @@ const ProjectsSection = () => {
       />
       {/* D 모노그램 workmark — About과 다른 코너에 배치해 반복이지만 과하지 않게 */}
       <DMark size={200} sx={{ bottom: '2%', left: '0%' }} />
-      {/* Process Line — 다음 섹션(Contact)으로 흐름 연결, 정적 커넥터 */}
+      {/* Flow Path — 다음 섹션(Contact)으로 흐름 연결, 정적 커넥터 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 64,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.42))',
+          width: '1px', height: 85,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.55))',
           zIndex: 1,
           pointerEvents: 'none',
         }}
