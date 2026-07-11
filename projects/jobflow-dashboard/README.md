@@ -103,7 +103,7 @@ npm run build
 
 ## 배포 링크
 
-**데모:** https://kdhan0320-bot.github.io/my-first-website/jobflow-dashboard/
+**데모:** https://kdhan0320-bot.github.io/dohan-portfolio/jobflow-dashboard/
 
 > 게스트 모드로 회원가입 없이 기능을 체험할 수 있습니다.
 

@@ -111,7 +111,7 @@ const MainLayout = ({ children, hideGuestBanner = false }) => {
           <Box sx={{ display: "flex", gap: 0.75 }}>
             <Button
               component="a"
-              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/projects/mini_sns"
+              href="https://github.com/kdhan0320-bot/dohan-portfolio/tree/main/projects/mini_sns"
               target="_blank"
               rel="noopener noreferrer"
               variant="outlined"
@@ -137,7 +137,7 @@ const MainLayout = ({ children, hideGuestBanner = false }) => {
             </Button>
             <Button
               component="a"
-              href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
+              href="https://kdhan0320-bot.github.io/dohan-portfolio/my-portfolio/"
               target="_blank"
               rel="noopener noreferrer"
               variant="outlined"

@@ -2,7 +2,7 @@
 
 작업 기록과 스터디 모임을 공유하는 모바일 소셜 앱 데모입니다.
 
-- 배포 주소: https://kdhan0320-bot.github.io/my-first-website/mini-sns/
+- 배포 주소: https://kdhan0320-bot.github.io/dohan-portfolio/mini-sns/
 
 ---
 

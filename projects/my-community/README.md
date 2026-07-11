@@ -2,7 +2,7 @@
 
 취업 준비생과 UX/UI 학습자가 포트폴리오를 공유하고 피드백을 주고받을 수 있는 커뮤니티형 게시판입니다.
 
-- 배포 주소: https://kdhan0320-bot.github.io/my-first-website/my-community/
+- 배포 주소: https://kdhan0320-bot.github.io/dohan-portfolio/my-community/
 
 ---
 
