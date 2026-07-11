@@ -13,7 +13,7 @@ const APPLICATION_FOCUS = ['UX/UI', 'Web Publishing', 'React/MUI', 'Responsive Q
 const TOOL_LINE = 'Figma · React/MUI · HTML/CSS/JavaScript · GitHub · Supabase · AI Tools';
 
 const InlineRow = ({ label, children }) => (
-  <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 1, mt: 1.75 }}>
+  <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 1, mt: 2 }}>
     <Typography
       variant="caption"
       sx={{ color: 'text.disabled', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.06em', textTransform: 'uppercase', flexShrink: 0 }}
@@ -86,7 +86,7 @@ const AboutSection = () => {
           position: 'absolute',
           top: '-18%', left: '-15%',
           width: '130%', height: '55%',
-          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.09) 48%, rgba(129,140,248,0.07) 53%, transparent 72%)',
+          background: 'linear-gradient(100deg, transparent 30%, rgba(56,189,248,0.105) 48%, rgba(129,140,248,0.08) 53%, transparent 72%)',
           filter: 'blur(30px)',
           zIndex: 0,
           pointerEvents: 'none',
@@ -101,7 +101,7 @@ const AboutSection = () => {
           top: '10%', right: '-6%',
           width: 460, height: 460,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 70%)',
           filter: 'blur(64px)',
           zIndex: 0,
           pointerEvents: 'none',
@@ -117,7 +117,7 @@ const AboutSection = () => {
           position: 'absolute',
           left: 0, right: 0, bottom: '14%',
           height: '1.5px',
-          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.26) 50%, transparent 92%)',
+          background: 'linear-gradient(90deg, transparent 8%, rgba(56,189,248,0.3) 50%, transparent 92%)',
           zIndex: 0,
           pointerEvents: 'none',
         }}
@@ -129,8 +129,8 @@ const AboutSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 54,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.34))',
+          width: '1px', height: 64,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.42))',
           zIndex: 1,
           pointerEvents: 'none',
         }}

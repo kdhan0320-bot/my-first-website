@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
 import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../projects/ProjectThumbnailArt';
+import EvidenceBadges from '../projects/EvidenceBadges';
 import ProjectsPreviewMonitor from '../projects/ProjectsPreviewMonitor';
 import { supabase } from '../../lib/supabase';
 import { ALL_PROJECTS } from '../../data/projectsData';
@@ -81,6 +82,7 @@ const ProjectDetailModal = ({ project, open, onClose }) => {
       </DialogTitle>
       <Divider />
       <DialogContent sx={{ pt: 2.5 }}>
+        <EvidenceBadges project={project} />
         {/* 1. 프로젝트 개요 */}
         <DetailRow label="프로젝트 개요">
           <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
@@ -213,7 +215,7 @@ const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
       <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#FBBF24', opacity: 0.5 }} />
       <Box sx={{ width: 7, height: 7, borderRadius: '50%', bgcolor: '#34D399', opacity: 0.5 }} />
     </Box>
-    <Box sx={{ position: 'relative', height: { xs: 164, sm: 192, md: 220 }, overflow: 'hidden', background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}`, boxShadow: 'inset 0 0 28px rgba(0,0,0,0.4)' }}>
+    <Box sx={{ position: 'relative', height: { xs: 216, sm: 256, md: 300 }, overflow: 'hidden', background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}`, boxShadow: 'inset 0 0 28px rgba(0,0,0,0.4)' }}>
       {thumbnailUrl ? (
         <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
           <Box component="img" src={thumbnailUrl} alt={`${title} 프로젝트 썸네일`} loading="lazy" className="thumb-img"
@@ -243,7 +245,7 @@ const ProjectCard = ({ project, idx, onDetail }) => {
       sx={{
         display: 'flex', flexDirection: 'column', flex: 1,
         position: 'relative',
-        minHeight: { md: 430 },
+        minHeight: { md: 520 },
         bgcolor: '#111827',
         border: '1px solid rgba(148,163,184,0.14)',
         borderTop: `2px solid ${accent}59`,
@@ -397,7 +399,7 @@ const ProjectsSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.06) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(148,163,184,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.07) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
           WebkitMaskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
@@ -412,8 +414,8 @@ const ProjectsSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 54,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.34))',
+          width: '1px', height: 64,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.42))',
           zIndex: 1,
           pointerEvents: 'none',
         }}

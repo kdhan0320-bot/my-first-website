@@ -18,6 +18,13 @@ const ContactSection = () => {
         bgcolor: 'background.default',
         pt: { xs: 4, md: 5 },
         pb: { xs: 4, md: 5 },
+        /* Contact는 마지막 섹션이라 콘텐츠가 짧으면 문서 최대 스크롤이 "헤더 밑에 상단 정렬"에
+         * 필요한 거리보다 작아져, scrollToSection이 브라우저 clamp로 목표보다 훨씬 아래에서
+         * 멈추는 문제가 있었다. 최소 뷰포트 비율을 확보해 항상 스크롤 여유 공간이 있게 한다. */
+        minHeight: { xs: 'auto', sm: '85vh' },
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
       }}
     >
       {/* 배경 리듬 — Projects의 blueprint grid와 구분되는 저채도 radial glow, 정적 배치 */}
@@ -29,7 +36,7 @@ const ContactSection = () => {
           top: '-6%', left: '-8%',
           width: 360, height: 360,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(129,140,248,0.068) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%)',
           filter: 'blur(56px)',
           zIndex: 0,
           pointerEvents: 'none',
@@ -87,7 +94,7 @@ const ContactSection = () => {
                 top: '-40%', right: '-10%',
                 width: 420, height: 420,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(56,189,248,0.14) 0%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(56,189,248,0.16) 0%, transparent 70%)',
                 filter: 'blur(50px)',
                 pointerEvents: 'none',
               }}
@@ -202,9 +209,9 @@ const ContactSection = () => {
             '&::before': {
               content: '""',
               position: 'absolute',
-              top: -1, left: '30%', right: '30%',
+              top: -1, left: '24%', right: '24%',
               height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.35), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.42), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
@@ -223,14 +230,14 @@ const ContactSection = () => {
                 top: '50%', left: { xs: '50%', sm: 0 },
                 transform: { xs: 'translate(-50%, -50%)', sm: 'translateY(-50%)' },
                 width: 140, height: 60,
-                background: 'radial-gradient(ellipse, rgba(56,189,248,0.16) 0%, transparent 72%)',
+                background: 'radial-gradient(ellipse, rgba(56,189,248,0.18) 0%, transparent 72%)',
                 filter: 'blur(18px)',
                 pointerEvents: 'none',
               }}
             />
             <Stack direction="row" alignItems="center" spacing={1} sx={{ position: 'relative', justifyContent: { xs: 'center', sm: 'flex-start' } }}>
               <LogoSymbol size={26} />
-              <Typography sx={{ color: 'text.primary', fontSize: '1.5rem', fontWeight: 800, letterSpacing: '0.02em' }}>
+              <Typography sx={{ color: 'text.primary', fontSize: '1.65rem', fontWeight: 800, letterSpacing: '0.03em' }}>
                 Dohan.K
               </Typography>
             </Stack>

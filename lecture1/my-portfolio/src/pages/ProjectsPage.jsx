@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { supabase } from '../lib/supabase';
 import { ALL_PROJECTS, FILTER_TABS } from '../data/projectsData';
 import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../components/projects/ProjectThumbnailArt';
+import EvidenceBadges from '../components/projects/EvidenceBadges';
 
 /* ── Supabase 데이터를 공유 포맷으로 변환 ── */
 const fromSupabase = (row) => ({
@@ -67,6 +68,7 @@ const DetailModal = ({ project, open, onClose }) => {
       </DialogTitle>
       <Divider />
       <DialogContent sx={{ pt: 2.5 }}>
+        <EvidenceBadges project={project} />
         <DetailRow label="작업 개요">
           <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
         </DetailRow>
