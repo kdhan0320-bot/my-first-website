@@ -141,8 +141,8 @@ const HeroSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 48,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+          width: '1px', height: 54,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.34))',
           zIndex: 1,
           pointerEvents: 'none',
         }}

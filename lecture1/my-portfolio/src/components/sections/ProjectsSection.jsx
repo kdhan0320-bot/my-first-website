@@ -199,7 +199,7 @@ const THUMB_ZOOM = {};
  * 상단 chrome bar(window dots) + inner shadow를 더한다. objectFit은 항상 contain 유지,
  * dots는 좌상단 Evidence Badge(대표 작업)와 겹치지 않게 우측 정렬한다. */
 const ProjectThumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', flexShrink: 0 }}>
+  <Box sx={{ position: 'relative', flexShrink: 0, border: '1px solid rgba(255,255,255,0.07)' }}>
     <Box
       aria-hidden="true"
       sx={{
@@ -412,8 +412,8 @@ const ProjectsSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 48,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+          width: '1px', height: 54,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.34))',
           zIndex: 1,
           pointerEvents: 'none',
         }}

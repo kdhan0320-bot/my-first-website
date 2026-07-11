@@ -29,7 +29,7 @@ const ContactSection = () => {
           top: '-6%', left: '-8%',
           width: 360, height: 360,
           borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(129,140,248,0.06) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(129,140,248,0.068) 0%, transparent 70%)',
           filter: 'blur(56px)',
           zIndex: 0,
           pointerEvents: 'none',

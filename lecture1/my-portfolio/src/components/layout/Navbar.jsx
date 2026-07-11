@@ -19,7 +19,6 @@ import LogoSymbol from '../ui/LogoSymbol';
 const GITHUB_URL = 'https://github.com/kdhan0320-bot';
 
 const NAV_ITEMS = [
-  { label: '소개',     type: 'scroll', sectionId: 'about' },
   { label: '프로젝트', type: 'route',  to: '/projects' },
   { label: '연락처',   type: 'scroll', sectionId: 'contact' },
 ];
@@ -37,7 +36,6 @@ const Navbar = () => {
 
   const getActiveLabel = () => {
     if (location.pathname === '/projects') return '프로젝트';
-    if (isHome && activeSection === 'about') return '소개';
     if (isHome && activeSection === 'contact') return '연락처';
     return '';
   };

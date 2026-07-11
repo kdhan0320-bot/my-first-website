@@ -129,8 +129,8 @@ const AboutSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
-          width: '1px', height: 48,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
+          width: '1px', height: 54,
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.34))',
           zIndex: 1,
           pointerEvents: 'none',
         }}
@@ -185,13 +185,22 @@ const AboutSection = () => {
             </Typography>
 
             <InlineRow label="지원 방향">
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+              <Box
+                sx={{
+                  display: { xs: 'grid', sm: 'flex' },
+                  gridTemplateColumns: { xs: 'repeat(2, 1fr)' },
+                  flexWrap: { sm: 'wrap' },
+                  gap: { xs: 1, sm: 0.75 },
+                  width: { xs: '100%', sm: 'auto' },
+                }}
+              >
                 {APPLICATION_FOCUS.map((item) => (
                   <Box
                     key={item}
                     sx={{
                       px: 1.1, py: 0.4, borderRadius: 999,
                       bgcolor: 'rgba(148,163,184,0.08)', border: '1px solid rgba(148,163,184,0.2)',
+                      textAlign: 'center',
                     }}
                   >
                     <Typography sx={{ fontSize: '0.875rem', color: 'text.secondary', fontWeight: 600, whiteSpace: 'nowrap' }}>
