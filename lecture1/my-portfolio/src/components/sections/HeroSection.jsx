@@ -162,7 +162,9 @@ const HeroSection = () => {
         <KeyboardArrowDownIcon sx={{ fontSize: 42 }} />
       </Box>
 
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
+      {/* pt/pb를 대칭으로 맞추는 것만으로는 "더 위로"라는 요청에 응답할 수 없다(대칭=그 자리에서 중앙일 뿐).
+          박스 모델과 무관하게 항상 예측 가능하게 위로 옮길 수 있도록 translateY를 직접 사용한다. */}
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%', transform: { md: 'translateY(-36px)' } }}>
         <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: 'center' }}>
 
           {/* 왼쪽: 텍스트 */}
