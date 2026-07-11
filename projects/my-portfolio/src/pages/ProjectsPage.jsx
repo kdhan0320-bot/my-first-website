@@ -396,6 +396,12 @@ const ProjectsPage = () => {
   const [modalOpen, setModalOpen]       = useState(false);
 
   useEffect(() => {
+    /* env 변수가 없어 supabase 클라이언트가 없으면 로컬 데이터만 사용한다 */
+    if (!supabase) {
+      setProjects(ALL_PROJECTS);
+      setLoading(false);
+      return;
+    }
     supabase
       .from('projects')
       .select('*')

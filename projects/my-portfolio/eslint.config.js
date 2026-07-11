@@ -29,6 +29,9 @@ export default [
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,
       'react/jsx-no-target-blank': 'off',
+      // TypeScript/PropTypes를 적극적으로 쓰지 않는 JS 기반 프로젝트라 prop-types 선언을
+      // 강제하지 않는다. no-unused-vars, hooks, 접근성 관련 규칙은 그대로 유지한다.
+      'react/prop-types': 'off',
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },

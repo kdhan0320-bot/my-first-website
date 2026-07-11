@@ -365,6 +365,8 @@ const ProjectsSection = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
+    /* env 변수가 없어 supabase 클라이언트가 없으면 FEATURED_FALLBACK을 그대로 사용한다 */
+    if (!supabase) return;
     supabase
       .from('projects')
       .select('*')
