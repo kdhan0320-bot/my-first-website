@@ -111,7 +111,7 @@ const MainLayout = ({ children, hideGuestBanner = false }) => {
           <Box sx={{ display: "flex", gap: 0.75 }}>
             <Button
               component="a"
-              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/lecture1/mini_sns"
+              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/projects/mini_sns"
               target="_blank"
               rel="noopener noreferrer"
               variant="outlined"
