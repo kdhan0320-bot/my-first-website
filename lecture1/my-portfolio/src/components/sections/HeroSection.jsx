@@ -154,13 +154,15 @@ const HeroSection = () => {
       {/* Flow Node — Hero→About 경계 마디, Route Line 표준 마커 */}
       <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
 
-      {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음) */}
+      {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음). left/right:0 + flex 중앙정렬로
+          left:50%+translateX(-50%) 방식보다 확실하게 전체 폭 기준 정가운데에 놓는다 */}
       <Box
         aria-hidden="true"
         sx={{
           display: { xs: 'none', md: 'flex' },
           position: 'absolute',
-          left: '50%', bottom: 20, transform: 'translateX(-50%)',
+          left: 0, right: 0, bottom: 20,
+          justifyContent: 'center',
           zIndex: 1,
           pointerEvents: 'none',
           color: 'text.disabled',
@@ -168,7 +170,7 @@ const HeroSection = () => {
           animation: 'fadeInUp 0.6s ease 0.9s both',
         }}
       >
-        <KeyboardArrowDownIcon sx={{ fontSize: 20 }} />
+        <KeyboardArrowDownIcon sx={{ fontSize: 34 }} />
       </Box>
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
