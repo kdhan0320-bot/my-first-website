@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { Box, Container, Typography, Grid } from '@mui/material';
-import TroubleshootOutlinedIcon from '@mui/icons-material/TroubleshootOutlined';
-import DesignServicesOutlinedIcon from '@mui/icons-material/DesignServicesOutlined';
-import DevicesOutlinedIcon from '@mui/icons-material/DevicesOutlined';
+import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
+import CodeOutlinedIcon from '@mui/icons-material/CodeOutlined';
 import FactCheckOutlinedIcon from '@mui/icons-material/FactCheckOutlined';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
@@ -29,7 +29,7 @@ const InlineRow = ({ label, children }) => (
  * timeline(요약, node+라벨+1줄 설명)과 아래 4장 카드(상세) 두 자리가 같은 흐름을 가리키게 한다. */
 const PROCESS_STEPS = [
   { step: '01', label: '정리', color: '#38BDF8', desc: '정보 구조와 사용자 흐름 정리' },
-  { step: '02', label: '설계', color: '#A78BFA', desc: 'Figma 화면과 컴포넌트 설계' },
+  { step: '02', label: '설계', color: '#3B82F6', desc: 'Figma 화면과 컴포넌트 설계' },
   { step: '03', label: '구현', color: '#60A5FA', desc: 'React/MUI 반응형 화면 구현' },
   { step: '04', label: '검증', color: '#A7F3D0', desc: '접근성·반응형·한계 확인' },
 ];
@@ -37,21 +37,21 @@ const PROCESS_STEPS = [
 const SKILL_CARDS = [
   {
     index: '01',
-    icon: <TroubleshootOutlinedIcon sx={{ fontSize: 22 }} />,
+    icon: <AccountTreeOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '문제 정리',
     color: '#38BDF8',
     body: '요구사항과 사용자 흐름을 정리하고, 화면에서 먼저 보여야 할 정보를 구분합니다.',
   },
   {
     index: '02',
-    icon: <DesignServicesOutlinedIcon sx={{ fontSize: 22 }} />,
+    icon: <GridViewOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '화면 설계',
-    color: '#A78BFA',
+    color: '#3B82F6',
     body: 'Figma에서 와이어프레임과 컴포넌트 구조를 잡고, 모바일/태블릿 기준까지 함께 검토합니다.',
   },
   {
     index: '03',
-    icon: <DevicesOutlinedIcon sx={{ fontSize: 22 }} />,
+    icon: <CodeOutlinedIcon sx={{ fontSize: 22 }} />,
     title: '웹 구현',
     color: '#60A5FA',
     body: 'React/MUI, HTML/CSS, JavaScript로 카드, 모달, 반응형 레이아웃을 구현합니다.',
@@ -195,7 +195,7 @@ const AboutSection = () => {
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
           top: '-4%', left: '50%', transform: 'translateX(-50%)',
-          width: 280, height: 200,
+          width: 340, height: 230,
           borderRadius: '50%',
           background: 'radial-gradient(ellipse, rgba(56,189,248,0.13) 0%, transparent 72%)',
           filter: 'blur(52px)',
