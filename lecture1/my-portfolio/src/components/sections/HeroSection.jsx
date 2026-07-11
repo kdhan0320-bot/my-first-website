@@ -19,12 +19,15 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        minHeight: { xs: 'auto', md: '100vh' },
+        /* App.jsx에서 고정 헤더(64px)만큼 스페이서 Box를 이미 앞에 두므로,
+         * Hero는 "스페이서 + Hero"가 정확히 한 화면(100vh)이 되도록 그 64px를 뺀 높이를 쓴다.
+         * 그냥 100vh를 쓰면 스페이서만큼 한 화면을 넘겨 하단 화살표가 접힘 밖으로 밀려난다. */
+        minHeight: { xs: 'auto', md: 'calc(100vh - 64px)' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        pt: { xs: 4, sm: 7, md: 8 },
-        pb: { xs: 1.5, sm: 4, md: 6 },
+        pt: { xs: 4, sm: 7, md: 4 },
+        pb: { xs: 1.5, sm: 4, md: 4 },
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
