@@ -106,7 +106,7 @@ const SidebarContent = ({ onNavigate }) => {
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
           <Link
-            href="https://github.com/kdhan0320-bot/my-first-website"
+            href="https://github.com/kdhan0320-bot/dohan-portfolio"
             target="_blank"
             rel="noopener noreferrer"
             variant="caption"
@@ -116,7 +116,7 @@ const SidebarContent = ({ onNavigate }) => {
             GitHub
           </Link>
           <Link
-            href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
+            href="https://kdhan0320-bot.github.io/dohan-portfolio/my-portfolio/"
             target="_blank"
             rel="noopener noreferrer"
             variant="caption"

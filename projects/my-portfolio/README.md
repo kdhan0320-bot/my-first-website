@@ -2,7 +2,7 @@
 
 사용자 흐름과 정보 구조를 정리하고, Figma 설계와 React/MUI 구현으로 연결하는 신입 UX/UI 웹디자이너·웹퍼블리셔 포트폴리오입니다.
 
-배포 주소: https://kdhan0320-bot.github.io/my-first-website/my-portfolio/
+배포 주소: https://kdhan0320-bot.github.io/dohan-portfolio/my-portfolio/
 
 ---
 

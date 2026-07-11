@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --dest my-portfolio -r https://github.com/kdhan0320-bot/my-first-website.git -b gh-pages"
+    "deploy": "gh-pages -d dist --dest my-portfolio -r https://github.com/kdhan0320-bot/dohan-portfolio.git -b gh-pages"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

@@ -406,7 +406,7 @@ const PostListPage = () => {
               variant="outlined"
               startIcon={<GitHub />}
               component="a"
-              href="https://github.com/kdhan0320-bot/my-first-website/tree/main/projects/my-community"
+              href="https://github.com/kdhan0320-bot/dohan-portfolio/tree/main/projects/my-community"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ width: { xs: '100%', sm: 'auto' } }}
@@ -417,7 +417,7 @@ const PostListPage = () => {
               variant="contained"
               startIcon={<ArrowOutward />}
               component="a"
-              href="https://kdhan0320-bot.github.io/my-first-website/my-portfolio/"
+              href="https://kdhan0320-bot.github.io/dohan-portfolio/my-portfolio/"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ width: { xs: '100%', sm: 'auto' } }}
