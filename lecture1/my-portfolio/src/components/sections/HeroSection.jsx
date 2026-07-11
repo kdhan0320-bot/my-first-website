@@ -49,6 +49,11 @@ const HeroSection = () => {
           '0%, 100%': { transform: 'translate(-4%, -2%) rotate(-18deg)' },
           '50%':      { transform: 'translate(4%, 2%) rotate(-18deg)' },
         },
+        /* Scroll cue 전용 — 아주 약한 위아래 bounce, Hero 한정 ambient motion 예외 범위 안 */
+        '@keyframes arrowBounce': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%':      { transform: 'translateY(6px)' },
+        },
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
@@ -167,10 +172,10 @@ const HeroSection = () => {
           pointerEvents: 'none',
           color: 'text.disabled',
           opacity: 0,
-          animation: 'fadeInUp 0.6s ease 0.9s both',
+          animation: 'fadeInUp 0.6s ease 0.9s both, arrowBounce 2.2s ease-in-out 1.5s infinite',
         }}
       >
-        <KeyboardArrowDownIcon sx={{ fontSize: 34 }} />
+        <KeyboardArrowDownIcon sx={{ fontSize: 42 }} />
       </Box>
 
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%' }}>
