@@ -38,8 +38,8 @@ const ContactSection = () => {
           pointerEvents: 'none',
           backgroundImage: 'linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 75% 60% at 50% 30%, black 20%, transparent 82%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 30%, black 20%, transparent 82%)',
+          maskImage: 'radial-gradient(ellipse 98% 72% at 50% 30%, black 15%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 98% 72% at 50% 30%, black 15%, transparent 90%)',
         }}
       />
       {/* Projects Flow Path를 받는 소프트 글로우 — Flow Motion이 Contact/Footer 도착점으로 모여드는 느낌의 시작점 */}
@@ -274,7 +274,7 @@ const ContactSection = () => {
           sx={{
             position: 'relative',
             mt: { xs: 3, md: 4 },
-            pt: { xs: 3.5, md: 4.5 },
+            pt: { xs: 3, md: 3.5 },
             borderTop: '1px solid rgba(148,163,184,0.14)',
             '&::before': {
               content: '""',
@@ -285,7 +285,7 @@ const ContactSection = () => {
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: { xs: 'center', sm: 'center' },
+            alignItems: { xs: 'center', sm: 'flex-start' },
             justifyContent: 'space-between',
             gap: 1.5,
             textAlign: { xs: 'center', sm: 'left' },

@@ -434,8 +434,8 @@ const ProjectsSection = () => {
           pointerEvents: 'none',
           backgroundImage: 'linear-gradient(rgba(59,130,246,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.09) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
+          maskImage: 'radial-gradient(ellipse 98% 70% at 50% 0%, black 15%, transparent 88%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 98% 70% at 50% 0%, black 15%, transparent 88%)',
         }}
       />
       {/* D 모노그램 workmark — About과 다른 코너에 배치해 반복이지만 과하지 않게 */}
@@ -520,7 +520,7 @@ const ProjectsSection = () => {
             display: { xs: 'none', md: 'block' },
             position: 'relative',
             width: '1px', height: 56, mt: 5, mx: 'auto',
-            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.5))',
+            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
             pointerEvents: 'none',
           }}
         >

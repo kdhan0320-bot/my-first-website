@@ -23,8 +23,8 @@ const HeroSection = () => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        pt: { xs: 4, sm: 7, md: 11 },
-        pb: { xs: 1.5, sm: 3, md: 5 },
+        pt: { xs: 4, sm: 7, md: 8 },
+        pb: { xs: 1.5, sm: 4, md: 6 },
         bgcolor: 'background.default',
         background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
         '@keyframes fadeInUp': {
@@ -57,8 +57,8 @@ const HeroSection = () => {
         sx={{
           display: { xs: 'none', md: 'block' },
           position: 'absolute',
-          top: '-14%', left: '-12%',
-          width: '145%', height: '78%',
+          top: '-14%', left: '-20%',
+          width: '165%', height: '78%',
           background: 'linear-gradient(100deg, transparent 26%, rgba(56,189,248,0.24) 47%, rgba(129,140,248,0.19) 53%, transparent 74%)',
           filter: 'blur(28px)',
           zIndex: 0,
@@ -112,8 +112,8 @@ const HeroSection = () => {
           pointerEvents: 'none',
           backgroundImage: 'linear-gradient(rgba(59,130,246,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.16) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 65% at 50% 25%, black 30%, transparent 88%)',
+          maskImage: 'radial-gradient(ellipse 98% 80% at 50% 25%, black 15%, transparent 92%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 98% 80% at 50% 25%, black 15%, transparent 92%)',
         }}
       />
 
@@ -143,7 +143,7 @@ const HeroSection = () => {
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
           width: '1px', height: 85,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.55))',
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
           zIndex: 1,
           pointerEvents: 'none',
         }}

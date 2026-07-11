@@ -185,8 +185,8 @@ const AboutSection = () => {
           pointerEvents: 'none',
           backgroundImage: 'linear-gradient(rgba(59,130,246,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.09) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 75% 60% at 50% 40%, black 20%, transparent 82%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 40%, black 20%, transparent 82%)',
+          maskImage: 'radial-gradient(ellipse 98% 75% at 50% 40%, black 15%, transparent 90%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 98% 75% at 50% 40%, black 15%, transparent 90%)',
         }}
       />
       {/* Hero Flow Path를 받는 소프트 글로우 — 위 섹션 커넥터가 번져 들어오는 느낌, 하드 라인으로 끊기지 않게 함 */}
@@ -256,7 +256,7 @@ const AboutSection = () => {
           position: 'absolute',
           left: '50%', bottom: 0, transform: 'translateX(-50%)',
           width: '1px', height: 85,
-          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.55))',
+          background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
           zIndex: 1,
           pointerEvents: 'none',
         }}
