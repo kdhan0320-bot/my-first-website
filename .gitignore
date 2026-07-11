@@ -14,6 +14,12 @@ package-lock.json
 dist/
 supabase/.temp/
 
+# 테스트/감사 산출물
+coverage/
+playwright-report/
+test-results/
+*.tmp
+
 # 환경 변수
 .env
 .env.local
