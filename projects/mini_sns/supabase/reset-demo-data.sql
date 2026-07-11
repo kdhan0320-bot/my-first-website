@@ -17,8 +17,8 @@
 --   demo@minisns.app 계정을 별도로 준비하고 싶을 때만 참고하세요.
 --
 -- 스키마 참고 사항:
---   이 프로젝트(ucuwhxsyvagdzersyqrf)는 작성 시점 기준 일시중지(INACTIVE)
---   상태라 실시간 스키마 조회(list_tables)를 할 수 없었습니다.
+--   작성 시점 기준 프로젝트가 일시중지(INACTIVE) 상태라 실시간 스키마
+--   조회(list_tables)를 할 수 없었습니다.
 --   아래 테이블/컬럼명은 앱 소스 코드(src/pages, src/components,
 --   src/hooks/useAuth.jsx)에서 실제로 호출하는 supabase 쿼리를
 --   기준으로 추정한 것입니다. 실행 전 Supabase Dashboard의 Table
