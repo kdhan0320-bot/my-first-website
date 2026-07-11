@@ -12,6 +12,7 @@ package-lock.json
 .cache/
 .vite/
 dist/
+supabase/.temp/
 
 # 환경 변수
 .env
