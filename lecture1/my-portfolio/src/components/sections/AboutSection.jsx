@@ -143,7 +143,7 @@ const TimelineStep = ({ item, index, isLast }) => {
           transition: `transform 0.4s ease ${nodeDelay}s, box-shadow 0.4s ease ${nodeDelay}s, border-color 0.25s ease, background-color 0.25s ease`,
         }}
       >
-        <Typography sx={{ fontSize: '0.8125rem', fontWeight: 700, color: item.color }}>
+        <Typography sx={{ fontSize: '0.875rem', fontWeight: 700, color: item.color }}>
           {item.step}
         </Typography>
       </Box>
@@ -173,6 +173,21 @@ const AboutSection = () => {
         pb: { xs: 3, md: 8 },
       }}
     >
+      {/* Interface Blueprint grid — Hero/Projects와 같은 blue 톤으로 통일해 Home 전체가 하나의 배경 시스템처럼 보이게 함 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.09) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+          maskImage: 'radial-gradient(ellipse 75% 60% at 50% 40%, black 20%, transparent 82%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 40%, black 20%, transparent 82%)',
+        }}
+      />
       {/* Hero Flow Path를 받는 소프트 글로우 — 위 섹션 커넥터가 번져 들어오는 느낌, 하드 라인으로 끊기지 않게 함 */}
       <Box
         aria-hidden="true"

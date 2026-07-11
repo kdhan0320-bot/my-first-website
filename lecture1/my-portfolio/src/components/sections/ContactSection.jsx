@@ -27,6 +27,21 @@ const ContactSection = () => {
         justifyContent: 'center',
       }}
     >
+      {/* Interface Blueprint grid — Hero/About/Projects와 같은 blue 톤으로 통일해 Home 전체가 하나의 배경 시스템처럼 보이게 함 */}
+      <Box
+        aria-hidden="true"
+        sx={{
+          display: { xs: 'none', md: 'block' },
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.08) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+          maskImage: 'radial-gradient(ellipse 75% 60% at 50% 30%, black 20%, transparent 82%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 50% 30%, black 20%, transparent 82%)',
+        }}
+      />
       {/* Projects Flow Path를 받는 소프트 글로우 — Flow Motion이 Contact/Footer 도착점으로 모여드는 느낌의 시작점 */}
       <Box
         aria-hidden="true"
@@ -118,6 +133,7 @@ const ContactSection = () => {
               }}
             >
               <Box
+                aria-hidden="true"
                 sx={{
                   position: 'absolute',
                   top: '-30%', left: '-20%',
@@ -265,7 +281,7 @@ const ContactSection = () => {
               position: 'absolute',
               top: -1, left: '18%', right: '18%',
               height: '1px',
-              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.5), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(56,189,248,0.44), transparent)',
             },
             display: 'flex',
             flexDirection: { xs: 'column', sm: 'row' },
@@ -284,7 +300,7 @@ const ContactSection = () => {
                 top: '50%', left: { xs: '50%', sm: 0 },
                 transform: { xs: 'translate(-50%, -50%)', sm: 'translateY(-50%)' },
                 width: 170, height: 74,
-                background: 'radial-gradient(ellipse, rgba(56,189,248,0.22) 0%, transparent 72%)',
+                background: 'radial-gradient(ellipse, rgba(56,189,248,0.19) 0%, transparent 72%)',
                 filter: 'blur(20px)',
                 pointerEvents: 'none',
               }}
@@ -297,6 +313,9 @@ const ContactSection = () => {
             </Stack>
             <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.875rem', mt: 0.5, ml: { sm: '40px' } }}>
               Design to Web Interface
+            </Typography>
+            <Typography sx={{ position: 'relative', color: 'text.disabled', fontSize: '0.75rem', letterSpacing: '0.04em', mt: 0.5, ml: { sm: '40px' } }}>
+              정리 · 설계 · 구현 · 검증
             </Typography>
           </Box>
 

@@ -429,7 +429,7 @@ const ProjectsSection = () => {
           inset: 0,
           zIndex: 0,
           pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(148,163,184,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.09) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(59,130,246,0.09) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.09) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
           maskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
           WebkitMaskImage: 'radial-gradient(ellipse 70% 55% at 50% 0%, black 20%, transparent 80%)',
