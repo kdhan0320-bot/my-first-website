@@ -151,6 +151,7 @@ const THUMB_SVG = {
   ),
 };
 
+// eslint-disable-next-line react-refresh/only-export-components -- 컴포넌트가 아닌 순수 헬퍼 함수
 export const hasThumbnailArt = (projectId) => projectId in THUMB_SVG;
 
 /* 실제 이미지·전용 목업이 없는 프로젝트용 — 있는 것처럼 꾸미지 않고

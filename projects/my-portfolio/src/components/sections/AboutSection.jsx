@@ -130,8 +130,7 @@ const TimelineStep = ({ item, index, isLast }) => {
           }}
         />
       )}
-      {/* node — 완전 불투명한 배경으로 뒤 커넥터가 절대 비치지 않게 함. 점등 순간 살짝 튀는 펄스로
-          "불이 들어오는" 느낌을 명확하게 준다(hover는 보조 기능, 자동 점등이 메인) */}
+      {/* node — 완전 불투명한 배경으로 뒤 커넥터가 비치지 않게 하고, 점등 순간 펄스로 강조한다 */}
       <Box
         className="timeline-node"
         sx={{

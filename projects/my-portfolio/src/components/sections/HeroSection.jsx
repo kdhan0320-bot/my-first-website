@@ -19,9 +19,7 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        /* App.jsx에서 고정 헤더(64px)만큼 스페이서 Box를 이미 앞에 두므로,
-         * Hero는 "스페이서 + Hero"가 정확히 한 화면(100vh)이 되도록 그 64px를 뺀 높이를 쓴다.
-         * 그냥 100vh를 쓰면 스페이서만큼 한 화면을 넘겨 하단 화살표가 접힘 밖으로 밀려난다. */
+        /* 고정 헤더 스페이서(64px) + Hero가 정확히 100vh가 되도록 그만큼을 뺀 높이를 쓴다. */
         minHeight: { xs: 'auto', md: 'calc(100vh - 64px)' },
         display: 'flex',
         flexDirection: 'column',
@@ -34,8 +32,7 @@ const HeroSection = () => {
           from: { opacity: 0, transform: 'translateY(16px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
         },
-        /* CTA 버튼 각각에 직접 적용하는 진입 모션 — Stack(부모)에만 걸면 버튼 자체의 computed style에는
-           반영되지 않아 "entry motion 없음"으로 보일 수 있어 각 버튼에 개별 적용한다 */
+        /* CTA 버튼 진입 모션 — 부모(Stack)가 아니라 각 버튼에 개별 적용 */
         '@keyframes ctaFadeInUp': {
           from: { opacity: 0, transform: 'translateY(12px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
@@ -59,7 +56,7 @@ const HeroSection = () => {
         },
       }}
     >
-      {/* Flow Stream — 은하수 대신 대각선 라이트 리본. 지금 화면에서 분명히 체감되도록 대비를 올림 */}
+      {/* Flow Stream — 대각선 라이트 리본 배경 장식 */}
       <Box
         aria-hidden="true"
         sx={{
@@ -143,8 +140,7 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음). left/right:0 + flex 중앙정렬로
-          left:50%+translateX(-50%) 방식보다 확실하게 전체 폭 기준 정가운데에 놓는다 */}
+      {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음) */}
       <Box
         aria-hidden="true"
         sx={{
@@ -162,8 +158,7 @@ const HeroSection = () => {
         <KeyboardArrowDownIcon sx={{ fontSize: 42 }} />
       </Box>
 
-      {/* pt/pb를 대칭으로 맞추는 것만으로는 "더 위로"라는 요청에 응답할 수 없다(대칭=그 자리에서 중앙일 뿐).
-          박스 모델과 무관하게 항상 예측 가능하게 위로 옮길 수 있도록 translateY를 직접 사용한다. */}
+      {/* 여백 대칭 조정 대신 translateY로 위치를 직접 제어한다 */}
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%', transform: { md: 'translateY(-36px)' } }}>
         <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: 'center' }}>
 
@@ -373,8 +368,7 @@ const HeroSection = () => {
           </Grid>
         </Grid>
 
-        {/* Flow Path — About/Projects와 완전히 동일한 규격(정상 흐름, mt:5, height:56)으로 통일해
-            섹션 경계 커넥터가 위치·모양 다르게 보이던 문제를 없앤다 */}
+        {/* Flow Path — About/Projects와 동일 규격(mt:5, height:56)으로 통일 */}
         <Box
           aria-hidden="true"
           sx={{
