@@ -11,7 +11,7 @@ const deriveBadges = (project) => {
   if (project?.detail?.limitation) {
     badges.push('한계 명시');
   }
-  badges.push('반응형 확인');
+  badges.push('반응형 고려');
   return badges.slice(0, 3);
 };
 
