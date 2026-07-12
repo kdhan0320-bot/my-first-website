@@ -1,0 +1,23 @@
+{
+  "name": "site-audit-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "audit": "playwright test",
+    "audit:headed": "playwright test --headed",
+    "audit:ui": "playwright test --ui",
+    "zip": "powershell -NoProfile -Command \"Compress-Archive -Path 'audit-output' -DestinationPath 'site-audit-result.zip' -Force\"",
+    "clean": "node scripts/clean.js",
+    "audit:detailed": "playwright test --config=playwright.detailed.config.ts",
+    "audit:detailed:headed": "playwright test --config=playwright.detailed.config.ts --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}

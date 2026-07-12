@@ -1,0 +1,343 @@
+import fs from 'fs';
+import path from 'path';
+import { test, expect, type Page } from '@playwright/test';
+import { TARGET_URL, SCREENSHOT_DIR, RESULTS_FILE, SECTIONS, MOBILE_MENU_FILE } from './target';
+
+function record(entry: Record<string, unknown>) {
+  fs.appendFileSync(RESULTS_FILE, JSON.stringify(entry) + '\n');
+}
+
+async function gotoHome(page: Page) {
+  const response = await page.goto(TARGET_URL, { waitUntil: 'networkidle' });
+  await page.waitForTimeout(300);
+  return response;
+}
+
+async function getNavButton(page: Page, name: string) {
+  const direct = page.getByRole('button', { name, exact: true }).first();
+  if ((await direct.count()) > 0 && (await direct.isVisible())) {
+    return direct;
+  }
+  const menuToggle = page.getByRole('button', { name: '메뉴 열기' }).first();
+  if ((await menuToggle.count()) > 0) {
+    await menuToggle.click();
+    await page.waitForTimeout(300);
+    const inMenu = page.getByRole('button', { name, exact: true }).first();
+    if ((await inMenu.count()) > 0) return inMenu;
+  }
+  return direct;
+}
+
+async function linkLocation(page: Page, href: string, text: string) {
+  return page.evaluate(
+    ([href, text]) => {
+      const anchors = Array.from(document.querySelectorAll('a')).filter(
+        (a) => a.getAttribute('href') === href && a.textContent?.trim() === text
+      );
+      const a = anchors[0];
+      if (!a) return '알 수 없음';
+      if (a.closest('header')) return 'Header';
+      if (a.closest('#projects')) return 'Projects';
+      if (a.closest('#contact')) return 'Contact/Footer';
+      return 'Other';
+    },
+    [href, text] as [string, string]
+  );
+}
+
+// 섹션 id가 없는 사이트에도 대응하기 위한 3단계 fallback: id -> 텍스트 -> 스크롤 비율
+async function captureSection(page: Page, section: (typeof SECTIONS)[number], viewport: string) {
+  const file = `${viewport}-${section.key}.png`;
+  const filePath = path.join(SCREENSHOT_DIR, file);
+  let remark = '-';
+  try {
+    let locator = page.locator(`#${section.id}`);
+    if ((await locator.count()) === 0) {
+      locator = page.getByText(section.textFallback).first();
+      remark = 'id 없음 - 텍스트 기반 locator로 대체';
+    }
+    if ((await locator.count()) === 0) {
+      await page.evaluate((ratio) => window.scrollTo(0, document.body.scrollHeight * ratio), section.scrollRatio);
+      remark = 'id/텍스트 모두 없음 - 스크롤 위치 비율로 대체 캡처';
+    } else {
+      await locator.scrollIntoViewIfNeeded({ timeout: 10000 });
+    }
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: filePath });
+    const exists = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
+    record({ kind: 'screenshot', viewport, section: section.label, file, ok: exists, remark });
+  } catch (e) {
+    record({ kind: 'screenshot', viewport, section: section.label, file, ok: false, remark: String(e).slice(0, 200) });
+  }
+}
+
+test.describe('Portfolio Audit', () => {
+  test('전체 점검', async ({ page, request }, testInfo) => {
+    const viewport = testInfo.project.name;
+    const consoleErrors: string[] = [];
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') consoleErrors.push(msg.text());
+    });
+    page.on('pageerror', (err) => consoleErrors.push(String(err)));
+
+    // 1. 사이트 접속 성공 여부 + 페이지 로딩 완료 여부
+    await test.step('사이트 접속 및 로딩 완료 확인', async () => {
+      const response = await gotoHome(page);
+      const ok = !!response && response.ok();
+      record({ kind: 'connectivity', viewport, ok, status: response?.status() ?? null, url: TARGET_URL });
+      expect(ok, `사이트 접속 실패: ${TARGET_URL}`).toBeTruthy();
+    });
+
+    // 2. 섹션별 스크린샷 (Hero, Projects, About/Skills, Contact/Footer) - fallback 포함
+    for (const section of SECTIONS) {
+      await test.step(`${section.label} 섹션 캡처`, () => captureSection(page, section, viewport));
+    }
+
+    // 모바일 메뉴 열기/닫기 확인 (버튼이 있으면). mobile-menu-open.png는 mobile 뷰포트에서만 저장한다.
+    await test.step('메뉴 열기/닫기 확인', async () => {
+      await gotoHome(page);
+      const menuToggle = page.getByRole('button', { name: '메뉴 열기' }).first();
+      if ((await menuToggle.count()) === 0) {
+        record({ kind: 'functional', viewport, item: '메뉴 열기/닫기 확인', result: 'N/A', note: '메뉴 버튼을 찾을 수 없음' });
+        if (viewport === 'mobile') {
+          record({ kind: 'screenshot', viewport, section: 'Mobile Menu', file: MOBILE_MENU_FILE, ok: false, remark: '메뉴 버튼 없음' });
+        }
+        return;
+      }
+
+      await menuToggle.click({ timeout: 5000 }).catch(() => {});
+      await page.waitForTimeout(400);
+      const menuPanel = page.locator('[role="dialog"], .MuiDrawer-root, .MuiMenu-root').first();
+      const opened = await menuPanel
+        .waitFor({ state: 'visible', timeout: 3000 })
+        .then(() => true)
+        .catch(() => false);
+
+      if (viewport === 'mobile') {
+        const filePath = path.join(SCREENSHOT_DIR, MOBILE_MENU_FILE);
+        await page.waitForTimeout(200);
+        await page.screenshot({ path: filePath });
+        const exists = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
+        record({ kind: 'screenshot', viewport, section: 'Mobile Menu', file: MOBILE_MENU_FILE, ok: exists && opened });
+      }
+
+      // 닫기: Escape를 우선 시도 (배경 오버레이가 토글 버튼 클릭을 가로채는 경우가 있어 재클릭은 fallback으로만 사용, 항상 timeout을 둬서 무한 대기 방지)
+      if (opened) {
+        await page.keyboard.press('Escape').catch(() => {});
+        await page.waitForTimeout(300);
+        let stillOpen = await menuPanel.isVisible().catch(() => false);
+        if (stillOpen) {
+          await menuToggle.click({ timeout: 5000 }).catch(() => {});
+          await page.waitForTimeout(300);
+          stillOpen = await menuPanel.isVisible().catch(() => false);
+        }
+        record({
+          kind: 'functional',
+          viewport,
+          item: '메뉴 열기/닫기 확인',
+          result: stillOpen ? 'FAIL' : 'PASS',
+          note: `열림: ${opened}, 닫힘: ${!stillOpen}`,
+        });
+      } else {
+        record({ kind: 'functional', viewport, item: '메뉴 열기/닫기 확인', result: 'FAIL', note: '메뉴 버튼 클릭 후 열리지 않음' });
+      }
+    });
+
+    // 외부 링크(실행 화면 보기 / GitHub) 및 이메일 링크는 뷰포트와 무관하므로 pc 프로젝트에서만 점검한다.
+    if (viewport === 'pc') {
+      await test.step('외부 링크(실행 화면 보기 / GitHub) 새 탭 및 접속 가능 여부 확인', async () => {
+        await gotoHome(page);
+        const links = await page.evaluate(() => {
+          return Array.from(document.querySelectorAll('a[target="_blank"]'))
+            .filter((a) => /화면 보기|demo|github/i.test(a.textContent || ''))
+            .map((a) => ({ text: (a.textContent || '').trim(), href: a.getAttribute('href') || '' }));
+        });
+
+        const seen = new Set<string>();
+        for (const link of links) {
+          const dedupeKey = `${link.text}|${link.href}`;
+          if (seen.has(dedupeKey) || !link.href) continue;
+          seen.add(dedupeKey);
+
+          const location = await linkLocation(page, link.href, link.text);
+          try {
+            const res = await request.get(link.href, { timeout: 15000 });
+            const ok = res.ok();
+            record({
+              kind: 'link',
+              name: link.text,
+              location,
+              url: link.href,
+              ok,
+              note: `새 탭(target=_blank) 대상, HTTP ${res.status()}`,
+            });
+          } catch (e) {
+            record({
+              kind: 'link',
+              name: link.text,
+              location,
+              url: link.href,
+              ok: false,
+              note: `접속 실패: ${String(e)}`,
+            });
+          }
+        }
+      });
+
+      await test.step('이메일 버튼 mailto 형식 확인', async () => {
+        const emailHrefs = await page.evaluate(() =>
+          Array.from(document.querySelectorAll('a[href^="mailto:"]')).map((a) => a.getAttribute('href') || '')
+        );
+        const uniqueHrefs = Array.from(new Set(emailHrefs));
+        if (uniqueHrefs.length === 0) {
+          record({ kind: 'email', href: null, ok: undefined, note: '이메일(mailto) 링크를 찾을 수 없음' });
+          return;
+        }
+        for (const href of uniqueHrefs) {
+          const ok = /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+/.test(href);
+          record({ kind: 'email', href, ok });
+        }
+      });
+    }
+
+    // Hero CTA 버튼 클릭 테스트 (스크롤 이동 확인)
+    await test.step('Hero CTA 버튼 클릭 테스트', async () => {
+      await gotoHome(page);
+      const cta = page.getByRole('button', { name: /프로젝트 (보기|섹션으로 이동)/ }).first();
+      if ((await cta.count()) === 0) {
+        record({ kind: 'functional', viewport, item: 'Hero CTA 버튼 클릭', result: 'N/A', note: '버튼을 찾을 수 없음' });
+        return;
+      }
+      const before = await page.evaluate(() => window.scrollY);
+      await cta.click();
+      await page.waitForTimeout(500);
+      const after = await page.evaluate(() => window.scrollY);
+      const moved = after !== before;
+      record({
+        kind: 'functional',
+        viewport,
+        item: 'Hero CTA 버튼 클릭',
+        result: moved ? 'PASS' : 'FAIL',
+        note: `scrollY ${before} -> ${after}`,
+      });
+    });
+
+    // 프로젝트 카드 모달 열기 / 캡처 / 닫기 테스트
+    await test.step('프로젝트 상세 모달 열기/캡처/닫기 테스트', async () => {
+      await gotoHome(page);
+      const detailButton = page.getByRole('button', { name: /과정 보기|상세 보기|view|detail/i }).first();
+      if ((await detailButton.count()) === 0) {
+        record({ kind: 'functional', viewport, item: '프로젝트 모달 열기', result: 'N/A', note: '버튼을 찾을 수 없음' });
+        const file = `${viewport}-project-modal.png`;
+        record({ kind: 'screenshot', viewport, section: 'Project Modal', file, ok: false, remark: '모달을 여는 버튼을 찾을 수 없음' });
+        return;
+      }
+      await detailButton.click();
+      const dialog = page.locator('[role="dialog"]');
+      const opened = await dialog
+        .first()
+        .waitFor({ state: 'visible', timeout: 5000 })
+        .then(() => true)
+        .catch(() => false);
+      record({ kind: 'functional', viewport, item: '프로젝트 모달 열기', result: opened ? 'PASS' : 'FAIL' });
+
+      const file = `${viewport}-project-modal.png`;
+      if (opened) {
+        const filePath = path.join(SCREENSHOT_DIR, file);
+        await page.waitForTimeout(300);
+        await page.screenshot({ path: filePath });
+        const exists = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
+        record({ kind: 'screenshot', viewport, section: 'Project Modal', file, ok: exists });
+
+        const closeButton = dialog.getByRole('button', { name: /닫기/ }).first();
+        if ((await closeButton.count()) > 0) {
+          await closeButton.click();
+        } else {
+          await page.keyboard.press('Escape');
+        }
+        await page.waitForTimeout(400);
+        const stillOpen = await dialog.first().isVisible().catch(() => false);
+        record({ kind: 'functional', viewport, item: '프로젝트 모달 닫기', result: stillOpen ? 'FAIL' : 'PASS' });
+      } else {
+        record({ kind: 'screenshot', viewport, section: 'Project Modal', file, ok: false, remark: '모달이 열리지 않음' });
+      }
+    });
+
+    // 상단 내비게이션 - 연락처 (같은 페이지 내 스크롤 이동)
+    await test.step('상단 내비게이션 클릭 테스트 - 연락처', async () => {
+      await gotoHome(page);
+      const nav = await getNavButton(page, '연락처');
+      if ((await nav.count()) === 0) {
+        record({ kind: 'functional', viewport, item: '내비게이션 클릭 - 연락처', result: 'N/A' });
+        return;
+      }
+      const before = await page.evaluate(() => window.scrollY);
+      await nav.click();
+      await page.waitForTimeout(500);
+      const after = await page.evaluate(() => window.scrollY);
+      const moved = after !== before;
+      record({
+        kind: 'functional',
+        viewport,
+        item: '내비게이션 클릭 - 연락처',
+        result: moved ? 'PASS' : 'FAIL',
+        note: `scrollY ${before} -> ${after}`,
+      });
+    });
+
+    // 상단 내비게이션 - 프로젝트 (전용 라우트로 이동, 확인 후 홈으로 복귀)
+    await test.step('상단 내비게이션 클릭 테스트 - 프로젝트', async () => {
+      await gotoHome(page);
+      const urlBefore = page.url();
+      const scrollBefore = await page.evaluate(() => window.scrollY);
+      const nav = await getNavButton(page, '프로젝트');
+      if ((await nav.count()) === 0) {
+        record({ kind: 'functional', viewport, item: '내비게이션 클릭 - 프로젝트', result: 'N/A' });
+        return;
+      }
+      await nav.click();
+      await page.waitForTimeout(600);
+      const urlAfter = page.url();
+      const scrollAfter = await page.evaluate(() => window.scrollY);
+      const changed = urlAfter !== urlBefore || scrollAfter !== scrollBefore;
+      record({
+        kind: 'functional',
+        viewport,
+        item: '내비게이션 클릭 - 프로젝트',
+        result: changed ? 'PASS' : 'FAIL',
+        note: `url ${urlBefore} -> ${urlAfter}, scrollY ${scrollBefore} -> ${scrollAfter}`,
+      });
+    });
+
+    // "모든 프로젝트 보기" 버튼 - URL, 스크롤 위치, DOM 변화 중 하나라도 있는지 확인
+    await test.step('"모든 프로젝트 보기" 버튼 테스트', async () => {
+      await gotoHome(page);
+      const btn = page.getByRole('button', { name: /모든 프로젝트 보기|전체 프로젝트/ }).first();
+      if ((await btn.count()) === 0) {
+        record({ kind: 'functional', viewport, item: '모든 프로젝트 보기 버튼', result: 'N/A', note: '버튼이 존재하지 않음' });
+        return;
+      }
+      const urlBefore = page.url();
+      const scrollBefore = await page.evaluate(() => window.scrollY);
+      const domBefore = await page.evaluate(() => document.body.innerHTML.length);
+      await btn.click();
+      await page.waitForTimeout(600);
+      const urlAfter = page.url();
+      const scrollAfter = await page.evaluate(() => window.scrollY);
+      const domAfter = await page.evaluate(() => document.body.innerHTML.length);
+      const changed = urlAfter !== urlBefore || scrollAfter !== scrollBefore || domAfter !== domBefore;
+      record({
+        kind: 'functional',
+        viewport,
+        item: '모든 프로젝트 보기 버튼',
+        result: changed ? 'PASS' : 'FAIL',
+        note: `url ${urlBefore} -> ${urlAfter}`,
+      });
+    });
+
+    for (const err of consoleErrors) {
+      record({ kind: 'consoleError', viewport, message: err });
+    }
+    record({ kind: 'consoleErrorSummary', viewport, count: consoleErrors.length });
+  });
+});

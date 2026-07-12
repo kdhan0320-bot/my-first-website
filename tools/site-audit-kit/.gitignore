@@ -1,0 +1,7 @@
+node_modules/
+audit-output/
+*.zip
+playwright-report/
+test-results/
+*.log
+*.tmp
