@@ -43,7 +43,7 @@
 src/
 ├── components/
 │   ├── layout/        Navbar
-│   ├── projects/      ProjectThumbnailArt
+│   ├── projects/      EvidenceBadges
 │   ├── sections/       HeroSection, AboutSection, ProjectsSection, ContactSection, SkillsSection
 │   └── ui/             RevealOnScroll
 ├── context/            PortfolioContext (소개/Skills 데이터)
