@@ -127,7 +127,7 @@ Figma Style Guide(`19:233`) 원본 6색. 새 색상을 추가하지 않는다.
 ## 정리된 이전 시스템 잔재
 
 Flow Blueprint 시절 컴포넌트 중 1차 교체 이후로도 어디서도 import되지
-않는 파일(`FlowCanvasIllustration.jsx`, `DMark.jsx`, `FlowNode.jsx`,
-`ProjectsPreviewMonitor.jsx`, `LogoSymbol.jsx`)은 여전히 삭제 후보로
-남아 있다(완료 보고 참고, 삭제는 별도 승인 필요). `AboutPage.jsx`는
-이번 라운드에 실제로 삭제했다(참조 없음 확인 후 진행).
+않던 파일(`FlowCanvasIllustration.jsx`, `DMark.jsx`, `FlowNode.jsx`,
+`ProjectsPreviewMonitor.jsx`, `LogoSymbol.jsx`)은 참조 없음을 재확인한
+뒤 사용자 승인을 받아 실제로 삭제했다. `AboutPage.jsx`도 이전 라운드에
+같은 방식(참조 없음 확인 후 진행)으로 삭제했다.

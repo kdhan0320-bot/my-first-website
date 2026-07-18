@@ -42,11 +42,10 @@
 ```
 src/
 ├── components/
-│   ├── hero/         FlowCanvasIllustration (Hero 우측 Work Flow 보드)
 │   ├── layout/        Navbar
 │   ├── projects/      ProjectThumbnailArt
 │   ├── sections/       HeroSection, AboutSection, ProjectsSection, ContactSection, SkillsSection
-│   └── ui/             RevealOnScroll, LogoSymbol
+│   └── ui/             RevealOnScroll
 ├── context/            PortfolioContext (소개/Skills 데이터)
 ├── data/                projectsFallbackData.js, projectsData.js
 ├── hooks/               useCountUp, useInViewOnce, useScrollNav
