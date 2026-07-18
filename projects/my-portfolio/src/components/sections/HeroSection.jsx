@@ -1,21 +1,34 @@
-import { Box, Container, Typography, Button, Grid, Stack } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { Box, Container, Typography, Stack } from '@mui/material';
 import { scrollToSection } from '../../hooks/useScrollNav';
-import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
-import { HERO_BADGE, POSITIONING_PREFIX, POSITIONING_EMPHASIS, POSITIONING_SUFFIX, SUB_DESCRIPTION } from '../../data/portfolioMeta';
-import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
-import FlowNode from '../ui/FlowNode';
+import {
+  HERO_LABEL, HERO_ROLE_LINE, HERO_HEADLINE_LINES, HERO_DESCRIPTION,
+} from '../../data/portfolioMeta';
+import { FONT_MONO } from '../../theme';
 
 /* review 캡처 모드(tools/site-audit-kit의 리뷰 스크립트가 page.addInitScript로
- * 페이지 로드 전에 심어두는 표시)에서는 Hero 텍스트의 fadeIn 진입 애니메이션을
- * 아예 건너뛰고 최종 상태(opacity:1)로 렌더링한다. 일반 사용자는 영향 없음.
+ * 페이지 로드 전에 심어두는 표시)에서는 Hero 텍스트의 진입 애니메이션을 아예
+ * 건너뛰고 최종 상태(opacity:1)로 렌더링한다. 일반 사용자는 영향 없음.
  * 모듈 로드 시점에 한 번만 읽는다 — addInitScript가 React 마운트보다 먼저 실행되므로
  * 이 값은 항상 정확하다. */
 const isReviewCapture =
   typeof document !== 'undefined' && document.documentElement.getAttribute('data-review-mode') === 'true';
+
+/* Figma Hero Motion States(19:277 Scattered → 19:288 Align → 19:296 Final)를
+ * 기준으로 한 1회 진입 모션. 헤드라인 각 줄이 흩어진 위치(Scattered)에서 정렬
+ * (Align)되고, Signal Panel 각 행이 순서대로 정렬되며 마지막에 CTA가 나타나
+ * 완료(Final) 상태가 된다. 전체 약 1.7초, 반복 없음. */
+const SIGNAL_ROWS = [
+  { label: 'USER FLOW' },
+  { label: 'INFORMATION' },
+  { label: 'RESPONSIVE' },
+  { label: 'BUILD', accent: true },
+];
+
+/* 헤드라인 줄마다 살짝 다른 시작 오프셋 — Scattered 상태를 흉내내되 큰 타이포가
+ * 컨테이너 밖으로 밀리지 않을 만큼만 작게 둔다("텍스트를 읽을 수 없는 과도한
+ * 변형 금지"). 모바일에서는 이동 거리를 더 줄인다. */
+const LINE_OFFSETS_DESKTOP = [0, 22, -14, 16];
+const LINE_OFFSETS_MOBILE = [0, 10, -6, 8];
 
 const HeroSection = () => {
   return (
@@ -26,374 +39,214 @@ const HeroSection = () => {
       sx={{
         position: 'relative',
         overflow: 'hidden',
-        /* 고정 헤더 스페이서(64px) + Hero가 정확히 100vh가 되도록 그만큼을 뺀 높이를 쓴다. */
-        minHeight: { xs: 'auto', md: 'calc(100vh - 64px)' },
+        minHeight: { xs: 'auto', md: 'calc(100vh - 80px)' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        pt: { xs: 4, sm: 7, md: 4 },
-        pb: { xs: 1.5, sm: 4, md: 4 },
+        py: { xs: 6, md: 6 },
         bgcolor: 'background.default',
-        background: 'radial-gradient(ellipse 120% 80% at 50% -10%, rgba(56,189,248,0.04) 0%, transparent 55%), #0B1020',
-        '@keyframes fadeInUp': {
-          from: { opacity: 0, transform: 'translateY(16px)' },
+        '@keyframes heroLineIn': {
+          '0%':  { opacity: 0, transform: 'translateX(var(--scatter-x, 0px))' },
+          '60%': { opacity: 1, transform: 'translateX(0)' },
+          '100%':{ opacity: 1, transform: 'translateX(0)' },
+        },
+        '@keyframes heroFadeIn': {
+          from: { opacity: 0, transform: 'translateY(10px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
         },
-        /* CTA 버튼 진입 모션 — 부모(Stack)가 아니라 각 버튼에 개별 적용 */
-        '@keyframes ctaFadeInUp': {
+        '@keyframes heroRowIn': {
+          from: { opacity: 0, transform: 'translateY(6px)' },
+          to:   { opacity: 1, transform: 'translateY(0)' },
+        },
+        '@keyframes heroLineScaleIn': {
+          from: { transform: 'scaleX(0)' },
+          to:   { transform: 'scaleX(1)' },
+        },
+        '@keyframes heroCtaIn': {
           from: { opacity: 0, transform: 'translateY(12px)' },
           to:   { opacity: 1, transform: 'translateY(0)' },
-        },
-        /* Hero 한정 ambient motion — 아주 느리고 약함, reduced-motion에서 아래 규칙으로 완전 제거 */
-        '@keyframes spotlightBreathe': {
-          '0%, 100%': { opacity: 0.85 },
-          '50%':      { opacity: 1 },
-        },
-        '@keyframes flowStreamDrift': {
-          '0%, 100%': { transform: 'translate(-4%, -2%) rotate(-18deg)' },
-          '50%':      { transform: 'translate(4%, 2%) rotate(-18deg)' },
-        },
-        /* Scroll cue 전용 — 아주 약한 위아래 bounce, Hero 한정 ambient motion 예외 범위 안 */
-        '@keyframes arrowBounce': {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%':      { transform: 'translateY(6px)' },
         },
         '@media (prefers-reduced-motion: reduce)': {
           '& *': { animationDuration: '0.01ms !important', transitionDuration: '0.01ms !important' },
         },
       }}
     >
-      {/* Flow Stream — 대각선 라이트 리본 배경 장식 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          top: '-14%', left: '-20%',
-          width: '165%', height: '78%',
-          background: 'linear-gradient(100deg, transparent 26%, rgba(56,189,248,0.24) 47%, rgba(129,140,248,0.19) 53%, transparent 74%)',
-          filter: 'blur(28px)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          animation: 'flowStreamDrift 24s ease-in-out infinite',
-        }}
-      />
-
-      {/* Gradient blob 1 - 우측 상단 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          top: '-14%',
-          right: '-8%',
-          width: { xs: 300, md: 580 },
-          height: { xs: 300, md: 580 },
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.09) 0%, transparent 70%)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          filter: 'blur(52px)',
-        }}
-      />
-
-      {/* Gradient blob 2 - 좌측 하단 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          position: 'absolute',
-          bottom: '-10%',
-          left: '-8%',
-          width: { xs: 230, md: 420 },
-          height: { xs: 230, md: 420 },
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(124,58,237,0.075) 0%, transparent 70%)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          filter: 'blur(52px)',
-        }}
-      />
-
-      {/* 아주 옅은 grid texture — 배경이 비어 보이지 않게, 중앙에서 가장자리로 페이드 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          inset: 0,
-          zIndex: 0,
-          pointerEvents: 'none',
-          backgroundImage: 'linear-gradient(rgba(59,130,246,0.19) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.19) 1px, transparent 1px)',
-          backgroundSize: '48px 48px',
-          maskImage: 'radial-gradient(ellipse 112% 85% at 50% 25%, black 15%, transparent 94%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 112% 85% at 50% 25%, black 15%, transparent 94%)',
-        }}
-      />
-
-      {/* Flow Core 중심 오브젝트 뒤 은은한 room spotlight — 오브젝트 자체 glow와 별개로 넓은 분위기광만 담당 */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'block' },
-          position: 'absolute',
-          top: '42%', right: '10%',
-          width: 360, height: 360,
-          transform: 'translateY(-50%)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(56,189,248,0.17) 0%, transparent 70%)',
-          filter: 'blur(40px)',
-          zIndex: 0,
-          pointerEvents: 'none',
-          animation: 'spotlightBreathe 16s ease-in-out infinite',
-        }}
-      />
-
-      {/* Scroll cue — 정적, 1회 페이드인만(무한 반복 없음) */}
-      <Box
-        aria-hidden="true"
-        sx={{
-          display: { xs: 'none', md: 'flex' },
-          position: 'absolute',
-          left: 0, right: 0, bottom: 20,
-          justifyContent: 'center',
-          zIndex: 1,
-          pointerEvents: 'none',
-          color: 'text.disabled',
-          opacity: 0,
-          animation: 'fadeInUp 0.6s ease 0.9s both, arrowBounce 2.2s ease-in-out 1.5s infinite',
-        }}
-      >
-        <KeyboardArrowDownIcon sx={{ fontSize: 42 }} />
-      </Box>
-
-      {/* 여백 대칭 조정 대신 translateY로 위치를 직접 제어한다 */}
-      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1, width: '100%', transform: { md: 'translateY(-36px)' } }}>
-        <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: 'center' }}>
-
-          {/* 왼쪽: 텍스트 */}
-          <Grid size={{ xs: 12, md: 6.5 }} sx={{ minWidth: 0 }}>
-            <Box
+      <Container maxWidth={false} sx={{ px: { xs: 3, sm: 6, md: 8 }, position: 'relative', zIndex: 1 }}>
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          spacing={{ xs: 6, md: 8 }}
+          sx={{ alignItems: { xs: 'stretch', md: 'flex-start' }, justifyContent: 'space-between' }}
+        >
+          {/* Hero_Copy */}
+          <Box sx={{ maxWidth: { xs: '100%', md: 700 }, minWidth: 0 }}>
+            <Typography
+              data-hero-reveal="true"
               sx={{
-                textAlign: { xs: 'center', md: 'left' },
+                fontFamily: FONT_MONO,
+                color: 'primary.main',
+                fontSize: '0.75rem',
+                letterSpacing: '0.04em',
+                mb: 1.5,
+                opacity: isReviewCapture ? 1 : 0,
+                animation: isReviewCapture ? 'none' : 'heroFadeIn 0.5s ease 0s both',
               }}
             >
-              {/* Hero 오버라인 */}
-              <Typography
-                data-hero-reveal="true"
-                sx={{
-                  display: 'inline-block',
-                  color: 'primary.main',
-                  fontSize: '0.875rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.04em',
-                  mb: { xs: 1.75, md: 2 },
-                  opacity: isReviewCapture ? 1 : 0,
-                  animation: isReviewCapture ? 'none' : 'fadeInUp 0.6s ease 0s both',
-                }}
-              >
-                {HERO_BADGE}
-              </Typography>
+              {HERO_LABEL}
+            </Typography>
 
-              <Typography
-                variant="h1"
-                data-hero-reveal="true"
-                sx={{
-                  fontWeight: 800,
-                  fontSize: { xs: '1.7rem', sm: '2.15rem', md: '2.75rem', lg: '3.1rem' },
-                  lineHeight: { xs: 1.32, md: 1.22 },
-                  letterSpacing: '-0.02em',
-                  color: 'text.primary',
-                  mb: 1.25,
-                  opacity: isReviewCapture ? 1 : 0,
-                  animation: isReviewCapture ? 'none' : 'fadeInUp 0.6s ease 0.08s both',
-                }}
-              >
-                {POSITIONING_PREFIX}
-                <Box component="span" sx={{ display: 'block' }}>
-                  <Box
-                    component="span"
-                    sx={{
-                      color: 'primary.main',
-                      textDecoration: 'underline',
-                      textDecorationColor: 'rgba(56,189,248,0.4)',
-                      textDecorationThickness: '2px',
-                      textUnderlineOffset: '5px',
-                    }}
-                  >
-                    {POSITIONING_EMPHASIS}
-                  </Box>
-                  {' '}{POSITIONING_SUFFIX}
+            <Typography
+              data-hero-reveal="true"
+              sx={{
+                fontFamily: FONT_MONO,
+                color: 'text.secondary',
+                fontSize: { xs: '0.6875rem', md: '0.75rem' },
+                letterSpacing: '0.02em',
+                mb: { xs: 3, md: 4 },
+                opacity: isReviewCapture ? 1 : 0,
+                animation: isReviewCapture ? 'none' : 'heroFadeIn 0.5s ease 0.08s both',
+              }}
+            >
+              {HERO_ROLE_LINE}
+            </Typography>
+
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{
+                fontWeight: 700,
+                fontSize: { xs: '2.1rem', sm: '2.6rem', md: '3.4rem', lg: '3.9rem' },
+                lineHeight: { xs: 1.28, md: 1.18 },
+                letterSpacing: '-0.01em',
+                color: 'text.primary',
+                mb: { xs: 2.5, md: 3 },
+              }}
+            >
+              {HERO_HEADLINE_LINES.map((line, i) => (
+                <Box
+                  key={line}
+                  component="span"
+                  data-hero-reveal="true"
+                  sx={{
+                    display: 'block',
+                    '--scatter-x': { xs: `${LINE_OFFSETS_MOBILE[i] ?? 0}px`, md: `${LINE_OFFSETS_DESKTOP[i] ?? 0}px` },
+                    opacity: isReviewCapture ? 1 : 0,
+                    animation: isReviewCapture ? 'none' : `heroLineIn 0.6s cubic-bezier(0.22,1,0.36,1) ${0.05 + i * 0.07}s both`,
+                  }}
+                >
+                  {line}
                 </Box>
-              </Typography>
+              ))}
+            </Typography>
 
-              <Typography
-                variant="body1"
+            <Typography
+              data-hero-reveal="true"
+              sx={{
+                color: 'text.secondary',
+                lineHeight: 1.75,
+                maxWidth: 560,
+                mb: { xs: 4, md: 5 },
+                fontSize: { xs: '0.9rem', md: '1rem' },
+                opacity: isReviewCapture ? 1 : 0,
+                animation: isReviewCapture ? 'none' : 'heroFadeIn 0.5s ease 0.5s both',
+              }}
+            >
+              {HERO_DESCRIPTION}
+            </Typography>
+
+            <Box
+              component="button"
+              type="button"
+              data-hero-reveal="true"
+              onClick={() => scrollToSection('projects')}
+              aria-label="대표 프로젝트 섹션으로 이동"
+              sx={{
+                bgcolor: 'primary.main',
+                color: 'primary.contrastText',
+                border: 0,
+                cursor: 'pointer',
+                height: 52,
+                minWidth: 210,
+                px: 2.5,
+                borderRadius: '10px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 1,
+                fontWeight: 600,
+                fontSize: '0.9375rem',
+                fontFamily: 'inherit',
+                whiteSpace: 'nowrap',
+                opacity: isReviewCapture ? 1 : 0,
+                animation: isReviewCapture ? 'none' : 'heroCtaIn 0.55s ease 1.15s both',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 10px 26px rgba(255,107,61,0.35)' },
+                '&:active': { transform: 'translateY(0)' },
+                '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+              }}
+            >
+              대표 프로젝트 보기
+              <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO, fontSize: '1.1rem' }}>↓</Box>
+            </Box>
+          </Box>
+
+          {/* Signal_Panel */}
+          <Box
+            component="ul"
+            aria-hidden="true"
+            sx={{
+              listStyle: 'none', m: 0, p: 0,
+              display: 'flex', flexDirection: 'column', gap: { xs: 2, md: 2.5 },
+              width: { xs: '100%', md: 320 },
+              flexShrink: 0,
+            }}
+          >
+            {SIGNAL_ROWS.map((row, i) => (
+              <Box
+                component="li"
+                key={row.label}
                 data-hero-reveal="true"
                 sx={{
-                  color: 'text.secondary',
-                  lineHeight: 1.85,
-                  maxWidth: { xs: '100%', md: 500 },
-                  mx: { xs: 'auto', md: 0 },
-                  mb: { xs: 3, md: 3.75 },
-                  fontSize: { xs: '0.92rem', md: '1rem' },
+                  display: 'flex', alignItems: 'center', gap: 1.5,
                   opacity: isReviewCapture ? 1 : 0,
-                  animation: isReviewCapture ? 'none' : 'fadeInUp 0.6s ease 0.2s both',
+                  animation: isReviewCapture ? 'none' : `heroRowIn 0.45s ease ${0.55 + i * 0.13}s both`,
                 }}
               >
-                {SUB_DESCRIPTION}
-              </Typography>
+                <Box sx={{
+                  width: 10, height: 10, borderRadius: '2px', flexShrink: 0,
+                  bgcolor: row.accent ? 'primary.main' : 'rgba(184,193,203,0.35)',
+                }} />
+                <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: row.accent ? 'primary.main' : 'text.secondary', whiteSpace: 'nowrap' }}>
+                  {row.label}
+                </Typography>
+                <Box sx={{
+                  flex: 1, height: '1px', transformOrigin: 'left center',
+                  bgcolor: row.accent ? 'primary.main' : 'rgba(184,193,203,0.35)',
+                  animation: isReviewCapture ? 'none' : `heroLineScaleIn 0.45s ease ${0.55 + i * 0.13}s both`,
+                }} />
+              </Box>
+            ))}
+          </Box>
+        </Stack>
 
-              <Stack
-                direction={{ xs: 'column', sm: 'row' }}
-                spacing={2}
-                sx={{
-                  alignItems: { xs: 'stretch', sm: 'center' },
-                  justifyContent: { xs: 'center', md: 'flex-start' },
-                  flexWrap: 'wrap',
-                  rowGap: 2,
-                }}
-              >
-                <Button
-                  variant="contained"
-                  size="large"
-                  data-hero-reveal="true"
-                  onClick={() => scrollToSection('projects')}
-                  aria-label="프로젝트 섹션으로 이동"
-                  endIcon={<ArrowForwardIcon className="cta-arrow" sx={{ transform: 'translateX(0)', transition: 'transform 0.2s ease' }} />}
-                  sx={{
-                    bgcolor: 'primary.main',
-                    color: 'primary.contrastText',
-                    px: 3.5,
-                    minHeight: 50,
-                    fontWeight: 700,
-                    fontSize: '0.95rem',
-                    whiteSpace: 'nowrap',
-                    opacity: isReviewCapture ? 1 : 0,
-                    animation: isReviewCapture ? 'none' : 'ctaFadeInUp 0.6s ease 0.32s both',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                    '&:hover': {
-                      bgcolor: 'primary.dark',
-                      transform: 'translateY(-2px)',
-                      boxShadow: '0 8px 24px rgba(37,99,235,0.35)',
-                    },
-                    '&:hover .cta-arrow': { transform: 'translateX(4px)' },
-                    '&:active': { transform: 'translateY(0)' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
-                  }}
-                >
-                  프로젝트 보기
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  data-hero-reveal="true"
-                  onClick={() => scrollToSection('about')}
-                  aria-label="작업 방식 섹션으로 이동"
-                  sx={{
-                    color: 'text.secondary',
-                    borderColor: 'rgba(148,163,184,0.28)',
-                    px: 3.5,
-                    minHeight: 50,
-                    fontWeight: 600,
-                    fontSize: '0.95rem',
-                    whiteSpace: 'nowrap',
-                    opacity: isReviewCapture ? 1 : 0,
-                    animation: isReviewCapture ? 'none' : 'ctaFadeInUp 0.6s ease 0.38s both',
-                    transition: 'transform 0.2s ease, border-color 0.2s ease',
-                    '&:hover': {
-                      color: 'primary.main',
-                      borderColor: 'primary.main',
-                      bgcolor: 'rgba(56,189,248,0.06)',
-                      transform: 'translateY(-2px)',
-                    },
-                    '&:active': { transform: 'translateY(0)' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
-                  }}
-                >
-                  작업 방식 보기
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  component="a"
-                  data-hero-reveal="true"
-                  href={GITHUB_PROFILE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  startIcon={<GitHubIcon />}
-                  aria-label="GitHub 프로필 새 탭으로 열기"
-                  sx={{
-                    color: 'primary.main',
-                    borderColor: 'rgba(56,189,248,0.4)',
-                    px: 3.5,
-                    minHeight: 50,
-                    fontWeight: 600,
-                    fontSize: '0.95rem',
-                    whiteSpace: 'nowrap',
-                    opacity: isReviewCapture ? 1 : 0,
-                    animation: isReviewCapture ? 'none' : 'ctaFadeInUp 0.6s ease 0.44s both',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
-                    '&:hover': {
-                      bgcolor: 'rgba(56,189,248,0.07)',
-                      borderColor: 'primary.main',
-                      transform: 'translateY(-2px)',
-                    },
-                    '&:active': { transform: 'translateY(0)' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
-                  }}
-                >
-                  GitHub
-                </Button>
-                {PORTFOLIO_PDF_URL && (
-                  <Button
-                    variant="text"
-                    size="large"
-                    component="a"
-                    href={PORTFOLIO_PDF_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    startIcon={<PictureAsPdfIcon />}
-                    aria-label="PDF 포트폴리오 새 탭으로 열기"
-                    sx={{
-                      color: 'text.secondary',
-                      px: 2,
-                      minHeight: 50,
-                      fontWeight: 600,
-                      fontSize: '0.95rem',
-                      whiteSpace: 'nowrap',
-                      opacity: 0,
-                      animation: 'ctaFadeInUp 0.6s ease 0.5s both',
-                      '&:hover': { color: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' },
-                      '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
-                    }}
-                  >
-                    PDF 포트폴리오
-                  </Button>
-                )}
-              </Stack>
-            </Box>
-          </Grid>
-
-          {/* 오른쪽: Flow Canvas Illustration — 모바일에서는 축소되어 텍스트 아래에 노출 */}
-          <Grid size={{ xs: 12, md: 5.5 }} sx={{ display: 'flex', justifyContent: 'center', mt: { xs: 2, md: 0 } }}>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <FlowCanvasIllustration />
-            </Box>
-          </Grid>
-        </Grid>
-
-        {/* Flow Path — About/Projects와 동일 규격(mt:5, height:56)으로 통일 */}
-        <Box
-          aria-hidden="true"
+        {/* Hero_Footer */}
+        <Stack
+          direction={{ xs: 'column', md: 'row' }}
+          spacing={{ xs: 0.5, md: 0 }}
           sx={{
-            display: { xs: 'none', md: 'block' },
-            position: 'relative',
-            width: '1px', height: 56, mt: 5, mx: 'auto',
-            background: 'linear-gradient(180deg, transparent, rgba(56,189,248,0.3))',
-            pointerEvents: 'none',
+            justifyContent: 'space-between',
+            mt: { xs: 5, md: 7 },
+            fontFamily: FONT_MONO,
+            fontSize: '0.6875rem',
+            color: 'text.secondary',
           }}
         >
-          <FlowNode sx={{ left: '50%', bottom: 0, transform: 'translateX(-50%)' }} />
-        </Box>
+          <Typography component="span" sx={{ fontFamily: 'inherit', fontSize: 'inherit', color: 'inherit' }}>
+            1회 정렬 모션 · 반복 없음 · reduced-motion 대응
+          </Typography>
+          <Typography component="span" sx={{ fontFamily: 'inherit', fontSize: 'inherit', color: 'inherit' }}>
+            SCROLL / 01—05
+          </Typography>
+        </Stack>
       </Container>
     </Box>
   );

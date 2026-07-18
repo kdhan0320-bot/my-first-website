@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import HeroSection from '../components/sections/HeroSection';
 import AboutSection from '../components/sections/AboutSection';
 import ProjectsSection from '../components/sections/ProjectsSection';
+import MoreWorksSection from '../components/sections/MoreWorksSection';
 import ContactSection from '../components/sections/ContactSection';
 import { scrollToSection } from '../hooks/useScrollNav';
 
@@ -91,6 +92,7 @@ const HomePage = () => {
       <HeroSection />
       <AboutSection />
       <ProjectsSection />
+      <MoreWorksSection />
       <ContactSection />
     </>
   );

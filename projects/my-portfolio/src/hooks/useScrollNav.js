@@ -129,7 +129,7 @@ export const scrollToSection = (sectionId) => {
   if (!el) return;
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const HEADER_OFFSET = 68;
+  const HEADER_OFFSET = 84;
   const top = el.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
 
   window.scrollTo({ top, behavior: reducedMotion ? 'instant' : 'smooth' });

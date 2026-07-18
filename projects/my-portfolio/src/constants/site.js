@@ -3,3 +3,5 @@
 export const PORTFOLIO_PDF_URL = null;
 
 export const GITHUB_PROFILE_URL = 'https://github.com/kdhan0320-bot';
+
+export const CONTACT_EMAIL = 'kdhan0320@gmail.com';

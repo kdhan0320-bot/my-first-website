@@ -1,56 +1,52 @@
 import { useState } from 'react';
 import {
-  AppBar, Toolbar, Typography, Button, Box, Container,
-  IconButton, Drawer, List, ListItem, ListItemButton, ListItemText,
-  Divider, Tooltip,
+  AppBar, Toolbar, Typography, Box, Container,
+  IconButton, Drawer,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   useScrollDirection,
-  useScrollProgress,
-  useActiveSection,
   scrollToSection,
 } from '../../hooks/useScrollNav';
-import LogoSymbol from '../ui/LogoSymbol';
+import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL, CONTACT_EMAIL } from '../../constants/site';
+import { FONT_MONO } from '../../theme';
 
-const GITHUB_URL = 'https://github.com/kdhan0320-bot';
+/* Figma 로고는 그래픽 마크가 아니라 "D" 글자 하나 + "Dohan.K" 워드마크다
+ * (42:4 Logo, 48:4 Logo) — 기존 그라디언트 배지 SVG(LogoSymbol)는 쓰지 않는다. */
+const LogoMark = () => (
+  <Box component="span" aria-hidden="true" sx={{ fontWeight: 700, fontSize: '1.375rem', lineHeight: 1, color: 'text.primary' }}>
+    D
+  </Box>
+);
 
 const NAV_ITEMS = [
-  { label: '프로젝트', type: 'route',  to: '/projects' },
-  { label: '연락처',   type: 'scroll', sectionId: 'contact' },
+  { label: 'PROJECTS', type: 'route', to: '/projects' },
+  { label: 'GITHUB ↗', type: 'link', href: GITHUB_PROFILE_URL, external: true },
+  ...(PORTFOLIO_PDF_URL
+    ? [{ label: 'PDF PORTFOLIO ↗', type: 'link', href: PORTFOLIO_PDF_URL, external: true }]
+    : []),
 ];
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [hasFocus, setHasFocus] = useState(false);
 
   const isHome = location.pathname === '/';
-  const { hidden, atTop } = useScrollDirection(drawerOpen);
-  const progress = useScrollProgress();
-  const activeSection = useActiveSection(location.pathname);
+  const { hidden, atTop } = useScrollDirection(menuOpen);
 
   const getActiveLabel = () => {
-    if (location.pathname === '/projects') return '프로젝트';
-    if (isHome && activeSection === 'contact') return '연락처';
+    if (location.pathname === '/projects') return 'PROJECTS';
     return '';
   };
   const activeLabel = getActiveLabel();
 
   const handleNavClick = (item) => {
-    setDrawerOpen(false);
+    setMenuOpen(false);
     if (item.type === 'route') {
       navigate(item.to);
-      return;
-    }
-    if (isHome) {
-      scrollToSection(item.sectionId);
-    } else {
-      navigate('/', { state: { scrollTo: item.sectionId } });
     }
   };
 
@@ -61,9 +57,6 @@ const Navbar = () => {
 
   const effectiveHidden = hidden && !hasFocus;
 
-  const bgTop      = 'rgba(15,23,42,0.88)';
-  const bgScrolled  = 'rgba(17,24,39,0.96)';
-
   return (
     <>
       <AppBar
@@ -72,47 +65,19 @@ const Navbar = () => {
         onBlurCapture={() => setHasFocus(false)}
         sx={{
           top: 0, left: 0, right: 0,
+          bgcolor: 'background.default',
           transform: effectiveHidden ? 'translateY(-100%)' : 'translateY(0)',
-          transition: 'transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease',
-          bgcolor: atTop ? bgTop : bgScrolled,
-          backdropFilter: atTop ? 'none' : 'blur(12px)',
-          WebkitBackdropFilter: atTop ? 'none' : 'blur(12px)',
-          boxShadow: atTop ? 'none' : '0 1px 10px rgba(0,0,0,0.3)',
-          borderBottom: atTop ? '1px solid transparent' : '1px solid',
-          borderBottomColor: atTop ? 'transparent' : 'divider',
+          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          boxShadow: atTop ? 'none' : '0 1px 0 rgba(184,193,203,0.16)',
           '@media (prefers-reduced-motion: reduce)': {
             transition: 'none',
           },
         }}
       >
-        {/* 읽기 진행률 바 */}
-        <Box
-          aria-hidden="true"
-          sx={{
-            position: 'absolute',
-            top: 0, left: 0, right: 0,
-            height: 3,
-            bgcolor: 'rgba(56,189,248,0.12)',
-            overflow: 'hidden',
-            zIndex: 1,
-          }}
-        >
-          <Box
-            sx={{
-              height: '100%',
-              width: '100%',
-              bgcolor: 'primary.main',
-              transformOrigin: 'left center',
-              transform: `scaleX(${progress / 100})`,
-              transition: 'transform 0.1s linear',
-            }}
-          />
-        </Box>
-
-        <Container maxWidth="lg">
+        <Container maxWidth={false} sx={{ px: { xs: 3, sm: 6, md: 8 } }}>
           <Toolbar
             disableGutters
-            sx={{ justifyContent: 'space-between', minHeight: '64px !important' }}
+            sx={{ justifyContent: 'space-between', minHeight: { xs: '72px !important', md: '80px !important' } }}
           >
             {/* 로고 */}
             <Box
@@ -121,22 +86,14 @@ const Navbar = () => {
               onClick={handleLogoClick}
               aria-label="Dohan.K 홈으로 이동"
               sx={{
-                display: 'flex', alignItems: 'center', gap: 1.2,
+                display: 'flex', alignItems: 'center', gap: 1.5,
                 minHeight: 44,
                 textDecoration: 'none', cursor: 'pointer',
                 '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '4px', borderRadius: '4px' },
               }}
             >
-              <LogoSymbol />
-              <Typography
-                sx={{
-                  color: 'text.primary',
-                  fontWeight: 800,
-                  fontSize: '1.1rem',
-                  letterSpacing: '-0.2px',
-                  fontFamily: '"Pretendard", "Noto Sans KR", sans-serif',
-                }}
-              >
+              <LogoMark />
+              <Typography sx={{ color: 'text.primary', fontWeight: 600, fontSize: '1rem' }}>
                 Dohan.K
               </Typography>
             </Box>
@@ -145,89 +102,83 @@ const Navbar = () => {
             <Box
               component="nav"
               aria-label="주요 메뉴"
-              sx={{ display: { xs: 'none', md: 'flex' }, gap: 0.5, alignItems: 'center' }}
+              sx={{ display: { xs: 'none', md: 'flex' }, gap: 3.25, alignItems: 'center' }}
             >
               {NAV_ITEMS.map((item) => {
                 const isActive = activeLabel === item.label;
+                const sx = {
+                  fontFamily: FONT_MONO,
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.03em',
+                  color: isActive ? 'primary.main' : 'text.secondary',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  minHeight: 44,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  transition: 'color 0.2s',
+                  '&:hover': { color: 'primary.main' },
+                  '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px', borderRadius: '2px' },
+                };
+                if (item.type === 'link') {
+                  return (
+                    <Box
+                      key={item.label}
+                      component="a"
+                      aria-current={isActive ? 'page' : undefined}
+                      href={item.href}
+                      target={item.external ? '_blank' : undefined}
+                      rel={item.external ? 'noopener noreferrer' : undefined}
+                      aria-label={item.label === 'GITHUB ↗' ? 'GitHub 프로필 새 탭에서 열기' : 'PDF 포트폴리오 새 탭에서 열기'}
+                      sx={sx}
+                    >
+                      {item.label}
+                    </Box>
+                  );
+                }
                 return (
-                  <Button
-                    key={item.label}
-                    onClick={() => handleNavClick(item)}
-                    aria-current={isActive ? 'page' : undefined}
-                    sx={(theme) => ({
-                      color: isActive ? theme.palette.primary.main : theme.palette.text.secondary,
-                      fontWeight: isActive ? 700 : 500,
-                      fontSize: '0.875rem',
-                      whiteSpace: 'nowrap',
-                      bgcolor: isActive ? theme.palette.highlight.background : 'transparent',
-                      borderRadius: '999px',
-                      px: 2,
-                      py: 1,
-                      minHeight: 44,
-                      transition: 'color 0.2s, background-color 0.2s',
-                      '&:hover': {
-                        color: theme.palette.primary.main,
-                        bgcolor: isActive
-                          ? theme.palette.highlight.background
-                          : 'rgba(148,163,184,0.08)',
-                      },
-                      '&:focus-visible': { outline: `2px solid ${theme.palette.primary.main}`, outlineOffset: '2px' },
-                    })}
-                  >
+                  <Box key={item.label} component="button" type="button" aria-current={isActive ? 'page' : undefined} onClick={() => handleNavClick(item)} sx={{ ...sx, bgcolor: 'transparent', border: 0, p: 0, font: 'inherit' }}>
                     {item.label}
-                  </Button>
+                  </Box>
                 );
               })}
 
-              {/* PDF 포트폴리오 버튼: 실제 PDF 파일이 public/에 준비되면 다시 추가 (portfolio.pdf 필요) */}
-
-              {/* GitHub 링크 */}
-              <Tooltip
-                title="작업한 코드와 프로젝트 구조는 GitHub에서 확인할 수 있습니다."
-                placement="bottom"
-                arrow
+              <Box
+                component="a"
+                href={`mailto:${CONTACT_EMAIL}`}
+                aria-label="이메일 보내기"
+                sx={{
+                  bgcolor: 'primary.main',
+                  color: 'primary.contrastText',
+                  height: 44,
+                  minWidth: 116,
+                  px: 2.5,
+                  borderRadius: '10px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 1,
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  whiteSpace: 'nowrap',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                  '&:hover': { transform: 'translateY(-1px)', boxShadow: '0 8px 20px rgba(255,107,61,0.35)' },
+                  '&:active': { transform: 'translateY(0)' },
+                  '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+                }}
               >
-                <Button
-                  component="a"
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="GitHub 프로필 새 탭에서 열기 — 작업한 코드와 프로젝트 구조를 확인할 수 있습니다."
-                  startIcon={<GitHubIcon aria-hidden="true" sx={{ fontSize: '1rem !important' }} />}
-                  sx={{
-                    ml: 1,
-                    color: 'text.secondary',
-                    fontWeight: 500,
-                    fontSize: '0.875rem',
-                    whiteSpace: 'nowrap',
-                    border: '1px solid rgba(148,163,184,0.22)',
-                    borderRadius: 2,
-                    px: 2,
-                    py: 0.75,
-                    minHeight: 44,
-                    transition: 'color 0.2s, border-color 0.2s, background-color 0.2s, transform 0.2s',
-                    '&:hover': {
-                      color: 'primary.main',
-                      borderColor: 'primary.main',
-                      bgcolor: 'rgba(56,189,248,0.05)',
-                      transform: 'translateY(-1px)',
-                    },
-                    '&:active': { transform: 'translateY(0)' },
-                    '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
-                  }}
-                >
-                  GitHub
-                </Button>
-              </Tooltip>
+                메일 보내기 <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO }}>→</Box>
+              </Box>
             </Box>
 
             {/* 모바일 우측: 햄버거 */}
-            <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 0.5 }}>
+            <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
               <IconButton
                 sx={{ color: 'text.primary', minWidth: 44, minHeight: 44 }}
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => setMenuOpen(true)}
                 aria-label="메뉴 열기"
-                aria-expanded={drawerOpen}
+                aria-expanded={menuOpen}
               >
                 <MenuIcon />
               </IconButton>
@@ -236,107 +187,123 @@ const Navbar = () => {
         </Container>
       </AppBar>
 
-      {/* 모바일 Drawer */}
+      {/* 모바일 전체 화면 메뉴 (Figma 48:2) */}
       <Drawer
         anchor="right"
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
         slotProps={{
           paper: {
-            sx: (theme) => ({
-              bgcolor: 'background.paper',
-              width: 240,
-              borderLeft: `1px solid ${theme.palette.divider}`,
-            }),
+            sx: {
+              bgcolor: 'background.default',
+              width: '100%',
+              maxWidth: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              px: 3,
+              pt: 2.5,
+              pb: 3,
+            },
           },
         }}
       >
-        {/* Drawer 헤더 */}
-        <Box
-          sx={(theme) => ({
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            p: 2, borderBottom: `1px solid ${theme.palette.divider}`,
-          })}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <LogoSymbol />
-            <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: 'text.primary' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', minHeight: 52 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25 }}>
+            <LogoMark />
+            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: 'text.primary' }}>
               Dohan.K
             </Typography>
           </Box>
-          <IconButton
-            sx={{ color: 'text.secondary', minWidth: 44, minHeight: 44 }}
-            onClick={() => setDrawerOpen(false)}
+          <Box
+            component="button"
+            type="button"
+            onClick={() => setMenuOpen(false)}
             aria-label="메뉴 닫기"
+            sx={{
+              bgcolor: 'transparent', border: 0, cursor: 'pointer', minWidth: 44, minHeight: 44,
+              fontFamily: FONT_MONO, fontSize: '0.75rem', fontWeight: 600, color: 'text.secondary',
+              '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
+            }}
           >
-            <CloseIcon fontSize="small" aria-hidden="true" />
-          </IconButton>
+            CLOSE
+          </Box>
         </Box>
 
-        {/* 메뉴 항목 */}
-        <List component="nav" aria-label="모바일 메뉴" sx={{ pt: 1 }}>
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeLabel === item.label;
-            return (
-              <ListItem key={item.label} disablePadding>
-                <ListItemButton
-                  onClick={() => handleNavClick(item)}
-                  aria-current={isActive ? 'page' : undefined}
-                  sx={(theme) => ({
-                    color: isActive ? theme.palette.primary.main : theme.palette.text.secondary,
-                    borderLeft: isActive ? `3px solid ${theme.palette.primary.main}` : '3px solid transparent',
-                    pl: 3,
-                    minHeight: 52,
-                    '&:hover': {
-                      color: theme.palette.primary.main,
-                      bgcolor: theme.palette.highlight.background,
-                    },
-                  })}
+        <Box sx={{ borderTop: '1px solid', borderColor: 'rgba(184,193,203,0.24)', mt: 2, mb: 5.5 }} />
+
+        <Box component="nav" aria-label="모바일 메뉴" sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          {NAV_ITEMS.map((item, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            const sx = {
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              minHeight: 48, textDecoration: 'none', cursor: 'pointer',
+              color: 'text.primary', fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.4,
+              bgcolor: 'transparent', border: 0, width: '100%', font: 'inherit', textAlign: 'left', p: 0,
+              '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+            };
+            const numberEl = (
+              <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: 'primary.main' }}>
+                {num}
+              </Box>
+            );
+            if (item.type === 'link') {
+              return (
+                <Box
+                  key={item.label}
+                  component="a"
+                  href={item.href}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                  aria-label={item.label === 'GITHUB ↗' ? 'GitHub 프로필 새 탭에서 열기' : 'PDF 포트폴리오 새 탭에서 열기'}
+                  sx={{ ...sx, fontFamily: 'inherit' }}
                 >
-                  <ListItemText
-                    primary={item.label}
-                    slotProps={{
-                      primary: {
-                        sx: { fontWeight: isActive ? 700 : 400, fontSize: '0.9rem', color: 'inherit' },
-                      },
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
+                  {item.label}
+                  {numberEl}
+                </Box>
+              );
+            }
+            return (
+              <Box key={item.label} component="button" type="button" onClick={() => handleNavClick(item)} sx={sx}>
+                {item.label}
+                {numberEl}
+              </Box>
             );
           })}
-
-        </List>
-
-        <Divider sx={{ mx: 2 }} />
-
-        {/* GitHub 링크 */}
-        <Box sx={{ p: 2 }}>
-          <Button
-            component="a"
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub 프로필 새 탭에서 열기"
-            startIcon={<GitHubIcon aria-hidden="true" />}
-            fullWidth
-            variant="outlined"
-            sx={(theme) => ({
-              color: theme.palette.text.secondary,
-              borderColor: theme.palette.divider,
-              justifyContent: 'flex-start',
-              pl: 2,
-              minHeight: 48,
-              '&:hover': {
-                color: theme.palette.primary.main,
-                borderColor: theme.palette.primary.main,
-                bgcolor: 'rgba(56,189,248,0.06)',
-              },
-            })}
-          >
-            GitHub 보기
-          </Button>
         </Box>
+
+        <Box
+          component="a"
+          href={`mailto:${CONTACT_EMAIL}`}
+          aria-label="이메일 보내기"
+          sx={{
+            mt: 5.5,
+            bgcolor: 'primary.main',
+            color: 'primary.contrastText',
+            height: 56,
+            borderRadius: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 1,
+            textDecoration: 'none',
+            fontWeight: 600,
+            fontSize: '0.9375rem',
+            '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+          }}
+        >
+          메일 보내기 <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO }}>→</Box>
+        </Box>
+
+        <Box sx={{ flex: 1 }} />
+
+        {!PORTFOLIO_PDF_URL && (
+          <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: 'text.secondary', lineHeight: 1.5, mb: 1.5 }}>
+            PDF는 실제 제출용 파일이 완성되기 전까지 메뉴에서 숨깁니다.
+          </Typography>
+        )}
+        <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: 'text.secondary', letterSpacing: '0.02em' }}>
+          KIM DOHAN / ORDERED SIGNAL
+        </Typography>
       </Drawer>
     </>
   );

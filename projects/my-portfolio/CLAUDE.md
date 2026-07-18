@@ -35,32 +35,33 @@ AI 보조 활용을 함께 보여준다.
 완성을 우선한다.
 
 ## 디자인 방향 핵심 원칙
-콘셉트명은 "Dohan.K Flow Blueprint"(상세는 `docs/design-reference.md`).
+콘셉트명은 "Ordered Signal"(상세는 `docs/design-reference.md`). Figma 파일
+`53Ppn2hIgrvs9Jra3eejFs`("ORDERED SIGNAL / STYLE GUIDE")를 기준으로 이전
+"Dohan.K Flow Blueprint" 시스템을 전면 교체했다(사용자 승인 완료).
 
-- 다크 네이비, 블루그레이, 화이트, 실버 계열 중심의 차분하고 신뢰감
-  있는 B2B/업무툴형 분위기.
-- 콘텐츠 중심의 미니멀한 레이아웃, 카드형 UI, 명확한 정보 계층, 충분한
-  여백. 모바일/태블릿/PC 반응형 안정성을 우선한다.
-- 색상은 cyan(흐름/CTA/active) / blue(구조) / emerald(검증) /
-  violet(depth glow) 4가지 역할로만 쓰고 남발하지 않는다.
-- 금지: 파티클·별·우주·은하·네온·AI 회로·AI 로봇·3D 오브젝트·캐릭터
-  일러스트·사람 실루엣, 움직이는 텍스트(진입 시 1회 fade/translate는
-  허용). Hero Flow Core 크기/구조 변경 금지, AI Assist 재추가 금지.
-- 모션은 장식이 아니라 정보 흐름을 설명하는 용도로만 쓴다. 무한 반복
-  애니메이션은 원칙적으로 금지하며 Hero 섹션 한정 아주 약한 ambient
-  motion만 prefers-reduced-motion 대응 조건으로 예외를 둔다.
-- 전체 리디자인은 금지하되, 사용자가 명시한 섹션 범위 내 시각 강화·
-  구조 조정은 허용한다.
-- 헤더 nav는 프로젝트 / 연락처 / GitHub 3개를 기본으로 유지한다.
+- Ink Black/Deep Slate(다크) + Warm Ivory(라이트) 배경이 섹션별로
+  교차하고, Signal Orange를 포인트 컬러로 쓰는 하이컨트라스트 에디토리얼
+  톤. 색상 6종 전체 정의와 사용 규칙은 `docs/design-reference.md` 참조.
+- IBM Plex Sans KR(한글 제목/본문) + IBM Plex Mono(라벨/번호/메타데이터)
+  2종 폰트만 쓴다.
+- 큰 한글 타이포 1개가 화면을 주도하고, 포인트 컬러는 전체 면적의
+  5~8% 이내로 제한한다.
+- 금지: 3D·파티클·글리치·강한 blur·마우스 추적·자동 무한 marquee.
+  진입 시 1회 fade/align 모션은 허용하되 무한 반복 애니메이션은 두지
+  않는다(Hero/Contact 포함, 예외 없음).
+- 모션은 장식이 아니라 "정리→정렬→완성" 흐름을 보여주는 용도로만 쓴다.
+  Hero는 Scattered→Align→Final 3단계, Contact는 짧은 신호 정렬 모션 —
+  둘 다 1회 재생, `prefers-reduced-motion`에서는 Final 상태 즉시 표시.
+- 전체 리디자인은 위 Figma 승인 건으로 이미 반영이 끝났으므로, 이후
+  추가 요청은 다시 "사용자가 명시한 섹션 범위 내 조정"부터 계획을
+  제안하고 진행한다(임의 재변경 금지).
+- 헤더 nav는 PROJECTS / GITHUB / PDF PORTFOLIO(있을 때만) / 메일 CTA
+  버튼 구성을 기본으로 유지한다.
 
 ## 외부 레퍼런스 활용 원칙
 - 특정 사이트를 그대로 복제하지 않는다.
-- 사용자가 지정한 레퍼런스(Vercel, Linear, Webflow, Raycast, if(kakao),
-  FEConf, i-AWARD Korea, DAN25 등)는 톤앤매너·정보 구조·카드 구성·여백·
-  문장 흐름 참고 용도로만 활용하고, 이 프로젝트의 다크 네이비 기반
-  디자인 시스템 안에서 재해석한다.
-- 레이아웃/컴포넌트를 그대로 베끼지 않는다. 세부 비율과 섹션별 적용
-  기준은 `docs/design-reference.md` 참조.
+- 레이아웃/컴포넌트를 그대로 베끼지 않는다.
+- 디자인 기준은 Figma 파일과 `docs/design-reference.md`를 우선한다.
 
 ## 문장 규칙
 - 거짓말, 과장, 억지 칭찬, 검증되지 않은 성과 수치 금지

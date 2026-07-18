@@ -1,19 +1,30 @@
 import { useState, useEffect } from 'react';
-import {
-  Box, Container, Typography, Card, CardContent,
-  Chip, Button, Tabs, Tab, Stack, Skeleton,
-  Dialog, DialogTitle, DialogContent, DialogActions,
-  IconButton, Divider,
-} from '@mui/material';
+import { Box, Container, Typography, Chip, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Divider, Button } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { supabase } from '../lib/supabase';
-import { ALL_PROJECTS, FILTER_TABS } from '../data/projectsData';
-import ProjectThumbnailArt, { hasThumbnailArt, GenericPreviewArt } from '../components/projects/ProjectThumbnailArt';
+import { ALL_PROJECTS } from '../data/projectsData';
 import EvidenceBadges from '../components/projects/EvidenceBadges';
+import { FONT_MONO, COLORS } from '../theme';
 
-/* ── Supabase 데이터를 공유 포맷으로 변환 ── */
+/* Figma 03_Projects/Desktop(42:674) 원문 카피. Featured 3개는 Home Selected Projects와
+ * 같은 실제 프로젝트를 더 짧은 카드 형태로 보여준다. */
+const FEATURED_CARDS = [
+  { id: 'jobflow', title: 'JobFlow', meta: 'UX/UI · React/MUI · Supabase', description: '취업 준비 관리 대시보드' },
+  { id: 'bus-arrival-app', title: '버스 도착정보 앱 UI', meta: 'Figma Prototype · Static Data', description: '모바일 도착정보 UI' },
+  { id: 'feedback-hub', title: 'Portfolio Feedback Hub', meta: 'React/MUI · Supabase · Fallback', description: '포트폴리오 피드백 서비스' },
+];
+
+/* Figma의 Archive 섹션 목업은 예시로 3개 행(WEB PORTFOLIO/OTT SERVICE/추가 작품)만
+ * 보여주지만, 실제로는 archive 태그 프로젝트가 더 많다. 항목을 임의로 줄이지 않고
+ * 같은 행 스타일로 실제 개수만큼 반복 렌더링한다(작업 지시서: 프로젝트 데이터를
+ * 임의로 축소하지 않는다). */
+const archiveMeta = (p) => {
+  if (p.tools?.length) return [...new Set(p.tools)].slice(0, 3).join(' · ');
+  return p.archiveStatus ?? '';
+};
+
 const fromSupabase = (row) => ({
   id: String(row.id),
   title: row.title,
@@ -22,8 +33,7 @@ const fromSupabase = (row) => ({
   categoryLabel: 'AI 도구 활용 웹 구현',
   role: '—',
   tools: row.tech_stack ?? [],
-  tags: row.tech_stack?.slice(0, 3) ?? [],
-  gradient: 'linear-gradient(135deg, #1E3A5F 0%, #2A5A8F 100%)',
+  gradient: COLORS.deepSlate,
   thumbnailUrl: row.thumbnail_url ?? null,
   liveUrl: row.detail_url ?? null,
   githubUrl: row.github_url ?? null,
@@ -36,7 +46,6 @@ const fromSupabase = (row) => ({
   },
 });
 
-/* ── 상세 모달 ── */
 const DetailRow = ({ label, children }) => (
   <Box sx={{ mb: 2 }}>
     <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
@@ -53,8 +62,7 @@ const DetailModal = ({ project, open, onClose }) => {
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth scroll="paper"
       aria-labelledby="ppage-detail-title"
       slotProps={{ paper: { sx: (t) => ({ borderRadius: 3, bgcolor: 'background.paper', border: `1px solid ${t.palette.divider}` }) } }}>
-      <DialogTitle id="ppage-detail-title"
-        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
+      <DialogTitle id="ppage-detail-title" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
         <Box>
           <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
             {project.categoryLabel}
@@ -62,7 +70,7 @@ const DetailModal = ({ project, open, onClose }) => {
           <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
         </Box>
         <IconButton onClick={onClose} aria-label="닫기" size="small"
-          sx={{ color: 'text.secondary', ml: 1, minWidth: 44, minHeight: 44, '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
+          sx={{ color: 'text.secondary', ml: 1, minWidth: 44, minHeight: 44, '&:hover': { bgcolor: 'rgba(184,193,203,0.08)' } }}>
           <CloseIcon fontSize="small" />
         </IconButton>
       </DialogTitle>
@@ -95,12 +103,7 @@ const DetailModal = ({ project, open, onClose }) => {
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
               {tools.map((t) => (
                 <Chip key={t} label={t} size="small"
-                  sx={{
-                    bgcolor: 'rgba(56,189,248,0.08)',
-                    color: 'primary.main',
-                    border: '1px solid rgba(56,189,248,0.18)',
-                    fontWeight: 600, fontSize: '0.875rem',
-                  }} />
+                  sx={{ bgcolor: 'rgba(255,107,61,0.08)', color: 'primary.main', border: '1px solid rgba(255,107,61,0.2)', fontWeight: 600, fontSize: '0.875rem' }} />
               ))}
             </Box>
           </DetailRow>
@@ -117,26 +120,6 @@ const DetailModal = ({ project, open, onClose }) => {
         )}
         {detail.result && detail.result !== '—' && (
           <DetailRow label="결과 화면">
-            {(project.thumbnailUrl || project.liveUrl) && (
-              <Box sx={{
-                mb: 1.5, borderRadius: 1.5, overflow: 'hidden',
-                border: '1px solid',
-                borderColor: 'divider',
-                background: project.gradient || 'linear-gradient(135deg, #1E3A5F 0%, #2563EB 100%)',
-                position: 'relative', height: 120,
-              }}>
-                {project.thumbnailUrl ? (
-                  <Box component="img" src={project.thumbnailUrl} alt="결과 화면 미리보기"
-                    sx={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', p: 1 }} />
-                ) : (
-                  <Box sx={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem', letterSpacing: '0.1em' }}>
-                      실행 화면 보기 →
-                    </Typography>
-                  </Box>
-                )}
-              </Box>
-            )}
             <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.result}</Typography>
             {project.liveUrl && (
               <Box component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
@@ -148,16 +131,12 @@ const DetailModal = ({ project, open, onClose }) => {
         )}
         {detail.lesson && (
           <DetailRow label="배운 점">
-            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(167,139,250,0.06)', border: '1px solid rgba(167,139,250,0.18)' }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
-            </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.lesson}</Typography>
           </DetailRow>
         )}
         {detail.aiContribution && (
           <DetailRow label="AI 도구 활용">
-            <Box sx={{ p: 1.5, borderRadius: 1.5, bgcolor: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)' }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
-            </Box>
+            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.aiContribution}</Typography>
           </DetailRow>
         )}
         {detail.limitation && (
@@ -188,7 +167,7 @@ const DetailModal = ({ project, open, onClose }) => {
         {figmaDesignUrl && (
           <Button component="a" href={figmaDesignUrl} target="_blank" rel="noopener noreferrer"
             variant="outlined" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
-            sx={{ color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
+            sx={{ color: 'primary.main', borderColor: 'rgba(255,107,61,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(255,107,61,0.06)' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
             디자인 파일 보기
           </Button>
         )}
@@ -200,8 +179,7 @@ const DetailModal = ({ project, open, onClose }) => {
           </Button>
         )}
         <Box sx={{ flex: 1 }} />
-        <Button onClick={onClose} size="small"
-          sx={{ color: 'text.secondary', '&:hover': { bgcolor: 'rgba(255,255,255,0.06)' } }}>
+        <Button onClick={onClose} size="small" sx={{ color: 'text.secondary', '&:hover': { bgcolor: 'rgba(184,193,203,0.08)' } }}>
           닫기
         </Button>
       </DialogActions>
@@ -209,199 +187,83 @@ const DetailModal = ({ project, open, onClose }) => {
   );
 };
 
-/* 실제 스크린샷 이미지 자체에 여백이 많아 contain만으로는 작게 보이는 항목 — 실제 작업물은 그대로, 빈 여백만 확대로 정리 */
-const THUMB_ZOOM = {};
-
-/* ── 썸네일 (이미지 우선 → SVG 프리뷰 폴백) ── */
-const Thumbnail = ({ gradient, thumbnailUrl, title, projectId }) => (
-  <Box sx={{ position: 'relative', height: { xs: 200, md: 240 }, overflow: 'hidden', flexShrink: 0, background: `linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.10)), ${gradient}` }}>
-    {thumbnailUrl ? (
-      <Box sx={{ position: 'absolute', inset: 0, transform: `scale(${THUMB_ZOOM[projectId] ?? 1})`, transformOrigin: 'center' }}>
-        <Box component="img" src={thumbnailUrl} alt={`${title} 썸네일`} loading="lazy" className="thumb-img"
-          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-          sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', padding: '8px', transition: 'transform 0.35s ease, filter 0.3s ease' }} />
+const FeaturedCard = ({ card, project, onDetail }) => (
+  <Box sx={{ bgcolor: COLORS.deepSlate, border: '1px solid #33404D', borderRadius: '14px', p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ borderRadius: '14px', overflow: 'hidden', border: '1px solid #33404D' }}>
+      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', height: 38, px: 1.75, bgcolor: COLORS.warmIvory }}>
+        <Box sx={{ width: 7, height: 7, borderRadius: '4px', bgcolor: '#FF7A52' }} />
+        <Box sx={{ width: 7, height: 7, borderRadius: '4px', bgcolor: '#F1B95A' }} />
+        <Box sx={{ width: 7, height: 7, borderRadius: '4px', bgcolor: '#7ACB8A' }} />
       </Box>
-    ) : hasThumbnailArt(projectId) ? (
-      <ProjectThumbnailArt projectId={projectId} />
-    ) : (
-      <GenericPreviewArt />
-    )}
+      <Box sx={{ position: 'relative', height: 220, background: project?.gradient ?? COLORS.deepSlate }}>
+        {project?.thumbnailUrl && (
+          <Box component="img" src={project.thumbnailUrl} alt={`${card.title} 화면 미리보기`} loading="lazy"
+            sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', p: 1.5 }} />
+        )}
+      </Box>
+    </Box>
+    <Typography sx={{ fontFamily: FONT_MONO, color: 'primary.main', fontSize: '0.75rem' }}>{card.meta}</Typography>
+    <Typography component="h3" sx={{ fontWeight: 700, fontSize: '1.5rem', color: 'text.primary' }}>{card.title}</Typography>
+    <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem' }}>{card.description}</Typography>
+    <Box
+      component="button"
+      type="button"
+      onClick={() => onDetail(project)}
+      aria-label={`${card.title} 상세 보기`}
+      sx={{
+        alignSelf: 'flex-start', bgcolor: 'transparent', border: 0, cursor: 'pointer', p: 0, minHeight: 44,
+        fontFamily: FONT_MONO, fontWeight: 600, fontSize: '0.75rem', color: 'text.primary',
+        '&:hover': { color: 'primary.main' },
+        '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
+      }}
+    >
+      VIEW CASE →
+    </Box>
   </Box>
 );
 
-/* ── 카드 ── */
-const ProjectCard = ({ project, onDetail }) => {
-  const cardProblem = project.cardProblem ?? project.description;
-  const cardRoleRaw = project.cardRole ?? project.role;
-  const cardRoleItems = Array.isArray(cardRoleRaw)
-    ? cardRoleRaw
-    : (cardRoleRaw && cardRoleRaw !== '—' ? [cardRoleRaw] : []);
-  const hasRichCard = Boolean(project.cardProblem);
-  /* 카드 top-border/hover glow는 프로젝트별 accentColor 대신 고정 cyan으로 통일 */
-  const accent = '#38BDF8';
-  const archiveLimitText = !hasRichCard && project.categories?.includes('archive')
-    ? (project.limitation ?? (project.isPlaceholder ? '실제 구현 전 Figma 설계 단계입니다.' : null))
-    : null;
-
+const ArchiveRow = ({ project, index, onDetail }) => {
+  const light = index % 2 === 1;
   return (
-  <Card tabIndex={0} aria-label={`${project.title} 프로젝트`}
-    sx={{
-      display: 'flex', flexDirection: 'column',
-      minHeight: { md: 480 },
-      borderTop: hasRichCard ? `2px solid ${accent}59` : undefined,
-      transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
-      '&:hover': {
-        transform: 'translateY(-4px)',
-        boxShadow: '0 12px 32px rgba(0,0,0,0.4)',
-        borderColor: hasRichCard ? `${accent}59` : 'primary.main',
-        ...(hasRichCard && { borderTopColor: accent }),
-      },
-      '&:hover .thumb-img': { transform: 'scale(1.05)', filter: 'brightness(1.08)' },
-      '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '2px' },
-    }}>
-    <Thumbnail gradient={project.gradient} thumbnailUrl={project.thumbnailUrl} title={project.title} projectId={project.id} />
-    <CardContent sx={{ flexGrow: 1, p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.25 }}>
-      <Box>
-        <Typography variant="caption"
-          component="span"
-          sx={{
-            display: 'inline-block', color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem',
-            letterSpacing: '0.06em', textTransform: 'uppercase', mb: 0.75,
-            px: 1, py: 0.25, borderRadius: 999,
-            bgcolor: 'rgba(148,163,184,0.1)', border: '1px solid rgba(148,163,184,0.22)',
-          }}>
-          {project.categoryLabel}
-          {project.isPlaceholder && (
-            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.875rem' }}>({project.archiveStatus ?? 'Figma 준비 중'})</Box>
-          )}
-          {!project.isPlaceholder && project.archiveStatus && (
-            <Box component="span" sx={{ ml: 1, color: 'text.disabled', fontWeight: 400, fontSize: '0.875rem' }}>({project.archiveStatus})</Box>
-          )}
+    <Box
+      component="button"
+      type="button"
+      onClick={() => onDetail(project)}
+      aria-label={`${project.title} 상세 보기`}
+      sx={{
+        width: '100%', textAlign: 'left', cursor: 'pointer', font: 'inherit',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2,
+        minHeight: { xs: 'auto', md: 140 }, py: { xs: 3, md: 0 }, px: { xs: 2.5, md: 3.5 },
+        borderRadius: '14px', border: light ? 'none' : '1px solid #33404D',
+        bgcolor: light ? COLORS.warmIvory : COLORS.deepSlate,
+        '&:focus-visible': { outline: '2px solid', outlineColor: light ? COLORS.inkBlack : COLORS.warmIvory, outlineOffset: '2px' },
+      }}
+    >
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, minWidth: 0 }}>
+        <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: light ? COLORS.inkBlack : 'primary.main' }}>
+          {String(index + 4).padStart(2, '0')}
         </Typography>
-        <Typography component="h3" sx={{ fontSize: '1.05rem', fontWeight: 700, color: 'text.primary', lineHeight: 1.3, m: 0 }}>{project.title}</Typography>
+        <Typography component="h3" sx={{ fontWeight: 700, fontSize: { xs: '1.5rem', md: '2rem' }, color: light ? COLORS.inkBlack : COLORS.warmIvory }}>
+          {project.title}
+        </Typography>
+        <Typography sx={{ fontSize: '0.8125rem', color: light ? COLORS.darkSecondary : COLORS.lightSecondary }}>
+          {archiveMeta(project)}
+        </Typography>
       </Box>
-      <Typography variant="body2"
-        sx={{ color: 'text.primary', fontSize: '0.875rem', lineHeight: 1.65, display: '-webkit-box', WebkitLineClamp: hasRichCard ? 3 : 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-        {cardProblem}
+      <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: light ? COLORS.inkBlack : 'primary.main', flexShrink: 0 }}>
+        VIEW PROJECT →
       </Typography>
-      {hasRichCard ? (
-        <>
-          {cardRoleItems.length > 0 && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.4 }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.04em' }}>내가 한 일</Typography>
-              {cardRoleItems.map((item) => (
-                <Box key={item} sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.6 }}>
-                  <Box sx={{ width: 3, height: 3, borderRadius: '50%', bgcolor: 'primary.main', flexShrink: 0, mt: '9px', opacity: 0.7 }} />
-                  <Typography variant="caption" sx={{ color: 'text.secondary', lineHeight: 1.5, fontSize: '0.875rem' }}>{item}</Typography>
-                </Box>
-              ))}
-            </Box>
-          )}
-          {project.cardScope && (
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>구현 범위</Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{project.cardScope}</Typography>
-            </Box>
-          )}
-          {project.cardLimit && (
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>한계</Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{project.cardLimit}</Typography>
-            </Box>
-          )}
-        </>
-      ) : (
-        <>
-          {project.role && project.role !== '—' && (
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>맡은 일</Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{project.role}</Typography>
-            </Box>
-          )}
-          {project.tools.length > 0 && (
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>도구</Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5 }}>{[...new Set(project.tools)].slice(0, 3).join(' · ')}</Typography>
-            </Box>
-          )}
-          {archiveLimitText && (
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 0.75 }}>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, flexShrink: 0, pt: '1px', fontSize: '0.875rem', letterSpacing: '0.04em' }}>한계</Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{archiveLimitText}</Typography>
-            </Box>
-          )}
-        </>
-      )}
-      <Stack direction="row" sx={{ mt: 'auto', pt: 0.5, flexWrap: 'wrap', gap: 0.75 }}>
-        <Button size="small" variant="contained" onClick={() => onDetail(project)} aria-label={`${project.title} 상세 보기`}
-          sx={{
-            fontSize: '0.875rem', px: 1.5, minHeight: 44, bgcolor: 'primary.main', fontWeight: 600,
-            '&:hover': { bgcolor: 'primary.dark' },
-          }}>
-          작업 과정 보기
-        </Button>
-        {project.liveUrl && (
-          <Button component="a" href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-            size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
-            aria-label={`${project.title} 라이브 데모`}
-            sx={{ fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' }, fontWeight: 600 }}>
-            화면 보기
-          </Button>
-        )}
-        {project.figmaPrototypeUrl && (
-          <Button component="a" href={project.figmaPrototypeUrl} target="_blank" rel="noopener noreferrer"
-            size="small" variant="outlined" endIcon={<OpenInNewIcon sx={{ fontSize: '0.75rem !important' }} />}
-            aria-label={`${project.title} 프로토타입 보기`}
-            sx={{ fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'primary.main', borderColor: 'rgba(56,189,248,0.28)', '&:hover': { borderColor: 'primary.main', bgcolor: 'rgba(56,189,248,0.06)' }, fontWeight: 600 }}>
-            프로토타입 보기
-          </Button>
-        )}
-        {project.githubUrl && (
-          <Button component="a" href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-            size="small" variant="outlined" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-            aria-label={`${project.title} GitHub`}
-            sx={{ fontSize: '0.875rem', px: 1.5, minHeight: 44, color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' } }}>
-            GitHub
-          </Button>
-        )}
-      </Stack>
-    </CardContent>
-  </Card>
+    </Box>
   );
 };
 
-const SkeletonCard = () => (
-  <Card sx={{ border: '1px solid', borderColor: 'divider' }}>
-    <Box sx={{ height: { xs: 200, md: 240 }, position: 'relative' }}>
-      <Skeleton variant="rectangular" sx={{ position: 'absolute', inset: 0 }} />
-    </Box>
-    <CardContent sx={{ p: 2.5 }}>
-      <Skeleton width="30%" height={14} sx={{ mb: 0.5 }} />
-      <Skeleton width="70%" height={20} sx={{ mb: 1 }} />
-      <Skeleton height={14} />
-      <Skeleton width="80%" height={14} sx={{ mb: 1.5 }} />
-      <Box sx={{ display: 'flex', gap: 0.5 }}>
-        {[50, 44, 56].map((w) => <Skeleton key={w} variant="rounded" width={w} height={20} />)}
-      </Box>
-    </CardContent>
-  </Card>
-);
-
-/* ── 페이지 메인 ── */
 const ProjectsPage = () => {
-  const [projects, setProjects]         = useState([]);
-  const [loading, setLoading]           = useState(true);
-  const [activeTab, setActiveTab]       = useState('featured');
+  const [projects, setProjects] = useState(ALL_PROJECTS);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [modalOpen, setModalOpen]       = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    /* env 변수가 없어 supabase 클라이언트가 없으면 로컬 데이터만 사용한다 */
-    if (!supabase) {
-      setProjects(ALL_PROJECTS);
-      setLoading(false);
-      return;
-    }
+    if (!supabase) return;
     supabase
       .from('projects')
       .select('*')
@@ -411,7 +273,6 @@ const ProjectsPage = () => {
         if (data && data.length > 0) {
           const supabaseProjects = data.map(fromSupabase);
           const localTitles = ALL_PROJECTS.map((p) => p.title.toLowerCase());
-          /* 로컬에 이미 있는 프로젝트와 구 버전 항목은 제외 */
           const OLD_TITLES = ['portfolio feedback hub', '겜스타그램', 'gamstagram', 'mini sns'];
           const newFromDb = supabaseProjects.filter((sp) => {
             const t = sp.title.toLowerCase();
@@ -419,96 +280,47 @@ const ProjectsPage = () => {
             return !localTitles.some((local) => t.includes(local.split(' ')[0]) || local.includes(t.split(' ')[0]));
           });
           setProjects([...ALL_PROJECTS, ...newFromDb]);
-        } else {
-          setProjects(ALL_PROJECTS);
         }
-        setLoading(false);
       })
-      .catch(() => {
-        setProjects(ALL_PROJECTS);
-        setLoading(false);
-      });
+      .catch(() => {});
   }, []);
 
-  const filtered = activeTab === 'all'
-    ? projects
-    : projects.filter((p) => p.categories?.includes(activeTab));
-  const featuredProjects = projects.filter((p) => p.categories?.includes('featured'));
-  const archiveProjects = projects.filter((p) => p.categories?.includes('archive'));
-  const showSplitView = activeTab === 'all' && !loading;
-  const gridSx = { display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3, md: 3 } };
+  const openDetail = (project) => { setSelectedProject(project); setModalOpen(true); };
+
+  const archiveProjects = projects
+    .filter((p) => p.categories?.includes('archive'))
+    .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99));
 
   return (
-    <Box component="main" sx={{ bgcolor: 'background.default', minHeight: '100vh', py: { xs: 10, md: 14 } }}>
-      <Container maxWidth="lg">
+    <Box component="main" sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
+      <Container maxWidth={false} sx={{ px: { xs: 3, sm: 6, md: 8 }, py: { xs: 7, md: 11 } }}>
+        <Typography sx={{ fontFamily: FONT_MONO, color: 'primary.main', fontSize: '0.75rem', letterSpacing: '0.04em', mb: 2 }}>
+          ALL PROJECTS
+        </Typography>
+        <Typography component="h1" sx={{ fontWeight: 700, fontSize: { xs: '2.1rem', sm: '3rem', md: '4.2rem' }, lineHeight: 1.2, color: 'text.primary', mb: 2 }}>
+          전체 프로젝트
+        </Typography>
+        <Typography sx={{ color: 'text.secondary', fontSize: '1rem', mb: { xs: 6, md: 8 } }}>
+          대표작과 공개 가능한 작업을 한 페이지에서 비교하고 선택합니다.
+        </Typography>
 
-        {/* 헤더 */}
-        <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 8 } }}>
-          <Typography sx={{ color: 'text.secondary', letterSpacing: 6, fontWeight: 600, fontSize: '0.875rem', textTransform: 'uppercase', mb: 1.5 }}>
-            전체 작업
-          </Typography>
-          <Typography variant="h1" sx={{ color: 'text.primary', fontWeight: 800, fontSize: { xs: '2rem', md: '2.5rem' } }}>
-            전체 프로젝트
-          </Typography>
-          <Box sx={{ width: 44, height: 3, bgcolor: 'primary.main', mx: 'auto', mt: 2, borderRadius: 2 }} />
-          <Typography sx={{ mt: 2.5, color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.8, maxWidth: 560, mx: 'auto' }}>
-            Home에서는 취업 포트폴리오에서 먼저 보여줄 대표 프로젝트만 선별했고, 이 페이지에서는 학습 과정과 추가 작업을 함께 정리했습니다.
-          </Typography>
+        <Typography sx={{ fontFamily: FONT_MONO, color: 'primary.main', fontSize: '0.75rem', letterSpacing: '0.04em', mb: 3 }}>
+          FEATURED
+        </Typography>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, md: 3.5 }, mb: { xs: 7, md: 10 } }}>
+          {FEATURED_CARDS.map((card) => (
+            <FeaturedCard key={card.id} card={card} project={ALL_PROJECTS.find((p) => p.id === card.id)} onDetail={openDetail} />
+          ))}
         </Box>
 
-        {/* 필터 탭 */}
-        <Box sx={{ mb: 5, borderBottom: '1px solid', borderColor: 'divider' }}>
-          <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}
-            variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile
-            slotProps={{ indicator: { style: { height: 2 } } }}
-            sx={{ '& .MuiTab-root': { fontSize: '0.875rem', fontWeight: 600, minHeight: 44, textTransform: 'none', color: 'text.secondary', '&.Mui-selected': { color: 'primary.main' } } }}>
-            {FILTER_TABS.map((tab) => <Tab key={tab.value} label={tab.label} value={tab.value} />)}
-          </Tabs>
+        <Typography sx={{ fontFamily: FONT_MONO, color: 'primary.main', fontSize: '0.75rem', letterSpacing: '0.04em', mb: 3 }}>
+          ARCHIVE
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {archiveProjects.map((project, i) => (
+            <ArchiveRow key={project.id} project={project} index={i} onDetail={openDetail} />
+          ))}
         </Box>
-
-        {/* 카드 그리드 */}
-        {loading ? (
-          <Box sx={gridSx}>
-            {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
-          </Box>
-        ) : showSplitView ? (
-          <>
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.25rem', mb: 2.5 }}>대표 프로젝트</Typography>
-            <Box sx={gridSx}>
-              {featuredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project}
-                  onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
-              ))}
-            </Box>
-            <Divider sx={{ my: { xs: 5, md: 6 } }} />
-            <Typography variant="h2" sx={{ color: 'text.primary', fontWeight: 700, fontSize: '1.25rem', mb: 2.5 }}>Archive</Typography>
-            <Typography sx={{ color: 'text.secondary', fontSize: '0.875rem', lineHeight: 1.7, mb: 2.5 }}>
-              학습 과정에서 진행한 프로토타입과 추가 작업입니다.
-            </Typography>
-            <Box sx={gridSx}>
-              {archiveProjects.map((project) => (
-                <ProjectCard key={project.id} project={project}
-                  onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
-              ))}
-            </Box>
-          </>
-        ) : (
-          <Box sx={gridSx}>
-            {filtered.map((project) => (
-              <ProjectCard key={project.id} project={project}
-                onDetail={(p) => { setSelectedProject(p); setModalOpen(true); }} />
-            ))}
-          </Box>
-        )}
-
-        {!loading && !showSplitView && filtered.length === 0 && (
-          <Box sx={{ textAlign: 'center', py: 12 }}>
-            <Typography sx={{ color: 'text.secondary', fontSize: '1rem' }}>
-              해당 카테고리의 프로젝트가 없습니다.
-            </Typography>
-          </Box>
-        )}
-
       </Container>
 
       <DetailModal project={selectedProject} open={modalOpen} onClose={() => setModalOpen(false)} />

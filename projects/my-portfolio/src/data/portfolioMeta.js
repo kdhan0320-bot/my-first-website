@@ -10,11 +10,25 @@ export const NAME = '김도한';
 
 export const HERO_BADGE = `${NAME} | UX/UI · Web Publishing Portfolio`;
 
-export const POSITIONING_PREFIX = '복잡한 정보를 정리해,';
+/* Hero 상단 라벨/역할 표기 (Figma Hero 42:14 원문) */
+export const HERO_LABEL = 'KIM DOHAN / ORDERED SIGNAL';
+export const HERO_ROLE_LINE = 'UX/UI DESIGN · WEB PUBLISHING · FRONT-END IMPLEMENTATION';
+
+/* Hero 헤드라인 — Figma 원문 그대로 4줄 하드 브레이크 (42:19) */
+export const HERO_HEADLINE_LINES = ['복잡한 정보를', '정리하고,', '구현 가능한 화면으로', '연결합니다.'];
+
+/* Hero 설명 문구 (Figma 원문, 42:20) — SUB_DESCRIPTION과 별개로 관리한다.
+ * SUB_DESCRIPTION은 tools/site-audit-kit의 AI 활용 고지 문구로도 재사용되므로
+ * Hero 시각 카피 교체와 분리해서 유지한다. */
+export const HERO_DESCRIPTION = '흩어진 정보를 기준에 맞춰 정리하고, 구현 가능한 화면 구조로 연결하는 과정을 보여줍니다.';
+
+export const POSITIONING_PREFIX = '복잡한 정보를 정리하고,';
 export const POSITIONING_EMPHASIS = '구현 가능한';
-export const POSITIONING_SUFFIX = '웹 화면으로 연결합니다.';
+export const POSITIONING_SUFFIX = '화면으로 연결합니다.';
 export const POSITIONING_LINE = `${POSITIONING_PREFIX} ${POSITIONING_EMPHASIS} ${POSITIONING_SUFFIX}`;
 
+/* tools/site-audit-kit의 AI 활용 고지 문구로 쓰인다(검사용 리뷰 페이지 전용).
+ * Hero 시각 카피는 HERO_DESCRIPTION을 사용한다. */
 export const SUB_DESCRIPTION =
   'Figma로 화면 흐름과 정보 구조를 정리하고, React/MUI로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교에 보조적으로 활용했습니다.';
 
