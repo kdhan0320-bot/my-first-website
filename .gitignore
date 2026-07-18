@@ -6,7 +6,6 @@
 
 # Node.js
 node_modules/
-package-lock.json
 
 # 캐시 파일
 .cache/
