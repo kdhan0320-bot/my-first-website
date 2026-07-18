@@ -21,6 +21,7 @@ export const REPORT_FILE = 'audit-output/report.md';
 export const VIEWPORTS: Record<string, { width: number; height: number; label: string }> = {
   pc: { width: 1440, height: 900, label: 'PC (1440x900)' },
   'pc-fhd': { width: 1920, height: 1080, label: 'PC Full HD (1920x1080)' },
+  'pc-qhd': { width: 2560, height: 1440, label: 'PC QHD (2560x1440)' },
   mobile: { width: 390, height: 844, label: 'Mobile (390x844)' },
   tablet: { width: 820, height: 1180, label: 'Tablet (820x1180)' },
 };

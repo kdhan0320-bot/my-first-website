@@ -18,11 +18,20 @@
 ## 기본 viewport
 - PC: 1440x900
 - PC Full HD: 1920x1080
+- PC QHD: 2560x1440
 - Mobile: 390x844
 - Tablet: 820x1180
 
-(`tests/target.ts`의 `VIEWPORTS`에서 정의. 여기에 항목을 추가하면 `playwright.config.ts`의
-projects와 스크린샷 파일 목록에 자동 반영된다.)
+(`tests/target.ts`의 `VIEWPORTS`, `tests/detailed-target.ts`의 `DETAILED_VIEWPORTS`에서
+정의. 여기에 항목을 추가하면 각 `playwright*.config.ts`의 projects와 스크린샷 파일
+목록에 자동 반영된다. detailed 쪽 대형 화면 완료 기준은
+`projects/my-portfolio/CLAUDE.md`를 따른다.)
+
+## 자동 검사와 수동 시각 QA는 분리한다
+자동 점검 통과(스크린샷 생성 성공, 콘솔 에러 없음, 링크 200 등)는 "완료"의
+필요조건이지 충분조건이 아니다. 실제 전체 페이지 PNG를 직접 열어 레이아웃/
+가독성/정렬을 눈으로 확인해야 그 작업을 완료로 보고할 수 있다. 자동 결과만
+보고 완료로 처리하지 않는다.
 
 ## 결과물
 - `audit-output/report.md`

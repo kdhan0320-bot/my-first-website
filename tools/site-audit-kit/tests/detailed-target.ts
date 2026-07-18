@@ -22,6 +22,7 @@ export const DETAILED_VIEWPORTS: Record<
   string,
   { width: number; height: number; label: string; file: string }
 > = {
+  'desktop-2560': { width: 2560, height: 1440, label: 'Desktop XL (2560x1440)', file: 'desktop-2560.png' },
   'desktop-1440': { width: 1440, height: 1000, label: 'Desktop Large (1440x1000)', file: 'desktop-1440.png' },
   'desktop-1280': { width: 1280, height: 900, label: 'Desktop Small (1280x900)', file: 'desktop-1280.png' },
   'tablet-1024': { width: 1024, height: 768, label: 'Tablet Landscape (1024x768)', file: 'tablet-1024.png' },
