@@ -1,8 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { SCREENSHOT_DIR, RESULTS_FILE, TARGET_URL } from './target';
+import { SCREENSHOT_DIR, RESULTS_FILE, assertTargetUrl } from './target';
 
 export default async function globalSetup() {
+  const targetUrl = assertTargetUrl();
+
   fs.rmSync(SCREENSHOT_DIR, { recursive: true, force: true });
   fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
 
@@ -11,6 +13,6 @@ export default async function globalSetup() {
 
   fs.appendFileSync(
     RESULTS_FILE,
-    JSON.stringify({ kind: 'meta', targetUrl: TARGET_URL, startedAt: new Date().toISOString() }) + '\n'
+    JSON.stringify({ kind: 'meta', targetUrl, startedAt: new Date().toISOString() }) + '\n'
   );
 }

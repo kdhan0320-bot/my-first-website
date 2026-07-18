@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { test, expect, type Page } from '@playwright/test';
-import { TARGET_URL, SCREENSHOT_DIR, RESULTS_FILE, SECTIONS, MOBILE_MENU_FILE } from './target';
+import { TARGET_URL, assertTargetUrl, SCREENSHOT_DIR, RESULTS_FILE, SECTIONS, MOBILE_MENU_FILE } from './target';
 
 function record(entry: Record<string, unknown>) {
   fs.appendFileSync(RESULTS_FILE, JSON.stringify(entry) + '\n');
 }
 
 async function gotoHome(page: Page) {
-  const response = await page.goto(TARGET_URL, { waitUntil: 'networkidle' });
+  const response = await page.goto(assertTargetUrl(), { waitUntil: 'networkidle' });
   await page.waitForTimeout(300);
   return response;
 }
