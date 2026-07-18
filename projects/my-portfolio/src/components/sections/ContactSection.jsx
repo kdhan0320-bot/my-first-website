@@ -122,13 +122,7 @@ const ContactSection = () => (
         )}
       </Box>
 
-      {!PORTFOLIO_PDF_URL && (
-        <Typography sx={{ fontFamily: FONT_MONO, color: 'text.secondary', fontSize: '0.6875rem', lineHeight: 1.6, mb: { xs: 4, md: 5 }, maxWidth: 620 }}>
-          ※ 실제 제출용 PDF가 완성되기 전에는 PDF 버튼을 웹에서 숨깁니다.
-        </Typography>
-      )}
-
-      <Box sx={{ borderTop: '1px solid #33404D', pt: { xs: 2.5, md: 3 } }} />
+      <Box sx={{ borderTop: '1px solid #33404D', mt: { xs: 2, md: 3 }, pt: { xs: 2.5, md: 3 } }} />
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', gap: 1 }}>
         <Typography sx={{ fontFamily: FONT_MONO, color: 'text.secondary', fontSize: '0.6875rem' }}>
           김도한 · UX/UI Web Designer · Web Publisher

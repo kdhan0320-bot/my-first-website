@@ -6,10 +6,10 @@ import { FONT_MONO, COLORS } from '../../theme';
  * "지원 방향/사용 도구/현재 한계" 카드 콘텐츠는 Figma Home 설계에는 없으므로 Home에는
  * 옮기지 않고, 기존대로 /about 페이지에서 계속 확인할 수 있게 둔다. */
 
-const ABOUT_HEADLINE = ['화면의 모양보다', '정보의 흐름과', '구현 가능성을 먼저 봅니다.'];
+const ABOUT_HEADLINE = ['시각적 완성도에 그치지 않고,', '정보가 이해되고 실제로 작동하는', '구조까지 설계합니다.'];
 
 const ABOUT_BODY =
-  'Figma로 정보 구조와 화면 흐름을 정리하고, React/MUI로 반응형 화면을 구현합니다. 실제 데이터·정적 데이터·프로토타입의 범위를 구분하며, AI는 문장 정리와 코드 점검을 보조하는 도구로 사용합니다.';
+  '사용자의 목적과 정보 우선순위를 정리한 뒤, 반응형 화면과 구현 범위를 검토해 실제 웹으로 연결합니다.';
 
 const WORK_PROCESS = ['UNDERSTAND', 'STRUCTURE', 'DESIGN', 'BUILD', 'VERIFY'];
 

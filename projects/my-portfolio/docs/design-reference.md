@@ -81,35 +81,53 @@ Figma Style Guide(`19:233`) 원본 6색. 새 색상을 추가하지 않는다.
   PDF PORTFOLIO(`PORTFOLIO_PDF_URL`이 있을 때만 노출) · Mail CTA(실제
   이메일 `mailto:`). 모바일은 전체 화면 메뉴(Figma `48:2`)로 전환하며
   포커스 트랩/Escape/스크롤 잠금은 MUI `Drawer`(Modal 기반) 기본 동작을
-  그대로 활용한다.
+  그대로 활용한다. 제출용 PDF가 없는 동안에는 PDF 관련 안내 문구도
+  공개 화면에 노출하지 않는다("숨긴다"는 사실 자체가 개발/QA 관점의
+  설명이라 방문자에게는 불필요하다) — 헤더/모바일 메뉴/Contact 어디에도
+  "PDF는 ... 숨깁니다" 같은 문장을 남기지 않는다.
 - **Home 섹션 순서**: Header(고정) → Hero → About → Selected Projects →
-  More Works → Contact. About는 Home 전용 축약 스냅샷이고, `/about`
-  페이지의 "지원 방향/사용 도구/현재 한계" 카드 콘텐츠는 Figma Home
-  설계에 없으므로 Home에 옮기지 않는다(`/about`은 별도 라우트로 유지).
+  More Works(공개 항목이 있을 때만) → Contact. 예전에 있던 별도 `/about`
+  페이지는 삭제했다 — `/about` 접근은 Home의 About 섹션으로 리다이렉트된다
+  (`App.jsx`의 `<Navigate>` + `HomePage.jsx`의 `location.state.scrollTo`
+  재사용). Home의 About Snapshot이 이제 유일한 "소개" 화면이다.
+- **Hero**: 하단에는 "SCROLL / 01—05"만 남기고, "1회 정렬 모션 · 반복
+  없음 · reduced-motion 대응" 같은 개발/QA 설명 문구는 공개 화면에 넣지
+  않는다. 모션 구현(코드/훅) 자체는 그대로 유지한다.
 - **Selected Projects**: 실제 대표 프로젝트 3개(JobFlow / 버스 도착정보
   앱 UI / Portfolio Feedback Hub)를 Mock(브라우저 크롬 + 실제 프로젝트
   이미지)과 Copy(제목/설명/ROLE/DATA/상세보기)가 좌우 교차 배치되는
   구조로 보여준다. Figma의 추상 차트/리스트 목업은 브라우저 크롬 장식만
   차용하고, 내부 콘텐츠는 실제 프로젝트 썸네일 이미지로 채운다(Figma
-  단순 목업을 최종 이미지로 쓰지 않는다).
-- **More Works**: Signal Orange 풀블리드 배경 위 카드 3개(WEB PORTFOLIO/
-  OTT SERVICE/OTHER WORKS). 3번째 카드는 Figma 자체가 "공개 범위 확인 후
-  추가"로 표시한 미확정 placeholder이므로 가짜 프로젝트를 채우지 않는다.
+  단순 목업을 최종 이미지로 쓰지 않는다). JobFlow 설명은 "AI 프로젝트"를
+  먼저 내세우지 않고 프로젝트 자체 → 문제 → 담당 범위 → 데이터 범위 →
+  AI 보조 순으로 정리한다(AI 활용 사실은 숨기지 않되 맨 앞에 두지 않는다).
+- **More Works**: 실제로 조사해서 공개 가능하다고 판단한 프로젝트만
+  `moreWorksPublished: true` 데이터 플래그로 표시하고, 그 항목만
+  렌더링한다(현재는 OTT Service 1개). 공개 항목이 없으면 섹션 전체를
+  렌더링하지 않는다. 이전 라운드의 WEB PORTFOLIO/OTHER WORKS 임시 카드는
+  삭제했다 — 준비 중/공개 예정 카드나 빈 슬롯은 만들지 않는다.
+- **대표 프로젝트 상세**: JobFlow·버스 도착정보 앱·Portfolio Feedback
+  Hub 3개는 모달이 아니라 고유 URL(`/projects/jobflow`,
+  `/projects/bus-arrival`, `/projects/feedback-hub`, `ProjectDetailPage.jsx`
+  템플릿 하나 재사용)로 이동한다. Home과 `/projects`의 "상세보기"/
+  "VIEW CASE"는 모두 이 라우트로 이동하고, 이 3개 전용 모달은 제거했다.
+  나머지 Archive 프로젝트는 여전히 `/projects`의 기존 모달(`DetailModal`)로
+  본다 — 전체 전환 대상이 아니다.
 - **`/projects` 페이지**: Featured 3개(Home과 동일 프로젝트, 더 짧은
-  카드형)와 Archive 목록으로 구성한다. Figma 목업은 Archive 예시로 3개
-  행만 보여주지만, 실제 archive 태그 프로젝트는 더 많으므로(현재 7개)
-  같은 행 스타일로 실제 개수만큼 반복 렌더링한다 — 항목을 임의로 줄이지
-  않는다. 필터 Tabs는 Figma에 없고 프로젝트 수도 적어 추가하지 않는다
-  (대표 프로젝트 + Archive 고정 2단 구성만 사용).
-- 프로젝트 상세는 별도 라우트가 아니라 기존처럼 모달(`DetailModal`)로
-  유지한다. Figma에 상세 모달 노드가 없으므로 구조/필드는 그대로 두고
-  색상·폰트 토큰만 이 시스템으로 바꾼다.
+  카드형, 상세 라우트로 이동)와 Archive 목록(기존 모달)으로 구성한다.
+  Figma 목업은 Archive 예시로 3개 행만 보여주지만, 실제 archive 태그
+  프로젝트는 더 많으므로(현재 7개) 같은 행 스타일로 실제 개수만큼 반복
+  렌더링한다 — 항목을 임의로 줄이지 않는다. 필터 Tabs는 Figma에 없고
+  프로젝트 수도 적어 추가하지 않는다.
 - 모든 반응형 여백: Desktop(1440) 좌우 64px / Tablet(1024) 좌우 48px /
-  Mobile(390) 좌우 24px. 버튼/링크 터치 영역 44px 이상.
+  Mobile(390) 좌우 24px. 버튼/링크 터치 영역 44px 이상. 정보 전달 목적의
+  Mono 라벨(ROLE/DATA/VIEW PROJECT 등)은 모바일에서 최소 12px, 순수 장식
+  번호나 위치 표식(카드 번호, SCROLL 표기 등)은 Figma대로 11px을 유지한다.
 
 ## 정리된 이전 시스템 잔재
 
-Flow Blueprint 시절 컴포넌트 중 이번 교체로 더 이상 어디서도 import되지
+Flow Blueprint 시절 컴포넌트 중 1차 교체 이후로도 어디서도 import되지
 않는 파일(`FlowCanvasIllustration.jsx`, `DMark.jsx`, `FlowNode.jsx`,
-`ProjectsPreviewMonitor.jsx`, `LogoSymbol.jsx`)은 삭제 후보로 별도
-보고했다(완료 보고 참고). 이 문서에는 더 이상 관련 규칙을 남기지 않는다.
+`ProjectsPreviewMonitor.jsx`, `LogoSymbol.jsx`)은 여전히 삭제 후보로
+남아 있다(완료 보고 참고, 삭제는 별도 승인 필요). `AboutPage.jsx`는
+이번 라운드에 실제로 삭제했다(참조 없음 확인 후 진행).

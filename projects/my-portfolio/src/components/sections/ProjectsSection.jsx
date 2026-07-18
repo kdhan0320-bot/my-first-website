@@ -1,30 +1,23 @@
-import { useState } from 'react';
-import {
-  Box, Container, Typography, Chip,
-  Dialog, DialogTitle, DialogContent, DialogActions,
-  IconButton, Divider, Button,
-} from '@mui/material';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, Container, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import EvidenceBadges from '../projects/EvidenceBadges';
 import { ALL_PROJECTS } from '../../data/projectsData';
 import { FONT_MONO, COLORS } from '../../theme';
 
 /* Figma 04_Selected_Projects(42:71) 원문 카피. 실제 프로젝트 사실(역할/데이터 방식)과
- * 모순되지 않는 범위에서 이 섹션 전용 축약 문구로 쓰고, 전체 사실은 기존 DetailModal에서
- * projectsFallbackData.js 원본 필드로 그대로 보여준다. */
+ * 모순되지 않는 범위에서 이 섹션 전용 축약 문구로 쓰고, 전체 사실은 각 프로젝트의
+ * 상세 페이지(/projects/:slug)에서 실제 데이터 필드로 그대로 보여준다. */
 const FEATURED_BLOCKS = [
   {
     id: 'jobflow',
+    slug: 'jobflow',
     title: 'JobFlow',
-    description: '취업 준비의 지원 현황과 다음 행동을 한 화면에서 관리하는 대시보드',
+    description: '취업 준비 과정을 한 화면에서 관리하도록 설계한 React/MUI 기반 대시보드입니다.',
     role: 'UX/UI · React/MUI · 반응형 구현',
     data: '게스트 샘플 데이터 / 로그인 사용자 Supabase 저장',
   },
   {
     id: 'bus-arrival-app',
+    slug: 'bus-arrival',
     title: '버스 도착정보 앱 UI',
     description: '도착 예정 정보를 빠르게 확인하는 모바일 UI 프로토타입',
     role: 'Figma Prototype · UI 설계',
@@ -32,6 +25,7 @@ const FEATURED_BLOCKS = [
   },
   {
     id: 'feedback-hub',
+    slug: 'feedback-hub',
     title: 'Portfolio Feedback Hub',
     description: '포트폴리오를 탐색하고 피드백을 주고받는 커뮤니티형 서비스',
     role: 'UX/UI · React/MUI · Supabase',
@@ -40,119 +34,6 @@ const FEATURED_BLOCKS = [
 ];
 
 const findProject = (id) => ALL_PROJECTS.find((p) => p.id === id);
-
-/* ── 상세 모달 (기존 ProjectDetailModal 구조 유지, 토큰만 교체) ── */
-const DetailRow = ({ label, children }) => (
-  <Box sx={{ mb: 2 }}>
-    <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 700, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>
-      {label}
-    </Typography>
-    {children}
-  </Box>
-);
-
-const ProjectDetailModal = ({ project, open, onClose }) => {
-  if (!project) return null;
-  const { detail, role, tools, liveUrl, githubUrl, figmaPrototypeUrl } = project;
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth scroll="paper"
-      aria-labelledby="project-detail-title"
-      slotProps={{ paper: { sx: (t) => ({ borderRadius: 3, bgcolor: 'background.paper', border: `1px solid ${t.palette.divider}` }) } }}>
-      <DialogTitle id="project-detail-title"
-        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', pb: 1 }}>
-        <Box>
-          <Typography variant="caption" sx={{ color: 'primary.main', fontWeight: 600, fontSize: '0.875rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-            {project.categoryLabel}
-          </Typography>
-          <Typography variant="h4" sx={{ color: 'text.primary', fontWeight: 700, mt: 0.25 }}>{project.title}</Typography>
-        </Box>
-        <IconButton onClick={onClose} aria-label="상세 정보 닫기" size="small"
-          sx={{ color: 'text.secondary', ml: 1, minWidth: 44, minHeight: 44, '&:hover': { bgcolor: 'rgba(184,193,203,0.08)' } }}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </DialogTitle>
-      <Divider />
-      <DialogContent sx={{ pt: 2.5 }}>
-        <EvidenceBadges project={project} />
-        <DetailRow label="프로젝트 개요">
-          <Typography variant="body2" sx={{ color: 'text.primary', lineHeight: 1.75 }}>{detail.overview}</Typography>
-        </DetailRow>
-        {detail.problem && detail.problem !== '—' && (
-          <DetailRow label="문제 정의">
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.problem}</Typography>
-            {detail.goal && detail.goal !== '—' && (
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1 }}>{detail.goal}</Typography>
-            )}
-          </DetailRow>
-        )}
-        <DetailRow label="내 역할">
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mb: tools.length > 0 ? 1 : 0 }}>{role}</Typography>
-          {tools.length > 0 && (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-              {tools.map((t) => (
-                <Chip key={t} label={t} size="small"
-                  sx={{ bgcolor: 'rgba(255,107,61,0.08)', color: 'primary.main', border: '1px solid rgba(255,107,61,0.2)', fontWeight: 600, fontSize: '0.875rem' }} />
-              ))}
-            </Box>
-          )}
-        </DetailRow>
-        {detail.designPoint && detail.designPoint !== '—' && (
-          <DetailRow label="화면 구조">
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.designPoint}</Typography>
-            {detail.process && (
-              <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: 1 }}>{detail.process}</Typography>
-            )}
-          </DetailRow>
-        )}
-        {(project.cardScope || detail.result) && (
-          <DetailRow label="구현 범위">
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{project.cardScope ?? detail.result}</Typography>
-            {liveUrl && (
-              <Box component="a" href={liveUrl} target="_blank" rel="noopener noreferrer"
-                sx={{ display: 'inline-flex', alignItems: 'center', gap: 0.5, mt: 1, color: 'primary.main', fontSize: '0.875rem', fontWeight: 600, textDecoration: 'none', '&:hover': { textDecoration: 'underline' } }}>
-                실행 화면 보기 →
-              </Box>
-            )}
-          </DetailRow>
-        )}
-        <DetailRow label="한계와 다음 개선점">
-          {detail.limitation && (
-            <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75 }}>{detail.limitation}</Typography>
-          )}
-          <Typography variant="body2" sx={{ color: 'text.secondary', lineHeight: 1.75, mt: detail.limitation ? 1 : 0 }}>{detail.nextStep}</Typography>
-        </DetailRow>
-      </DialogContent>
-      <Divider />
-      <DialogActions sx={{ px: 3, py: 2, gap: 1, flexWrap: 'wrap' }}>
-        {liveUrl && (
-          <Button component="a" href={liveUrl} target="_blank" rel="noopener noreferrer"
-            variant="contained" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
-            sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
-            실행 화면 보기
-          </Button>
-        )}
-        {figmaPrototypeUrl && (
-          <Button component="a" href={figmaPrototypeUrl} target="_blank" rel="noopener noreferrer"
-            variant="contained" size="small" endIcon={<OpenInNewIcon sx={{ fontSize: '0.8rem !important' }} />}
-            sx={{ bgcolor: 'primary.main', '&:hover': { bgcolor: 'primary.dark' }, fontWeight: 700, whiteSpace: 'nowrap' }}>
-            프로토타입 보기
-          </Button>
-        )}
-        {githubUrl && (
-          <Button component="a" href={githubUrl} target="_blank" rel="noopener noreferrer"
-            variant="outlined" size="small" startIcon={<GitHubIcon sx={{ fontSize: '0.85rem !important' }} />}
-            sx={{ color: 'text.secondary', borderColor: 'divider', '&:hover': { borderColor: 'primary.main', color: 'primary.main' }, whiteSpace: 'nowrap' }}>
-            GitHub
-          </Button>
-        )}
-        <Box sx={{ flex: 1 }} />
-        <Button onClick={onClose} size="small" sx={{ color: 'text.secondary', '&:hover': { bgcolor: 'rgba(184,193,203,0.08)' } }}>
-          닫기
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
 
 /* Mock — 브라우저 크롬(Figma 그대로)에 실제 프로젝트 자산을 채운다.
  * Figma의 추상 차트/리스트 목업은 최종 이미지로 쓰지 않는다(작업 지시서 이미지 규칙). */
@@ -181,7 +62,7 @@ const ProjectMock = ({ project }) => (
 const ProjectBlock = ({ block, index }) => {
   const project = findProject(block.id);
   const mockFirst = index % 2 === 0;
-  const [openDetail, setOpenDetail] = useState(null);
+  const navigate = useNavigate();
 
   const mock = <ProjectMock project={project ?? { gradient: COLORS.deepSlate }} />;
   const copy = (
@@ -210,7 +91,7 @@ const ProjectBlock = ({ block, index }) => {
       <Box
         component="button"
         type="button"
-        onClick={() => setOpenDetail(project)}
+        onClick={() => navigate(`/projects/${block.slug}`)}
         aria-label={`${block.title} 상세보기`}
         sx={{
           bgcolor: 'background.default', color: 'text.primary', border: '1px solid #33404D',
@@ -224,7 +105,6 @@ const ProjectBlock = ({ block, index }) => {
       >
         상세보기 <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO }}>→</Box>
       </Box>
-      <ProjectDetailModal project={openDetail} open={Boolean(openDetail)} onClose={() => setOpenDetail(null)} />
     </Box>
   );
 

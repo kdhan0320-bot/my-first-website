@@ -1,70 +1,47 @@
 import { Box, Container, Typography } from '@mui/material';
 import { ALL_PROJECTS } from '../../data/projectsData';
-import { PROJECT_GITHUB_URL } from '../../data/portfolioMeta';
 import { FONT_MONO, COLORS } from '../../theme';
 
-/* Figma 05_More_Works(42:185) 그대로. 카드 1·2는 실제 링크를 연결하고, 카드 3은
- * Figma 자체가 미확정 placeholder("공개 범위 확인 후 추가")로 표시하고 있어
- * 가짜 프로젝트를 채우지 않고 그 문구 그대로 두고 링크를 비활성 처리한다. */
-const ottService = ALL_PROJECTS.find((p) => p.id === 'ott-service');
+/* 실제로 공개 가능하다고 조사·판단한 프로젝트만 보여준다(`moreWorksPublished:
+ * true`). 준비 중/공개 예정/빈 슬롯 카드는 절대 만들지 않는다 — 공개 항목이
+ * 없으면 섹션 전체를 렌더링하지 않는다. */
+const PUBLISHED_WORKS = ALL_PROJECTS.filter((p) => p.moreWorksPublished);
 
-const WORK_CARDS = [
-  {
-    number: '01',
-    title: 'WEB PORTFOLIO',
-    meta: 'React/MUI · Responsive',
-    href: PROJECT_GITHUB_URL,
-    light: true,
-  },
-  {
-    number: '02',
-    title: 'OTT SERVICE',
-    meta: 'UI / Web Publishing',
-    href: ottService?.liveUrl ?? ottService?.githubUrl ?? null,
-    light: false,
-  },
-  {
-    number: '03',
-    title: 'OTHER WORKS',
-    meta: '공개 범위 확인 후 추가',
-    href: null,
-    light: true,
-  },
-];
-
-const WorkCard = ({ card }) => {
-  const isLink = Boolean(card.href);
+const WorkCard = ({ project, index }) => {
+  const href = project.liveUrl ?? project.githubUrl ?? null;
+  const isLink = Boolean(href);
+  const meta = project.categoryLabel || (project.tools ?? []).join(' · ');
   return (
     <Box
       component={isLink ? 'a' : 'div'}
-      href={isLink ? card.href : undefined}
+      href={isLink ? href : undefined}
       target={isLink ? '_blank' : undefined}
       rel={isLink ? 'noopener noreferrer' : undefined}
-      aria-label={isLink ? `${card.title} 새 탭에서 열기` : undefined}
+      aria-label={isLink ? `${project.title} 새 탭에서 열기` : undefined}
       sx={{
         display: 'flex', flexDirection: 'column', gap: 2.25,
         height: 260, p: 2.75, borderRadius: '14px',
         textDecoration: 'none', minWidth: 0,
-        bgcolor: card.light ? COLORS.warmIvory : COLORS.deepSlate,
-        border: card.light ? 'none' : '1px solid #33404D',
+        bgcolor: COLORS.deepSlate,
+        border: '1px solid #33404D',
         cursor: isLink ? 'pointer' : 'default',
         transition: 'transform 0.2s ease',
         '&:hover': isLink ? { transform: 'translateY(-3px)' } : undefined,
-        '&:focus-visible': { outline: '2px solid', outlineColor: COLORS.inkBlack, outlineOffset: '2px' },
+        '&:focus-visible': { outline: '2px solid', outlineColor: COLORS.warmIvory, outlineOffset: '2px' },
       }}
     >
-      <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: card.light ? COLORS.inkBlack : 'primary.main' }}>
-        {card.number}
+      <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: 'primary.main' }}>
+        {String(index + 1).padStart(2, '0')}
       </Typography>
-      <Typography component="h3" sx={{ fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3, color: card.light ? COLORS.inkBlack : COLORS.warmIvory }}>
-        {card.title}
+      <Typography component="h3" sx={{ fontWeight: 700, fontSize: '1.75rem', lineHeight: 1.3, color: COLORS.warmIvory }}>
+        {project.title}
       </Typography>
-      <Typography sx={{ fontSize: '0.8125rem', color: card.light ? COLORS.darkSecondary : COLORS.lightSecondary }}>
-        {card.meta}
+      <Typography sx={{ fontSize: '0.8125rem', color: COLORS.lightSecondary }}>
+        {meta}
       </Typography>
       <Box sx={{ flex: 1 }} />
       {isLink && (
-        <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', fontWeight: 600, color: card.light ? COLORS.inkBlack : 'primary.main' }}>
+        <Typography sx={{ fontFamily: FONT_MONO, fontSize: { xs: '0.75rem', md: '0.6875rem' }, fontWeight: 600, color: 'primary.main' }}>
           VIEW PROJECT →
         </Typography>
       )}
@@ -72,25 +49,38 @@ const WorkCard = ({ card }) => {
   );
 };
 
-const MoreWorksSection = () => (
-  <Box component="section" aria-label="더 많은 작업물" sx={{ bgcolor: 'primary.main', py: { xs: 7, md: 12 } }}>
-    <Container maxWidth={false} sx={{ px: { xs: 3, sm: 6, md: 8 } }}>
-      <Typography sx={{ fontFamily: FONT_MONO, color: COLORS.inkBlack, fontSize: '0.75rem', letterSpacing: '0.04em', mb: 2 }}>
-        04 / MORE WORKS
-      </Typography>
-      <Typography component="h2" sx={{ fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2.2rem', md: '2.9rem' }, lineHeight: 1.25, color: COLORS.inkBlack, mb: 1.5 }}>
-        <Box component="span" sx={{ display: 'block' }}>대표작 외 작업을</Box>
-        <Box component="span" sx={{ display: 'block' }}>빠르게 탐색합니다.</Box>
-      </Typography>
-      <Typography sx={{ color: '#252B32', fontSize: '0.875rem', mb: { xs: 4, md: 6 }, maxWidth: 620 }}>
-        자동 무한 재생이 아니라 사용자가 스크롤하고 선택하는 큰 썸네일 목록입니다.
-      </Typography>
+const MoreWorksSection = () => {
+  if (PUBLISHED_WORKS.length === 0) return null;
 
-      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: { xs: 2.5, sm: 3.5 } }}>
-        {WORK_CARDS.map((card) => <WorkCard key={card.number} card={card} />)}
-      </Box>
-    </Container>
-  </Box>
-);
+  const count = PUBLISHED_WORKS.length;
+
+  return (
+    <Box component="section" aria-label="더 많은 작업물" sx={{ bgcolor: 'primary.main', py: { xs: 7, md: count === 1 ? 8 : 12 } }}>
+      <Container maxWidth={false} sx={{ px: { xs: 3, sm: 6, md: 8 } }}>
+        <Typography sx={{ fontFamily: FONT_MONO, color: COLORS.inkBlack, fontSize: '0.75rem', letterSpacing: '0.04em', mb: 2 }}>
+          04 / MORE WORKS
+        </Typography>
+        <Typography component="h2" sx={{ fontWeight: 700, fontSize: { xs: '1.75rem', sm: '2.2rem', md: '2.9rem' }, lineHeight: 1.25, color: COLORS.inkBlack, mb: 1.5 }}>
+          <Box component="span" sx={{ display: 'block' }}>대표작 외 작업을</Box>
+          <Box component="span" sx={{ display: 'block' }}>빠르게 탐색합니다.</Box>
+        </Typography>
+        <Typography sx={{ color: '#252B32', fontSize: '0.875rem', mb: { xs: 4, md: count === 1 ? 4.5 : 6 }, maxWidth: 620 }}>
+          자동 무한 재생이 아니라 사용자가 스크롤하고 선택하는 큰 썸네일 목록입니다.
+        </Typography>
+
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: `repeat(${Math.min(count, 3)}, minmax(280px, 380px))` },
+            justifyContent: { xs: 'stretch', sm: 'flex-start' },
+            gap: { xs: 2.5, sm: 3.5 },
+          }}
+        >
+          {PUBLISHED_WORKS.map((project, i) => <WorkCard key={project.id} project={project} index={i} />)}
+        </Box>
+      </Container>
+    </Box>
+  );
+};
 
 export default MoreWorksSection;

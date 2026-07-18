@@ -99,7 +99,7 @@ const HeroSection = () => {
               sx={{
                 fontFamily: FONT_MONO,
                 color: 'text.secondary',
-                fontSize: { xs: '0.6875rem', md: '0.75rem' },
+                fontSize: '0.75rem',
                 letterSpacing: '0.02em',
                 mb: { xs: 3, md: 4 },
                 opacity: isReviewCapture ? 1 : 0,
@@ -215,7 +215,7 @@ const HeroSection = () => {
                   width: 10, height: 10, borderRadius: '2px', flexShrink: 0,
                   bgcolor: row.accent ? 'primary.main' : 'rgba(184,193,203,0.35)',
                 }} />
-                <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: row.accent ? 'primary.main' : 'text.secondary', whiteSpace: 'nowrap' }}>
+                <Typography sx={{ fontFamily: FONT_MONO, fontSize: { xs: '0.75rem', md: '0.6875rem' }, color: row.accent ? 'primary.main' : 'text.secondary', whiteSpace: 'nowrap' }}>
                   {row.label}
                 </Typography>
                 <Box sx={{
@@ -228,12 +228,13 @@ const HeroSection = () => {
           </Box>
         </Stack>
 
-        {/* Hero_Footer */}
-        <Stack
-          direction={{ xs: 'column', md: 'row' }}
-          spacing={{ xs: 0.5, md: 0 }}
+        {/* Hero_Footer — 개발/QA 설명 문구("1회 정렬 모션 · 반복 없음 · reduced-motion
+            대응")는 공개 화면에서 제거하고 SCROLL 표시만 남긴다. 모션 자체(코드/훅)는
+            그대로 유지한다. */}
+        <Box
           sx={{
-            justifyContent: 'space-between',
+            display: 'flex',
+            justifyContent: 'flex-end',
             mt: { xs: 5, md: 7 },
             fontFamily: FONT_MONO,
             fontSize: '0.6875rem',
@@ -241,12 +242,9 @@ const HeroSection = () => {
           }}
         >
           <Typography component="span" sx={{ fontFamily: 'inherit', fontSize: 'inherit', color: 'inherit' }}>
-            1회 정렬 모션 · 반복 없음 · reduced-motion 대응
-          </Typography>
-          <Typography component="span" sx={{ fontFamily: 'inherit', fontSize: 'inherit', color: 'inherit' }}>
             SCROLL / 01—05
           </Typography>
-        </Stack>
+        </Box>
       </Container>
     </Box>
   );

@@ -204,7 +204,7 @@ export const fallbackProjects = [
     category: 'Dashboard',
     categories: ['featured', 'ai', 'react'],
     categoryLabel: 'React UI 구현',
-    role: '화면 구성 · React/MUI 구현 · Supabase 연동 · AI 도구 활용',
+    role: '정보 구조와 주요 화면, 반응형 UI의 방향을 정하고 구현과 검수 과정을 진행했습니다.',
     tools: ['React', 'MUI', 'Supabase'],
     tech_stack: ['React', 'Vite', 'MUI', 'Supabase', 'Claude'],
     tags: ['React', 'MUI', 'Supabase', 'Dashboard'],
@@ -221,7 +221,7 @@ export const fallbackProjects = [
     is_featured: true,
     sort_order: 1,
     status: 'complete',
-    overview: '취업 준비 과정에서 흩어지기 쉬운 지원 현황, 할 일, 면접 일정, 체크리스트를 한 화면에서 관리할 수 있도록 구성한 AI-assisted Coding 프로젝트입니다. Claude를 활용해 UI 구조 설계와 코드 구현 과정에서 점검·개선안 비교를 보조받았으며, 정보 정리와 대시보드 사용성에 중점을 두었습니다.',
+    overview: '취업 준비 과정을 한 화면에서 관리하도록 설계한 React/MUI 기반 대시보드입니다.',
     problem: '취업 준비 과정에서는 지원 회사, 진행 상태, 면접 일정, 준비해야 할 일을 따로 관리하게 되어 흐름이 쉽게 흩어질 수 있습니다.',
     goal: '지원 현황과 할 일을 한 화면에서 확인하고, 다음 행동을 빠르게 결정할 수 있는 구조를 만드는 것이 목표였습니다.',
     targetUser: '취업 준비생, 포트폴리오를 준비하는 웹디자인/UXUI 학습자, 여러 회사 지원 현황을 동시에 관리해야 하는 사용자',
@@ -230,7 +230,7 @@ export const fallbackProjects = [
     result: '지원 현황 요약 카드, 상태별 칸반 보드, 할 일 체크리스트, 면접 메모, 검색/필터 기능 구현 완료. 로그인 없이 샘플 데이터로 바로 체험 가능.',
     lesson: '대시보드는 많은 정보를 넣는 것보다, 정보의 우선순위를 정리하는 것이 더 중요하다는 점을 배웠습니다.',
     nextStep: '데이터 저장 방식 개선, 일정 알림, 지원 통계 시각화 차트 기능을 추가로 보완할 수 있습니다.',
-    aiContribution: 'Claude를 활용해 화면 구조, 컴포넌트 설계, 코드 구현 방향을 보조받았습니다. 단순히 AI가 생성한 결과물을 그대로 사용하기보다, 포트폴리오 목적에 맞게 기능과 화면 흐름을 직접 정리하며 개선했습니다.',
+    aiContribution: '기획 방향과 화면 구조, 최종 판단은 직접 진행하고, Claude는 코드 작성·수정과 오류 검토를 보조하는 도구로 활용했습니다.',
     limitation: '기간별 추이 비교나 상세 분석 리포트 같은 고급 통계 기능, 실시간 알림, 외부 채용 플랫폼 API 연동은 구현하지 않았습니다.',
     dataUsage: '게스트 모드에서는 로컬 샘플 데이터만 사용하며 저장·수정 내용은 서버에 반영되지 않습니다. 로그인한 사용자는 Supabase Auth로 인증하고, 지원 현황·체크리스트·면접 메모가 각각 Supabase PostgreSQL 테이블에 실제로 저장·조회됩니다. AI 프롬프트 메뉴는 입력값을 정해진 템플릿에 채워 넣는 정적 기능이며, 외부 생성형 AI API를 호출하지 않습니다 — 생성된 문구는 사용자가 직접 ChatGPT/Claude 등에 복사해 사용해야 합니다.',
     cardProblem: '취업 준비 과정에서 지원 현황, 할 일, 면접 일정을 한 화면에서 보기 어렵다는 문제를 정리했습니다.',
@@ -341,6 +341,11 @@ export const fallbackProjects = [
     is_ai_project: false,
     is_figma_project: false,
     is_featured: false,
+    /* More Works 섹션 공개 여부 — 실제로 조사(반응형/링크/이미지 출처)를 마치고
+     * 공개 가능하다고 판단한 프로젝트만 true로 둔다. 다른 프로젝트에는 아직 이
+     * 필드를 붙이지 않았고, MoreWorksSection.jsx는 이 필드가 true인 항목만
+     * 렌더링한다(비공개 항목은 DOM에도 나타나지 않음). */
+    moreWorksPublished: true,
     sort_order: 4,
     status: 'complete',
     overview: '프리미엄 OTT 서비스를 콘셉트로 Hero, 콘텐츠 카드, 장르 필터, 로그인 모달, 예고편 모달, 반응형 레이아웃을 구현한 콘텐츠 중심 웹 UI 데모입니다.',

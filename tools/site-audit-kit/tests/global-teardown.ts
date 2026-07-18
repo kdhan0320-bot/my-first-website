@@ -21,7 +21,7 @@ function readEntries(): Entry[] {
 }
 
 const VIEWPORT_ORDER = Object.keys(VIEWPORTS);
-const REPORT_SECTION_LABELS = [...SECTIONS.map((s) => s.label), 'Project Modal'];
+const REPORT_SECTION_LABELS = [...SECTIONS.map((s) => s.label), 'Project Detail'];
 
 // 보고 기준: 확인한 내용 / 실패한 내용 / 확인 불가 / 추측 을 구분한다.
 // 이 도구는 실제로 실행/관찰한 결과만 기록하며 추측(GUESS) 항목은 생성하지 않는다.
@@ -63,6 +63,37 @@ export default async function globalTeardown() {
     ''
   );
 
+  // ── 표에 실제로 찍히는 상태값을 한 곳에서만 계산한다 ──────────────────────
+  // 2번(스크린샷 목록)과 4번(반응형 매트릭스) 표가 같은 screenshot 레코드를 두
+  // 번 다른 모양으로 보여주는 것뿐이므로, 여기서 한 번만 계산해서 두 표와 최종
+  // 집계(8번)가 공유한다 — 표마다 다시 계산하면서 값이 갈리거나 같은 레코드를
+  // 두 번 세는 문제를 원천적으로 없앤다.
+  type ScreenshotCheck = { viewport: string; label: string; file: string; status: string; note: string };
+  const screenshotChecks: ScreenshotCheck[] = [];
+  for (const v of VIEWPORT_ORDER) {
+    for (const label of REPORT_SECTION_LABELS) {
+      const entry = screenshots.find((s) => s.viewport === v && s.section === label);
+      const file = entry?.file ?? `${v}-${label}`;
+      const filePath = path.join(SCREENSHOT_DIR, file);
+      const existsOnDisk = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
+      const ok = entry ? !!entry.ok && existsOnDisk : undefined;
+      screenshotChecks.push({
+        viewport: v,
+        label,
+        file,
+        status: classify(ok),
+        note: entry?.remark ?? (entry ? '-' : '점검 기록 없음'),
+      });
+    }
+  }
+  const mobileMenuCheck = (() => {
+    const entry = screenshots.find((s) => s.section === 'Mobile Menu');
+    const filePath = path.join(SCREENSHOT_DIR, MOBILE_MENU_FILE);
+    const existsOnDisk = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
+    const ok = entry ? !!entry.ok && existsOnDisk : undefined;
+    return { status: classify(ok), note: entry?.remark ?? '-' };
+  })();
+
   // 1. 점검 대상
   lines.push('## 1. 점검 대상');
   lines.push(`- URL: ${meta.targetUrl ?? '알 수 없음'}`);
@@ -74,24 +105,10 @@ export default async function globalTeardown() {
   // 2. 생성된 스크린샷 목록
   lines.push('## 2. 생성된 스크린샷 목록', '');
   lines.push('| 파일명 | 생성 여부 | 설명 | 비고 |', '| --- | --- | --- | --- |');
-  for (const v of VIEWPORT_ORDER) {
-    for (const label of REPORT_SECTION_LABELS) {
-      const entry = screenshots.find((s) => s.viewport === v && s.section === label);
-      const file = entry?.file ?? `${v}-${label}`;
-      const filePath = path.join(SCREENSHOT_DIR, file);
-      const existsOnDisk = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
-      const ok = entry ? !!entry.ok && existsOnDisk : undefined;
-      lines.push(`| ${file} | ${classify(ok)} | ${VIEWPORTS[v].label} - ${label} | ${entry?.remark ?? '-'} |`);
-    }
+  for (const c of screenshotChecks) {
+    lines.push(`| ${c.file} | ${c.status} | ${VIEWPORTS[c.viewport].label} - ${c.label} | ${c.note} |`);
   }
-  // 모바일 메뉴 스크린샷 (mobile 뷰포트에서만 존재)
-  {
-    const entry = screenshots.find((s) => s.section === 'Mobile Menu');
-    const filePath = path.join(SCREENSHOT_DIR, MOBILE_MENU_FILE);
-    const existsOnDisk = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
-    const ok = entry ? !!entry.ok && existsOnDisk : undefined;
-    lines.push(`| ${MOBILE_MENU_FILE} | ${classify(ok)} | Mobile (390x844) - Mobile Menu | ${entry?.remark ?? '-'} |`);
-  }
+  lines.push(`| ${MOBILE_MENU_FILE} | ${mobileMenuCheck.status} | Mobile (390x844) - Mobile Menu | ${mobileMenuCheck.note} |`);
   lines.push('');
 
   // 3. 접속/로딩 상태
@@ -119,19 +136,16 @@ export default async function globalTeardown() {
   lines.push(`- 확인 불가: ${noConnectivityRecord.length ? noConnectivityRecord.join(', ') : '없음'}`);
   lines.push('');
 
-  // 4. 반응형 화면 확인
+  // 4. 반응형 화면 확인 (2번과 같은 screenshotChecks를 재사용 — 다시 계산하지 않음)
   lines.push('## 4. 반응형 화면 확인', '');
-  lines.push('| 구분 | Hero | Projects | About/Skills | Contact/Footer | Modal | Menu |');
+  lines.push('| 구분 | Hero | Projects | About/Skills | Contact/Footer | Detail | Menu |');
   lines.push('| --- | --- | --- | --- | --- | --- | --- |');
   for (const v of VIEWPORT_ORDER) {
     const row = REPORT_SECTION_LABELS.map((label) => {
-      const entry = screenshots.find((s) => s.viewport === v && s.section === label);
-      return classify(entry ? entry.ok : undefined);
+      const c = screenshotChecks.find((c) => c.viewport === v && c.label === label);
+      return c?.status ?? UNKNOWN;
     });
-    const menuCell =
-      v === 'mobile'
-        ? classify(screenshots.find((s) => s.section === 'Mobile Menu')?.ok)
-        : `${UNKNOWN} (스펙상 모바일 전용)`;
+    const menuCell = v === 'mobile' ? mobileMenuCheck.status : `${UNKNOWN} (스펙상 모바일 전용)`;
     lines.push(`| ${VIEWPORTS[v].label} | ${row.join(' | ')} | ${menuCell} |`);
   }
   lines.push('');
@@ -139,11 +153,12 @@ export default async function globalTeardown() {
   // 5. 기능 테스트 결과
   lines.push('## 5. 기능 테스트 결과', '');
   lines.push('| 테스트 항목 | 결과 | 관찰 내용 | 비고 |', '| --- | --- | --- | --- |');
+  const functionalChecks = functional.map((f) => ({ ...f, status: classifyResult(f.result) }));
   for (const v of VIEWPORT_ORDER) {
-    const items = functional.filter((f) => f.viewport === v);
+    const items = functionalChecks.filter((f) => f.viewport === v);
     for (const item of items) {
       lines.push(
-        `| ${VIEWPORTS[v].label} - ${item.item} | ${classifyResult(item.result)} | ${item.note ?? '-'} | ${item.remark ?? '-'} |`
+        `| ${VIEWPORTS[v].label} - ${item.item} | ${item.status} | ${item.note ?? '-'} | ${item.remark ?? '-'} |`
       );
     }
   }
@@ -152,12 +167,14 @@ export default async function globalTeardown() {
   // 6. 링크 테스트 결과
   lines.push('## 6. 링크 테스트 결과', '');
   lines.push('| 버튼/링크명 | 위치 | 결과 | 이동 URL | 비고 |', '| --- | --- | --- | --- | --- |');
-  for (const l of links) {
-    lines.push(`| ${l.name} | ${l.location} | ${classify(l.ok)} | ${l.url} | ${l.note ?? '-'} |`);
+  const linkChecks = links.map((l) => ({ ...l, status: classify(l.ok) }));
+  for (const l of linkChecks) {
+    lines.push(`| ${l.name} | ${l.location} | ${l.status} | ${l.url} | ${l.note ?? '-'} |`);
   }
-  for (const e of emails) {
+  const emailChecks = emails.map((e) => ({ ...e, status: classify(e.ok) }));
+  for (const e of emailChecks) {
     lines.push(
-      `| 이메일 버튼 | Contact/Footer | ${classify(e.ok)} | ${e.href ?? '-'} | ${e.note ?? 'mailto 형식 확인 (실제 발송 안 함)'} |`
+      `| 이메일 버튼 | Contact/Footer | ${e.status} | ${e.href ?? '-'} | ${e.note ?? 'mailto 형식 확인 (실제 발송 안 함)'} |`
     );
   }
   lines.push('');
@@ -198,14 +215,36 @@ export default async function globalTeardown() {
   lines.push(...numberedList(['자동 점검 범위 아님 (수동 확인 필요)']));
   lines.push('');
 
+  // ── 실제 집계 (표 2/4/5/6에 실제로 찍힌 상태값만, 같은 레코드 중복 집계 없음) ──
+  const allStatuses: string[] = [
+    ...screenshotChecks.map((c) => c.status),
+    mobileMenuCheck.status,
+    ...functionalChecks.map((f) => f.status),
+    ...linkChecks.map((l) => l.status),
+    ...emailChecks.map((e) => e.status),
+  ];
+  const totalConfirmed = allStatuses.filter((s) => s === CONFIRMED).length;
+  const totalFailedCount = allStatuses.filter((s) => s === FAILED).length;
+  const totalUnknownCount = allStatuses.filter((s) => s === UNKNOWN).length;
+
+  const unknownItems: string[] = [
+    ...screenshotChecks
+      .filter((c) => c.status === UNKNOWN)
+      .map((c) => `${VIEWPORTS[c.viewport].label} - ${c.label} 스크린샷 (${c.note})`),
+    ...(mobileMenuCheck.status === UNKNOWN ? [`Mobile Menu 스크린샷 (${mobileMenuCheck.note})`] : []),
+    ...functionalChecks
+      .filter((f) => f.status === UNKNOWN)
+      .map((f) => `${VIEWPORTS[f.viewport]?.label ?? f.viewport} - ${f.item}${f.note ? ` (${f.note})` : ''}`),
+    ...linkChecks.filter((l) => l.status === UNKNOWN).map((l) => `${l.name} 링크 확인 불가`),
+    ...emailChecks.filter((e) => e.status === UNKNOWN).map((e) => `이메일 버튼 확인 불가${e.note ? ` (${e.note})` : ''}`),
+  ];
+
   // 8. ChatGPT에게 넘길 요약
   lines.push('## 8. ChatGPT에게 넘길 요약', '');
   lines.push('[자동 점검 요약]');
   lines.push(`- 점검 URL: ${meta.targetUrl ?? '알 수 없음'}`);
   lines.push(
-    `- 생성된 스크린샷: ${screenshots.filter((s) => s.ok).length}/${screenshots.length}개 성공${
-      screenshots.some((s) => !s.ok) ? ` (실패: ${screenshots.filter((s) => !s.ok).map((s) => s.file).join(', ')})` : ''
-    }`
+    `- 생성된 스크린샷: ${screenshotChecks.filter((c) => c.status === CONFIRMED).length + (mobileMenuCheck.status === CONFIRMED ? 1 : 0)}/${screenshotChecks.length + 1}개 성공`
   );
   lines.push(`- 주요 기능 문제: ${functionalFails.length ? functionalFails.map((f) => f.item).join(', ') : '없음'}`);
   lines.push(
@@ -215,7 +254,11 @@ export default async function globalTeardown() {
         : '없음'
     }`
   );
-  lines.push(`- 확인 불가 항목: ${linkFails.length ? linkFails.map((l) => l.name ?? l.href).join(', ') : '없음'}`);
+  // 표(2/4/5/6)에 실제로 찍힌 상태값을 그대로 집계한 것 — 표의 ⚠️ 개수와 항상 일치한다
+  // (검사 대상 자체가 없어도 ⚠️로 집계하고, 검사하지 않은 항목을 ✅로 세지 않으며,
+  // 같은 스크린샷 레코드를 표 2/4에서 두 번 세지 않는다).
+  lines.push(`- 실제 집계(표 2/4/5/6 기준, 중복 없음): ${CONFIRMED} ${totalConfirmed}건 · ${FAILED} ${totalFailedCount}건 · ${UNKNOWN} ${totalUnknownCount}건`);
+  lines.push(`- 확인 불가 항목: ${unknownItems.length ? unknownItems.join(', ') : '없음'}`);
   lines.push('- ChatGPT가 추가 분석해야 할 부분: 디자인 완성도, 접근성(WCAG), 문구/콘텐츠 품질 (자동 점검 범위 밖)');
   lines.push('');
 

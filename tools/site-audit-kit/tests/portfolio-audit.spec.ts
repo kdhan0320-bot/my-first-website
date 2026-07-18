@@ -222,44 +222,46 @@ test.describe('Portfolio Audit', () => {
       });
     });
 
-    // 프로젝트 카드 모달 열기 / 캡처 / 닫기 테스트
-    await test.step('프로젝트 상세 모달 열기/캡처/닫기 테스트', async () => {
+    // 프로젝트 상세 진입 테스트 — ORDERED SIGNAL 2차 수정으로 Home의 대표 프로젝트
+    // "상세보기" 버튼은 모달을 여는 대신 /projects/:slug 상세 페이지로 이동한다.
+    // 모달 자체는 /projects의 Archive 항목에만 남아 있고 Home에는 없으므로, 여기서는
+    // 라우트 이동 여부를 확인한다.
+    await test.step('프로젝트 상세 페이지 이동/캡처 테스트', async () => {
+      const urlBefore = page.url();
       await gotoHome(page);
       const detailButton = page.getByRole('button', { name: /과정\s*보기|상세\s*보기|view|detail/i }).first();
       if ((await detailButton.count()) === 0) {
-        record({ kind: 'functional', viewport, item: '프로젝트 모달 열기', result: 'N/A', note: '버튼을 찾을 수 없음' });
-        const file = `${viewport}-project-modal.png`;
-        record({ kind: 'screenshot', viewport, section: 'Project Modal', file, ok: false, remark: '모달을 여는 버튼을 찾을 수 없음' });
+        record({ kind: 'functional', viewport, item: '프로젝트 상세 페이지 이동', result: 'N/A', note: '버튼을 찾을 수 없음' });
+        const file = `${viewport}-project-detail.png`;
+        record({ kind: 'screenshot', viewport, section: 'Project Detail', file, ok: false, remark: '상세로 이동하는 버튼을 찾을 수 없음' });
         return;
       }
       await detailButton.click();
-      const dialog = page.locator('[role="dialog"]');
-      const opened = await dialog
-        .first()
-        .waitFor({ state: 'visible', timeout: 5000 })
-        .then(() => true)
-        .catch(() => false);
-      record({ kind: 'functional', viewport, item: '프로젝트 모달 열기', result: opened ? 'PASS' : 'FAIL' });
+      await page.waitForTimeout(500);
+      const navigated = /\/projects\/[^/?#]+/.test(page.url());
+      record({
+        kind: 'functional',
+        viewport,
+        item: '프로젝트 상세 페이지 이동',
+        result: navigated ? 'PASS' : 'FAIL',
+        note: `url ${urlBefore} -> ${page.url()}`,
+      });
 
-      const file = `${viewport}-project-modal.png`;
-      if (opened) {
+      const file = `${viewport}-project-detail.png`;
+      if (navigated) {
         const filePath = path.join(SCREENSHOT_DIR, file);
         await page.waitForTimeout(300);
         await page.screenshot({ path: filePath });
         const exists = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
-        record({ kind: 'screenshot', viewport, section: 'Project Modal', file, ok: exists });
+        record({ kind: 'screenshot', viewport, section: 'Project Detail', file, ok: exists });
 
-        const closeButton = dialog.getByRole('button', { name: /닫기/ }).first();
-        if ((await closeButton.count()) > 0) {
-          await closeButton.click();
-        } else {
-          await page.keyboard.press('Escape');
-        }
-        await page.waitForTimeout(400);
-        const stillOpen = await dialog.first().isVisible().catch(() => false);
-        record({ kind: 'functional', viewport, item: '프로젝트 모달 닫기', result: stillOpen ? 'FAIL' : 'PASS' });
+        // 뒤로가기 정상 동작 확인 (다음 테스트를 위해 Home으로 복귀)
+        await page.goBack();
+        await page.waitForTimeout(300);
+        const backOk = !/\/projects\/[^/?#]+/.test(page.url());
+        record({ kind: 'functional', viewport, item: '프로젝트 상세 페이지 뒤로가기', result: backOk ? 'PASS' : 'FAIL' });
       } else {
-        record({ kind: 'screenshot', viewport, section: 'Project Modal', file, ok: false, remark: '모달이 열리지 않음' });
+        record({ kind: 'screenshot', viewport, section: 'Project Detail', file, ok: false, remark: '상세 페이지로 이동하지 않음' });
       }
     });
 

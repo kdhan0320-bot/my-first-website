@@ -3,17 +3,19 @@ import { Box, Container, Typography, Chip, Dialog, DialogTitle, DialogContent, D
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { ALL_PROJECTS } from '../data/projectsData';
 import EvidenceBadges from '../components/projects/EvidenceBadges';
 import { FONT_MONO, COLORS } from '../theme';
 
 /* Figma 03_Projects/Desktop(42:674) 원문 카피. Featured 3개는 Home Selected Projects와
- * 같은 실제 프로젝트를 더 짧은 카드 형태로 보여준다. */
+ * 같은 실제 프로젝트를 더 짧은 카드 형태로 보여준다. 이 3개는 고유 상세 URL
+ * (/projects/:slug)로 이동하고, 나머지 Archive 프로젝트는 기존처럼 모달로 본다. */
 const FEATURED_CARDS = [
-  { id: 'jobflow', title: 'JobFlow', meta: 'UX/UI · React/MUI · Supabase', description: '취업 준비 관리 대시보드' },
-  { id: 'bus-arrival-app', title: '버스 도착정보 앱 UI', meta: 'Figma Prototype · Static Data', description: '모바일 도착정보 UI' },
-  { id: 'feedback-hub', title: 'Portfolio Feedback Hub', meta: 'React/MUI · Supabase · Fallback', description: '포트폴리오 피드백 서비스' },
+  { id: 'jobflow', slug: 'jobflow', title: 'JobFlow', meta: 'UX/UI · React/MUI · Supabase', description: '취업 준비 관리 대시보드' },
+  { id: 'bus-arrival-app', slug: 'bus-arrival', title: '버스 도착정보 앱 UI', meta: 'Figma Prototype · Static Data', description: '모바일 도착정보 UI' },
+  { id: 'feedback-hub', slug: 'feedback-hub', title: 'Portfolio Feedback Hub', meta: 'React/MUI · Supabase · Fallback', description: '포트폴리오 피드백 서비스' },
 ];
 
 /* Figma의 Archive 섹션 목업은 예시로 3개 행(WEB PORTFOLIO/OTT SERVICE/추가 작품)만
@@ -187,7 +189,7 @@ const DetailModal = ({ project, open, onClose }) => {
   );
 };
 
-const FeaturedCard = ({ card, project, onDetail }) => (
+const FeaturedCard = ({ card, project, onNavigateDetail }) => (
   <Box sx={{ bgcolor: COLORS.deepSlate, border: '1px solid #33404D', borderRadius: '14px', p: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
     <Box sx={{ borderRadius: '14px', overflow: 'hidden', border: '1px solid #33404D' }}>
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center', height: 38, px: 1.75, bgcolor: COLORS.warmIvory }}>
@@ -208,8 +210,8 @@ const FeaturedCard = ({ card, project, onDetail }) => (
     <Box
       component="button"
       type="button"
-      onClick={() => onDetail(project)}
-      aria-label={`${card.title} 상세 보기`}
+      onClick={onNavigateDetail}
+      aria-label={`${card.title} 상세보기`}
       sx={{
         alignSelf: 'flex-start', bgcolor: 'transparent', border: 0, cursor: 'pointer', p: 0, minHeight: 44,
         fontFamily: FONT_MONO, fontWeight: 600, fontSize: '0.75rem', color: 'text.primary',
@@ -250,7 +252,7 @@ const ArchiveRow = ({ project, index, onDetail }) => {
           {archiveMeta(project)}
         </Typography>
       </Box>
-      <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: light ? COLORS.inkBlack : 'primary.main', flexShrink: 0 }}>
+      <Typography sx={{ fontFamily: FONT_MONO, fontSize: { xs: '0.75rem', md: '0.6875rem' }, color: light ? COLORS.inkBlack : 'primary.main', flexShrink: 0 }}>
         VIEW PROJECT →
       </Typography>
     </Box>
@@ -258,6 +260,7 @@ const ArchiveRow = ({ project, index, onDetail }) => {
 };
 
 const ProjectsPage = () => {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState(ALL_PROJECTS);
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -309,7 +312,12 @@ const ProjectsPage = () => {
         </Typography>
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: { xs: 2.5, md: 3.5 }, mb: { xs: 7, md: 10 } }}>
           {FEATURED_CARDS.map((card) => (
-            <FeaturedCard key={card.id} card={card} project={ALL_PROJECTS.find((p) => p.id === card.id)} onDetail={openDetail} />
+            <FeaturedCard
+              key={card.id}
+              card={card}
+              project={ALL_PROJECTS.find((p) => p.id === card.id)}
+              onNavigateDetail={() => navigate(`/projects/${card.slug}`)}
+            />
           ))}
         </Box>
 

@@ -296,11 +296,6 @@ const Navbar = () => {
 
         <Box sx={{ flex: 1 }} />
 
-        {!PORTFOLIO_PDF_URL && (
-          <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: 'text.secondary', lineHeight: 1.5, mb: 1.5 }}>
-            PDF는 실제 제출용 파일이 완성되기 전까지 메뉴에서 숨깁니다.
-          </Typography>
-        )}
         <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.6875rem', color: 'text.secondary', letterSpacing: '0.02em' }}>
           KIM DOHAN / ORDERED SIGNAL
         </Typography>
