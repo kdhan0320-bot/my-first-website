@@ -10,6 +10,9 @@ if (!process.env.TARGET_URL) {
 const TARGET_URL = process.env.TARGET_URL;
 const OUT_DIR = path.join('audit-output');
 const CROP_DIR = path.join(OUT_DIR, 'screenshots', 'contrast-crops');
+// 실행마다 이전 크롭을 지우고 새로 만든다 - 안 지우면 이전 회차에 더 많이 잡혔던
+// crop-NN.png가 이번 회차 결과보다 인덱스가 커서 안 덮어써지고 계속 쌓인다.
+fs.rmSync(CROP_DIR, { recursive: true, force: true });
 fs.mkdirSync(CROP_DIR, { recursive: true });
 
 async function scrollThroughPage(page) {
