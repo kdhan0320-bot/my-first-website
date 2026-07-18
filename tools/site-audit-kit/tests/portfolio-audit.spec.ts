@@ -225,7 +225,7 @@ test.describe('Portfolio Audit', () => {
     // 프로젝트 카드 모달 열기 / 캡처 / 닫기 테스트
     await test.step('프로젝트 상세 모달 열기/캡처/닫기 테스트', async () => {
       await gotoHome(page);
-      const detailButton = page.getByRole('button', { name: /과정 보기|상세 보기|view|detail/i }).first();
+      const detailButton = page.getByRole('button', { name: /과정\s*보기|상세\s*보기|view|detail/i }).first();
       if ((await detailButton.count()) === 0) {
         record({ kind: 'functional', viewport, item: '프로젝트 모달 열기', result: 'N/A', note: '버튼을 찾을 수 없음' });
         const file = `${viewport}-project-modal.png`;
@@ -264,6 +264,9 @@ test.describe('Portfolio Audit', () => {
     });
 
     // 상단 내비게이션 - 연락처 (같은 페이지 내 스크롤 이동)
+    // ORDERED SIGNAL 리디자인(Figma 42:3) 이후 헤더에는 "연락처" 텍스트 항목이 없고
+    // 실제 이메일로 바로 연결되는 Mail CTA 버튼으로 대체되었다. 이 nav 항목 자체가
+    // 의도적으로 사라졌으므로 이 스텝은 항상 N/A(버튼 없음)로 기록되는 것이 정상이다.
     await test.step('상단 내비게이션 클릭 테스트 - 연락처', async () => {
       await gotoHome(page);
       const nav = await getNavButton(page, '연락처');
@@ -286,11 +289,13 @@ test.describe('Portfolio Audit', () => {
     });
 
     // 상단 내비게이션 - 프로젝트 (전용 라우트로 이동, 확인 후 홈으로 복귀)
+    // ORDERED SIGNAL 리디자인 이후 헤더 라벨이 "프로젝트"에서 Figma 원문 "PROJECTS"로
+    // 바뀌었다(42:3 Navigation). 실제 화면에 표시된 라벨 기준으로 찾는다.
     await test.step('상단 내비게이션 클릭 테스트 - 프로젝트', async () => {
       await gotoHome(page);
       const urlBefore = page.url();
       const scrollBefore = await page.evaluate(() => window.scrollY);
-      const nav = await getNavButton(page, '프로젝트');
+      const nav = await getNavButton(page, 'PROJECTS');
       if ((await nav.count()) === 0) {
         record({ kind: 'functional', viewport, item: '내비게이션 클릭 - 프로젝트', result: 'N/A' });
         return;

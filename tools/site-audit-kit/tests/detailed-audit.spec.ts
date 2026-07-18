@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { test, type Page } from '@playwright/test';
 import { assertTargetUrl, SCREENSHOT_DIR, DETAILED_RESULTS_FILE, DETAILED_VIEWPORTS } from './detailed-target';
+import { scanContrastInPage } from '../scripts/contrast-scan';
 
 function record(entry: Record<string, unknown>) {
   fs.appendFileSync(DETAILED_RESULTS_FILE, JSON.stringify(entry) + '\n');
@@ -194,47 +195,14 @@ test.describe('Detailed Design Audit', () => {
     if (viewportKey === 'desktop-1440') {
       await test.step('다크 배경 텍스트 대비(WCAG) 확인', async () => {
         try {
-          const contrasts = await page.evaluate(() => {
-            function parseColor(str: string) {
-              const m = str.match(/rgba?\(([^)]+)\)/);
-              if (!m) return null;
-              const parts = m[1].split(',').map((s) => parseFloat(s.trim()));
-              return { r: parts[0], g: parts[1], b: parts[2], a: parts[3] ?? 1 };
-            }
-            function luminance(c: { r: number; g: number; b: number }) {
-              const [r, g, b] = [c.r, c.g, c.b].map((v) => {
-                const s = v / 255;
-                return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-              });
-              return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-            }
-            function bgColor(el: Element | null) {
-              let node: Element | null = el;
-              while (node) {
-                const c = parseColor(getComputedStyle(node).backgroundColor);
-                if (c && c.a > 0) return c;
-                node = node.parentElement;
-              }
-              return { r: 255, g: 255, b: 255 };
-            }
-            const textEls = Array.from(document.querySelectorAll('h1, h2, h3, p, button, a')).filter(
-              (el) => (el.textContent || '').trim().length > 1
-            );
-            const out: { text: string; ratio: number; fontSize: number }[] = [];
-            for (const el of textEls.slice(0, 200)) {
-              const style = getComputedStyle(el);
-              const fg = parseColor(style.color);
-              if (!fg) continue;
-              const bg = bgColor(el);
-              const l1 = luminance(fg) + 0.05;
-              const l2 = luminance(bg) + 0.05;
-              const ratio = l1 > l2 ? l1 / l2 : l2 / l1;
-              out.push({ text: (el.textContent || '').trim().slice(0, 40), ratio: Math.round(ratio * 100) / 100, fontSize: parseFloat(style.fontSize) });
-            }
-            return out;
+          // 대비 계산 로직은 scripts/contrast-scan.js(check-contrast.js와 공용)로 옮겼다 -
+          // 같은 판정 로직을 두 곳에서 복붙해 유지하지 않기 위함. 이 스텝은 기존과 동일하게
+          // 최대 200개 요소만 훑고, low만 20개까지 기록한다.
+          const { totalScanned, low } = await page.evaluate(scanContrastInPage, {
+            selectors: 'h1, h2, h3, p, button, a',
+            maxElements: 200,
           });
-          const low = contrasts.filter((c) => (c.fontSize >= 24 ? c.ratio < 3 : c.ratio < 4.5));
-          record({ kind: 'contrast', total: contrasts.length, lowCount: low.length, low: low.slice(0, 20) });
+          record({ kind: 'contrast', total: totalScanned, lowCount: low.length, low: low.slice(0, 20) });
         } catch (e) {
           record({ kind: 'contrast', ok: undefined, remark: String(e).slice(0, 200) });
         }
@@ -332,7 +300,7 @@ test.describe('Detailed Design Audit', () => {
             reducedMotionCssRuleText,
             rootCauseVerdict: '검사 로직 문제 (사이트 결함 아님)',
             rootCauseExplanation:
-              'normalAnimatedCount/reducedAnimatedCount는 animationName이 none인 요소도 함께 세고 있었다. 사이트는 `*, ::before, ::after { animation-duration: 0.01ms !important }` 형태의 전역 reduced-motion 접근성 규칙을 갖고 있어, 애니메이션이 실제로 없는 요소(html/head/meta/script 등 포함)도 reduced 모드에서 animationDuration이 0이 아닌 값(0.01ms)으로 잡힌다. animationName!==none으로 필터링한 realAnimatedCount는 normal/reduced 양쪽에서 값이 일치하며, 이는 실제 named 애니메이션(flowStreamDrift/spotlightBreathe/coreOrbitSpin/fadeInUp/ctaFadeInUp)이 reduced 모드에서 duration만 0.01ms로 줄어들 뿐 존재 자체는 유지된다는 뜻으로, ambientMotion 계측 결과와도 일치한다.',
+              'normalAnimatedCount/reducedAnimatedCount는 animationName이 none인 요소도 함께 세고 있었다. 사이트는 `*, ::before, ::after { animation-duration: 0.01ms !important }` 형태의 전역 reduced-motion 접근성 규칙을 갖고 있어, 애니메이션이 실제로 없는 요소(html/head/meta/script 등 포함)도 reduced 모드에서 animationDuration이 0이 아닌 값(0.01ms)으로 잡힌다. animationName!==none으로 필터링한 realAnimatedCount는 normal/reduced 양쪽에서 값이 일치하며, 이는 실제 named 애니메이션(현재 디자인 시스템 기준 heroLineIn/heroFadeIn/heroRowIn/heroLineScaleIn/heroCtaIn/signalDotIn/signalLineIn 등, 디자인이 바뀌면 이름도 바뀔 수 있음)이 reduced 모드에서 duration/delay만 0으로 줄어들 뿐 존재 자체는 유지된다는 뜻이다. 이 설명은 검사 로직의 일반 원리를 기록한 것으로, 특정 라운드의 애니메이션 이름은 바뀔 수 있으니 실제 코드 기준으로 다시 확인한다.',
           });
           await page.emulateMedia({ reducedMotion: 'no-preference' });
         } catch (e) {
@@ -467,13 +435,16 @@ test.describe('Detailed Design Audit', () => {
         }
       });
 
+      // ORDERED SIGNAL 리디자인 이후 상세 버튼 라벨이 "작업 과정 보기"에서 Figma 원문
+      // "상세보기"로 바뀌었다(42:118 Detail_CTA 등). 두 라벨을 함께 찾아 과거/현재 어느
+      // 쪽이든 실제 버튼을 찾도록 한다.
       await test.step('프로젝트 카드/모달 문구 추출', async () => {
         try {
           await gotoHome(page);
           await scrollThroughPage(page);
           const cards = await page.evaluate(() => {
             const detailButtons = Array.from(document.querySelectorAll('button')).filter((b) =>
-              /작업 과정 보기/.test(b.textContent || '')
+              /작업 과정 보기|상세\s*보기/.test(b.textContent || '')
             );
             return detailButtons.map((btn) => {
               let card: Element | null = btn;
@@ -487,7 +458,7 @@ test.describe('Detailed Design Audit', () => {
           record({ kind: 'projectCardText', cards });
 
           const modalTexts: string[] = [];
-          const detailButtons = page.getByRole('button', { name: /작업 과정 보기/ });
+          const detailButtons = page.getByRole('button', { name: /작업 과정 보기|상세\s*보기/ });
           const count = await detailButtons.count();
           for (let i = 0; i < count; i++) {
             const btn = detailButtons.nth(i);
