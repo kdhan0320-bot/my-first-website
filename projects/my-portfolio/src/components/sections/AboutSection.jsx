@@ -8,11 +8,9 @@ import RevealOnScroll from '../ui/RevealOnScroll';
 import DMark from '../ui/DMark';
 import FlowNode from '../ui/FlowNode';
 import useInViewOnce from '../../hooks/useInViewOnce';
+import { APPLICATION_FOCUS, TOOL_LINE } from '../../data/portfolioMeta';
 
 /* Home용 About Snapshot — /about 페이지의 핵심만 축약해 Home 한 화면 흐름 안에서 보여준다 */
-const APPLICATION_FOCUS = ['UX/UI', 'Web Publishing', 'React/MUI', 'Responsive QA'];
-
-const TOOL_LINE = 'Figma · React/MUI · HTML/CSS/JavaScript · GitHub · Supabase · AI Tools';
 
 const InlineRow = ({ label, children }) => (
   <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: 1, mt: 2 }}>

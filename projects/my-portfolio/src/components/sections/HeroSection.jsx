@@ -5,10 +5,17 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { scrollToSection } from '../../hooks/useScrollNav';
 import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL } from '../../constants/site';
+import { HERO_BADGE, POSITIONING_PREFIX, POSITIONING_EMPHASIS, POSITIONING_SUFFIX, SUB_DESCRIPTION } from '../../data/portfolioMeta';
 import FlowCanvasIllustration from '../hero/FlowCanvasIllustration';
 import FlowNode from '../ui/FlowNode';
 
-const HERO_BADGE = '김도한 | UX/UI · Web Publishing Portfolio';
+/* review 캡처 모드(tools/site-audit-kit의 리뷰 스크립트가 page.addInitScript로
+ * 페이지 로드 전에 심어두는 표시)에서는 Hero 텍스트의 fadeIn 진입 애니메이션을
+ * 아예 건너뛰고 최종 상태(opacity:1)로 렌더링한다. 일반 사용자는 영향 없음.
+ * 모듈 로드 시점에 한 번만 읽는다 — addInitScript가 React 마운트보다 먼저 실행되므로
+ * 이 값은 항상 정확하다. */
+const isReviewCapture =
+  typeof document !== 'undefined' && document.documentElement.getAttribute('data-review-mode') === 'true';
 
 const HeroSection = () => {
   return (
@@ -171,6 +178,7 @@ const HeroSection = () => {
             >
               {/* Hero 오버라인 */}
               <Typography
+                data-hero-reveal="true"
                 sx={{
                   display: 'inline-block',
                   color: 'primary.main',
@@ -178,8 +186,8 @@ const HeroSection = () => {
                   fontWeight: 700,
                   letterSpacing: '0.04em',
                   mb: { xs: 1.75, md: 2 },
-                  opacity: 0,
-                  animation: 'fadeInUp 0.6s ease 0s both',
+                  opacity: isReviewCapture ? 1 : 0,
+                  animation: isReviewCapture ? 'none' : 'fadeInUp 0.6s ease 0s both',
                 }}
               >
                 {HERO_BADGE}
@@ -187,6 +195,7 @@ const HeroSection = () => {
 
               <Typography
                 variant="h1"
+                data-hero-reveal="true"
                 sx={{
                   fontWeight: 800,
                   fontSize: { xs: '1.7rem', sm: '2.15rem', md: '2.75rem', lg: '3.1rem' },
@@ -194,11 +203,11 @@ const HeroSection = () => {
                   letterSpacing: '-0.02em',
                   color: 'text.primary',
                   mb: 1.25,
-                  opacity: 0,
-                  animation: 'fadeInUp 0.6s ease 0.08s both',
+                  opacity: isReviewCapture ? 1 : 0,
+                  animation: isReviewCapture ? 'none' : 'fadeInUp 0.6s ease 0.08s both',
                 }}
               >
-                복잡한 정보를 정리해,
+                {POSITIONING_PREFIX}
                 <Box component="span" sx={{ display: 'block' }}>
                   <Box
                     component="span"
@@ -210,14 +219,15 @@ const HeroSection = () => {
                       textUnderlineOffset: '5px',
                     }}
                   >
-                    구현 가능한
+                    {POSITIONING_EMPHASIS}
                   </Box>
-                  {' '}웹 화면으로 연결합니다.
+                  {' '}{POSITIONING_SUFFIX}
                 </Box>
               </Typography>
 
               <Typography
                 variant="body1"
+                data-hero-reveal="true"
                 sx={{
                   color: 'text.secondary',
                   lineHeight: 1.85,
@@ -225,11 +235,11 @@ const HeroSection = () => {
                   mx: { xs: 'auto', md: 0 },
                   mb: { xs: 3, md: 3.75 },
                   fontSize: { xs: '0.92rem', md: '1rem' },
-                  opacity: 0,
-                  animation: 'fadeInUp 0.6s ease 0.2s both',
+                  opacity: isReviewCapture ? 1 : 0,
+                  animation: isReviewCapture ? 'none' : 'fadeInUp 0.6s ease 0.2s both',
                 }}
               >
-                Figma로 화면 흐름과 정보 구조를 정리하고, React/MUI로 반응형 웹 화면을 구현합니다. AI 도구는 문장 정리, 코드 점검, 개선안 비교에 보조적으로 활용했습니다.
+                {SUB_DESCRIPTION}
               </Typography>
 
               <Stack
@@ -245,6 +255,7 @@ const HeroSection = () => {
                 <Button
                   variant="contained"
                   size="large"
+                  data-hero-reveal="true"
                   onClick={() => scrollToSection('projects')}
                   aria-label="프로젝트 섹션으로 이동"
                   endIcon={<ArrowForwardIcon className="cta-arrow" sx={{ transform: 'translateX(0)', transition: 'transform 0.2s ease' }} />}
@@ -256,8 +267,8 @@ const HeroSection = () => {
                     fontWeight: 700,
                     fontSize: '0.95rem',
                     whiteSpace: 'nowrap',
-                    opacity: 0,
-                    animation: 'ctaFadeInUp 0.6s ease 0.32s both',
+                    opacity: isReviewCapture ? 1 : 0,
+                    animation: isReviewCapture ? 'none' : 'ctaFadeInUp 0.6s ease 0.32s both',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                     '&:hover': {
                       bgcolor: 'primary.dark',
@@ -274,6 +285,7 @@ const HeroSection = () => {
                 <Button
                   variant="outlined"
                   size="large"
+                  data-hero-reveal="true"
                   onClick={() => scrollToSection('about')}
                   aria-label="작업 방식 섹션으로 이동"
                   sx={{
@@ -284,8 +296,8 @@ const HeroSection = () => {
                     fontWeight: 600,
                     fontSize: '0.95rem',
                     whiteSpace: 'nowrap',
-                    opacity: 0,
-                    animation: 'ctaFadeInUp 0.6s ease 0.38s both',
+                    opacity: isReviewCapture ? 1 : 0,
+                    animation: isReviewCapture ? 'none' : 'ctaFadeInUp 0.6s ease 0.38s both',
                     transition: 'transform 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
                       color: 'primary.main',
@@ -303,6 +315,7 @@ const HeroSection = () => {
                   variant="outlined"
                   size="large"
                   component="a"
+                  data-hero-reveal="true"
                   href={GITHUB_PROFILE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -316,8 +329,8 @@ const HeroSection = () => {
                     fontWeight: 600,
                     fontSize: '0.95rem',
                     whiteSpace: 'nowrap',
-                    opacity: 0,
-                    animation: 'ctaFadeInUp 0.6s ease 0.44s both',
+                    opacity: isReviewCapture ? 1 : 0,
+                    animation: isReviewCapture ? 'none' : 'ctaFadeInUp 0.6s ease 0.44s both',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
                     '&:hover': {
                       bgcolor: 'rgba(56,189,248,0.07)',

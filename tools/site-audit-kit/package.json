@@ -11,7 +11,8 @@
     "zip": "powershell -NoProfile -Command \"Compress-Archive -Path 'audit-output' -DestinationPath 'site-audit-result.zip' -Force\"",
     "clean": "node scripts/clean.js",
     "audit:detailed": "playwright test --config=playwright.detailed.config.ts",
-    "audit:detailed:headed": "playwright test --config=playwright.detailed.config.ts --headed"
+    "audit:detailed:headed": "playwright test --config=playwright.detailed.config.ts --headed",
+    "review:build": "node scripts/generate-portfolio-review.js"
   },
   "keywords": [],
   "author": "",
