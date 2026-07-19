@@ -393,7 +393,7 @@ const PostListPage = () => {
         }}>
           <Typography variant="h4" sx={{ mb: 1 }}>Project Info</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5, lineHeight: 1.7 }}>
-            이 프로젝트는 React, MUI, Supabase로 구현한 포트폴리오 피드백 커뮤니티입니다. 카테고리 필터, 검색, 정렬, 댓글, 좋아요, 조회수 기능을 통해 피드백 중심의 게시판 흐름을 설계했습니다.
+            이 프로젝트는 React, MUI, Supabase로 구현한 포트폴리오 피드백 커뮤니티입니다. 카테고리 필터, 검색, 정렬, 댓글, 좋아요 기능을 통해 피드백 중심의 게시판 흐름을 설계했습니다.
           </Typography>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.5}>
             <Button
