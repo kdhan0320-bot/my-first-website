@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Toolbar } from '@mui/material';
+import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Sidebar, { DRAWER_WIDTH } from './Sidebar';
 import Header from './Header';

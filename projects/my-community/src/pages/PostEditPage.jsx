@@ -4,7 +4,7 @@ import {
   Box, Container, Typography, TextField, Button, Chip,
   Alert, Paper, Skeleton,
 } from '@mui/material';
-import { AddPhotoAlternate, Refresh, Tag } from '@mui/icons-material';
+import { AddPhotoAlternate, Tag } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
 import SubPageHeader from '../components/SubPageHeader';

@@ -13,19 +13,6 @@ import AIPromptPage from './pages/AIPromptPage';
 import SettingsPage from './pages/SettingsPage';
 import { CircularProgress, Box } from '@mui/material';
 
-const ProtectedRoute = ({ children }) => {
-  const { user, loading, isGuest } = useAuth();
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
-  if (!user && !isGuest) return <Navigate to="/login" replace />;
-  return children;
-};
-
 const AppRoutes = () => {
   const { user, loading, isGuest } = useAuth();
   if (loading) {

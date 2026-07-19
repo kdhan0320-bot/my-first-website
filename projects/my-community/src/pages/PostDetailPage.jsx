@@ -252,7 +252,6 @@ const PostDetailPage = () => {
   const [likedCommentIds, setLikedCommentIds] = useState(new Set());
   const [commentInput, setCommentInput] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [deletePostDialog, setDeletePostDialog] = useState(false);
   const [guestNotice, setGuestNotice] = useState(false);
 
@@ -439,8 +438,6 @@ const PostDetailPage = () => {
       />
 
       <Container maxWidth="md" sx={{ py: 4 }}>
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-
         {/* 게시물 본문 */}
         <Box sx={{ bgcolor: 'background.paper', borderRadius: 3, p: 4, mb: 3, border: '1px solid', borderColor: 'divider' }}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mb: 1.5 }}>

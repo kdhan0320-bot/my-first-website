@@ -122,14 +122,12 @@ const PostListPage = () => {
   const { user, isGuest } = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('전체');
   const [sortBy, setSortBy] = useState('latest');
 
   const fetchPosts = async () => {
     setLoading(true);
-    setError(null);
     try {
       const { data, error: fetchError } = await supabase
         .from('posts')

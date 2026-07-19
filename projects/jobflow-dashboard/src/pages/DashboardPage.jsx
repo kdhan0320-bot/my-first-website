@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import {
   Box, Grid, Card, CardContent, Typography, LinearProgress,
-  Stack, Divider, Button, Skeleton, Checkbox, FormControlLabel,
+  Stack, Divider, Button, Skeleton, Checkbox,
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types -- 프로젝트 전반에서 PropTypes를 사용하지 않는 기존 컨벤션을 따름 */
 import { Box, Typography } from '@mui/material';
 import { getCategoryTheme } from '../constants/categoryTheme';
 
