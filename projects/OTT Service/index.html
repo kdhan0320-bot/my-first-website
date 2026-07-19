@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="STREAMIX - 정적 콘텐츠 데이터를 기반으로 Hero, 콘텐츠 카드, 장르 필터, 로그인/예고편 모달을 구현한 OTT형 웹 UI 데모입니다." />
-  <title>STREAMIX — 프리미엄 OTT 서비스</title>
+  <meta name="description" content="STREAMIX - 정적 콘텐츠 데이터를 기반으로 Hero, 콘텐츠 카드, 장르 필터, 게스트 체험 안내/예고편 모달을 구현한 OTT형 웹 UI 데모입니다." />
+  <title>STREAMIX — OTT UI 데모</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -26,7 +26,7 @@
       </nav>
 
       <div class="header__cta">
-        <button class="btn btn--outline js-start-btn" aria-label="테스트 계정으로 체험하기">체험하기</button>
+        <button class="btn btn--outline js-start-btn" aria-label="게스트로 체험하기">게스트로 체험하기</button>
       </div>
 
       <button class="header__hamburger" id="hamburger"
@@ -44,7 +44,7 @@
         <li><a href="#trending"  class="mobile-nav__link">Trending</a></li>
         <li><a href="#original"  class="mobile-nav__link">Original</a></li>
         <li><a href="#recommend" class="mobile-nav__link">Recommend</a></li>
-        <li><button class="btn btn--outline btn--full js-start-btn" aria-label="테스트 계정으로 체험하기">테스트 계정으로 체험하기</button></li>
+        <li><button class="btn btn--outline btn--full js-start-btn" aria-label="게스트로 체험하기">게스트로 체험하기</button></li>
       </ul>
     </div>
   </header>
@@ -153,7 +153,7 @@
               <div class="card__poster card__poster--1" aria-hidden="true"></div>
               <span class="card__badge">ORIGINAL</span>
               <div class="card__hover-overlay">
-                <button class="card__play-btn" aria-label="Night Signal 재생">
+                <button class="card__play-btn" aria-label="Night Signal 예고편 UI 미리보기">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <div class="card__actions">
@@ -183,7 +183,7 @@
             <div class="card__image">
               <div class="card__poster card__poster--2" aria-hidden="true"></div>
               <div class="card__hover-overlay">
-                <button class="card__play-btn" aria-label="Blue Hour 재생">
+                <button class="card__play-btn" aria-label="Blue Hour 예고편 UI 미리보기">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <div class="card__actions">
@@ -214,7 +214,7 @@
               <div class="card__poster card__poster--3" aria-hidden="true"></div>
               <span class="card__badge card__badge--new">NEW</span>
               <div class="card__hover-overlay">
-                <button class="card__play-btn" aria-label="Zero City 재생">
+                <button class="card__play-btn" aria-label="Zero City 예고편 UI 미리보기">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <div class="card__actions">
@@ -244,7 +244,7 @@
             <div class="card__image">
               <div class="card__poster card__poster--4" aria-hidden="true"></div>
               <div class="card__hover-overlay">
-                <button class="card__play-btn" aria-label="Quiet Room 재생">
+                <button class="card__play-btn" aria-label="Quiet Room 예고편 UI 미리보기">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <div class="card__actions">
@@ -274,7 +274,7 @@
             <div class="card__image">
               <div class="card__poster card__poster--5" aria-hidden="true"></div>
               <div class="card__hover-overlay">
-                <button class="card__play-btn" aria-label="Last Archive 재생">
+                <button class="card__play-btn" aria-label="Last Archive 예고편 UI 미리보기">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <div class="card__actions">
@@ -305,7 +305,7 @@
               <div class="card__poster card__poster--6" aria-hidden="true"></div>
               <span class="card__badge card__badge--hot">HOT</span>
               <div class="card__hover-overlay">
-                <button class="card__play-btn" aria-label="Runway 404 재생">
+                <button class="card__play-btn" aria-label="Runway 404 예고편 UI 미리보기">
                   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
                 <div class="card__actions">
@@ -405,9 +405,8 @@
             </div>
 
             <div class="detail__actions">
-              <button class="btn btn--primary btn--lg js-start-btn" aria-label="테스트 계정으로 체험하기">
-                <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                테스트 계정으로 체험하기
+              <button class="btn btn--primary btn--lg js-start-btn" aria-label="게스트로 체험하기">
+                게스트로 체험하기
               </button>
               <button class="btn btn--glass btn--lg" id="listAddBtn" aria-label="내 리스트에 추가" aria-pressed="false">
                 <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -418,16 +417,16 @@
         </div>
 
         <!-- Featured Banner -->
-        <div class="featured-banner" aria-label="시즌 1 전편 공개 배너">
+        <div class="featured-banner" aria-label="대표 콘텐츠 미리보기 배너">
           <div class="featured-banner__bg" aria-hidden="true"></div>
           <div class="featured-banner__content">
-            <span class="featured-banner__chip">🎬 시즌 1 전편 공개</span>
+            <span class="featured-banner__chip">🎬 대표 콘텐츠</span>
             <div class="featured-banner__text">
-              <h4 class="featured-banner__title">NIGHT SIGNAL — 지금 바로 시청 가능</h4>
-              <p class="featured-banner__desc">시즌 1 전편 공개 · 4K UHD · 12 Episodes</p>
-              <p class="featured-banner__desc">테스트 계정으로 주요 화면을 체험해보세요.</p>
+              <h4 class="featured-banner__title">NIGHT SIGNAL — 대표 콘텐츠 미리보기</h4>
+              <p class="featured-banner__desc">시즌 1 · 12 Episodes · 정적 데모 데이터</p>
+              <p class="featured-banner__desc">게스트로 주요 화면을 체험해보세요.</p>
             </div>
-            <button class="btn btn--primary js-start-btn" aria-label="테스트 계정으로 체험하기">테스트 계정으로 체험하기</button>
+            <button class="btn btn--primary js-start-btn" aria-label="게스트로 체험하기">게스트로 체험하기</button>
           </div>
         </div>
       </div>
@@ -438,8 +437,8 @@
       <div class="container">
         <div class="section__header">
           <div>
-            <p class="section__label">PICKED FOR YOU</p>
-            <h2 class="section__title">회원님을 위한 추천</h2>
+            <p class="section__label">TODAY'S PICK</p>
+            <h2 class="section__title">지금 주목할 콘텐츠</h2>
           </div>
         </div>
 
@@ -464,7 +463,7 @@
                   <span>10 Ep.</span>
                 </div>
               </div>
-              <button class="rec-card__btn" aria-label="Deep Focus 재생">
+              <button class="rec-card__btn" aria-label="Deep Focus 예고편 UI 미리보기">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </button>
             </div>
@@ -489,7 +488,7 @@
                   <span>8 Ep.</span>
                 </div>
               </div>
-              <button class="rec-card__btn" aria-label="After Midnight 재생">
+              <button class="rec-card__btn" aria-label="After Midnight 예고편 UI 미리보기">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </button>
             </div>
@@ -514,7 +513,7 @@
                   <span>7 Ep.</span>
                 </div>
               </div>
-              <button class="rec-card__btn" aria-label="Signal Room 재생">
+              <button class="rec-card__btn" aria-label="Signal Room 예고편 UI 미리보기">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </button>
             </div>
@@ -539,7 +538,7 @@
                   <span>11 Ep.</span>
                 </div>
               </div>
-              <button class="rec-card__btn" aria-label="Ocean Code 재생">
+              <button class="rec-card__btn" aria-label="Ocean Code 예고편 UI 미리보기">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
               </button>
             </div>
@@ -613,10 +612,10 @@
     </div>
   </footer>
 
-  <!-- ===== LOGIN MODAL ===== -->
+  <!-- ===== GUEST EXPERIENCE MODAL ===== -->
   <div class="modal" id="loginModal"
        role="dialog" aria-modal="true"
-       aria-label="STREAMIX 로그인/회원가입" aria-hidden="true">
+       aria-label="STREAMIX 게스트 체험 안내" aria-hidden="true">
     <div class="modal__backdrop" id="loginModalBackdrop"></div>
     <div class="modal__container login-modal__box">
       <div class="modal__header">
@@ -629,33 +628,22 @@
       </div>
 
       <div class="login-modal__body">
-        <h3 class="login-modal__title">테스트 계정으로 체험하기</h3>
-        <p class="login-modal__desc">실제 회원가입 없이 주요 화면을 확인할 수 있습니다.</p>
+        <h3 class="login-modal__title">게스트로 체험하기</h3>
+        <p class="login-modal__desc">실제 계정 없이 버튼 하나로 주요 화면을 바로 체험할 수 있습니다.</p>
 
-        <button type="button" class="btn btn--primary btn--full" id="demoEnterBtn" aria-label="테스트 계정으로 시작하기">
-          테스트 계정으로 시작하기
+        <button type="button" class="btn btn--primary btn--full" id="demoEnterBtn" aria-label="게스트로 체험 시작하기">
+          게스트로 체험하기
         </button>
 
-        <div class="login-divider"><span>또는 계정으로 체험</span></div>
+        <ul class="login-modal__notice-list" aria-label="게스트 체험 안내사항">
+          <li>실제 회원가입 및 로그인 기능은 없습니다.</li>
+          <li>실제 결제 및 스트리밍 기능은 제공하지 않습니다.</li>
+          <li>찜하기와 내 리스트 변경 내용은 저장되지 않습니다.</li>
+          <li>새로고침하면 체험 상태가 초기화됩니다.</li>
+        </ul>
 
-        <form class="login-form" id="loginForm" novalidate>
-          <div class="form-group">
-            <label class="form-label" for="loginEmail">이메일</label>
-            <input class="form-input" type="email" id="loginEmail" name="email"
-                   placeholder="demo@streamix.app" autocomplete="email" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="loginPw">비밀번호</label>
-            <input class="form-input" type="password" id="loginPw" name="password"
-                   placeholder="비밀번호를 입력하세요" autocomplete="current-password" />
-          </div>
-          <button type="submit" class="btn btn--glass btn--full login-form__submit">
-            입력한 계정으로 체험하기
-          </button>
-        </form>
-
-        <p class="login-modal__note" style="margin-top:1rem;opacity:0.6;font-size:0.78rem;">
-          포트폴리오용 프론트엔드 UI 데모 · 실제 인증/결제 기능 없음
+        <p class="login-modal__note">
+          포트폴리오용 프론트엔드 UI 데모입니다.
         </p>
       </div>
     </div>
@@ -664,11 +652,11 @@
   <!-- ===== TRAILER MODAL ===== -->
   <div class="modal" id="trailerModal"
        role="dialog" aria-modal="true"
-       aria-label="NIGHT SIGNAL 예고편" aria-hidden="true">
+       aria-label="NIGHT SIGNAL 예고편 UI 미리보기" aria-hidden="true">
     <div class="modal__backdrop" id="modalBackdrop"></div>
     <div class="modal__container">
       <div class="modal__header">
-        <h3 class="modal__title">NIGHT SIGNAL — 공식 예고편</h3>
+        <h3 class="modal__title" id="modalTitle">NIGHT SIGNAL — 예고편 UI 미리보기</h3>
         <button class="modal__close" id="modalClose" aria-label="모달 닫기">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
@@ -685,8 +673,8 @@
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </button>
           </div>
-          <p class="modal__video-title">NIGHT SIGNAL</p>
-          <p class="modal__video-sub">공식 예고편 · 2026 · Mystery Thriller</p>
+          <p class="modal__video-title" id="modalVideoTitle">NIGHT SIGNAL</p>
+          <p class="modal__video-sub">예고편 UI 미리보기 · 실제 영상 없음</p>
         </div>
       </div>
 

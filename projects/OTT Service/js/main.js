@@ -2,7 +2,7 @@
    STREAMIX — main.js
    인터랙션: ① 헤더 스크롤   ② 장르 필터
              ③ 예고편 모달   ④ 찜하기 토글
-             ⑤ 로그인 모달   ⑥ nav active
+             ⑤ 게스트 안내 모달   ⑥ nav active
    ============================================== */
 
 'use strict';
@@ -88,16 +88,23 @@ filterBtns.forEach((btn) => {
 // ──────────────────────────────────────────────
 // 4. 예고편 모달
 // ──────────────────────────────────────────────
-const trailerModal   = document.getElementById('trailerModal');
-const trailerBtn     = document.getElementById('trailerBtn');
-const heroTrailerBtn = document.getElementById('heroTrailerBtn');
-const modalClose     = document.getElementById('modalClose');
-const modalBackdrop  = document.getElementById('modalBackdrop');
+const trailerModal    = document.getElementById('trailerModal');
+const trailerBtn      = document.getElementById('trailerBtn');
+const heroTrailerBtn  = document.getElementById('heroTrailerBtn');
+const modalClose      = document.getElementById('modalClose');
+const modalBackdrop   = document.getElementById('modalBackdrop');
+const modalTitle      = document.getElementById('modalTitle');
+const modalVideoTitle = document.getElementById('modalVideoTitle');
 
 let lastFocused = null;
 
-function openModal(triggerEl) {
+function openModal(triggerEl, title) {
   lastFocused = triggerEl || document.activeElement;
+  if (title) {
+    trailerModal.setAttribute('aria-label', `${title} 예고편 UI 미리보기`);
+    modalTitle.textContent = `${title} — 예고편 UI 미리보기`;
+    modalVideoTitle.textContent = title;
+  }
   trailerModal.classList.add('open');
   trailerModal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -111,10 +118,21 @@ function closeModal() {
   if (lastFocused) { lastFocused.focus(); lastFocused = null; }
 }
 
-trailerBtn.addEventListener('click',     () => openModal(trailerBtn));
-heroTrailerBtn.addEventListener('click', () => openModal(heroTrailerBtn));
+trailerBtn.addEventListener('click',     () => openModal(trailerBtn, 'NIGHT SIGNAL'));
+heroTrailerBtn.addEventListener('click', () => openModal(heroTrailerBtn, 'NIGHT SIGNAL'));
 modalClose.addEventListener('click',     closeModal);
 modalBackdrop.addEventListener('click',  closeModal);
+
+// 콘텐츠 카드 · 추천 카드 재생 버튼 → 예고편 UI 모달 연결 (실제 영상 없음)
+document.querySelectorAll('.card__play-btn, .rec-card__btn').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const card = btn.closest('.card, .rec-card');
+    const titleEl = card ? card.querySelector('.card__title, .rec-card__title') : null;
+    const title = titleEl ? titleEl.textContent.trim() : 'NIGHT SIGNAL';
+    openModal(btn, title);
+  });
+});
 
 // 포커스 트랩 (Tab)
 trailerModal.addEventListener('keydown', (e) => {
@@ -129,12 +147,11 @@ trailerModal.addEventListener('keydown', (e) => {
 
 
 // ──────────────────────────────────────────────
-// 5. 로그인 모달
+// 5. 게스트 안내 모달
 // ──────────────────────────────────────────────
 const loginModal        = document.getElementById('loginModal');
 const loginModalClose   = document.getElementById('loginModalClose');
 const loginModalBackdrop = document.getElementById('loginModalBackdrop');
-const loginForm         = document.getElementById('loginForm');
 
 let lastLoginFocused = null;
 
@@ -154,7 +171,7 @@ function closeLoginModal() {
   if (lastLoginFocused) { lastLoginFocused.focus(); lastLoginFocused = null; }
 }
 
-// 테스트 계정으로 체험하기 버튼 모두 연결
+// 게스트 체험 안내 버튼 모두 연결
 document.querySelectorAll('.js-start-btn').forEach((btn) => {
   btn.addEventListener('click', () => openLoginModal(btn));
 });
@@ -162,19 +179,13 @@ document.querySelectorAll('.js-start-btn').forEach((btn) => {
 loginModalClose.addEventListener('click',    closeLoginModal);
 loginModalBackdrop.addEventListener('click', closeLoginModal);
 
-// 폼 제출 - 데모이므로 새로고침 방지
-loginForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-  closeLoginModal();
-});
-
-// 테스트 계정으로 시작하기 버튼
+// 게스트로 체험하기 버튼
 const demoEnterBtn = document.getElementById('demoEnterBtn');
 if (demoEnterBtn) {
   demoEnterBtn.addEventListener('click', closeLoginModal);
 }
 
-// 로그인 모달 포커스 트랩
+// 게스트 안내 모달 포커스 트랩
 loginModal.addEventListener('keydown', (e) => {
   if (e.key !== 'Tab') return;
   const sel = 'button:not([disabled]), input, a[href], [tabindex]:not([tabindex="-1"])';
