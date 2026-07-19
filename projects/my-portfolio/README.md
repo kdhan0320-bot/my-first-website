@@ -29,9 +29,9 @@
 
 ## 페이지 구조
 
-- `/` — Hero(Work Flow 보드), About(작업 방식 4카드), Projects(대표 프로젝트 3개 카드 + 상세 모달), Contact
+- `/` — Hero(Work Flow 보드), About(작업 방식 4카드), Projects(대표 프로젝트 3개 카드 + 전용 상세 페이지), Contact
 - `/about` — 기본 정보, 작업 방식 소개, Skills(기술 학습 적용도 카드)
-- `/projects` — 전체 프로젝트 목록(필터 탭 + 카드)
+- `/projects` — 전체 프로젝트 목록(필터 탭 + 카드). 대표 프로젝트는 카드 클릭 시 전용 상세 페이지(`/projects/:slug`)로 이동하고, Archive 프로젝트는 같은 목록 안에서 모달로 상세 내용을 확인합니다.
 
 프로젝트 목록과 상세 정보는 `src/data/projectsFallbackData.js`를 기본 소스로 사용하고, `src/data/projectsData.js`에서 정렬·썸네일·상세 표시 구조를 조합합니다.
 

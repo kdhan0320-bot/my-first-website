@@ -103,9 +103,7 @@ VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-GitHub Actions 배포 시에는 저장소 Secrets를 통해 값을 주입받는 구조로 관리하는 것이 좋습니다.
-
-현재 배포가 fallback 값에 의존하고 있다면, GitHub Actions 환경변수 설정을 확인한 뒤 정리해야 합니다.
+GitHub Actions 배포에서는 저장소 Secrets의 `SUPABASE_URL`, `SUPABASE_ANON_KEY` 값을 `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` 빌드 환경변수로 주입합니다(`.github/workflows/deploy.yml` 참고).
 
 ---
 

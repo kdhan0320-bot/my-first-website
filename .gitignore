@@ -26,6 +26,9 @@ test-results/
 .env.*
 !.env.example
 
+# 비공개 로컬 자료
+_private/
+
 # OS/IDE 파일
 .DS_Store
 Thumbs.db
@@ -38,3 +41,6 @@ npm-debug.log*
 
 # 백업 파일
 *.bak
+
+# Claude 개인 로컬 지침
+CLAUDE.local.md

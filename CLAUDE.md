@@ -9,6 +9,27 @@
 용도), Figma(Claude/ChatGPT와 연동해 디자인 작업, `works/`에 결과물을 둠),
 VS Code + Claude(코드 작업, 지금 이 환경)를 조합해서 진행합니다.
 
+## AI 협업 역할 분담
+저장소 전체의 공용 기준은 취업 포트폴리오 전용이 아니라 이 문서 전체가
+다루는 장기 작업실 기준입니다.
+
+- ChatGPT는 GitHub 원격 파일·commit·Actions 실행 결과, Supabase 프로젝트·
+  Advisor 등 연결 도구로 확인 가능한 운영 상태, 공식 문서 등 웹 자료,
+  업로드된 점검 보고서를 먼저 확인합니다.
+- Claude(VS Code)는 로컬 전체 파일 검색, 실제 파일 수정, import·경로 검사,
+  build·lint·Playwright 실행을 담당합니다.
+- 사용자는 삭제·이동·이름 변경, 디자인 최종 선택, 결제, 계정 설정,
+  commit·push·deploy 승인을 담당합니다.
+
+Claude는 현재 진행 중인 ChatGPT 대화를 자동으로 알 수 없으므로, 프롬프트에
+전달된 "ChatGPT가 독립적으로 확인한 사실"과 사용자가 승인한 범위를 작업
+기준으로 삼습니다.
+
+포트폴리오 전용 판단 기준은 `projects/my-portfolio/CLAUDE.md`, 브라우저
+검사 기준은 `tools/site-audit-kit/CLAUDE.md`를 따로 따르며, 세 문서 간
+상세 협업 절차는 `docs/ai-workflow/AI_COLLABORATION_PROTOCOL.md`에서
+관리합니다.
+
 ## 폴더 구조
 아래 폴더 중 일부는 아직 실제로 존재하지 않을 수 있습니다. `works/`, `docs/`,
 `audits/`, `_inbox/`는 필요한 시점에 승인 없이 바로 만들어 사용합니다(아래
