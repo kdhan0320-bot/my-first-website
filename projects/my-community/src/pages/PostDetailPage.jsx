@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import {
   Favorite, FavoriteBorder, ChatBubble,
-  Visibility, AccessTime, Send, Reply,
+  AccessTime, Send, Reply,
   Edit, Delete, Check, Close,
 } from '@mui/icons-material';
 import { useAuth } from '../hooks/useAuth';
@@ -264,7 +264,6 @@ const PostDetailPage = () => {
       .single();
     if (data) {
       setPost(data);
-      await supabase.rpc('increment_view_count', { p_post_id: Number(id) });
     }
   }, [id]);
 
@@ -309,7 +308,7 @@ const PostDetailPage = () => {
     if (String(id).startsWith('sample')) {
       const samplePost = SAMPLE_POSTS.find(p => p.id === id);
       if (samplePost) {
-        setPost({ ...samplePost, view_count: samplePost.view_count });
+        setPost(samplePost);
         setLikeCount(samplePost.like_count);
         setComments(SAMPLE_COMMENTS[id] || []);
       }
@@ -485,10 +484,6 @@ const PostDetailPage = () => {
               </Box>
             </Box>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <Visibility sx={{ fontSize: 14, color: 'text.disabled' }} />
-                <Typography variant="caption" color="text.secondary">{post.view_count}</Typography>
-              </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 <ChatBubble sx={{ fontSize: 14, color: 'primary.main' }} />
                 <Typography variant="caption" color="text.secondary">

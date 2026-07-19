@@ -7,7 +7,7 @@ import {
   Select, MenuItem, FormControl,
 } from '@mui/material';
 import {
-  Add, Favorite, ChatBubble, Visibility,
+  Add, Favorite, ChatBubble,
   AccessTime, Search, GitHub, ArrowOutward,
 } from '@mui/icons-material';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
@@ -104,10 +104,6 @@ const PostCard = ({ post, onClick }) => {
             <ChatBubble sx={{ fontSize: 14, color: 'primary.main' }} />
             <Typography variant="caption" color="text.secondary">{post.comment_count ?? 0}</Typography>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <Visibility sx={{ fontSize: 14, color: 'text.disabled' }} />
-            <Typography variant="caption" color="text.secondary">{post.view_count ?? 0}</Typography>
-          </Box>
         </Box>
       </CardContent>
     </CardActionArea>
@@ -119,7 +115,6 @@ const SORT_OPTIONS = [
   { value: 'latest', label: '최신순' },
   { value: 'likes', label: '인기순' },
   { value: 'comments', label: '댓글 많은 순' },
-  { value: 'views', label: '조회수 순' },
 ];
 
 const PostListPage = () => {
@@ -175,7 +170,6 @@ const PostListPage = () => {
     const sorted = [...list];
     if (sortBy === 'likes') sorted.sort((a, b) => (b.like_count ?? 0) - (a.like_count ?? 0));
     else if (sortBy === 'comments') sorted.sort((a, b) => (b.comment_count ?? 0) - (a.comment_count ?? 0));
-    else if (sortBy === 'views') sorted.sort((a, b) => (b.view_count ?? 0) - (a.view_count ?? 0));
     else sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     return sorted;
   }, [posts, query, activeCategory, sortBy]);

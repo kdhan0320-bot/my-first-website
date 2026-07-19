@@ -13,7 +13,7 @@ export const SAMPLE_POSTS = [
     category: '포트폴리오 피드백',
     profiles: { username: '디자인러너' },
     created_at: ago(115),
-    like_count: 12, comment_count: 3, view_count: 84, image_url: null, user_id: 'sample',
+    like_count: 12, comment_count: 3, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-7',
@@ -23,7 +23,7 @@ export const SAMPLE_POSTS = [
     category: '포트폴리오 피드백',
     profiles: { username: '카페앱디자이너' },
     created_at: ago(15),
-    like_count: 4, comment_count: 0, view_count: 22, image_url: null, user_id: 'sample',
+    like_count: 4, comment_count: 0, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-8',
@@ -33,7 +33,7 @@ export const SAMPLE_POSTS = [
     category: '포트폴리오 피드백',
     profiles: { username: '웹디자인준비생' },
     created_at: ago(300),
-    like_count: 18, comment_count: 4, view_count: 121, image_url: null, user_id: 'sample',
+    like_count: 18, comment_count: 4, image_url: null, user_id: 'sample',
   },
 
   // ── Figma ──
@@ -45,7 +45,7 @@ export const SAMPLE_POSTS = [
     category: 'Figma',
     profiles: { username: 'Figma유저' },
     created_at: ago(340),
-    like_count: 9, comment_count: 5, view_count: 67, image_url: null, user_id: 'sample',
+    like_count: 9, comment_count: 5, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-9',
@@ -55,7 +55,7 @@ export const SAMPLE_POSTS = [
     category: 'Figma',
     profiles: { username: '디자인시스템러버' },
     created_at: ago(30),
-    like_count: 15, comment_count: 2, view_count: 93, image_url: null, user_id: 'sample',
+    like_count: 15, comment_count: 2, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-10',
@@ -65,7 +65,7 @@ export const SAMPLE_POSTS = [
     category: 'Figma',
     profiles: { username: '컴포넌트장인' },
     created_at: ago(165),
-    like_count: 21, comment_count: 3, view_count: 140, image_url: null, user_id: 'sample',
+    like_count: 21, comment_count: 3, image_url: null, user_id: 'sample',
   },
 
   // ── UX/UI ──
@@ -77,7 +77,7 @@ export const SAMPLE_POSTS = [
     category: 'UX/UI',
     profiles: { username: 'UX리서처' },
     created_at: ago(45),
-    like_count: 7, comment_count: 0, view_count: 41, image_url: null, user_id: 'sample',
+    like_count: 7, comment_count: 0, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-12',
@@ -87,7 +87,7 @@ export const SAMPLE_POSTS = [
     category: 'UX/UI',
     profiles: { username: '인터랙션디자이너' },
     created_at: ago(140),
-    like_count: 11, comment_count: 2, view_count: 78, image_url: null, user_id: 'sample',
+    like_count: 11, comment_count: 2, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-13',
@@ -97,7 +97,7 @@ export const SAMPLE_POSTS = [
     category: 'UX/UI',
     profiles: { username: 'UX졸업준비생' },
     created_at: ago(385),
-    like_count: 19, comment_count: 5, view_count: 165, image_url: null, user_id: 'sample',
+    like_count: 19, comment_count: 5, image_url: null, user_id: 'sample',
   },
 
   // ── 취업 준비 ──
@@ -109,7 +109,7 @@ export const SAMPLE_POSTS = [
     category: '취업 준비',
     profiles: { username: '취준생모임' },
     created_at: ago(195),
-    like_count: 35, comment_count: 9, view_count: 198, image_url: null, user_id: 'sample',
+    like_count: 35, comment_count: 9, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-6',
@@ -119,7 +119,7 @@ export const SAMPLE_POSTS = [
     category: '취업 준비',
     profiles: { username: '웹디자인선생' },
     created_at: ago(435),
-    like_count: 67, comment_count: 14, view_count: 412, image_url: null, user_id: 'sample',
+    like_count: 67, comment_count: 14, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-14',
@@ -129,7 +129,7 @@ export const SAMPLE_POSTS = [
     category: '취업 준비',
     profiles: { username: '면접준비중' },
     created_at: ago(60),
-    like_count: 6, comment_count: 0, view_count: 33, image_url: null, user_id: 'sample',
+    like_count: 6, comment_count: 0, image_url: null, user_id: 'sample',
   },
 
   // ── AI Coding ──
@@ -141,7 +141,7 @@ export const SAMPLE_POSTS = [
     category: 'AI Coding',
     profiles: { username: '김도한_dev' },
     created_at: ago(225),
-    like_count: 28, comment_count: 7, view_count: 156, image_url: null, user_id: 'sample',
+    like_count: 28, comment_count: 7, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-3',
@@ -151,7 +151,7 @@ export const SAMPLE_POSTS = [
     category: 'AI Coding',
     profiles: { username: 'UX학습자' },
     created_at: ago(490),
-    like_count: 41, comment_count: 12, view_count: 230, image_url: null, user_id: 'sample',
+    like_count: 41, comment_count: 12, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-15',
@@ -161,7 +161,7 @@ export const SAMPLE_POSTS = [
     category: 'AI Coding',
     profiles: { username: '풀스택준비생' },
     created_at: ago(75),
-    like_count: 13, comment_count: 1, view_count: 88, image_url: null, user_id: 'sample',
+    like_count: 13, comment_count: 1, image_url: null, user_id: 'sample',
   },
 
   // ── 자유게시판 ──
@@ -173,7 +173,7 @@ export const SAMPLE_POSTS = [
     category: '자유게시판',
     profiles: { username: '오늘도작업중' },
     created_at: ago(95),
-    like_count: 8, comment_count: 2, view_count: 52, image_url: null, user_id: 'sample',
+    like_count: 8, comment_count: 2, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-17',
@@ -183,7 +183,7 @@ export const SAMPLE_POSTS = [
     category: '자유게시판',
     profiles: { username: '취준생모임' },
     created_at: ago(550),
-    like_count: 24, comment_count: 6, view_count: 187, image_url: null, user_id: 'sample',
+    like_count: 24, comment_count: 6, image_url: null, user_id: 'sample',
   },
   {
     id: 'sample-18',
@@ -193,7 +193,7 @@ export const SAMPLE_POSTS = [
     category: '자유게시판',
     profiles: { username: '웹디자인준비생' },
     created_at: ago(260),
-    like_count: 16, comment_count: 3, view_count: 109, image_url: null, user_id: 'sample',
+    like_count: 16, comment_count: 3, image_url: null, user_id: 'sample',
   },
 ];
 
