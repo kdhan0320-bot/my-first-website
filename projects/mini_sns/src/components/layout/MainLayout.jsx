@@ -9,7 +9,7 @@ import { ROUTES } from "../../constants/routes";
 
 const MainLayout = ({ children, hideGuestBanner = false }) => {
   const navigate = useNavigate();
-  const { isGuest, isDemo, exitGuestMode } = useAuth();
+  const { isGuest, exitGuestMode } = useAuth();
 
   return (
     <Box
@@ -51,9 +51,7 @@ const MainLayout = ({ children, hideGuestBanner = false }) => {
                 lineHeight: 1.4,
               }}
             >
-              {isDemo
-                ? "데모 계정으로 둘러보는 중입니다."
-                : "게스트로 둘러보는 중입니다."}
+              게스트 데모로 체험하는 중입니다.
             </Typography>
             <Typography
               sx={{

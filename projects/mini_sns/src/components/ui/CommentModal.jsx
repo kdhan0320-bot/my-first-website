@@ -10,97 +10,46 @@ import {
   ListItem,
   Divider,
   IconButton,
-  CircularProgress,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import SendIcon from "@mui/icons-material/Send";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { supabase } from "../../utils/supabase";
 import { useAuth } from "../../hooks/useAuth";
+import { useDemoData } from "../../context/DemoDataContext";
 import { formatDistanceToNow } from "../../utils/timeFormat";
 
-const GUEST_LIMIT_MESSAGE =
-  "이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.";
-const DEMO_LIMIT_MESSAGE = "데모 모드에서는 실제 데이터가 저장되지 않습니다.";
-
-const CommentModal = ({
-  open,
-  onClose,
-  postId,
-  isGuest = false,
-  isDemo = false,
-  guestComments = [],
-}) => {
-  const { user, profile } = useAuth();
-  const [comments, setComments] = useState([]);
+const CommentModal = ({ open, onClose, postId, comments = [] }) => {
+  const { guestIdentity } = useAuth();
+  const { addComment, updateComment, deleteComment } = useDemoData();
   const [text, setText] = useState("");
-  const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
   const [editText, setEditText] = useState("");
-  const [guestNotice, setGuestNotice] = useState(false);
   const listRef = useRef(null);
 
   useEffect(() => {
     if (!open) return;
-    if (isGuest) {
-      setComments(
-        (guestComments || []).map((c) => ({
-          ...c,
-          created_at: c.created_at || new Date().toISOString(),
-        })),
-      );
-      return;
-    }
-    if (postId) fetchComments();
-  }, [open, postId, isGuest, guestComments]);
+    setTimeout(
+      () => listRef.current?.scrollTo(0, listRef.current.scrollHeight),
+      50,
+    );
+  }, [open]);
 
-  const fetchComments = async () => {
-    const { data } = await supabase
-      .from("comments")
-      .select("*, profiles(nickname, profile_image_url)")
-      .eq("post_id", postId)
-      .order("created_at", { ascending: true });
-    setComments(data || []);
-  };
-
-  const handleSubmit = async () => {
-    if (isGuest) {
-      setGuestNotice(true);
-      return;
-    }
-    if (!text.trim() || !user) return;
-    setLoading(true);
-    await supabase.from("comments").insert({
-      post_id: postId,
-      user_id: user.id,
-      content: text.trim(),
-    });
+  const handleSubmit = () => {
+    if (!text.trim()) return;
+    addComment(postId, text.trim());
     setText("");
-    await fetchComments();
-    setLoading(false);
     setTimeout(
       () => listRef.current?.scrollTo(0, listRef.current.scrollHeight),
       100,
     );
   };
 
-  const handleDelete = async (commentId) => {
-    await supabase.from("comments").delete().eq("id", commentId);
-    setComments((prev) => prev.filter((c) => c.id !== commentId));
-  };
+  const handleDelete = (commentId) => deleteComment(postId, commentId);
 
-  const handleEdit = async (commentId) => {
+  const handleEdit = (commentId) => {
     if (!editText.trim()) return;
-    await supabase
-      .from("comments")
-      .update({ content: editText.trim() })
-      .eq("id", commentId);
-    setComments((prev) =>
-      prev.map((c) => (c.id === commentId ? { ...c, content: editText } : c)),
-    );
+    updateComment(postId, commentId, editText.trim());
     setEditId(null);
     setEditText("");
   };
@@ -122,7 +71,10 @@ const CommentModal = ({
           },
         },
       }}
-      sx={{ "& .MuiBackdrop-root": { bgcolor: "rgba(0,0,0,0.5)" } }}
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 2,
+        "& .MuiBackdrop-root": { bgcolor: "rgba(0,0,0,0.5)" },
+      }}
     >
       {/* 헤더 */}
       <Box
@@ -141,6 +93,13 @@ const CommentModal = ({
           <CloseIcon />
         </IconButton>
       </Box>
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        sx={{ px: 2, pt: 1, display: "block" }}
+      >
+        댓글은 데모 상태에서만 반영되며 새로고침하면 초기화됩니다.
+      </Typography>
 
       {/* 댓글 목록 */}
       <List ref={listRef} sx={{ flex: 1, overflowY: "auto", px: 1 }}>
@@ -180,10 +139,11 @@ const CommentModal = ({
                       {formatDistanceToNow(comment.created_at)}
                     </Typography>
                   </Box>
-                  {user?.id === comment.user_id && (
+                  {comment.user_id === guestIdentity.id && (
                     <Box>
                       <IconButton
                         size="small"
+                        aria-label="댓글 수정"
                         onClick={() => {
                           setEditId(comment.id);
                           setEditText(comment.content);
@@ -193,6 +153,7 @@ const CommentModal = ({
                       </IconButton>
                       <IconButton
                         size="small"
+                        aria-label="댓글 삭제"
                         onClick={() => handleDelete(comment.id)}
                       >
                         <DeleteIcon sx={{ fontSize: 16 }} />
@@ -245,7 +206,7 @@ const CommentModal = ({
         }}
       >
         <Avatar
-          src={profile?.profile_image_url}
+          src={guestIdentity.profile_image_url}
           sx={{ width: 32, height: 32 }}
         />
         <TextField
@@ -260,23 +221,12 @@ const CommentModal = ({
         <IconButton
           color="primary"
           onClick={handleSubmit}
-          disabled={loading || (!isGuest && !text.trim())}
+          disabled={!text.trim()}
           aria-label="댓글 전송"
         >
-          {loading ? <CircularProgress size={20} /> : <SendIcon />}
+          <SendIcon />
         </IconButton>
       </Box>
-
-      <Snackbar
-        open={guestNotice}
-        autoHideDuration={2500}
-        onClose={() => setGuestNotice(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert severity="info" sx={{ width: "100%", borderRadius: 2 }}>
-          {isDemo ? DEMO_LIMIT_MESSAGE : GUEST_LIMIT_MESSAGE}
-        </Alert>
-      </Snackbar>
     </Drawer>
   );
 };

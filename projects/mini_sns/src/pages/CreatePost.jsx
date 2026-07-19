@@ -6,37 +6,19 @@ import {
   TextField,
   Button,
   IconButton,
-  CircularProgress,
   Alert,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { supabase } from "../utils/supabase";
-import { useAuth } from "../hooks/useAuth";
+import { useDemoData, getRandomSampleImage } from "../context/DemoDataContext";
+import sampleFallback from "../assets/samples/sample-fallback.svg";
 import { ROUTES } from "../constants/routes";
-
-const getRandomSampleImage = () => {
-  const seeds = [
-    "worklog1",
-    "worklog2",
-    "study1",
-    "study2",
-    "desk",
-    "notebook",
-    "mobileui",
-    "workspace",
-    "review",
-    "planner",
-  ];
-  const seed = seeds[Math.floor(Math.random() * seeds.length)];
-  return `https://picsum.photos/seed/${seed}${Math.floor(Math.random() * 1000)}/480/480`;
-};
 
 const CreatePost = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const editPost = location.state?.post;
-  const { user, isDemo } = useAuth();
+  const { addPost, updatePost } = useDemoData();
 
   const [caption, setCaption] = useState(editPost?.caption || "");
   const [hashtag, setHashtag] = useState(editPost?.hashtag || "");
@@ -44,65 +26,41 @@ const CreatePost = () => {
   const [imageUrl, setImageUrl] = useState(
     editPost?.image_url || getRandomSampleImage(),
   );
-  const [imageLoading, setImageLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
 
-  const refreshImage = () => {
-    setImageLoading(true);
-    setImageUrl(getRandomSampleImage());
-    setTimeout(() => setImageLoading(false), 500);
-  };
+  const refreshImage = () => setImageUrl(getRandomSampleImage());
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (!caption.trim()) {
       setError("게시물 내용을 입력해주세요.");
       return;
     }
-
-    if (isDemo) {
-      setError("");
-      setNotice("데모 모드에서는 실제 데이터가 저장되지 않습니다.");
-      setTimeout(() => navigate(ROUTES.HOME), 1200);
-      return;
-    }
-
-    if (!user) {
-      setError("로그인이 필요합니다.");
-      return;
-    }
-
-    setSubmitting(true);
     setError("");
 
-    try {
-      if (editPost) {
-        await supabase
-          .from("posts")
-          .update({
-            caption: caption.trim(),
-            hashtag: hashtag.trim(),
-            location: postLocation.trim(),
-            image_url: imageUrl,
-          })
-          .eq("id", editPost.id);
-      } else {
-        await supabase.from("posts").insert({
-          user_id: user.id,
-          caption: caption.trim(),
-          hashtag: hashtag.trim(),
-          location: postLocation.trim(),
-          image_url: imageUrl,
-        });
+    if (editPost) {
+      const success = updatePost(editPost.id, {
+        caption: caption.trim(),
+        hashtag: hashtag.trim(),
+        location: postLocation.trim(),
+        image_url: imageUrl,
+      });
+      if (!success) {
+        setError("이 게시글은 수정할 권한이 없습니다.");
+        return;
       }
-      navigate(ROUTES.HOME);
-    } catch (err) {
-      setError("게시물 저장 중 오류가 발생했습니다.");
-    } finally {
-      setSubmitting(false);
+      setNotice("데모 게시글이 수정되었습니다. 새로고침하면 초기화됩니다.");
+    } else {
+      addPost({
+        caption: caption.trim(),
+        hashtag: hashtag.trim(),
+        location: postLocation.trim(),
+        image_url: imageUrl,
+      });
+      setNotice("데모 게시글이 추가되었습니다. 새로고침하면 초기화됩니다.");
     }
+    setTimeout(() => navigate(ROUTES.HOME), 1200);
   };
 
   return (
@@ -159,7 +117,7 @@ const CreatePost = () => {
             alt="게시물 미리보기 이미지"
             loading="lazy"
             onError={(e) => {
-              e.target.src = `https://picsum.photos/seed/worklog${Date.now()}/480/480`;
+              e.target.src = sampleFallback;
             }}
             sx={{
               width: "100%",
@@ -168,20 +126,6 @@ const CreatePost = () => {
               display: "block",
             }}
           />
-          {imageLoading && (
-            <Box
-              sx={{
-                position: "absolute",
-                inset: 0,
-                bgcolor: "rgba(0,0,0,0.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <CircularProgress color="inherit" sx={{ color: "#fff" }} />
-            </Box>
-          )}
           <Button
             startIcon={<RefreshIcon />}
             onClick={refreshImage}
@@ -236,7 +180,6 @@ const CreatePost = () => {
             fullWidth
             size="large"
             onClick={handleSubmit}
-            disabled={submitting}
             sx={{
               py: 1.6,
               borderRadius: 3,
@@ -245,13 +188,7 @@ const CreatePost = () => {
               mb: 1,
             }}
           >
-            {submitting ? (
-              <CircularProgress size={22} color="inherit" />
-            ) : editPost ? (
-              "수정하기"
-            ) : (
-              "게시물 등록하기"
-            )}
+            {editPost ? "수정하기" : "게시물 등록하기"}
           </Button>
         </Box>
       </Box>

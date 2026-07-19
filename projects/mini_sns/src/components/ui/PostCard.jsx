@@ -10,8 +10,6 @@ import {
   Chip,
   Menu,
   MenuItem,
-  Snackbar,
-  Alert,
   Modal,
   Backdrop,
   Fade,
@@ -22,55 +20,29 @@ import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import CloseIcon from "@mui/icons-material/Close";
-import { supabase } from "../../utils/supabase";
 import { useAuth } from "../../hooks/useAuth";
+import { useDemoData } from "../../context/DemoDataContext";
 import { formatDistanceToNow } from "../../utils/timeFormat";
+import sampleFallback from "../../assets/samples/sample-fallback.svg";
 import CommentModal from "./CommentModal";
 
-const GUEST_LIMIT_MESSAGE =
-  "이 기능은 로그인 또는 테스트 계정으로 이용할 수 있습니다.";
-const DEMO_LIMIT_MESSAGE = "데모 모드에서는 실제 데이터가 저장되지 않습니다.";
-
-const PostCard = ({ post, onDelete }) => {
-  const { user, isGuest, isDemo } = useAuth();
+const PostCard = ({ post }) => {
   const navigate = useNavigate();
+  const { guestIdentity } = useAuth();
+  const { toggleLike, deletePost } = useDemoData();
 
-  const [liked, setLiked] = useState(post.user_liked || false);
-  const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [commentOpen, setCommentOpen] = useState(false);
   const [imageModalOpen, setImageModalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [guestSnack, setGuestSnack] = useState(false);
 
-  const handleLike = async () => {
-    if (isGuest || !user) {
-      setGuestSnack(true);
-      return;
-    }
-    if (liked) {
-      await supabase
-        .from("likes")
-        .delete()
-        .eq("post_id", post.id)
-        .eq("user_id", user.id);
-      setLiked(false);
-      setLikesCount((prev) => prev - 1);
-    } else {
-      await supabase
-        .from("likes")
-        .insert({ post_id: post.id, user_id: user.id });
-      setLiked(true);
-      setLikesCount((prev) => prev + 1);
-    }
-  };
+  const isOwner = post.user_id === guestIdentity.id;
 
-  const handleDelete = async () => {
+  const handleLike = () => toggleLike(post.id);
+
+  const handleDelete = () => {
     setAnchorEl(null);
-    await supabase.from("posts").delete().eq("id", post.id);
-    onDelete?.(post.id);
+    deletePost(post.id);
   };
-
-  const isOwner = user?.id === post.user_id;
 
   return (
     <>
@@ -162,7 +134,7 @@ const PostCard = ({ post, onDelete }) => {
           loading="lazy"
           onClick={() => post.image_url && setImageModalOpen(true)}
           onError={(e) => {
-            e.target.src = `https://picsum.photos/seed/${post.id}/480/480`;
+            e.target.src = sampleFallback;
           }}
           sx={{
             width: "100%",
@@ -180,16 +152,16 @@ const PostCard = ({ post, onDelete }) => {
             <IconButton
               onClick={handleLike}
               sx={{ p: 1.25, m: -1.25 }}
-              aria-label={liked ? "좋아요 취소" : "좋아요"}
+              aria-label={post.liked ? "좋아요 취소" : "좋아요"}
             >
-              {liked ? (
+              {post.liked ? (
                 <FavoriteIcon sx={{ color: "error.main", fontSize: 24 }} />
               ) : (
                 <FavoriteBorderIcon sx={{ fontSize: 24 }} />
               )}
             </IconButton>
             <Typography variant="body2" fontWeight={600}>
-              {likesCount}
+              {post.likes_count}
             </Typography>
             <IconButton
               onClick={() => setCommentOpen(true)}
@@ -199,7 +171,7 @@ const PostCard = ({ post, onDelete }) => {
               <ForumOutlinedIcon sx={{ fontSize: 22 }} />
             </IconButton>
             <Typography variant="body2" color="text.secondary">
-              {post.comments_count || 0}
+              {post.comments.length}
             </Typography>
           </Box>
 
@@ -246,7 +218,7 @@ const PostCard = ({ post, onDelete }) => {
           )}
 
           {/* 최근 댓글 1개 */}
-          {post.recent_comments?.slice(0, 1).map((c) => (
+          {post.comments.slice(-1).map((c) => (
             <Box key={c.id} sx={{ display: "flex", gap: 0.6, mb: 0.3 }}>
               <Typography variant="caption" fontWeight={700}>
                 {c.profiles?.nickname}
@@ -268,9 +240,7 @@ const PostCard = ({ post, onDelete }) => {
         open={commentOpen}
         onClose={() => setCommentOpen(false)}
         postId={post.id}
-        isGuest={isGuest}
-        isDemo={isDemo}
-        guestComments={post.recent_comments}
+        comments={post.comments}
       />
 
       {/* 이미지 확대 모달 */}
@@ -351,14 +321,16 @@ const PostCard = ({ post, onDelete }) => {
                 <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <FavoriteIcon sx={{ fontSize: 18, color: "error.main" }} />
-                    <Typography variant="caption">{likesCount}</Typography>
+                    <Typography variant="caption">
+                      {post.likes_count}
+                    </Typography>
                   </Box>
                   <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
                     <ForumOutlinedIcon
                       sx={{ fontSize: 18, color: "text.secondary" }}
                     />
                     <Typography variant="caption">
-                      {post.comments_count || 0}
+                      {post.comments.length}
                     </Typography>
                   </Box>
                 </Box>
@@ -367,18 +339,6 @@ const PostCard = ({ post, onDelete }) => {
           </Box>
         </Fade>
       </Modal>
-
-      <Snackbar
-        open={guestSnack}
-        autoHideDuration={2500}
-        onClose={() => setGuestSnack(false)}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        sx={{ mb: 8 }}
-      >
-        <Alert severity="info" sx={{ width: "100%", borderRadius: 2 }}>
-          {isDemo ? DEMO_LIMIT_MESSAGE : GUEST_LIMIT_MESSAGE}
-        </Alert>
-      </Snackbar>
     </>
   );
 };

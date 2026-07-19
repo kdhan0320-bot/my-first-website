@@ -1,8 +1,7 @@
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
-import { CircularProgress, Box } from "@mui/material";
+import { DemoDataProvider } from "./context/DemoDataContext";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import CreatePost from "./pages/CreatePost";
 import Profile from "./pages/Profile";
@@ -12,41 +11,13 @@ import Notifications from "./pages/Notifications";
 import { ROUTES } from "./constants/routes";
 
 const ProtectedRoute = ({ children }) => {
-  const { user, loading, isGuest } = useAuth();
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-  return user || isGuest ? children : <Navigate to={ROUTES.LOGIN} replace />;
+  const { isGuest } = useAuth();
+  return isGuest ? children : <Navigate to={ROUTES.LOGIN} replace />;
 };
 
 const PublicRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-  return !user ? children : <Navigate to={ROUTES.HOME} replace />;
+  const { isGuest } = useAuth();
+  return !isGuest ? children : <Navigate to={ROUTES.HOME} replace />;
 };
 
 const AppRoutes = () => (
@@ -59,14 +30,7 @@ const AppRoutes = () => (
         </PublicRoute>
       }
     />
-    <Route
-      path={ROUTES.SIGNUP}
-      element={
-        <PublicRoute>
-          <Signup />
-        </PublicRoute>
-      }
-    />
+    <Route path="/signup" element={<Navigate to={ROUTES.LOGIN} replace />} />
     <Route
       path={ROUTES.HOME}
       element={
@@ -138,7 +102,9 @@ const AppRoutes = () => (
 const App = () => (
   <HashRouter>
     <AuthProvider>
-      <AppRoutes />
+      <DemoDataProvider>
+        <AppRoutes />
+      </DemoDataProvider>
     </AuthProvider>
   </HashRouter>
 );

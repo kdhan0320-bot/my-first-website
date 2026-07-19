@@ -1,16 +1,5 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Alert,
-  CircularProgress,
-  Avatar,
-  Divider,
-  Chip,
-} from "@mui/material";
+import { Box, Typography, Button, Avatar, Chip } from "@mui/material";
 import GroupsIcon from "@mui/icons-material/Groups";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
@@ -293,37 +282,10 @@ const AppMockup = () => (
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn, enterGuestMode, enterDemoMode } = useAuth();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { enterGuestMode } = useAuth();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (!username || !password) {
-      setError("아이디와 비밀번호를 입력해주세요.");
-      return;
-    }
-    setLoading(true);
-    setError("");
-    try {
-      await signIn(username, password);
-      navigate(ROUTES.HOME);
-    } catch {
-      setError("아이디 또는 비밀번호가 올바르지 않습니다.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGuestMode = () => {
+  const handleStartDemo = () => {
     enterGuestMode();
-    navigate(ROUTES.HOME);
-  };
-
-  const handleDemoMode = () => {
-    enterDemoMode();
     navigate(ROUTES.HOME);
   };
 
@@ -424,8 +386,8 @@ const Login = () => {
             md: "minmax(0, 0.9fr) minmax(440px, 520px)",
           },
           gridTemplateAreas: {
-            xs: `"brand" "cta" "mockup" "form"`,
-            md: `"brand mockup" "cta mockup" "form mockup"`,
+            xs: `"brand" "cta" "mockup"`,
+            md: `"brand mockup" "cta mockup"`,
           },
           alignItems: { xs: "start", md: "center" },
         }}
@@ -498,8 +460,8 @@ const Login = () => {
             variant="contained"
             fullWidth
             size="large"
-            onClick={handleDemoMode}
-            aria-label="데모 계정으로 체험하기"
+            onClick={handleStartDemo}
+            aria-label="게스트 데모 시작하기"
             sx={{
               py: 1.6,
               borderRadius: 3,
@@ -513,25 +475,7 @@ const Login = () => {
               },
             }}
           >
-            데모 계정으로 체험하기
-          </Button>
-          <Button
-            variant="text"
-            fullWidth
-            size="medium"
-            onClick={handleGuestMode}
-            aria-label="로그인 없이 게스트로 데모 체험하기"
-            sx={{
-              py: 1,
-              borderRadius: 3,
-              fontWeight: 600,
-              fontSize: "0.88rem",
-              mb: 1,
-              color: "#C7D2FE",
-              "&:hover": { bgcolor: "rgba(199,210,254,0.08)" },
-            }}
-          >
-            게스트로 둘러보기
+            게스트 데모 시작하기
           </Button>
           <Typography
             variant="caption"
@@ -542,8 +486,8 @@ const Login = () => {
               lineHeight: 1.6,
             }}
           >
-            데모 모드에서는 실제 데이터가 저장되지 않고 주요 화면 흐름만 확인할
-            수 있어요.
+            mock 데이터 기반 프론트엔드 데모입니다. 입력·좋아요·댓글 등의
+            변경은 서버에 저장되지 않고, 새로고침하면 초기 상태로 복원됩니다.
           </Typography>
         </Box>
 
@@ -558,118 +502,6 @@ const Login = () => {
           }}
         >
           <AppMockup />
-        </Box>
-
-        {/* 로그인 폼 (보조 카드) */}
-        <Box sx={{ gridArea: "form" }}>
-          <Typography
-            variant="caption"
-            sx={{
-              color: "#8B93B8",
-              display: "block",
-              mb: 1,
-              textAlign: { xs: "center", md: "left" },
-            }}
-          >
-            이미 계정이 있다면
-          </Typography>
-          {error && (
-            <Alert severity="warning" sx={{ mb: 1.5, borderRadius: 2 }}>
-              {error}
-            </Alert>
-          )}
-          <Box
-            component="form"
-            onSubmit={handleLogin}
-            sx={{
-              width: "100%",
-              bgcolor: "rgba(255,255,255,0.04)",
-              backdropFilter: "blur(6px)",
-              borderRadius: 3,
-              p: 2.25,
-              border: "1px solid rgba(199,210,254,0.14)",
-            }}
-          >
-            <TextField
-              label="아이디"
-              variant="outlined"
-              size="small"
-              fullWidth
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              sx={{
-                mb: 1.25,
-                "& .MuiInputLabel-root": { color: "#8B93B8" },
-                "& .MuiOutlinedInput-root": {
-                  bgcolor: "rgba(255,255,255,0.06)",
-                  color: "#E0E7FF",
-                  "& fieldset": { borderColor: "rgba(199,210,254,0.25)" },
-                },
-              }}
-              autoComplete="username"
-              slotProps={{ htmlInput: { "aria-label": "아이디" } }}
-            />
-            <TextField
-              label="비밀번호"
-              type="password"
-              variant="outlined"
-              size="small"
-              fullWidth
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              sx={{
-                mb: 1.5,
-                "& .MuiInputLabel-root": { color: "#8B93B8" },
-                "& .MuiOutlinedInput-root": {
-                  bgcolor: "rgba(255,255,255,0.06)",
-                  color: "#E0E7FF",
-                  "& fieldset": { borderColor: "rgba(199,210,254,0.25)" },
-                },
-              }}
-              autoComplete="current-password"
-              slotProps={{ htmlInput: { "aria-label": "비밀번호" } }}
-            />
-
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-              <Button
-                type="submit"
-                variant="text"
-                size="small"
-                disabled={loading}
-                sx={{
-                  fontWeight: 700,
-                  fontSize: "0.85rem",
-                  color: "#C7D2FE",
-                  px: 1,
-                  "&:hover": { bgcolor: "rgba(199,210,254,0.08)" },
-                }}
-              >
-                {loading ? (
-                  <CircularProgress size={18} color="inherit" />
-                ) : (
-                  "로그인"
-                )}
-              </Button>
-              <Divider
-                orientation="vertical"
-                flexItem
-                sx={{ borderColor: "rgba(199,210,254,0.2)" }}
-              />
-              <Button
-                variant="text"
-                size="small"
-                onClick={() => navigate(ROUTES.SIGNUP)}
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "0.85rem",
-                  color: "#8B93B8",
-                  px: 1,
-                }}
-              >
-                회원가입
-              </Button>
-            </Box>
-          </Box>
         </Box>
       </Box>
     </Box>

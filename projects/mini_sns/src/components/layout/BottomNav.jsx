@@ -16,7 +16,6 @@ import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { ROUTES } from "../../constants/routes";
-import { useAuth } from "../../hooks/useAuth";
 
 const NavIcon = ({ active, activeIcon, icon }) => (
   <Box
@@ -55,7 +54,6 @@ const NAV_ACTION_SX = {
 const BottomNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isGuest, isDemo } = useAuth();
   const path = location.pathname;
 
   const isActive = (route) =>
@@ -165,9 +163,7 @@ const BottomNav = () => {
 
         {/* 중앙 게시물 작성 버튼 */}
         <Fab
-          onClick={() =>
-            navigate(isGuest && !isDemo ? ROUTES.LOGIN : ROUTES.CREATE_POST)
-          }
+          onClick={() => navigate(ROUTES.CREATE_POST)}
           aria-label="새 게시물 작성"
           sx={{
             position: "absolute",
