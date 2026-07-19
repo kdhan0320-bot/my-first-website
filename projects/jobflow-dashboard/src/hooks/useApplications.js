@@ -3,6 +3,13 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import { DEMO_APPLICATIONS } from '../constants';
 
+const normalizeApplicationPayload = (payload) => {
+  const normalized = { ...payload };
+  if ('applied_date' in payload) normalized.applied_date = payload.applied_date || null;
+  if ('deadline' in payload) normalized.deadline = payload.deadline || null;
+  return normalized;
+};
+
 const useApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,9 +43,10 @@ const useApplications = () => {
 
   const add = async (payload) => {
     if (isGuest) return;
+    const normalizedPayload = normalizeApplicationPayload(payload);
     const { data, error: err } = await supabase
       .from('applications')
-      .insert([{ ...payload, user_id: user.id }])
+      .insert([{ ...normalizedPayload, user_id: user.id }])
       .select()
       .single();
     if (err) throw err;
@@ -48,9 +56,10 @@ const useApplications = () => {
 
   const update = async (id, payload) => {
     if (isGuest) return;
+    const normalizedPayload = normalizeApplicationPayload(payload);
     const { data, error: err } = await supabase
       .from('applications')
-      .update({ ...payload, updated_at: new Date().toISOString() })
+      .update({ ...normalizedPayload, updated_at: new Date().toISOString() })
       .eq('id', id)
       .select()
       .single();
