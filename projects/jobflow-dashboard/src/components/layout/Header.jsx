@@ -40,7 +40,15 @@ const Header = ({ onMenuClick }) => {
         color: 'text.primary',
       }}
     >
-      <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
+      <Toolbar
+        sx={{
+          minHeight: { xs: 56, sm: 64 },
+          width: '100%',
+          maxWidth: '1440px',
+          mx: 'auto',
+          boxSizing: 'border-box',
+        }}
+      >
         <IconButton
           edge="start"
           onClick={onMenuClick}

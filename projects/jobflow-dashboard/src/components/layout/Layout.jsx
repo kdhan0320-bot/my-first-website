@@ -12,7 +12,18 @@ const Layout = () => {
       <Sidebar mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
       <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', ml: { md: `${DRAWER_WIDTH}px` }, width: { md: `calc(100% - ${DRAWER_WIDTH}px)` }, minWidth: 0 }}>
         <Header onMenuClick={() => setMobileOpen(true)} />
-        <Box component="main" sx={{ flex: 1, p: { xs: 2, sm: 3 }, mt: { xs: '56px', sm: '64px' } }}>
+        <Box
+          component="main"
+          sx={{
+            flex: 1,
+            width: '100%',
+            maxWidth: '1440px',
+            mx: 'auto',
+            boxSizing: 'border-box',
+            p: { xs: 2, sm: 3 },
+            mt: { xs: '56px', sm: '64px' },
+          }}
+        >
           <Outlet />
         </Box>
       </Box>
