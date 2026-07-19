@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   Box, Container, Paper, Typography, TextField, Button,
-  Alert, Divider, Chip, Tab, Tabs,
+  Alert, Tab, Tabs,
 } from '@mui/material';
 import WorkIcon from '@mui/icons-material/Work';
 import { useNavigate } from 'react-router-dom';
@@ -24,10 +24,20 @@ const LoginPage = () => {
     try {
       if (tab === 0) {
         await signIn(email, password);
+        navigate('/');
       } else {
-        await signUp(email, password, displayName);
+        const result = await signUp(email, password, displayName);
+        if (result.profileError) {
+          navigate('/settings', {
+            state: {
+              profileWarning:
+                '회원가입은 완료되었지만 기본 프로필 저장에 실패했습니다. 이름과 목표 직무를 확인한 뒤 저장해주세요.',
+            },
+          });
+          return;
+        }
+        navigate('/');
       }
-      navigate('/');
     } catch (err) {
       setError(err.message || '오류가 발생했습니다. 다시 시도해주세요.');
     } finally {

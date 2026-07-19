@@ -1,43 +1,75 @@
 import { useState, useEffect } from 'react';
 import {
   Box, Card, CardContent, Typography, TextField, Button,
-  Divider, Alert, Avatar, Stack,
+  Alert, Avatar, Stack,
 } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 
 const SettingsPage = () => {
   const { user, isGuest, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [displayName, setDisplayName] = useState('');
   const [targetRole, setTargetRole] = useState('');
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
+  const profileWarning = location.state?.profileWarning ?? '';
 
   useEffect(() => {
-    if (!user || isGuest) return;
-    supabase.from('profiles').select('display_name, target_role').eq('id', user.id).single().then(({ data }) => {
-      if (data) {
-        setDisplayName(data.display_name ?? '');
-        setTargetRole(data.target_role ?? '');
+    if (!user || isGuest) return undefined;
+
+    let cancelled = false;
+
+    const loadProfile = async () => {
+      const { data, error: profileError } = await supabase
+        .from('jobflow_profiles')
+        .select('display_name, target_role')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (cancelled) return;
+
+      if (profileError) {
+        setError(profileError.message);
+        return;
       }
-    });
+
+      setDisplayName(data?.display_name ?? '');
+      setTargetRole(data?.target_role ?? '');
+    };
+
+    loadProfile();
+
+    return () => {
+      cancelled = true;
+    };
   }, [user, isGuest]);
 
   const handleSave = async () => {
     if (!user || isGuest) return;
     setError('');
-    const { error: err } = await supabase.from('profiles').upsert({
+    const { error: err } = await supabase.from('jobflow_profiles').upsert({
       id: user.id,
       email: user.email,
       display_name: displayName,
       target_role: targetRole,
       updated_at: new Date().toISOString(),
     });
-    if (err) setError(err.message);
-    else { setSaved(true); setTimeout(() => setSaved(false), 2000); }
+    if (err) {
+      setError(err.message);
+      return;
+    }
+
+    setSaved(true);
+
+    if (location.state?.profileWarning) {
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+
+    setTimeout(() => setSaved(false), 2000);
   };
 
   const handleLogout = async () => {
@@ -71,6 +103,8 @@ const SettingsPage = () => {
 
       <Card sx={{ mb: 3 }}>
         <CardContent>
+          {profileWarning && <Alert severity="warning" sx={{ mb: 3 }}>{profileWarning}</Alert>}
+
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
             <Avatar sx={{ width: 56, height: 56, bgcolor: 'primary.main', fontSize: 24 }}>
               {(displayName || user?.email || '?')[0].toUpperCase()}

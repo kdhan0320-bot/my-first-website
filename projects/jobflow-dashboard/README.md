@@ -65,12 +65,14 @@ src/
 
 | 테이블 | 설명 |
 |--------|------|
-| profiles | 사용자 프로필 (이름, 목표 직무) |
+| jobflow_profiles | JobFlow 로그인 사용자의 선택적 설정 정보(이메일, 이름, 목표 직무) |
 | applications | 지원 회사 정보 (메모 필드 포함) |
+| application_notes | 지원 회사별 메모 (DB에 존재하나 현재 프론트엔드 코드에서는 사용하지 않음) |
 | portfolio_checklists | 포트폴리오 체크리스트 항목 |
 | interview_notes | 면접 준비 메모 |
+| prompt_templates | AI 프롬프트 저장용 (DB에 존재하나 현재는 사용하지 않으며, AI 프롬프트 도우미는 아래 설명대로 클라이언트 템플릿 방식으로만 동작) |
 
-모든 테이블에 RLS(Row Level Security)가 적용되어 있어 사용자는 자신의 데이터만 조회 · 수정 · 삭제할 수 있습니다. `anon key`는 공개되어도 되는 키이지만, 실제 데이터 접근 제어는 이 RLS 정책이 담당합니다.
+`jobflow_profiles`는 JobFlow 전용 테이블이며, Community의 `profiles`와 공유하지 않습니다. `jobflow_profiles`는 이름·목표 직무 같은 선택적 설정을 저장할 뿐이며, 이 행이 없어도 로그인과 CRUD 기능(지원 회사, 체크리스트, 면접 메모 등)은 정상 동작합니다 — `applications`/`application_notes`/`interview_notes`/`portfolio_checklists`/`prompt_templates`의 `user_id`는 `jobflow_profiles`가 아니라 Supabase의 `auth.users(id)`를 기준으로 합니다. 모든 테이블에 RLS(Row Level Security)가 적용되어 있어 사용자는 자신의 데이터만 조회 · 수정 · 삭제할 수 있습니다. `anon key`는 공개되어도 되는 키이지만, 실제 데이터 접근 제어는 이 RLS 정책이 담당합니다.
 
 > AI 프롬프트 도우미는 별도 테이블 없이 클라이언트에서 템플릿 텍스트를 생성하는 방식으로 동작하며, 실제 LLM API를 호출하지 않습니다. 생성된 텍스트를 ChatGPT/Claude에 직접 붙여넣어 사용하는 구조입니다.
 

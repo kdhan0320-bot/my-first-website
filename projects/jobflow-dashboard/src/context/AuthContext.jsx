@@ -25,14 +25,21 @@ export const AuthProvider = ({ children }) => {
   const signUp = async (email, password, displayName) => {
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
+
+    let profileError = null;
+
     if (data.user) {
-      await supabase.from('profiles').upsert({
-        id: data.user.id,
-        email,
-        display_name: displayName || email.split('@')[0],
-      });
+      const result = await supabase
+        .from('jobflow_profiles')
+        .upsert({
+          id: data.user.id,
+          email,
+          display_name: displayName || email.split('@')[0],
+        });
+      profileError = result.error;
     }
-    return data;
+
+    return { data, profileError };
   };
 
   const signIn = async (email, password) => {
