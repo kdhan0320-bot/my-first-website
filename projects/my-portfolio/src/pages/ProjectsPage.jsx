@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, Container, Typography, Chip, Dialog, DialogTitle, DialogContent, DialogActions, IconButton, Divider, Button } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 import { ALL_PROJECTS } from '../data/projectsData';
 import EvidenceBadges from '../components/projects/EvidenceBadges';
 import { FONT_MONO, COLORS } from '../theme';
@@ -26,27 +25,6 @@ const archiveMeta = (p) => {
   if (p.tools?.length) return [...new Set(p.tools)].slice(0, 3).join(' · ');
   return p.archiveStatus ?? '';
 };
-
-const fromSupabase = (row) => ({
-  id: String(row.id),
-  title: row.title,
-  description: row.description,
-  categories: ['ai'],
-  categoryLabel: 'AI 도구 활용 웹 구현',
-  role: '—',
-  tools: row.tech_stack ?? [],
-  gradient: COLORS.deepSlate,
-  thumbnailUrl: row.thumbnail_url ?? null,
-  liveUrl: row.detail_url ?? null,
-  githubUrl: row.github_url ?? null,
-  detail: {
-    overview: row.description,
-    problem: '—',
-    goal: '—',
-    designPoint: '—',
-    nextStep: '추후 프로젝트 상세 내용 추가 예정입니다.',
-  },
-});
 
 const DetailRow = ({ label, children }) => (
   <Box sx={{ mb: 2 }}>
@@ -261,38 +239,17 @@ const ArchiveRow = ({ project, index, onDetail }) => {
 
 const ProjectsPage = () => {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState(ALL_PROJECTS);
   const [selectedProject, setSelectedProject] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (!supabase) return;
-    supabase
-      .from('projects')
-      .select('*')
-      .eq('is_published', true)
-      .order('sort_order')
-      .then(({ data }) => {
-        if (data && data.length > 0) {
-          const supabaseProjects = data.map(fromSupabase);
-          const localTitles = ALL_PROJECTS.map((p) => p.title.toLowerCase());
-          const OLD_TITLES = ['portfolio feedback hub', '겜스타그램', 'gamstagram', 'mini sns'];
-          const newFromDb = supabaseProjects.filter((sp) => {
-            const t = sp.title.toLowerCase();
-            if (OLD_TITLES.some((old) => t.includes(old))) return false;
-            return !localTitles.some((local) => t.includes(local.split(' ')[0]) || local.includes(t.split(' ')[0]));
-          });
-          setProjects([...ALL_PROJECTS, ...newFromDb]);
-        }
-      })
-      .catch(() => {});
-  }, []);
-
   const openDetail = (project) => { setSelectedProject(project); setModalOpen(true); };
 
-  const archiveProjects = projects
-    .filter((p) => p.categories?.includes('archive'))
-    .sort((a, b) => (a.sort_order ?? 99) - (b.sort_order ?? 99));
+  const archiveProjects = ALL_PROJECTS
+    .filter((project) => project.categories?.includes('archive'))
+    .sort(
+      (a, b) =>
+        (a.sort_order ?? 99) - (b.sort_order ?? 99),
+    );
 
   return (
     <Box component="main" sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>

@@ -33,7 +33,7 @@
 - `/about` — 기본 정보, 작업 방식 소개, Skills(기술 학습 적용도 카드)
 - `/projects` — 전체 프로젝트 목록(필터 탭 + 카드)
 
-프로젝트 데이터는 `src/data/projectsFallbackData.js`를 기본 소스로 사용하며, Supabase 연결이 가능한 경우에 한해 프로젝트 목록을 추가로 조회합니다(연결 실패 시 정적 데이터로 자동 대체).
+프로젝트 목록과 상세 정보는 `src/data/projectsFallbackData.js`를 기본 소스로 사용하고, `src/data/projectsData.js`에서 정렬·썸네일·상세 표시 구조를 조합합니다.
 
 ---
 
@@ -46,10 +46,8 @@ src/
 │   ├── projects/      EvidenceBadges
 │   ├── sections/       HeroSection, AboutSection, ProjectsSection, ContactSection, SkillsSection
 │   └── ui/             RevealOnScroll
-├── context/            PortfolioContext (소개/Skills 데이터)
 ├── data/                projectsFallbackData.js, projectsData.js
 ├── hooks/               useCountUp, useInViewOnce, useScrollNav
-├── lib/                 supabase.js
 ├── pages/               HomePage, AboutPage, ProjectsPage
 └── theme.js             MUI 다크 테마 토큰 정의
 ```
