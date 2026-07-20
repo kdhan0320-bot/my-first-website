@@ -12,6 +12,7 @@ node_modules/
 .vite/
 dist/
 supabase/.temp/
+supabase/.branches/
 
 # 테스트/감사 산출물
 coverage/
