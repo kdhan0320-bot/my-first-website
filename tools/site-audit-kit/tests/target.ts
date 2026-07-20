@@ -30,10 +30,10 @@ export const SECTIONS = [
   { key: 'hero', id: 'home', label: 'Hero', textFallback: /Hero|홈|Home/i, scrollRatio: 0 },
   { key: 'projects', id: 'projects', label: 'Projects', textFallback: /Projects?|프로젝트/i, scrollRatio: 0.4 },
   {
-    key: 'about-skills',
+    key: 'about',
     id: 'about',
-    label: 'About/Skills',
-    textFallback: /About|Skills?|소개|스킬|역량/i,
+    label: 'About',
+    textFallback: /About|소개/i,
     scrollRatio: 0.2,
   },
   {

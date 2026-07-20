@@ -138,7 +138,7 @@ export default async function globalTeardown() {
 
   // 4. 반응형 화면 확인 (2번과 같은 screenshotChecks를 재사용 — 다시 계산하지 않음)
   lines.push('## 4. 반응형 화면 확인', '');
-  lines.push('| 구분 | Hero | Projects | About/Skills | Contact/Footer | Detail | Menu |');
+  lines.push('| 구분 | Hero | Projects | About | Contact/Footer | Detail | Menu |');
   lines.push('| --- | --- | --- | --- | --- | --- | --- |');
   for (const v of VIEWPORT_ORDER) {
     const row = REPORT_SECTION_LABELS.map((label) => {
