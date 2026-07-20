@@ -29,11 +29,14 @@
 
 ## 페이지 구조
 
-- `/` — Hero(Work Flow 보드), About(작업 방식 4카드), Projects(대표 프로젝트 3개 카드 + 전용 상세 페이지), Contact
-- `/about` — 기본 정보, 작업 방식 소개, Skills(기술 학습 적용도 카드)
-- `/projects` — 전체 프로젝트 목록(필터 탭 + 카드). 대표 프로젝트는 카드 클릭 시 전용 상세 페이지(`/projects/:slug`)로 이동하고, Archive 프로젝트는 같은 목록 안에서 모달로 상세 내용을 확인합니다.
+- `/` — Header(고정) → Hero → About(About Snapshot 1개 섹션) → Selected Projects(대표 프로젝트 3개 카드 + 전용 상세 페이지) → More Works(공개 플래그가 있는 항목만 표시) → Contact
+- `/about` — 별도 페이지가 아니라 Home의 About 섹션으로 리다이렉트됩니다(`App.jsx`의 `<Navigate>` + `HomePage.jsx`의 `location.state.scrollTo` 재사용).
+- `/projects` — Featured 3개(Home과 동일 대표 프로젝트, 카드형, 상세 라우트로 이동)와 Archive 목록(기존 모달)으로 구성됩니다. Archive 프로젝트는 같은 목록 안에서 모달로 상세 내용을 확인합니다.
+- `/projects/:slug` — 대표 프로젝트(JobFlow·버스 도착정보 앱·Portfolio Feedback Hub) 전용 상세 페이지. `ProjectDetailPage.jsx` 템플릿 하나를 재사용합니다.
 
-프로젝트 목록과 상세 정보는 `src/data/projectsFallbackData.js`를 기본 소스로 사용하고, `src/data/projectsData.js`에서 정렬·썸네일·상세 표시 구조를 조합합니다.
+More Works 섹션은 데이터에 공개 플래그(`moreWorksPublished: true`)가 있는 프로젝트만 렌더링하며, 공개 항목이 없으면 섹션 자체가 나타나지 않습니다(현재는 OTT Service 1개).
+
+프로젝트 목록과 상세 정보는 `src/data/projectsFallbackData.js`를 기본 소스로 사용하고, `src/data/projectsData.js`에서 정렬·썸네일·상세 표시 구조를 조합합니다. 포트폴리오는 정적 프로젝트 데이터를 사용하며 실제 API 연동은 없습니다.
 
 ---
 
@@ -44,11 +47,11 @@ src/
 ├── components/
 │   ├── layout/        Navbar
 │   ├── projects/      EvidenceBadges
-│   ├── sections/       HeroSection, AboutSection, ProjectsSection, ContactSection, SkillsSection
+│   ├── sections/       HeroSection, AboutSection, ProjectsSection, MoreWorksSection, ContactSection
 │   └── ui/             RevealOnScroll
 ├── data/                projectsFallbackData.js, projectsData.js
-├── hooks/               useCountUp, useInViewOnce, useScrollNav
-├── pages/               HomePage, AboutPage, ProjectsPage
+├── hooks/               useInViewOnce, useScrollNav
+├── pages/               HomePage, ProjectsPage, ProjectDetailPage
 └── theme.js             MUI 다크 테마 토큰 정의
 ```
 

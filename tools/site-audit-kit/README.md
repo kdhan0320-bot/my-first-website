@@ -46,6 +46,21 @@ $env:TARGET_URL="https://example.com"; npm run audit
   `mobile-menu-open.png`
 - `site-audit-result.zip` — 위 결과물을 묶은 압축 파일(`npm run zip`)
 
+## 포트폴리오 검토용 리뷰 생성 (`npm run review:build`)
+```powershell
+npm run review:build
+```
+my-portfolio 메인 화면과 대표 프로젝트(JobFlow/버스 도착정보 앱/Portfolio
+Feedback Hub)를 실제 Chromium으로 캡처해서, ChatGPT 업로드용 검토 HTML/PDF/
+스크린샷을 생성하는 명령이다.
+
+- 결과 경로: `audit-output/portfolio-review/`(`index.html`,
+  `portfolio-review.pdf`, `assets/*.png`)
+- 재생성 가능한 로컬 산출물이며, 이 폴더는 `.gitignore`의 `audit-output/`
+  규칙으로 Git 추적·GitHub Pages 배포 대상에서 제외된다.
+- 실행 전 `projects/my-portfolio`의 dependency 설치(`npm install`)와
+  `tools/site-audit-kit`의 Chromium(`@playwright/test`)이 필요하다.
+
 ## 자동 검사와 수동 QA
 자동 점검 통과(스크린샷 생성 성공, 콘솔 에러 없음, 링크 200 등)는 "완료"의
 필요조건이지 충분조건이 아니다. 생성된 PNG를 실제로 열어 레이아웃·가독성·

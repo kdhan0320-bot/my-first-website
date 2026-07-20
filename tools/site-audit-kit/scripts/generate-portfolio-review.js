@@ -1,24 +1,24 @@
-// projects/my-portfolio 검사용 정적 리뷰 페이지(public/review/) 생성 스크립트.
-// tools/site-audit-kit에 이미 설치된 @playwright/test(Chromium)를 재사용하며,
+// projects/my-portfolio 검사용 정적 리뷰 페이지를 생성하는 스크립트.
+// 결과물은 저장소에 커밋되는 my-portfolio가 아니라, tools/site-audit-kit/audit-output/
+// portfolio-review/ 아래(이 폴더의 .gitignore audit-output/ 규칙으로 Git 추적 제외)에
+// 만든다. tools/site-audit-kit에 이미 설치된 @playwright/test(Chromium)를 재사용하며,
 // my-portfolio에는 Playwright를 별도로 설치하지 않는다.
 //
 // 실행: npm run review:build (tools/site-audit-kit 위치에서)
 //
-// 순서(설계 승인 문서 기준):
+// 순서:
 // 1. git status 확인
 // 2. Playwright/Chromium 실행 가능 여부 확인
 // 3. 기존 review 결과물 중 허용된 생성 파일만 정리
-// 4. projects/my-portfolio npm run build
+// 4. projects/my-portfolio npm run build (캡처용, 1회만 실행)
 // 5. 로컬 Vite Preview 서버 시작
 // 6. 서버 응답 대기
 // 7. 메인 포트폴리오 데스크톱·모바일 캡처
 // 8. 대표 프로젝트 캡처
-// 9. public/review/index.html 생성
+// 9. audit-output/portfolio-review/index.html 생성
 // 10. review 페이지를 로컬 HTTP로 열어 PDF 생성
-// 11. public/review 결과물 검증
-// 12. Preview/임시 서버 종료 (try/finally)
-// 13. projects/my-portfolio npm run build 재실행 (public/review를 dist에 반영)
-// 14. dist/review 최종 검증
+// 11. review 결과물 검증
+// 12. Preview/임시 서버 종료 (성공·실패와 관계없이 항상 종료, try/finally)
 const fs = require('fs');
 const path = require('path');
 const http = require('http');
@@ -29,9 +29,8 @@ const { chromium } = require('@playwright/test');
 const SITE_AUDIT_DIR = path.resolve(__dirname, '..');
 const REPO_ROOT = path.resolve(SITE_AUDIT_DIR, '..', '..');
 const PORTFOLIO_DIR = path.join(REPO_ROOT, 'projects', 'my-portfolio');
-const REVIEW_DIR = path.join(PORTFOLIO_DIR, 'public', 'review');
+const REVIEW_DIR = path.join(SITE_AUDIT_DIR, 'audit-output', 'portfolio-review');
 const ASSETS_DIR = path.join(REVIEW_DIR, 'assets');
-const DIST_REVIEW_DIR = path.join(PORTFOLIO_DIR, 'dist', 'review');
 
 // vite.config.js의 base 값과 반드시 일치해야 함 (이번 작업에서 base는 변경하지 않음)
 const PREVIEW_BASE_PATH = '/dohan-portfolio/my-portfolio/';
@@ -459,7 +458,7 @@ async function generatePdf(browser) {
   }
 }
 
-function validate({ featuredProjects, htmlText, checkDist }) {
+function validate({ featuredProjects, htmlText }) {
   const errors = [];
   if (featuredProjects.length === 0) errors.push('대표 프로젝트가 0개입니다.');
 
@@ -485,11 +484,6 @@ function validate({ featuredProjects, htmlText, checkDist }) {
   const pdfPath = path.join(REVIEW_DIR, 'portfolio-review.pdf');
   if (!fs.existsSync(pdfPath) || fs.statSync(pdfPath).size === 0) errors.push('PDF가 없거나 0바이트입니다.');
 
-  if (checkDist) {
-    if (!fs.existsSync(path.join(DIST_REVIEW_DIR, 'index.html'))) errors.push('dist/review/index.html이 없습니다.');
-    if (!fs.existsSync(path.join(DIST_REVIEW_DIR, 'portfolio-review.pdf'))) errors.push('dist/review/portfolio-review.pdf가 없습니다.');
-  }
-
   const localPathPattern = /[a-zA-Z]:\\|\/Users\/|\/home\/[a-zA-Z]|AppData|file:\/\//;
   if (localPathPattern.test(htmlText)) errors.push('절대 로컬 경로로 의심되는 문자열이 HTML에 포함되어 있습니다.');
 
@@ -507,49 +501,47 @@ async function main() {
   } catch (e) {
     gitStatusOutput = `확인 실패: ${e.message}`;
   }
-  log('1/14', 'git status 확인');
+  log('1/12', 'git status 확인');
   console.log(gitStatusOutput.trim() ? gitStatusOutput : '(clean)');
 
   // 2. Playwright/Chromium 실행 가능 여부 확인
-  log('2/14', 'Playwright/Chromium 실행 가능 여부 확인');
+  log('2/12', 'Playwright/Chromium 실행 가능 여부 확인');
   const browser = await chromium.launch();
-  log('2/14', `Chromium 실행 확인됨: ${await browser.version()}`);
+  log('2/12', `Chromium 실행 확인됨: ${await browser.version()}`);
 
   let previewProc;
-  let featuredProjectsResult;
-  let htmlResult;
   try {
     try {
       // 3. 기존 review 결과물 중 허용된 생성 파일만 정리
-      log('3/14', '기존 review 결과물 중 허용된 생성 파일만 정리');
+      log('3/12', '기존 review 결과물 중 허용된 생성 파일만 정리');
       for (const f of KNOWN_FILES) {
         if (fs.existsSync(f)) {
           fs.rmSync(f);
-          log('3/14', `삭제: ${path.relative(REPO_ROOT, f)}`);
+          log('3/12', `삭제: ${path.relative(REPO_ROOT, f)}`);
         }
       }
       fs.mkdirSync(ASSETS_DIR, { recursive: true });
 
-      // 4. projects/my-portfolio npm run build
-      log('4/14', 'projects/my-portfolio npm run build 시작');
+      // 4. projects/my-portfolio npm run build (캡처용, 1회만 실행)
+      log('4/12', 'projects/my-portfolio npm run build 시작');
       await run('npm', ['run', 'build'], { cwd: PORTFOLIO_DIR });
-      log('4/14', 'npm run build 완료');
+      log('4/12', 'npm run build 완료');
 
       // 5. 로컬 Vite Preview 서버 시작
-      log('5/14', `로컬 Vite Preview 서버 시작 (포트 ${PREVIEW_PORT})`);
+      log('5/12', `로컬 Vite Preview 서버 시작 (포트 ${PREVIEW_PORT})`);
       previewProc = spawnPreviewServer();
 
       // 6. 서버 응답 대기
-      log('6/14', `서버 응답 대기: ${PREVIEW_URL}`);
+      log('6/12', `서버 응답 대기: ${PREVIEW_URL}`);
       await waitForHttpReady(PREVIEW_URL);
-      log('6/14', '서버 응답 확인됨');
+      log('6/12', '서버 응답 확인됨');
 
       // 7. 메인 포트폴리오 데스크톱·모바일 캡처
-      log('7/14', '메인 포트폴리오 데스크톱·모바일 캡처');
+      log('7/12', '메인 포트폴리오 데스크톱·모바일 캡처');
       await captureHome(browser, PREVIEW_URL);
 
       // 8. 대표 프로젝트 캡처
-      log('8/14', '대표 프로젝트 데이터 로드 (projectsFallbackData.js, portfolioMeta.js)');
+      log('8/12', '대표 프로젝트 데이터 로드 (projectsFallbackData.js, portfolioMeta.js)');
       const dataModule = await import(pathToFileURL(path.join(PORTFOLIO_DIR, 'src', 'data', 'projectsFallbackData.js')).href);
       const meta = await import(pathToFileURL(path.join(PORTFOLIO_DIR, 'src', 'data', 'portfolioMeta.js')).href);
       const { fallbackProjects } = dataModule;
@@ -559,64 +551,47 @@ async function main() {
       const busArrival = fallbackProjects.find((p) => p.id === 'bus-arrival-app');
       const featuredProjects = [jobflow, busArrival, feedbackHub].filter(Boolean);
 
-      log('8/14', '대표 프로젝트 캡처: jobflow, feedback-hub (라이브), bus-arrival-app (기존 썸네일)');
+      log('8/12', '대표 프로젝트 캡처: jobflow, feedback-hub (라이브), bus-arrival-app (기존 썸네일)');
       await captureJobflow(browser, jobflow && jobflow.liveUrl, 'jobflow.png');
       await captureExternal(browser, feedbackHub && feedbackHub.liveUrl, 'feedback-hub.png');
 
       const busThumbSrc = path.join(PORTFOLIO_DIR, 'public', 'thumbnails', 'bus-arrival-ui-thumbnail.png');
       if (!fs.existsSync(busThumbSrc)) throw new Error('bus-arrival-ui-thumbnail.png 원본을 찾을 수 없습니다.');
       fs.copyFileSync(busThumbSrc, path.join(ASSETS_DIR, 'bus-arrival-app.png'));
-      log('8/14', 'bus-arrival-app.png (기존 썸네일 복사, 원본 유지) 저장 완료');
+      log('8/12', 'bus-arrival-app.png (기존 썸네일 복사, 원본 유지) 저장 완료');
 
-      // 9. public/review/index.html 생성
-      // 주의: Git commit hash는 표시하지 않는다. review 기능/산출물 자체가 아직
-      // 커밋되기 전이라 HEAD 해시를 넣으면 "이 커밋에 현재 PDF 결과물이 포함되어
-      // 있다"고 오해할 수 있기 때문이다(생성 시각만 표시).
-      log('9/14', 'public/review/index.html 생성');
+      // 9. audit-output/portfolio-review/index.html 생성
+      // 주의: Git commit hash는 표시하지 않는다. review 산출물 자체가 Git 추적 대상이
+      // 아니라서 HEAD 해시를 넣으면 "이 커밋에 현재 PDF 결과물이 포함되어 있다"고
+      // 오해할 수 있기 때문이다(생성 시각만 표시).
+      log('9/12', 'audit-output/portfolio-review/index.html 생성');
       const generatedAt = new Date();
       const html = buildReviewHtml({ meta, featuredProjects, generatedAt });
       fs.writeFileSync(path.join(REVIEW_DIR, 'index.html'), html, 'utf-8');
-      log('9/14', 'index.html 저장 완료');
+      log('9/12', 'index.html 저장 완료');
 
       // 10. review 페이지를 로컬 HTTP로 열어 PDF 생성
-      log('10/14', `review 페이지를 로컬 HTTP(포트 ${STATIC_SERVER_PORT})로 열어 PDF 생성`);
+      log('10/12', `review 페이지를 로컬 HTTP(포트 ${STATIC_SERVER_PORT})로 열어 PDF 생성`);
       await generatePdf(browser);
-      log('10/14', 'portfolio-review.pdf 저장 완료');
+      log('10/12', 'portfolio-review.pdf 저장 완료');
 
-      // 11. public/review 결과물 검증 (dist는 아직 반영 전이므로 dist 체크는 제외)
-      log('11/14', 'public/review 결과물 1차 검증');
-      const errors1 = validate({ featuredProjects, htmlText: html, checkDist: false });
-      if (errors1.length) throw new Error(`1차 검증 실패:\n- ${errors1.join('\n- ')}`);
-      log('11/14', '1차 검증 통과');
-
-      featuredProjectsResult = featuredProjects;
-      htmlResult = html;
+      // 11. review 결과물 검증
+      log('11/12', 'review 결과물 검증');
+      const errors = validate({ featuredProjects, htmlText: html });
+      if (errors.length) throw new Error(`검증 실패:\n- ${errors.join('\n- ')}`);
+      log('11/12', '검증 통과');
     } finally {
-      // 12. Preview 서버 종료
+      // 12. Preview 서버 종료 (성공·실패와 관계없이 항상 실행)
       if (previewProc && previewProc.child && previewProc.child.pid) {
         killTree(previewProc.child.pid);
-        log('12/14', 'Preview 서버 종료 완료');
+        log('12/12', 'Preview 서버 종료 완료');
       } else {
-        log('12/14', 'Preview 서버가 시작되지 않아 종료할 대상 없음');
+        log('12/12', 'Preview 서버가 시작되지 않아 종료할 대상 없음');
       }
     }
 
-    // 13. projects/my-portfolio npm run build 재실행 (public/review를 dist에 반영)
-    log('13/14', 'projects/my-portfolio npm run build 재실행 (dist에 review 반영)');
-    await run('npm', ['run', 'build'], { cwd: PORTFOLIO_DIR });
-    log('13/14', 'npm run build 재실행 완료');
-
-    // 14. dist/review 최종 검증
-    log('14/14', 'dist/review 최종 검증');
-    const errors2 = validate({
-      featuredProjects: featuredProjectsResult,
-      htmlText: htmlResult,
-      checkDist: true,
-    });
-    if (errors2.length) throw new Error(`최종 검증 실패:\n- ${errors2.join('\n- ')}`);
-    log('14/14', '최종 검증 통과');
-
     console.log('\n=== review:build 성공 ===');
+    console.log(`결과물 위치: ${path.relative(REPO_ROOT, REVIEW_DIR)}`);
   } finally {
     await browser.close();
   }

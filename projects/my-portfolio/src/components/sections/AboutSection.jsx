@@ -2,9 +2,9 @@ import { Box, Container, Typography } from '@mui/material';
 import RevealOnScroll from '../ui/RevealOnScroll';
 import { FONT_MONO, COLORS } from '../../theme';
 
-/* Home용 About Snapshot — Figma 03_About(42:44) 그대로. /about 페이지(AboutPage.jsx)의
- * "지원 방향/사용 도구/현재 한계" 카드 콘텐츠는 Figma Home 설계에는 없으므로 Home에는
- * 옮기지 않고, 기존대로 /about 페이지에서 계속 확인할 수 있게 둔다. */
+/* Home의 유일한 About 섹션 — Figma 03_About(42:44) 그대로 구현했다. 별도의 /about
+ * 페이지는 존재하지 않으며, `/about` 접근은 App.jsx의 <Navigate>를 통해 이 섹션으로
+ * 연결된다. */
 
 const ABOUT_HEADLINE = ['시각적 완성도에 그치지 않고,', '정보가 이해되고 실제로 작동하는', '구조까지 설계합니다.'];
 

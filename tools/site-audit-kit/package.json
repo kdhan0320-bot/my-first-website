@@ -1,8 +1,8 @@
 {
   "name": "site-audit-kit",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
+  "description": "Playwright-based responsive, accessibility, console, and link audit utilities for the portfolio workspace.",
   "scripts": {
     "test": "playwright test",
     "audit": "playwright test",

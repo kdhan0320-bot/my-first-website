@@ -1,6 +1,7 @@
-/* 포트폴리오 fallback 프로젝트 데이터
- * Supabase 연결 실패 / 데이터 없음 시 자동으로 표시됩니다.
- * ProjectsSection(홈) · ProjectsPage(/projects) 에서 공통 사용
+/* 포트폴리오 정적 프로젝트 데이터
+ * 이 포트폴리오는 정적 프로젝트 데이터를 사용하며, 실제 Supabase/API 연동은 없습니다.
+ * ProjectsSection(홈) · ProjectsPage(/projects) 에서 공통 사용하며,
+ * projectsData.js가 이 데이터를 정렬·썸네일·상세 표시 구조로 조합합니다.
  *
  * sort_order 기준: 1=Figma대표 → 2=AI대표 → 3=Redesign → 4=AI보조 → ...
  * is_featured=true인 프로젝트가 홈 대표 섹션에 sort_order 순으로 표시됩니다.
@@ -145,7 +146,7 @@ export const fallbackProjects = [
     goal: '건강 루틴 체크, 약 복용 기록, 병원 예약을 하나의 앱에서 간편하게 처리하는 UI 설계.',
     targetUser: '노령견(10세 이상)을 키우는 30~60대 반려동물 보호자',
     designPoint: '따뜻한 톤, 단순한 정보 구조, 명확한 루틴 카드 레이아웃.',
-    process: '보호자 공감 조사 → 서비스 흐름 설계 → Figma 와이어프레임 → UI 디자인',
+    process: '가상 사용자 시나리오 기반 문제 정의 → 서비스 흐름 설계 → Figma 와이어프레임 → UI 디자인',
     result: 'Figma 서비스 UI 디자인 시안 완성 (추후 공개 예정)',
     nextStep: '보호자 인터뷰를 통한 핵심 기능 검증 및 사용성 테스트 예정',
     isPlaceholder: true,
