@@ -88,7 +88,7 @@ test.describe('Portfolio Audit', () => {
       expect(ok, `사이트 접속 실패: ${TARGET_URL}`).toBeTruthy();
     });
 
-    // 2. 섹션별 스크린샷 (Hero, Projects, About/Skills, Contact/Footer) - fallback 포함
+    // 2. 섹션별 스크린샷 (Hero, Projects, About, Contact/Footer) - fallback 포함
     for (const section of SECTIONS) {
       await test.step(`${section.label} 섹션 캡처`, () => captureSection(page, section, viewport));
     }

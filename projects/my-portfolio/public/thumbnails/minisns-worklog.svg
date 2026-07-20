@@ -35,7 +35,7 @@
   <text x="546" y="337" fill="white" font-family="Inter, Pretendard, Arial, sans-serif" font-size="18" font-weight="700">알림</text>
 
   <!-- 하단 보조 문구 -->
-  <text x="88" y="700" fill="#93C5FD" font-family="Inter, Pretendard, Arial, sans-serif" font-size="20" font-weight="600">React · Vite · MUI · Supabase</text>
+  <text x="88" y="700" fill="#93C5FD" font-family="Inter, Pretendard, Arial, sans-serif" font-size="20" font-weight="600">React · Vite · MUI · Mock Data</text>
   <text x="88" y="732" fill="#60A5FA" font-family="Inter, Pretendard, Arial, sans-serif" font-size="18" font-weight="500">하단 탭 내비게이션 · 모임 참가 후 채팅방 이동 · 이미지 확대 모달</text>
 
   <!-- 우측 모바일 앱 프레임 -->

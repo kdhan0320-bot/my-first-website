@@ -79,4 +79,4 @@ npm run build
 - heading 계층(h1 → h2 → h3) 유지
 - 터치 영역 44px 이상, 모바일 본문 14px 이상, line-height 1.6 이상
 - 장식용 SVG는 `aria-hidden`/`focusable="false"` 처리, `prefers-reduced-motion` 대응
-- 375px ~ 1440px 반응형 확인
+- 375px ~ 2560px 반응형 확인
