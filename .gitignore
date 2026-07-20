@@ -18,6 +18,7 @@ coverage/
 playwright-report/
 test-results/
 *.tmp
+/audits/
 
 # 환경 변수
 .env

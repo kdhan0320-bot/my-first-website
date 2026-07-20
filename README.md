@@ -53,7 +53,9 @@ API·로그인·결제·스트리밍 기능은 없습니다.
   (`.github/workflows/deploy.yml`을 통해 GitHub Pages로 배포)
 - `works/` — 아직 대표작으로 확정되지 않은 실험작·시안
 - `docs/` — 디자인 시스템, 기획서, 회고, AI 협업 문서
-- `audits/` — Playwright/Claude 점검 보고서와 스크린샷
+- `audits/` — Playwright·Claude 검사 과정에서 생성되는 로컬 보고서, 스크린샷,
+  ZIP 산출물 영역. 대용량·회차별 산출물은 기본적으로 Git 추적에서 제외하고,
+  장기 보관 가치가 있는 결론·기준만 선별해 `docs/`의 작은 Markdown 문서로 정리
 - `tools/` — 검사 자동화 스크립트 (`tools/site-audit-kit` 등)
 - `_private/` — 토큰·계정 정보 등 비공개 자료 (Git 추적 제외)
 

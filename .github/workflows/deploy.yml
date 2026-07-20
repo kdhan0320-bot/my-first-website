@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pages: write
@@ -24,7 +28,7 @@ jobs:
 
       - name: Install dependencies (mini_sns)
         working-directory: projects/mini_sns
-        run: npm install
+        run: npm ci
 
       - name: Build mini_sns
         working-directory: projects/mini_sns
@@ -34,7 +38,7 @@ jobs:
 
       - name: Install dependencies (my-portfolio)
         working-directory: projects/my-portfolio
-        run: npm install
+        run: npm ci
 
       - name: Build my-portfolio
         working-directory: projects/my-portfolio
@@ -42,7 +46,7 @@ jobs:
 
       - name: Install dependencies (my-community)
         working-directory: projects/my-community
-        run: npm install
+        run: npm ci
 
       - name: Build my-community
         working-directory: projects/my-community
@@ -53,7 +57,7 @@ jobs:
 
       - name: Install dependencies (jobflow-dashboard)
         working-directory: projects/jobflow-dashboard
-        run: npm install
+        run: npm ci
 
       - name: Build jobflow-dashboard
         working-directory: projects/jobflow-dashboard
