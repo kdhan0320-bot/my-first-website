@@ -63,7 +63,7 @@ const ContactSection = () => (
         <Box component="span" sx={{ display: 'block' }}>찾고 있습니다.</Box>
       </Typography>
       <Typography sx={{ color: 'text.secondary', fontSize: { xs: '0.9375rem', md: '1rem' }, lineHeight: 1.6, mb: { xs: 3.5, md: 4.5 }, maxWidth: 620 }}>
-        포트폴리오와 프로젝트를 확인한 뒤 연락할 수 있도록 가장 직접적인 경로만 제공합니다.
+        UX/UI 웹디자인, 웹퍼블리싱, React/MUI 기반 UI 구현 직무의 기회를 찾고 있습니다.
       </Typography>
 
       <SignalConverge />
@@ -82,7 +82,7 @@ const ContactSection = () => (
             '&:focus-visible': { outline: '2px solid', outlineColor: 'primary.main', outlineOffset: '3px' },
           }}
         >
-          메일 보내기 <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO }}>→</Box>
+          {CONTACT_EMAIL} <Box component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO }}>→</Box>
         </Box>
         <Box
           component="a"

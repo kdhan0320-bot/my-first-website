@@ -65,7 +65,7 @@ const MoreWorksSection = () => {
           <Box component="span" sx={{ display: 'block' }}>빠르게 탐색합니다.</Box>
         </Typography>
         <Typography sx={{ color: '#252B32', fontSize: '0.875rem', mb: { xs: 4, md: count === 1 ? 4.5 : 6 }, maxWidth: 620 }}>
-          자동 무한 재생이 아니라 사용자가 스크롤하고 선택하는 큰 썸네일 목록입니다.
+          대표 프로젝트 외 공개 작업을 구현 방식과 범위에 맞춰 정리했습니다.
         </Typography>
 
         <Box

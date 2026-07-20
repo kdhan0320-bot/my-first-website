@@ -29,7 +29,7 @@ const FEATURED_BLOCKS = [
     title: 'Portfolio Feedback Hub',
     description: '포트폴리오를 탐색하고 피드백을 주고받는 커뮤니티형 서비스',
     role: 'UX/UI · React/MUI · Supabase',
-    data: 'Supabase 조회 · fallback 구분 · RLS는 배포 환경 확인 필요',
+    data: 'Supabase 연동 · 조회 실패 시 정적 예시 데이터',
   },
 ];
 

@@ -20,7 +20,8 @@ const FEATURED_CARDS = [
 /* Figma의 Archive 섹션 목업은 예시로 3개 행(WEB PORTFOLIO/OTT SERVICE/추가 작품)만
  * 보여주지만, 실제로는 archive 태그 프로젝트가 더 많다. 항목을 임의로 줄이지 않고
  * 같은 행 스타일로 실제 개수만큼 반복 렌더링한다(작업 지시서: 프로젝트 데이터를
- * 임의로 축소하지 않는다). */
+ * 임의로 축소하지 않는다). 단, isPlaceholder: true인 내부 초안은 데이터에는
+ * 보존하되 공개 Archive 렌더링에서는 제외한다. */
 const archiveMeta = (p) => {
   if (p.tools?.length) return [...new Set(p.tools)].slice(0, 3).join(' · ');
   return p.archiveStatus ?? '';
@@ -245,7 +246,7 @@ const ProjectsPage = () => {
   const openDetail = (project) => { setSelectedProject(project); setModalOpen(true); };
 
   const archiveProjects = ALL_PROJECTS
-    .filter((project) => project.categories?.includes('archive'))
+    .filter((project) => project.categories?.includes('archive') && !project.isPlaceholder)
     .sort(
       (a, b) =>
         (a.sort_order ?? 99) - (b.sort_order ?? 99),

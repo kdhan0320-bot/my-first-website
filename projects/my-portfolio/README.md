@@ -31,7 +31,7 @@
 
 - `/` — Header(고정) → Hero → About(About Snapshot 1개 섹션) → Selected Projects(대표 프로젝트 3개 카드 + 전용 상세 페이지) → More Works(공개 플래그가 있는 항목만 표시) → Contact
 - `/about` — 별도 페이지가 아니라 Home의 About 섹션으로 리다이렉트됩니다(`App.jsx`의 `<Navigate>` + `HomePage.jsx`의 `location.state.scrollTo` 재사용).
-- `/projects` — Featured 3개(Home과 동일 대표 프로젝트, 카드형, 상세 라우트로 이동)와 Archive 목록(기존 모달)으로 구성됩니다. Archive 프로젝트는 같은 목록 안에서 모달로 상세 내용을 확인합니다.
+- `/projects` — Featured 3개(Home과 동일 대표 프로젝트, 카드형, 상세 라우트로 이동)와 Archive 목록(기존 모달)으로 구성됩니다. Archive는 `categories: ['archive']`이면서 `isPlaceholder !== true`인 공개 가능 항목만 표시하며, 같은 목록 안에서 모달로 상세 내용을 확인합니다. placeholder로 표시된 내부 초안은 데이터에는 보존되지만 공개 화면에는 노출되지 않습니다.
 - `/projects/:slug` — 대표 프로젝트(JobFlow·버스 도착정보 앱·Portfolio Feedback Hub) 전용 상세 페이지. `ProjectDetailPage.jsx` 템플릿 하나를 재사용합니다.
 
 More Works 섹션은 데이터에 공개 플래그(`moreWorksPublished: true`)가 있는 프로젝트만 렌더링하며, 공개 항목이 없으면 섹션 자체가 나타나지 않습니다(현재는 OTT Service 1개).
