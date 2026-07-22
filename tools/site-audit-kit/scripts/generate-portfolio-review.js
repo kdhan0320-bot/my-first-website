@@ -307,8 +307,24 @@ async function captureHome(browser, url) {
     // React 마운트보다 먼저 실행되어 HeroSection이 fadeIn 진입 애니메이션을 건너뛰고
     // 즉시 최종(opacity:1) 상태로 렌더링하게 하는 표시. HomePage의 data-review-ready
     // 신호도 이 표시를 보고 "실제로 보이는지"를 확인한 뒤에만 true가 된다.
+    //
+    // window.__PORTFOLIO_REVIEW_MODE__를 먼저 설정한다 - 이 Chromium 환경에서는
+    // addInitScript 실행 시점에 document.documentElement가 아직 생성되지 않은 경우가
+    // 있어(재현 확인됨) document.documentElement.setAttribute 호출이 조용히 아무 효과도
+    // 내지 못하는 문제가 있었다. window 객체는 항상 존재하므로 window 플래그를 우선
+    // 신호로 쓰고, documentElement가 생기면(즉시 또는 DOMContentLoaded 시점에) 기존
+    // data-review-mode 속성도 함께 세워 두 경로 모두를 만족시킨다.
     await context.addInitScript(() => {
-      document.documentElement.setAttribute('data-review-mode', 'true');
+      window.__PORTFOLIO_REVIEW_MODE__ = true;
+
+      const markDocument = () => {
+        if (document.documentElement) {
+          document.documentElement.setAttribute('data-review-mode', 'true');
+        }
+      };
+
+      markDocument();
+      document.addEventListener('DOMContentLoaded', markDocument, { once: true });
     });
     const page = await context.newPage();
     try {

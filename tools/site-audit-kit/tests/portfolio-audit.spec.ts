@@ -45,11 +45,37 @@ async function linkLocation(page: Page, href: string, text: string) {
   );
 }
 
+// 섹션별 모션 정착 대기 시간(ms). 실제 승인된 모션 시간(Hero 1.45s, About 0.45s+delay,
+// Featured 0.55s+delay, Contact 0.95s) 기준으로 margin을 둔 값이다 - "300ms 기다렸으니
+// final"이라는 가정은 신뢰할 수 없음이 재현 확인됐다(About/Featured/Contact 섹션 crop
+// PNG가 실제로 중간 opacity 상태로 저장됨). SECTIONS[].key와 정확히 맞춘다.
+const SECTION_SETTLE_MS: Record<string, number> = {
+  hero: 1700,
+  projects: 900,
+  about: 800,
+  'contact-footer': 1200,
+};
+
+// 화면에 보이는 header(위치 sticky/fixed)의 실제 렌더링 높이를 측정한다. header가 없거나
+// 보이지 않으면 0을 반환해 오프셋을 적용하지 않는다.
+async function getHeaderOffset(page: Page): Promise<number> {
+  return page.evaluate(() => {
+    const header = document.querySelector('header');
+    if (!header) return 0;
+    const style = getComputedStyle(header);
+    if (style.display === 'none' || style.visibility === 'hidden') return 0;
+    const rect = header.getBoundingClientRect();
+    return rect.height > 0 ? Math.round(rect.height) + 16 : 0;
+  });
+}
+
 // 섹션 id가 없는 사이트에도 대응하기 위한 3단계 fallback: id -> 텍스트 -> 스크롤 비율
 async function captureSection(page: Page, section: (typeof SECTIONS)[number], viewport: string) {
   const file = `${viewport}-${section.key}.png`;
   const filePath = path.join(SCREENSHOT_DIR, file);
   let remark = '-';
+  const settleMs = SECTION_SETTLE_MS[section.key] ?? 900;
+  let headerOffset = 0;
   try {
     let locator = page.locator(`#${section.id}`);
     if ((await locator.count()) === 0) {
@@ -57,17 +83,32 @@ async function captureSection(page: Page, section: (typeof SECTIONS)[number], vi
       remark = 'id 없음 - 텍스트 기반 locator로 대체';
     }
     if ((await locator.count()) === 0) {
+      // fallback ratio 캡처에서는 header offset을 적용하지 않는다(요구사항) - 섹션 경계를
+      // 정확히 모르는 상태에서 무리하게 보정하지 않는다.
       await page.evaluate((ratio) => window.scrollTo(0, document.body.scrollHeight * ratio), section.scrollRatio);
       remark = 'id/텍스트 모두 없음 - 스크롤 위치 비율로 대체 캡처';
     } else {
-      await locator.scrollIntoViewIfNeeded({ timeout: 10000 });
+      // scrollIntoViewIfNeeded는 섹션을 Header 아래로 안전하게 배치한다는 보장이 없다
+      // (mobile-about.png에서 ABOUT label/heading 상단이 Sticky Header에 가려지는 문제로
+      // 재현 확인됨). 섹션 시작점을 viewport 상단에 명확히 맞춘 뒤, 실제 header 높이만큼
+      // 아래로 보정한다. Hero처럼 이미 문서 맨 위인 섹션은 음수 스크롤이 되지 않도록
+      // clamp한다.
+      await locator.evaluate((el) => el.scrollIntoView({ block: 'start' }));
+      headerOffset = await getHeaderOffset(page);
+      if (headerOffset > 0) {
+        await page.evaluate((offset) => {
+          window.scrollTo(0, Math.max(0, window.scrollY - offset));
+        }, headerOffset);
+      }
     }
-    await page.waitForTimeout(300);
-    await page.screenshot({ path: filePath });
+    // 섹션 진입과 React state 반영을 위한 정착 시간을 먼저 지킨 뒤, animations:'disabled'로
+    // 혹시 남아있는 진행 중 애니메이션을 최종 프레임으로 고정해서 캡처한다.
+    await page.waitForTimeout(settleMs);
+    await page.screenshot({ path: filePath, animations: 'disabled', caret: 'hide' });
     const exists = fs.existsSync(filePath) && fs.statSync(filePath).size > 0;
-    record({ kind: 'screenshot', viewport, section: section.label, file, ok: exists, remark });
+    record({ kind: 'screenshot', viewport, section: section.label, file, ok: exists, remark, settleMs, headerOffset });
   } catch (e) {
-    record({ kind: 'screenshot', viewport, section: section.label, file, ok: false, remark: String(e).slice(0, 200) });
+    record({ kind: 'screenshot', viewport, section: section.label, file, ok: false, remark: String(e).slice(0, 200), settleMs, headerOffset });
   }
 }
 

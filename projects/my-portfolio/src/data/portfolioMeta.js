@@ -10,21 +10,31 @@ export const NAME = '김도한';
 
 export const HERO_BADGE = `${NAME} | UX/UI · Web Publishing Portfolio`;
 
-/* Hero 상단 라벨/역할 표기 (Figma Hero 42:14 원문) */
-export const HERO_LABEL = 'KIM DOHAN / ORDERED SIGNAL';
-export const HERO_ROLE_LINE = 'UX/UI DESIGN · WEB PUBLISHING · FRONT-END IMPLEMENTATION';
+/* Human Signal Phase 3B: 기존 "FIELD → INTERFACE"는 처음 보는 채용 담당자가
+ * 해석해야 하는 내부 디자인 용어처럼 읽혀 제거했다(ChatGPT 재검토 확정).
+ * 현장 경험→정보 구조 전환이라는 원래 의도는 About 본문에서 문장으로
+ * 설명하고, Hero eyebrow는 지원 분야를 바로 알려주는 역할로 바꾼다. */
+export const HERO_LABEL = 'UX/UI 설계 · 웹퍼블리싱 · UI 구현';
+export const HERO_ROLE_LINE = 'UX/UI · WEB PUBLISHING';
 
-/* Hero 헤드라인 — Figma 원문 그대로 4줄 하드 브레이크 (42:19) */
-export const HERO_HEADLINE_LINES = ['복잡한 정보를', '정리하고,', '구현 가능한 화면으로', '연결합니다.'];
+/* Hero 헤드라인 — Figma Human Signal Hero 180:516/180:517 원문 2줄.
+ * 둘째 줄만 Bright Orange로 강조한다(HeroSection.jsx에서 처리). */
+export const HERO_HEADLINE_LINES = ['복잡한 일을,', '이해되는 화면으로.'];
 
-/* Hero 설명 문구 (Figma 원문, 42:20) — SUB_DESCRIPTION과 별개로 관리한다.
- * SUB_DESCRIPTION은 tools/site-audit-kit의 AI 활용 고지 문구로도 재사용되므로
- * Hero 시각 카피 교체와 분리해서 유지한다. */
-export const HERO_DESCRIPTION = '흩어진 정보를 기준에 맞춰 정리하고, 구현 가능한 화면 구조로 연결하는 과정을 보여줍니다.';
+/* Hero 설명 문구 (Figma Human Signal Hero 180:518 원문) — SUB_DESCRIPTION과
+ * 별개로 관리한다. SUB_DESCRIPTION은 tools/site-audit-kit의 AI 활용 고지
+ * 문구로도 재사용되므로 Hero 시각 카피 교체와 분리해서 유지한다. */
+export const HERO_DESCRIPTION_LINES = [
+  '생산 현장과 구매관리에서 배운 기준 확인과 누락 방지 습관을 바탕으로,',
+  '복잡한 정보를 구조화하고 반응형 UI로 구현·검증합니다.',
+];
 
-export const POSITIONING_PREFIX = '복잡한 정보를 정리하고,';
-export const POSITIONING_EMPHASIS = '구현 가능한';
-export const POSITIONING_SUFFIX = '화면으로 연결합니다.';
+/* 공개 Hero 승인 문구(HERO_HEADLINE_LINES)와 같은 정체성을 쓰도록 맞췄다.
+ * review:build가 생성하는 검토용 HTML/PDF가 이 값을 그대로 노출하므로,
+ * 공개 화면과 검토 자료가 서로 다른 포지셔닝을 말하지 않게 한다. */
+export const POSITIONING_PREFIX = '복잡한 일을,';
+export const POSITIONING_EMPHASIS = '이해되는';
+export const POSITIONING_SUFFIX = '화면으로.';
 export const POSITIONING_LINE = `${POSITIONING_PREFIX} ${POSITIONING_EMPHASIS} ${POSITIONING_SUFFIX}`;
 
 /* tools/site-audit-kit의 AI 활용 고지 문구로 쓰인다(검사용 리뷰 페이지 전용).

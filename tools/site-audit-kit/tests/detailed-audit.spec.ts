@@ -198,8 +198,16 @@ test.describe('Detailed Design Audit', () => {
           // 대비 계산 로직은 scripts/contrast-scan.js(check-contrast.js와 공용)로 옮겼다 -
           // 같은 판정 로직을 두 곳에서 복붙해 유지하지 않기 위함. 이 스텝은 기존과 동일하게
           // 최대 200개 요소만 훑고, low만 20개까지 기록한다.
+          //
+          // h1/h2/h3/p/button/a 자신만 검사하면, Hero h1처럼 자식 span별로 다른 색을 쓰는
+          // 혼합 색상 요소에서 부모의 상속 color(실제로 화면에 렌더링되지 않는 색)를 잘못
+          // 측정해 오탐이 발생했다(h1 ratio 1.03 false positive로 재현 확인). 선택자를 각
+          // leaf(하위 `*`)까지 넓히고 leafOnly로 걸러서, 텍스트가 실제로 그 색으로
+          // 렌더링되는 리프 노드만 대비 판정 대상으로 삼는다. contrast-scan.js의 leafOnly
+          // 계약(자식 element가 없는 노드만 후보) 자체는 바꾸지 않는다.
           const { totalScanned, low } = await page.evaluate(scanContrastInPage, {
-            selectors: 'h1, h2, h3, p, button, a',
+            selectors: 'h1, h1 *, h2, h2 *, h3, h3 *, p, p *, button, button *, a, a *',
+            leafOnly: true,
             maxElements: 200,
           });
           record({ kind: 'contrast', total: totalScanned, lowCount: low.length, low: low.slice(0, 20) });
@@ -214,21 +222,55 @@ test.describe('Detailed Design Audit', () => {
           const found = (await cta.count()) > 0;
           let hoverChanged = false;
           let focusChanged = false;
+          let hoverBase: Record<string, string> | null = null;
+          let hoverAfter: Record<string, string> | null = null;
+          let focusBase: Record<string, string> | null = null;
+          let focusAfter: Record<string, string> | null = null;
           if (found) {
-            const base = await cta.evaluate((el) => getComputedStyle(el).cssText);
+            // getComputedStyle(el).cssText는 computed style에서 스펙상 항상 빈 문자열을
+            // 반환하므로(computed style의 cssText는 inline style에서만 채워짐) hover 전후
+            // 비교가 항상 "변화 없음"으로 잘못 판정되던 버그가 있었다(재현 확인됨). 실제로
+            // hover에서 바뀌는 개별 속성을 직접 스냅샷 비교한다.
+            const snapshotHover = (el: Element) => {
+              const s = getComputedStyle(el);
+              return {
+                transform: s.transform,
+                boxShadow: s.boxShadow,
+                color: s.color,
+                backgroundColor: s.backgroundColor,
+                borderColor: s.borderColor,
+                opacity: s.opacity,
+              };
+            };
+            const snapshotFocus = (el: Element) => {
+              const s = getComputedStyle(el);
+              return {
+                outlineStyle: s.outlineStyle,
+                outlineColor: s.outlineColor,
+                outlineWidth: s.outlineWidth,
+                boxShadow: s.boxShadow,
+              };
+            };
+
+            // hover 전 포인터를 대상 밖으로 이동해 base 상태가 실제 non-hover임을 보장
+            await page.mouse.move(0, 0);
+            await page.waitForTimeout(50);
+            hoverBase = await cta.evaluate(snapshotHover);
             await cta.hover();
-            await page.waitForTimeout(150);
-            const afterHover = await cta.evaluate((el) => getComputedStyle(el).cssText);
-            hoverChanged = base !== afterHover;
+            await page.waitForTimeout(250); // hover transition(180ms) 완료 대기
+            hoverAfter = await cta.evaluate(snapshotHover);
+            hoverChanged = JSON.stringify(hoverBase) !== JSON.stringify(hoverAfter);
 
             await cta.evaluate((el) => (el as HTMLElement).blur());
-            const noFocus = await cta.evaluate((el) => getComputedStyle(el).outlineStyle + getComputedStyle(el).boxShadow);
+            await page.waitForTimeout(50);
+            focusBase = await cta.evaluate(snapshotFocus);
             await cta.focus();
             await page.waitForTimeout(150);
-            const withFocus = await cta.evaluate((el) => getComputedStyle(el).outlineStyle + getComputedStyle(el).boxShadow);
-            focusChanged = noFocus !== withFocus;
+            focusAfter = await cta.evaluate(snapshotFocus);
+            focusChanged = JSON.stringify(focusBase) !== JSON.stringify(focusAfter);
           }
-          record({ kind: 'hoverFocus', ctaFound: found, hoverChanged, focusChanged });
+          // report에서 원인 확인이 가능하도록 base/after 핵심 값도 함께 기록한다.
+          record({ kind: 'hoverFocus', ctaFound: found, hoverChanged, focusChanged, hoverBase, hoverAfter, focusBase, focusAfter });
         } catch (e) {
           record({ kind: 'hoverFocus', ok: undefined, remark: String(e).slice(0, 200) });
         }
@@ -438,13 +480,20 @@ test.describe('Detailed Design Audit', () => {
       // ORDERED SIGNAL 리디자인 이후 상세 버튼 라벨이 "작업 과정 보기"에서 Figma 원문
       // "상세보기"로 바뀌었다(42:118 Detail_CTA 등). 두 라벨을 함께 찾아 과거/현재 어느
       // 쪽이든 실제 버튼을 찾도록 한다.
-      await test.step('프로젝트 카드/모달 문구 추출', async () => {
+      // Home Featured 3개와 /projects 페이지의 FEATURED 카드는 모두 /projects/:slug로
+      // 이동하는 route 버튼이고, /projects 페이지의 ARCHIVE 항목만 모달을 연다. 이전
+      // 로직은 이 둘을 구분하지 않고 순서대로 클릭했다 - route 버튼을 클릭해 페이지가
+      // 이동한 뒤에는 원래 버튼 목록의 nth(i)가 더 이상 존재하지 않아 다음 클릭이
+      // actionability timeout(재현 확인됨)으로 이어졌다. route 이동 검사와 modal 검사를
+      // 완전히 분리된 흐름으로 처리하고, report kind도 의미별로 나눈다
+      // (projectCardText / projectDetailRoute / projectModalText).
+      await test.step('Home Featured 카드 텍스트 추출', async () => {
         try {
           await gotoHome(page);
           await scrollThroughPage(page);
           const cards = await page.evaluate(() => {
             const detailButtons = Array.from(document.querySelectorAll('button')).filter((b) =>
-              /작업 과정 보기|상세\s*보기/.test(b.textContent || '')
+              /상세\s*보기/.test(b.getAttribute('aria-label') || '')
             );
             return detailButtons.map((btn) => {
               let card: Element | null = btn;
@@ -456,29 +505,87 @@ test.describe('Detailed Design Audit', () => {
             });
           });
           record({ kind: 'projectCardText', cards });
-
-          const modalTexts: string[] = [];
-          const detailButtons = page.getByRole('button', { name: /작업 과정 보기|상세\s*보기/ });
-          const count = await detailButtons.count();
-          for (let i = 0; i < count; i++) {
-            const btn = detailButtons.nth(i);
-            await btn.click();
-            const dialog = page.locator('[role="dialog"]');
-            const opened = await dialog.first().waitFor({ state: 'visible', timeout: 5000 }).then(() => true).catch(() => false);
-            if (opened) {
-              const text = await dialog.first().evaluate((el) => (el.textContent || '').replace(/\s+/g, ' ').trim());
-              modalTexts.push(text.slice(0, 1500));
-              const closeBtn = dialog.getByRole('button', { name: /닫기/ }).first();
-              if ((await closeBtn.count()) > 0) await closeBtn.click();
-              else await page.keyboard.press('Escape');
-              await page.waitForTimeout(300);
-            } else {
-              modalTexts.push('(모달 열기 실패)');
-            }
-          }
-          record({ kind: 'projectModalText', modals: modalTexts });
         } catch (e) {
           record({ kind: 'projectCardText', ok: undefined, remark: String(e).slice(0, 200) });
+        }
+      });
+
+      await test.step('Home Featured route 이동 검사 (3개 개별)', async () => {
+        try {
+          await gotoHome(page);
+          await scrollThroughPage(page);
+          const labels = await page.evaluate(() =>
+            Array.from(document.querySelectorAll('button'))
+              .map((b) => b.getAttribute('aria-label') || '')
+              .filter((label) => /상세\s*보기/.test(label))
+          );
+          for (const label of labels) {
+            // 매 반복 홈으로 새로 이동해 그 시점의 실제 버튼을 다시 query한다 - 상세
+            // route에 들어간 상태에서 다음 버튼을 nth(i)로 찾지 않는다.
+            await gotoHome(page);
+            await scrollThroughPage(page);
+            const btn = page.getByRole('button', { name: label, exact: true }).first();
+            if ((await btn.count()) === 0) {
+              record({ kind: 'projectDetailRoute', label, navigated: false, remark: '버튼을 다시 찾지 못함' });
+              continue;
+            }
+            await btn.click();
+            await page.waitForTimeout(500);
+            const navigated = /\/projects\/[^/?#]+/.test(page.url());
+            const heading = navigated
+              ? ((await page.locator('h1').first().textContent().catch(() => null)) ?? '').trim() || null
+              : null;
+            record({ kind: 'projectDetailRoute', label, navigated, url: page.url(), heading });
+          }
+        } catch (e) {
+          record({ kind: 'projectDetailRoute', ok: undefined, remark: String(e).slice(0, 200) });
+        }
+      });
+
+      await test.step('/projects Archive 모달 검사', async () => {
+        try {
+          await page.goto(`${assertTargetUrl()}#/projects`, { waitUntil: 'networkidle' });
+          await page.waitForTimeout(500);
+          const labels = await page.evaluate(() =>
+            Array.from(document.querySelectorAll('button'))
+              .map((b) => b.getAttribute('aria-label') || '')
+              .filter((label) => /상세\s*보기/.test(label))
+          );
+          if (labels.length === 0) {
+            record({ kind: 'projectModalText', modals: [], detailButtonCandidateCount: 0, remark: '확인 불가/대상 없음 - Archive 버튼을 찾지 못함' });
+          } else {
+            const modalTexts: string[] = [];
+            // FEATURED 카드(route 이동)도 같은 라벨 패턴을 쓸 수 있으므로, 라벨 문구
+            // 차이에 의존하지 않고 클릭 후 실제로 [role="dialog"]가 열리는지로 Archive
+            // 버튼인지 판별한다 - 열리지 않고 URL만 바뀌면 route 버튼이었던 것으로 보고
+            // 되돌아간 뒤 다음 라벨로 넘어간다(성공으로 잘못 기록하지 않음).
+            for (const label of labels) {
+              const btn = page.getByRole('button', { name: label, exact: true }).first();
+              if ((await btn.count()) === 0) continue;
+              const urlBefore = page.url();
+              await btn.click();
+              const dialog = page.locator('[role="dialog"]');
+              const opened = await dialog.first().waitFor({ state: 'visible', timeout: 3000 }).then(() => true).catch(() => false);
+              if (opened) {
+                const text = await dialog.first().evaluate((el) => (el.textContent || '').replace(/\s+/g, ' ').trim());
+                modalTexts.push(text.slice(0, 1500));
+                const closeBtn = dialog.getByRole('button', { name: /닫기/ }).first();
+                if ((await closeBtn.count()) > 0) await closeBtn.click();
+                else await page.keyboard.press('Escape');
+                await page.waitForTimeout(300);
+              } else if (page.url() !== urlBefore) {
+                await page.goBack();
+                await page.waitForTimeout(300);
+              }
+            }
+            // labels.length는 "실제 Archive 버튼 수"가 아니라 "/projects에서 상세 보기류
+            // aria-label 패턴에 매칭된 후보 수"(Featured route 버튼 포함)다. 필드 이름이
+            // 실제 의미와 달랐던 문제(재현 확인)를 이름만 고쳐서 바로잡는다 - route/modal
+            // 판별 동작 자체는 바꾸지 않는다. 실제 Archive modal 수는 modalOpenedCount다.
+            record({ kind: 'projectModalText', modals: modalTexts, detailButtonCandidateCount: labels.length, modalOpenedCount: modalTexts.length });
+          }
+        } catch (e) {
+          record({ kind: 'projectModalText', ok: undefined, remark: String(e).slice(0, 200) });
         }
       });
     }

@@ -23,14 +23,57 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* 고정 헤더(80px) 아래로 섹션 스크롤 시 오프셋 확보 */
-#home, #about, #projects, #process, #skills, #contact {
+/* 고정 헤더(80px) 아래로 섹션 스크롤 시 오프셋 확보.
+ * #process/#skills는 실제 DOM에 없는 예전 section id라 목록에서 뺐다
+ * (hooks/useScrollNav.js SECTION_IDS도 함께 정리). */
+#home, #about, #projects, #contact {
   scroll-margin-top: 88px;
 }
 
-/* 다크 color-scheme — 스크롤바·인풋 등 OS 네이티브 요소에 반영 */
+/* 다크 color-scheme — 스크롤바·인풋 등 OS 네이티브 요소에 반영.
+ * Human Signal Header/404 등 밝은 화면이 이번 회차부터 섞이지만, 아직
+ * 대부분의 Home 섹션(Hero/About/Projects/MoreWorks/Contact)은 Ordered
+ * Signal 다크 테마라 전역 color-scheme는 그대로 dark로 둔다. */
 :root {
   color-scheme: dark;
+}
+
+/* Human Signal 전역 접근성 보조 규칙(이번 회차 신규).
+ * 각 컴포넌트가 이미 개별 &:focus-visible sx를 두고 있는 곳에는 그쪽이
+ * 우선 적용되고(클래스+가상클래스 선택자가 더 높은 우선순위), 아직
+ * 개별 규칙이 없는 요소(예: skip link)에 대한 안전망으로만 동작한다. */
+:focus-visible {
+  outline: 2px solid #A74224;
+  outline-offset: 2px;
+}
+
+/* "본문으로 건너뛰기" skip link — 평소에는 화면 밖에 있다가 키보드 포커스를
+ * 받으면 화면 좌상단에 나타난다. */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 2000;
+  padding: 12px 20px;
+  background-color: #0C1420;
+  color: #FFFDF8;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 16px;
+  outline: 2px solid #A74224;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
 }
 
 /* 접근성: 모션 감소 선호 설정 전역 적용.

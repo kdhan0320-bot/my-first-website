@@ -32,9 +32,13 @@ AI 보조 활용을 함께 보여준다.
 완성을 우선한다.
 
 ## 디자인 방향
-현재 승인된 디자인 시스템은 Ordered Signal이다. 전체 리디자인은 완료됐으며
-임의 재설계하지 않는다(사용자 승인 완료, Figma 파일
-`53Ppn2hIgrvs9Jra3eejFs` 기준). 세부 색상·타이포·모션·레이아웃은
+현재 승인된 디자인 시스템은 Human Signal이다(Figma 파일
+`53Ppn2hIgrvs9Jra3eejFs`, Human Signal v8, 사용자 승인 완료). 임의
+재설계하지 않는다. 전역 Header/Navigation/모바일 메뉴/404/D2 로고/전역
+색상·접근성 토큰은 Human Signal로 전환을 마쳤다. Hero·About·Selected
+Projects·More Works·Contact 5개 Home 섹션은 아직 이전 Ordered Signal
+화면이며 Phase 2에서 전환한다 — 지금은 한 페이지 안에 두 시스템이 함께
+있는 과도기 상태임을 감안해서 판단한다. 세부 색상·타이포·모션·레이아웃은
 `projects/my-portfolio/docs/design-reference.md`를 따른다.
 
 ## 외부 레퍼런스 활용 원칙

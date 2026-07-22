@@ -1,133 +1,182 @@
-# Ordered Signal — 디자인 참고 문서
+# Human Signal — 디자인 참고 문서
 
 이 문서는 `projects/my-portfolio/CLAUDE.md`의 디자인 방향을 구현 수준까지
 풀어놓은 참고 자료다. 복제용 스펙이 아니라 판단 기준이며, Figma 파일
-`53Ppn2hIgrvs9Jra3eejFs`("ORDERED SIGNAL / STYLE GUIDE")을 1차 소스로 삼아
-정리했다. 세부 수치(hex, px, 초)는 Figma 원본이 우선하고, 이 문서는 그
-수치를 코드에 어떻게 적용했는지 설명한다.
+`53Ppn2hIgrvs9Jra3eejFs`("Human Signal v8")를 1차 소스로 삼아 정리했다.
+세부 수치(hex, px, 초)는 Figma 원본이 우선하고, 이 문서는 그 수치를
+코드에 어떻게 적용했는지 설명한다.
 
-이전 디자인 시스템("Dohan.K Flow Blueprint" — 다크 네이비 + cyan/blue/
-emerald/violet)은 이 문서와 함께 전면 교체되었다. Figma 자체가 이미
-확정한 스타일 가이드(색상/타이포/모션 규칙 노드)를 갖추고 있었고, 사용자
-승인 아래 진행했다.
+이전 디자인 시스템(Ordered Signal, 큰 한글 타이포 + 신호점/신호선 모티프)은
+사용자 승인 아래 Human Signal로 교체됐다. Header/Navigation/모바일 메뉴/404/
+D2 로고/전역 토큰(Phase 1)에 이어, Hero/About/Selected Projects/More Works/
+Contact 5개 Home 섹션과 `/projects`·`/projects/:slug`까지 Phase 2~3C에
+걸쳐 전환을 마쳤다 — 저장소 전체가 Human Signal 한 체계로 통일된 상태다.
+`theme.js`의 옛 `COLORS`/`getDesignTokens`(Ordered Signal 6색, MUI dark
+palette)는 더 이상 어느 컴포넌트에서도 참조하지 않는 미사용 코드로 남아
+있다(삭제 여부는 별도 정리 회차에서 판단).
 
 ## 콘셉트
 
-"ORDERED SIGNAL": 흩어진 정보를 정리해(Scattered) 정렬하고(Align),
-구현 가능한 화면으로 만드는(Final) 과정을 큰 한글 타이포 + 신호(신호점/
-신호선) 모티프로 보여주는 포트폴리오. 포인트 컬러(Signal Orange)는 전체
-화면 면적의 5~8% 이내로만 쓴다.
+"HUMAN SIGNAL": Field(현장) → Structure(구조) → Build(구현) → Verify(검증)로
+이어지는 작업 방식을 "정리 · 연결 · 검증" 태그라인과 D2 로고, 세이지/오렌지
+신호 포인트로 보여주는 포트폴리오. Ordered Signal의 어두운 단일 톤 대신
+Warm Paper(밝은 종이 질감 배경)와 Ink Navy/Deep Harbor(어두운 섹션)가
+번갈아 나오는 2톤 구성이다.
 
 ## 색상 시스템
 
-Figma Style Guide(`19:233`) 원본 6색. 새 색상을 추가하지 않는다.
+Figma에는 Variables가 바인딩돼 있지 않아(`get_variable_defs` 빈 값) 아래
+값은 Human Signal v8 실제 프레임에서 직접 확인한 hex다(Hero 180:500, About
+180:546, Contact 180:698, Interaction/Navigation States 220:7, Mobile Menu
+221:27, 404 223:47). `src/theme.js`의 `HUMAN_SIGNAL` 객체와 1:1로 대응한다.
 
-| 이름 | Hex | 용도 |
-|---|---|---|
-| Ink Black | `#0B0F14` | 기본 다크 배경(Hero/Projects/Contact/Header) |
-| Deep Slate | `#151B23` | 카드/Mock 배경, 다크 표면 |
-| Warm Ivory | `#F4F1EA` | 밝은 배경 섹션(About), 밝은 카드(More Works/Archive 교차) |
-| Light Secondary | `#B8C1CB` | 다크 배경 위 보조 텍스트 |
-| Dark Secondary | `#4D5966` | 밝은 배경 위 보조 텍스트 |
-| Signal Orange | `#FF6B3D` | CTA, 강조 포인트, active 상태 |
-| (밝은 배경 강조 텍스트) | `#B93A17` | 밝은 배경 위 작은 주황 텍스트 전용(Signal Orange 대비 확보용) |
+| 이름 | Hex | 용도 | 확인 근거 |
+|---|---|---|---|
+| Ink Navy | `#0C1420` | 기본 다크 텍스트, D2 onLight primary | Header 텍스트, D2, 404 텍스트 |
+| Deep Harbor | `#172432` | 보조 다크 표면(카드/섹션 배경) | Hero copy plane·product stage plane, Contact 배경, 모바일 메뉴 배경 |
+| Warm Paper | `#F2EDE3` | 기본 밝은 배경 | About BACKGROUND blockquote 텍스트 색, Projects/404 배경 |
+| Paper Deep | `#E2D9CC` | 밝은 배경 위 보더/디바이더 | Header 보더, 404 헤더/푸터 라인 |
+| Soft White | `#FFFDF8` | 밝은 섹션 카드/버튼 배경 | Header 카드, 모바일 메일 CTA, 404 CTA |
+| Ink text | `#27313B` | 밝은 배경 위 보조 텍스트(본문) | Hero 서브카피 |
+| Burnt Orange | `#A74224` | **밝은 배경(Warm Paper/Soft White) 위 작은 텍스트·기호**, focus-visible 링 색 | Hero 라벨, About BACKGROUND 라벨, Header hover, 404 eyebrow/REQUEST/보조 버튼 화살표 |
+| Bright Orange | `#D85C32` | 큰 강조 텍스트, 비텍스트 장식(밑줄 인디케이터 등) — 배경과 무관하게 사용 가능 | Nav active 밑줄(220:54), Hero 헤드라인 강조 |
+| Bright Orange on Dark | `#EC6B3D` | **어두운 배경(Deep Harbor/Ink Navy) 위 작은 텍스트·기호** | 모바일 메뉴 NAVIGATION/active 번호, 404 primary 버튼 아이콘, Hero canvas PROOF 라벨/signal node 번호, Contact 라벨 |
+| Muted Sage | `#90A58B` | 포인트 세이지(도트/비활성 번호) | Origin Sage, Field Pill 도트, 모바일 메뉴 비활성 번호 |
+| Steel Mist | `#AAB7C4` | 다크 배경 위 보조 텍스트/디바이더 베이스 | About Step Desc, 모바일 메뉴 설명/상태 텍스트 |
+| Deep Sage | `[확인 필요]` | — | 이번 회차 구현 범위(Header/Nav/404) 프레임에 solid fill로 등장하지 않음. 임의 값을 넣지 않았다 |
 
-**사용 규칙**
-- 밝은 배경(Warm Ivory) 위 작은 라벨/숫자 텍스트는 `#B93A17`을 쓴다.
-  `#FF6B3D`는 대비가 낮아 밝은 배경의 작은 텍스트에는 쓰지 않는다.
-- `#FF6B3D`는 CTA 버튼, Hero/Contact/Projects의 라벨 강조, active
-  signal 등 큰 포인트 위주로 쓴다.
-- More Works 섹션의 주황 풀블리드 배경은 Figma 원안 그대로 유지한다
-  (임의로 축소하지 않는다). 실제 브라우저 렌더링에서 대표 프로젝트
-  섹션보다 시각적으로 과해 보이는지는 완료 보고서에서 별도 평가한다.
+**사용 규칙 (Figma 접근성 점검 기준, 이번 회차에 코드 반영 완료)**
+- 작은 텍스트·기호는 배경에 따라 색을 나눠 쓴다: Warm Paper/Soft White(밝은
+  배경) 위에는 `burntOrange(#A74224)`, Deep Harbor/Ink Navy(어두운 배경)
+  위에는 `brightOrangeOnDark(#EC6B3D)`를 쓴다. `brightOrange(#D85C32)`를
+  작은 텍스트에 쓰지 않는다 — Figma 활성 페이지 대비 점검에서 두 배경 모두
+  `#D85C32` 작은 텍스트가 규칙 위반으로 확인됐다.
+- `brightOrange(#D85C32)`는 큰 강조 텍스트와 비텍스트 장식(active 밑줄
+  인디케이터 등)에는 배경과 무관하게 그대로 쓸 수 있다.
+- focus-visible 링은 Bright Orange가 아니라 **Burnt Orange** 2px다(hover와
+  구분되는 색).
+- `src/theme.js`의 기존 `COLORS`(Ordered Signal 6색)는 그대로 남아 있다 —
+  HeroSection/AboutSection/ProjectsSection/MoreWorksSection/ContactSection이
+  아직 이 값을 직접 참조하므로, Phase 2에서 해당 섹션을 Human Signal로
+  옮기기 전까지는 지우거나 값을 바꾸지 않는다.
 
 ## 타이포그래피
 
-- **IBM Plex Sans KR** — 한글 제목/본문(Bold=제목, Regular/Medium=본문).
-  `theme.js`의 `typography.fontFamily` 기본값.
-- **IBM Plex Mono** — 라벨/번호/메타데이터(예: `01 / ORDERED SIGNAL`,
-  `USER FLOW`, `VIEW PROJECT →`). `theme.js`에서 내보내는 `FONT_MONO`
-  상수를 필요한 곳에 `sx={{ fontFamily: FONT_MONO }}`로 적용한다(MUI
-  테마에는 보조 폰트 슬롯이 없어 컴포넌트별 inline 적용 방식을 쓴다).
-- 폰트 로딩은 Google Fonts CDN `<link>`(`index.html`)로 하고 새 npm
-  의존성을 추가하지 않는다(기존 Pretendard CDN 링크 방식과 동일 패턴).
+Ordered Signal과 동일하게 유지한다.
+- **IBM Plex Sans KR** — 한글 제목/본문. `theme.js`의 `FONT_SANS`.
+- **IBM Plex Mono** — 라벨/번호/메타데이터. `theme.js`의 `FONT_MONO`.
+- Google Fonts CDN(`index.html`)로 로딩, 새 npm 의존성 없음.
 
-## 모션 원칙
+## 레이아웃/구조 (Phase 1 구현 범위)
 
-- **Hero 진입 모션**: Figma Motion States(Scattered `19:277` → Align
-  `19:288` → Final `19:296`) 3단계를 기준으로 한다. 헤드라인 각 줄이
-  약간 흩어진 위치에서 정렬되고, Signal Panel 각 행이 순서대로 나타나며,
-  CTA 버튼이 가장 마지막에 나타난다. 최초 진입 1회, 총 1.5~2.2초,
-  `animation-iteration-count:1`(반복 없음). 레이아웃 시프트가 없도록
-  최종 상태 기준 공간을 미리 확보한다.
-- **Contact 마무리 모션**: Hero의 정렬 개념을 아주 약하게 되받아치는
-  정도로, 신호점 3개 + 얇은 선이 흩어진 위치에서 정렬되어 메일 CTA 쪽에서
-  멈춘다. 0.6~0.9초, 1회. 버튼 자체는 크게 움직이지 않는다.
-- **무한 반복 애니메이션 금지**. Hero/Contact의 위 두 진입 모션은 모두
-  1회성이며 예외가 아니다(이 시스템에는 Flow Blueprint 시절의 "Hero
-  ambient 12~18초 루프" 같은 예외를 두지 않는다).
-- 3D, 파티클, 글리치, 마우스 추적, 강한 blur를 쓰지 않는다.
-- 모바일에서는 이동 거리와 요소 수를 줄인다(Hero 헤드라인 scatter
-  오프셋을 데스크톱보다 작게 적용).
-- `prefers-reduced-motion: reduce`에서는 Final 상태를 즉시 표시한다.
-  `index.css`의 전역 규칙이 `animation-duration`뿐 아니라
-  `animation-delay`/`transition-delay`도 0으로 만든다 — delay만 살아
-  있으면 지연이 긴 요소(예: Hero CTA)가 몇 초 뒤에야 나타나 "즉시 표시"
-  요구를 어기게 되므로 반드시 함께 처리한다.
+- **Header**: `Navbar.jsx`. Ordered Signal의 hide-on-scroll을 없애고 Top /
+  Sticky Compact 두 상태만 오간다(항상 화면에 남는다). 배경은 항상
+  Warm Paper 계열 불투명 채움이다 — Header가 `/projects`처럼 아직 어두운
+  Ordered Signal 배경 위에 뜨는 라우트도 있어, Hero처럼 투명하게 비우면
+  다크 배경에서 Ink Navy 텍스트가 거의 안 보인다(대비 문제라 투명 대신
+  항상 불투명 배경을 쓰기로 판단). Top 상태는 이름+역할(UX/UI · WEB
+  PUBLISHING)을 함께 보여주고, Sticky Compact는 역할 텍스트를 숨기고
+  높이를 살짝 줄인다.
+- **로고**: `components/brand/DMark.jsx`(D2) + `DOHAN KIM` + `UX/UI · WEB
+  PUBLISHING`. Figma 노드 `220:12`(D Mark / 밝은 Header)의 실제 vector 4개
+  (왼쪽 세로 Primary shape, D ring Primary shape, Sage lower shape, Orange
+  point)를 좌표 그대로 옮겨 구현했다. 배경 배지나 둥근 사각형 없이 SVG
+  배경은 투명하고, 밝은/어두운 배경에서 형태·비율은 완전히 동일하며 primary
+  색만 바뀐다(사용자 승인 B안): `onLight`는 Ink Navy + Muted Sage + Bright
+  Orange, `onDark`는 Soft White + Muted Sage + Bright Orange. `onDark`는
+  Figma `105:53`/`221:30`에도 반영돼 있다.
+- **Desktop 메뉴**: PROJECTS / ABOUT / GITHUB / MAIL, 각 44px 이상 hit
+  area. Home에서 Projects/About는 스크롤 위치 기반 scrollspy로 active,
+  `/projects`·`/projects/:slug`에서는 PROJECTS가 라우트 기준으로 active.
+  GitHub/Mail은 active 처리하지 않는다. Active/hover 밑줄은 24px/12px
+  Bright Orange(비텍스트 장식이라 배경 무관하게 사용). hover 시 글자색은
+  Warm Paper 위 작은 텍스트라 Burnt Orange로 바뀐다(active 기본 글자색은
+  Ink Navy 유지).
+- **모바일 메뉴**: MUI Drawer(전체 화면), 배경 Deep Harbor. 순서 Projects /
+  About / GitHub / Mail, 항목별 설명(전체 작업/배경과 방식/코드 보기 ↗/
+  연락하기 ↗)과 번호(active는 Bright Orange on Dark, 비활성은 Muted Sage)를
+  함께 보여준다. NAVIGATION 라벨도 Deep Harbor 위 작은 텍스트라 Bright
+  Orange on Dark. 하단 Mail CTA(Soft White 배경, ↗는 Burnt Orange)와 Open
+  to Work 상태, 닫기 힌트. 닫힌 뒤 메뉴 버튼으로 focus가 돌아간다(최초
+  진입에서는 자동 focus 없음). reduced-motion에서는 Drawer 슬라이드 대신
+  즉시 opacity 전환(Fade, duration 0)을 쓴다.
+- **404**: `pages/NotFoundPage.jsx`. Desktop/Mobile을 한 반응형 컴포넌트로
+  구현했다. 복구 행동은 홈 / 전체 프로젝트 두 가지뿐이고, 비공개·draft
+  slug가 있다는 사실을 암시하는 문구는 넣지 않았다. 요청 경로를 그대로
+  보여주는 REQUEST 박스가 있다. eyebrow/REQUEST 라벨과 Soft White 보조
+  버튼 화살표는 밝은 배경 위 작은 텍스트라 Burnt Orange, Ink Navy primary
+  버튼 안 화살표는 어두운 배경 위라 Bright Orange on Dark를 쓴다.
+- **Action icon 규칙(Phase 3C, `components/ui/ActionIcon.jsx`)**: 문자
+  화살표(`→`/`↗`/`←`)를 전부 MUI 아이콘 컴포넌트로 교체했다 — `internal`
+  (`ArrowForwardRounded`, 내부 스크롤·라우트 이동·메일 전송, 뒤로가기는
+  180도 회전해 재사용), `external`(`NorthEastRounded`, GitHub 등 외부
+  사이트 새 탭), `download`(`DownloadRounded`, PDF 포트폴리오). 프로젝트
+  진행 과정을 설명하는 `projectsFallbackData.js`의 `process` 필드 문자열은
+  UI 내비게이션이 아닌 사실 데이터라 이 규칙 대상이 아니다(문자 그대로 유지).
+- **Ultra-wide(2560)**: 1440 레이아웃의 단순 확대가 아니라 콘텐츠
+  `max-width: 1680px` 규칙을 쓴다(Figma QHD 프레임 181:919의 `Centered
+  1680` 자식 프레임에서 직접 확인). `theme.js`의
+  `ULTRAWIDE_CONTENT_MAX_WIDTH` 상수로 노출해뒀다.
 
-## 레이아웃/구조
+## 접근성
 
-- **Header**: 로고(텍스트 "D" + "Dohan.K") · PROJECTS · GITHUB(새 탭) ·
-  PDF PORTFOLIO(`PORTFOLIO_PDF_URL`이 있을 때만 노출) · Mail CTA(실제
-  이메일 `mailto:`). 모바일은 전체 화면 메뉴(Figma `48:2`)로 전환하며
-  포커스 트랩/Escape/스크롤 잠금은 MUI `Drawer`(Modal 기반) 기본 동작을
-  그대로 활용한다. 제출용 PDF가 없는 동안에는 PDF 관련 안내 문구도
-  공개 화면에 노출하지 않는다("숨긴다"는 사실 자체가 개발/QA 관점의
-  설명이라 방문자에게는 불필요하다) — 헤더/모바일 메뉴/Contact 어디에도
-  "PDF는 ... 숨깁니다" 같은 문장을 남기지 않는다.
-- **Home 섹션 순서**: Header(고정) → Hero → About → Selected Projects →
-  More Works(공개 항목이 있을 때만) → Contact. 예전에 있던 별도 `/about`
-  페이지는 삭제했다 — `/about` 접근은 Home의 About 섹션으로 리다이렉트된다
-  (`App.jsx`의 `<Navigate>` + `HomePage.jsx`의 `location.state.scrollTo`
-  재사용). Home의 About Snapshot이 이제 유일한 "소개" 화면이다.
-- **Hero**: 하단에는 "SCROLL / 01—05"만 남기고, "1회 정렬 모션 · 반복
-  없음 · reduced-motion 대응" 같은 개발/QA 설명 문구는 공개 화면에 넣지
-  않는다. 모션 구현(코드/훅) 자체는 그대로 유지한다.
-- **Selected Projects**: 실제 대표 프로젝트 3개(JobFlow / 버스 도착정보
-  앱 UI / Portfolio Feedback Hub)를 Mock(브라우저 크롬 + 실제 프로젝트
-  이미지)과 Copy(제목/설명/ROLE/DATA/상세보기)가 좌우 교차 배치되는
-  구조로 보여준다. Figma의 추상 차트/리스트 목업은 브라우저 크롬 장식만
-  차용하고, 내부 콘텐츠는 실제 프로젝트 썸네일 이미지로 채운다(Figma
-  단순 목업을 최종 이미지로 쓰지 않는다). JobFlow 설명은 "AI 프로젝트"를
-  먼저 내세우지 않고 프로젝트 자체 → 문제 → 담당 범위 → 데이터 범위 →
-  AI 보조 순으로 정리한다(AI 활용 사실은 숨기지 않되 맨 앞에 두지 않는다).
-- **More Works**: 실제로 조사해서 공개 가능하다고 판단한 프로젝트만
-  `moreWorksPublished: true` 데이터 플래그로 표시하고, 그 항목만
-  렌더링한다(현재는 OTT Service 1개). 공개 항목이 없으면 섹션 전체를
-  렌더링하지 않는다. 이전 라운드의 WEB PORTFOLIO/OTHER WORKS 임시 카드는
-  삭제했다 — 준비 중/공개 예정 카드나 빈 슬롯은 만들지 않는다.
-- **대표 프로젝트 상세**: JobFlow·버스 도착정보 앱·Portfolio Feedback
-  Hub 3개는 모달이 아니라 고유 URL(`/projects/jobflow`,
-  `/projects/bus-arrival`, `/projects/feedback-hub`, `ProjectDetailPage.jsx`
-  템플릿 하나 재사용)로 이동한다. Home과 `/projects`의 "상세보기"/
-  "VIEW CASE"는 모두 이 라우트로 이동하고, 이 3개 전용 모달은 제거했다.
-  나머지 Archive 프로젝트는 여전히 `/projects`의 기존 모달(`DetailModal`)로
-  본다 — 전체 전환 대상이 아니다.
-- **`/projects` 페이지**: Featured 3개(Home과 동일 프로젝트, 더 짧은
-  카드형, 상세 라우트로 이동)와 Archive 목록(기존 모달)으로 구성한다.
-  Figma 목업은 Archive 예시로 3개 행만 보여주지만, 실제 archive 태그
-  프로젝트는 더 많으므로(현재 7개) 같은 행 스타일로 실제 개수만큼 반복
-  렌더링한다 — 항목을 임의로 줄이지 않는다. 필터 Tabs는 Figma에 없고
-  프로젝트 수도 적어 추가하지 않는다.
-- 모든 반응형 여백: Desktop(1440) 좌우 64px / Tablet(1024) 좌우 48px /
-  Mobile(390) 좌우 24px. 버튼/링크 터치 영역 44px 이상. 정보 전달 목적의
-  Mono 라벨(ROLE/DATA/VIEW PROJECT 등)은 모바일에서 최소 12px, 순수 장식
-  번호나 위치 표식(카드 번호, SCROLL 표기 등)은 Figma대로 11px을 유지한다.
+- 전역 `:focus-visible` 안전망(Burnt Orange 2px, `index.css`) — 이미 개별
+  `&:focus-visible` sx를 둔 요소는 그쪽이 우선 적용되고, skip link처럼
+  개별 규칙이 없는 요소만 이 전역 규칙을 받는다.
+- Skip link(`.skip-link`, `index.css`) — 평소 화면 밖에 있다가 포커스 시
+  좌상단에 나타난다. `App.jsx`의 `<main id="main-content">`로 이동한다.
+- 주요 상호작용 영역 44×44px 이상.
+- `prefers-reduced-motion: reduce`: 기존 전역 규칙(`index.css`, duration/
+  delay를 0에 가깝게)은 그대로 두고, 모바일 메뉴처럼 JS 트랜지션(MUI
+  Drawer의 Slide)을 쓰는 새 컴포넌트는 개별적으로 감지해 opacity 전환으로
+  바꿨다. Hero 등 transform 기반 진입 모션 자체의 reduced-motion 처리는
+  다음 회차(Hero B 모션 구현) 범위다.
 
-## 정리된 이전 시스템 잔재
+## Quiet Structural Depth
 
-Flow Blueprint 시절 컴포넌트 중 1차 교체 이후로도 어디서도 import되지
-않던 파일(`FlowCanvasIllustration.jsx`, `DMark.jsx`, `FlowNode.jsx`,
-`ProjectsPreviewMonitor.jsx`, `LogoSymbol.jsx`)은 참조 없음을 재확인한
-뒤 사용자 승인을 받아 실제로 삭제했다. `AboutPage.jsx`도 이전 라운드에
-같은 방식(참조 없음 확인 후 진행)으로 삭제했다.
+`components/ui/QuietSignalBackground.jsx` — radial-gradient 블롭 2개 +
+blur 한 겹만 쓰는 단순 배경 레이어(pointer-events: none, aria-hidden,
+모바일에서 크기/불투명도 축소). 이번 회차는 404 페이지에만 적용했고,
+나머지 자리에 쓸지는 Phase 2에서 판단한다.
+
+## Home 섹션 전환 이후 방향 (Phase 3C 기준)
+
+`HeroSection.jsx`, `AboutSection.jsx`, `ProjectsSection.jsx`,
+`MoreWorksSection.jsx`, `ContactSection.jsx`, `/projects`, `/projects/:slug`
+모두 Human Signal `HUMAN_SIGNAL` 토큰만 참조하도록 전환을 마쳤다(Ordered
+Signal `COLORS` 참조 없음). Phase 3C에서 추가된 구조:
+- **Hero**: 좌 55%(QHD 52%) identity plane(D2+`DOHAN KIM`+역할 카피+H1+CTA) /
+  우 45%(QHD 48%) canvas plane(D2 origin→정리·연결·검증 signal node 3개→
+  축소된 JobFlow proof window).
+- **About**: 상단 좌/우 비대칭(헤드라인/origin 문장), 정리·연결·검증 1개
+  밴드(zone 3개), "Capability Studio"(좌 역량 설명 + 우 DESIGN/BUILD/VERIFY
+  3레인, Deep Harbor dark 표면 — About 안의 유일한 dark 표면), 5단계 프로세스는
+  CSS 점·선 connector로 최소화.
+- **Contact**: 좌 32% Deep Harbor identity plane(D2+`DOHAN KIM`+정리·연결·
+  검증+OPEN TO WORK) / 우 68% Soft White action plane(heading+Mail primary+
+  GitHub·PDF secondary+지원 분야), 하단 별도 Deep Harbor footer strip.
+
+영문 이름 표기는 `DOHAN KIM`(이름 성 순서)으로 통일 확정됐다(사용자 확정).
+Navbar 로고, Hero identity, Contact identity·footer, ProjectsPage footer,
+NotFoundPage footer 전부 `DOHAN KIM`을 쓴다 — `KIM DOHAN`(성 이름 순서)은
+더 이상 쓰지 않는다.
+
+## Figma 노드 레퍼런스 (Human Signal v8, 파일 `53Ppn2hIgrvs9Jra3eejFs`)
+
+| 영역 | 노드 |
+|---|---|
+| Home Desktop 1440 | `180:499` |
+| Home Wide 1920 | `181:594` |
+| Home QHD 2560 | `181:919` |
+| Home Compact 1024 | `181:1249` |
+| Home Tablet 768/820 | `181:1565` / `181:1884` |
+| Home Mobile 390 | `181:2203` |
+| Interaction / Navigation States | `220:7` |
+| Interaction / Mobile Menu | `221:2` |
+| Interaction / Routing Rules | `223:2` |
+| 404 Desktop / Mobile | `223:47` / `224:2` |
+| Interaction / Edge Rules | `224:25` |
+| Interaction / Accessibility QA | `227:3` |
+| Motion / Hero B medium storyboard | `172:286` |
+| Motion / Implementation timeline | `184:162` |
+| Motion / Contact | `173:164` |

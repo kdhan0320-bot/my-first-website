@@ -18,16 +18,23 @@ export const REPORT_FILE = 'audit-output/report.md';
 export const MOTION_CHECK_FILE = 'audit-output/motion-check.json';
 export const VIDEO_DIR = 'audit-output/videos';
 
+/* Human Signal Phase 3C 2차 재검토: projects/my-portfolio/CLAUDE.md의 검증
+ * 규칙이 명시하는 반응형 확인 폭은 390/430/768/820/1024/1366/1440/1920/2560
+ * 9개다. 기존 DETAILED_VIEWPORTS는 이 목록과 어긋나 있었다(1280/834/375를
+ * 쓰고 768/820/1366/1920이 빠짐) — 검사 대상을 프로젝트가 실제로 정한
+ * 기준과 맞춘다(폭을 줄이는 게 아니라 공식 기준에 맞게 교체하는 것이라
+ * 테스트 약화가 아니다). */
 export const DETAILED_VIEWPORTS: Record<
   string,
   { width: number; height: number; label: string; file: string }
 > = {
-  'desktop-2560': { width: 2560, height: 1440, label: 'Desktop XL (2560x1440)', file: 'desktop-2560.png' },
-  'desktop-1440': { width: 1440, height: 1000, label: 'Desktop Large (1440x1000)', file: 'desktop-1440.png' },
-  'desktop-1280': { width: 1280, height: 900, label: 'Desktop Small (1280x900)', file: 'desktop-1280.png' },
+  'desktop-2560': { width: 2560, height: 1440, label: 'Desktop QHD (2560x1440)', file: 'desktop-2560.png' },
+  'desktop-1920': { width: 1920, height: 1080, label: 'Desktop Full HD (1920x1080)', file: 'desktop-1920.png' },
+  'desktop-1440': { width: 1440, height: 900, label: 'Desktop (1440x900)', file: 'desktop-1440.png' },
+  'desktop-1366': { width: 1366, height: 768, label: 'Desktop Laptop (1366x768)', file: 'desktop-1366.png' },
   'tablet-1024': { width: 1024, height: 768, label: 'Tablet Landscape (1024x768)', file: 'tablet-1024.png' },
-  'tablet-834': { width: 834, height: 1112, label: 'Tablet Portrait (834x1112)', file: 'tablet-834.png' },
+  'tablet-820': { width: 820, height: 1180, label: 'Tablet Portrait (820x1180)', file: 'tablet-820.png' },
+  'mobile-768': { width: 768, height: 1024, label: 'Tablet Small / Mobile Wide (768x1024)', file: 'mobile-768.png' },
   'mobile-430': { width: 430, height: 932, label: 'Mobile Large (430x932)', file: 'mobile-430.png' },
   'mobile-390': { width: 390, height: 844, label: 'Mobile Medium (390x844)', file: 'mobile-390.png' },
-  'mobile-375': { width: 375, height: 812, label: 'Mobile Small (375x812)', file: 'mobile-375.png' },
 };
