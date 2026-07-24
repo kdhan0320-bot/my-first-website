@@ -2,7 +2,12 @@
 .mcp.json
 
 # Claude 로컬 설정
-.claude/
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/figma-fidelity/
+.claude/skills/figma-fidelity/*
+!.claude/skills/figma-fidelity/SKILL.md
 
 # Node.js
 node_modules/
@@ -43,6 +48,3 @@ npm-debug.log*
 
 # 백업 파일
 *.bak
-
-# Claude 개인 로컬 지침
-CLAUDE.local.md
