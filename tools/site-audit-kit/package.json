@@ -8,10 +8,12 @@
     "audit": "playwright test",
     "audit:headed": "playwright test --headed",
     "audit:ui": "playwright test --ui",
-    "zip": "powershell -NoProfile -Command \"Compress-Archive -Path 'audit-output' -DestinationPath 'site-audit-result.zip' -Force\"",
+    "zip": "powershell -NoProfile -File \"scripts/create-zip.ps1\"",
     "clean": "node scripts/clean.js",
     "audit:detailed": "playwright test --config=playwright.detailed.config.ts",
     "audit:detailed:headed": "playwright test --config=playwright.detailed.config.ts --headed",
+    "audit:routes": "playwright test --config=playwright.route-regression.config.ts",
+    "audit:projects": "playwright test --config=playwright.projects.config.ts",
     "review:build": "node scripts/generate-portfolio-review.js"
   },
   "keywords": [],

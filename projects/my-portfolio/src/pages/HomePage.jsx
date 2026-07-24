@@ -36,7 +36,13 @@ const HomePage = () => {
       if (!cancelled) document.documentElement.setAttribute('data-review-ready', 'true');
     };
 
-    const isReviewMode = document.documentElement.getAttribute('data-review-mode') === 'true';
+    // window.__PORTFOLIO_REVIEW_MODE__ 또는 data-review-mode 속성 중 하나만 true여도
+    // review 모드로 판단한다 - addInitScript 실행 시점에 documentElement가 아직 없어
+    // 속성 설정이 조용히 무효화되는 환경 버그(재현 확인됨)에 대응하기 위해 window
+    // 플래그를 함께 확인한다. 일반 방문에서는 둘 다 없으므로 항상 false로 유지된다.
+    const isReviewMode =
+      window.__PORTFOLIO_REVIEW_MODE__ === true ||
+      document.documentElement.getAttribute('data-review-mode') === 'true';
 
     if (!isReviewMode) {
       rafId = requestAnimationFrame(() => {

@@ -1,9 +1,45 @@
 import { useState, useEffect, useRef } from 'react';
 
-const SECTION_IDS = ['home', 'about', 'process', 'skills', 'projects', 'contact'];
+const SECTION_IDS = ['home', 'about', 'projects', 'contact'];
 const HIDE_THRESHOLD = 80; // 이 위치 이하에서만 헤더 숨김 트리거
+const STICKY_COMPACT_THRESHOLD = 24; // 이 위치를 넘으면 Header가 Sticky Compact 상태로 전환
 
-// ── 1. 스크롤 방향 감지 ──────────────────────────────────────────────
+// ── 0. Human Signal Header: Sticky Compact 전환 감지 ─────────────────
+// Ordered Signal의 hide-on-scroll(useScrollDirection)과 달리 Header를
+// 숨기지 않는다 — 스크롤 위치에 따라 top/sticky-compact 두 상태만 오간다.
+export const useStickyCompact = () => {
+  const [atTop, setAtTop] = useState(true);
+  const [compact, setCompact] = useState(false);
+  const ticking = useRef(false);
+
+  useEffect(() => {
+    const update = () => {
+      const currentY = window.scrollY;
+      setAtTop(currentY < 10);
+      setCompact(currentY > STICKY_COMPACT_THRESHOLD);
+      ticking.current = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking.current) {
+        window.requestAnimationFrame(update);
+        ticking.current = true;
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return { atTop, compact };
+};
+
+// ── 1. 스크롤 방향 감지 (Ordered Signal 잔재) ────────────────────────
+// TODO(Human Signal 전환): Navbar.jsx는 이제 hide-on-scroll 대신 위
+// useStickyCompact를 쓴다. 이 훅을 더 이상 어디서도 쓰지 않는다면 삭제
+// 후보이지만, 이번 회차는 "삭제·이동 없음" 범위라 임의로 지우지 않고
+// 남겨둔다 — 사용자 확인 후 다음 회차에서 삭제 여부를 정한다.
 export const useScrollDirection = (drawerOpen) => {
   const [hidden, setHidden] = useState(false);
   const [atTop, setAtTop] = useState(true);

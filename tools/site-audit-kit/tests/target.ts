@@ -14,7 +14,13 @@ export function assertTargetUrl(): string {
   return url;
 }
 
-export const SCREENSHOT_DIR = 'audit-output/screenshots';
+/* Phase 4B: 이전에는 detailed-target.ts와 같은 'audit-output/screenshots'를
+ * 공유했다 — 파일명은 겹치지 않지만, global-setup.ts가 이 폴더 전체를
+ * rmSync(recursive)로 지우기 때문에 npm run audit:detailed 다음에 npm run
+ * audit을 실행하면 detailed 9장이 통째로 삭제되는 실제 버그가 있었다(ZIP에
+ * detailed PNG가 없다는 사용자 보고로 재현·확인). basic/detailed 결과물을
+ * 별도 하위 폴더로 분리해 서로의 정리 시점에 영향받지 않게 한다. */
+export const SCREENSHOT_DIR = 'audit-output/screenshots/sections';
 export const RESULTS_FILE = 'audit-output/results.ndjson';
 export const REPORT_FILE = 'audit-output/report.md';
 
