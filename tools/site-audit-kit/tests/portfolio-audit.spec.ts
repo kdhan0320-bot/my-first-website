@@ -13,8 +13,13 @@ async function gotoHome(page: Page) {
   return response;
 }
 
-async function getNavButton(page: Page, name: string) {
-  const direct = page.getByRole('button', { name, exact: true }).first();
+// Phase 4D: PROJECTS/상세 CTA/전체 프로젝트 보기는 실제 URL 이동이라 button이 아니라
+// link semantics로 바뀌었다(Navbar.jsx, ProjectsSection.jsx) — role='button'만 찾던
+// 기존 getNavButton은 이 요소들을 더 이상 찾지 못해 조용히 N/A가 됐다. role='link'
+// 기준으로 찾는 대응 helper를 추가한다(모바일 메뉴 fallback은 동일하게 유지).
+async function getNavLink(page: Page, nameOrRegex: string | RegExp) {
+  const opts = typeof nameOrRegex === 'string' ? { name: nameOrRegex, exact: true } : { name: nameOrRegex };
+  const direct = page.getByRole('link', opts).first();
   if ((await direct.count()) > 0 && (await direct.isVisible())) {
     return direct;
   }
@@ -22,10 +27,19 @@ async function getNavButton(page: Page, name: string) {
   if ((await menuToggle.count()) > 0) {
     await menuToggle.click();
     await page.waitForTimeout(300);
-    const inMenu = page.getByRole('button', { name, exact: true }).first();
+    const inMenu = page.getByRole('link', opts).first();
     if ((await inMenu.count()) > 0) return inMenu;
   }
   return direct;
+}
+
+// 화면에 반드시 있어야 하는 필수 항목(PROJECTS/상세 CTA/전체 프로젝트 보기)을 못 찾으면
+// N/A로 조용히 넘기지 않고 FAIL로 기록 + soft assertion으로 남긴다(테스트 자체는 계속
+// 진행해 나머지 검사를 마저 수집한다). 모바일의 desktop 전용 nav처럼 "이 viewport에는
+// 원래 없는 게 정상"인 항목에는 이 helper를 쓰지 않는다.
+function recordRequiredMissing(viewport: string, item: string, note: string) {
+  record({ kind: 'functional', viewport, item, result: 'FAIL', note });
+  expect.soft(0, `[필수 항목 없음] ${item}: ${note}`).toBeGreaterThan(0);
 }
 
 async function linkLocation(page: Page, href: string, text: string) {
@@ -270,11 +284,11 @@ test.describe('Portfolio Audit', () => {
     await test.step('프로젝트 상세 페이지 이동/캡처 테스트', async () => {
       const urlBefore = page.url();
       await gotoHome(page);
-      const detailButton = page.getByRole('button', { name: /과정\s*보기|상세\s*보기|view|detail/i }).first();
+      const detailButton = page.getByRole('link', { name: /과정\s*보기|상세\s*보기|view|detail/i }).first();
       if ((await detailButton.count()) === 0) {
-        record({ kind: 'functional', viewport, item: '프로젝트 상세 페이지 이동', result: 'N/A', note: '버튼을 찾을 수 없음' });
+        recordRequiredMissing(viewport, '프로젝트 상세 페이지 이동', '상세 CTA(link)를 찾을 수 없음');
         const file = `${viewport}-project-detail.png`;
-        record({ kind: 'screenshot', viewport, section: 'Project Detail', file, ok: false, remark: '상세로 이동하는 버튼을 찾을 수 없음' });
+        record({ kind: 'screenshot', viewport, section: 'Project Detail', file, ok: false, remark: '상세로 이동하는 link를 찾을 수 없음' });
         return;
       }
       await detailButton.click();
@@ -306,29 +320,69 @@ test.describe('Portfolio Audit', () => {
       }
     });
 
-    // 상단 내비게이션 - 연락처 (같은 페이지 내 스크롤 이동)
-    // ORDERED SIGNAL 리디자인(Figma 42:3) 이후 헤더에는 "연락처" 텍스트 항목이 없고
-    // 실제 이메일로 바로 연결되는 Mail CTA 버튼으로 대체되었다. 이 nav 항목 자체가
-    // 의도적으로 사라졌으므로 이 스텝은 항상 N/A(버튼 없음)로 기록되는 것이 정상이다.
-    await test.step('상단 내비게이션 클릭 테스트 - 연락처', async () => {
+    // Phase 4F: 예전 "내비게이션 클릭 - 연락처" 검사는 Header에 실제로 없는
+    // "연락처" 텍스트 nav 항목을 찾아 모든 viewport에서 항상 N/A만 반복 기록하던
+    // 옛 UI 구조 검사였다(ChatGPT가 실제 report.md에서 재현 확인) — 기능 결함이
+    // 아니라 검사 자체가 쓸모없는 상태였다. 실제 존재하는 Contact 진입점 4가지
+    // (Header MAIL, Contact section 존재/heading, 메일 보내기, GitHub 보기)로
+    // 교체한다. 전부 필수 항목이라 못 찾으면 N/A가 아니라 FAIL로 기록한다.
+    await test.step('Contact 진입점 확인 (Header MAIL / Contact section / 메일 보내기 / GitHub 보기)', async () => {
       await gotoHome(page);
-      const nav = await getNavButton(page, '연락처');
-      if ((await nav.count()) === 0) {
-        record({ kind: 'functional', viewport, item: '내비게이션 클릭 - 연락처', result: 'N/A' });
-        return;
+
+      // Desktop nav의 MAIL은 <header> 안에 직접 있지만, mobile/tablet은 이 nav
+      // 자체가 display:none이고(햄버거로 대체) 실제 mail 진입점은 MUI Drawer(모바일
+      // 메뉴) 하단 CTA다 — Drawer는 Modal 기반이라 DOM상 <header> 밖(portal)에
+      // 렌더링된다. 데스크톱 전용 UI가 없는 게 정상인 viewport에서 FAIL로 잘못
+      // 기록하지 않도록, 안 보이면 모바일 메뉴를 열어 그 안에서 다시 확인한다.
+      const headerMail = page.locator('header').getByRole('link', { name: '이메일 보내기' }).first();
+      const headerMailVisible = (await headerMail.count()) > 0 && (await headerMail.isVisible());
+      if (headerMailVisible) {
+        record({ kind: 'functional', viewport, item: 'Header MAIL', result: 'PASS' });
+      } else {
+        const menuToggle = page.getByRole('button', { name: '메뉴 열기' }).first();
+        if ((await menuToggle.count()) === 0) {
+          recordRequiredMissing(viewport, 'Header MAIL', 'Header MAIL link도 메뉴 열기 버튼도 찾을 수 없음');
+        } else {
+          await menuToggle.click();
+          await page.waitForTimeout(300);
+          const drawerMail = page.getByRole('link', { name: '이메일 보내기' }).first();
+          const drawerMailOk = (await drawerMail.count()) > 0 && (await drawerMail.isVisible());
+          if (drawerMailOk) {
+            record({ kind: 'functional', viewport, item: 'Header MAIL', result: 'PASS', note: '모바일 메뉴 안에서 확인' });
+          } else {
+            recordRequiredMissing(viewport, 'Header MAIL', '모바일 메뉴를 연 뒤에도 이메일 보내기 link를 찾을 수 없음');
+          }
+          await page.keyboard.press('Escape').catch(() => {});
+          await page.waitForTimeout(200);
+        }
       }
-      const before = await page.evaluate(() => window.scrollY);
-      await nav.click();
-      await page.waitForTimeout(500);
-      const after = await page.evaluate(() => window.scrollY);
-      const moved = after !== before;
-      record({
-        kind: 'functional',
-        viewport,
-        item: '내비게이션 클릭 - 연락처',
-        result: moved ? 'PASS' : 'FAIL',
-        note: `scrollY ${before} -> ${after}`,
-      });
+
+      const contactSection = page.locator('#contact');
+      const contactExists = (await contactSection.count()) > 0;
+      if (!contactExists) {
+        recordRequiredMissing(viewport, 'Contact section 존재', '#contact 섹션을 찾을 수 없음');
+      } else {
+        const heading = await contactSection.locator('h2').first().textContent().catch(() => null);
+        const headingOk = Boolean(heading && heading.trim().length > 0);
+        record({
+          kind: 'functional', viewport, item: 'Contact section heading',
+          result: headingOk ? 'PASS' : 'FAIL', note: heading ?? '(heading 없음)',
+        });
+      }
+
+      const mailCta = contactSection.getByRole('link', { name: '이메일 보내기' }).first();
+      if ((await mailCta.count()) === 0) {
+        recordRequiredMissing(viewport, 'Contact 메일 보내기', 'Contact section 안에서 이메일 보내기 link를 찾을 수 없음');
+      } else {
+        record({ kind: 'functional', viewport, item: 'Contact 메일 보내기', result: 'PASS' });
+      }
+
+      const githubCta = contactSection.getByRole('link', { name: 'GitHub 프로필 새 탭에서 열기' }).first();
+      if ((await githubCta.count()) === 0) {
+        recordRequiredMissing(viewport, 'Contact GitHub 보기', 'Contact section 안에서 GitHub 프로필 link를 찾을 수 없음');
+      } else {
+        record({ kind: 'functional', viewport, item: 'Contact GitHub 보기', result: 'PASS' });
+      }
     });
 
     // 상단 내비게이션 - 프로젝트 (전용 라우트로 이동, 확인 후 홈으로 복귀)
@@ -338,9 +392,15 @@ test.describe('Portfolio Audit', () => {
       await gotoHome(page);
       const urlBefore = page.url();
       const scrollBefore = await page.evaluate(() => window.scrollY);
-      const nav = await getNavButton(page, 'PROJECTS');
+      // desktop nav item의 accessible name은 정확히 "PROJECTS"지만, mobile Drawer
+      // 항목은 설명 텍스트("전체 작업")가 같은 링크 안에 있어 accessible name이
+      // "PROJECTS 전체 작업"처럼 길어진다(숫자 배지는 aria-hidden으로 이미 제외됨).
+      // 두 경우를 모두 잡기 위해 정확히 "PROJECTS"로 시작하는지만 확인한다(실제
+      // 발견: exact 매칭으로는 mobile/tablet에서 진짜 존재하는 link를 놓쳐 FAIL로
+      // 잘못 기록됐었다).
+      const nav = await getNavLink(page, /^PROJECTS/);
       if ((await nav.count()) === 0) {
-        record({ kind: 'functional', viewport, item: '내비게이션 클릭 - 프로젝트', result: 'N/A' });
+        recordRequiredMissing(viewport, '내비게이션 클릭 - 프로젝트', 'PROJECTS link를 찾을 수 없음');
         return;
       }
       await nav.click();
@@ -360,9 +420,9 @@ test.describe('Portfolio Audit', () => {
     // "모든 프로젝트 보기" 버튼 - URL, 스크롤 위치, DOM 변화 중 하나라도 있는지 확인
     await test.step('"모든 프로젝트 보기" 버튼 테스트', async () => {
       await gotoHome(page);
-      const btn = page.getByRole('button', { name: /모든 프로젝트 보기|전체 프로젝트/ }).first();
+      const btn = page.getByRole('link', { name: /모든 프로젝트 보기|전체 프로젝트/ }).first();
       if ((await btn.count()) === 0) {
-        record({ kind: 'functional', viewport, item: '모든 프로젝트 보기 버튼', result: 'N/A', note: '버튼이 존재하지 않음' });
+        recordRequiredMissing(viewport, '모든 프로젝트 보기 버튼', '전체 프로젝트 보기 link를 찾을 수 없음');
         return;
       }
       const urlBefore = page.url();
