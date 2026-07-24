@@ -3,6 +3,17 @@
   box-sizing: border-box;
 }
 
+/* Human Signal Phase 4E: 여러 섹션이 100vw + negative margin breakout(Hero,
+ * Contact, ProjectBlock full-bleed 등)과 QHD 전용 화면 밖 장식(QhdAmbientSignal)을
+ * 쓰는데, 이 요소들이 서브픽셀 오차나 의도된 화면 밖 배치로 살짝 넘칠 수 있다.
+ * 개별 섹션마다 overflow:hidden을 걸면 그 섹션 안에서 위/아래로 넘치는 요소(예:
+ * MoreWorksSection의 Selected Right 신호가 이전 섹션 위로 123px 넘어가야 하는 경우)까지
+ * 함께 잘린다 — 가로 방향만 문서 최상위에서 한 번 막아, 개별 섹션은 세로 방향으로
+ * 자유롭게 넘칠 수 있게 한다. */
+html {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -30,20 +41,30 @@ body::before {
   scroll-margin-top: 88px;
 }
 
-/* 다크 color-scheme — 스크롤바·인풋 등 OS 네이티브 요소에 반영.
- * Human Signal Header/404 등 밝은 화면이 이번 회차부터 섞이지만, 아직
- * 대부분의 Home 섹션(Hero/About/Projects/MoreWorks/Contact)은 Ordered
- * Signal 다크 테마라 전역 color-scheme는 그대로 dark로 둔다. */
+/* Phase 4F: color-scheme — 스크롤바 등 OS 네이티브 요소에 반영. Home/Projects/
+ * Detail/404 전부 Warm Paper·Soft White 중심 라이트 화면이 기본이고, Hero·
+ * Contact identity plane·모바일 Drawer 같은 dark section은 각 컴포넌트가
+ * 명시적으로 deepHarbor/inkNavy 배경을 지정한다(전역 color-scheme와 무관하게
+ * 그 색 그대로 보인다). 이 앱에는 실제 native form 요소(input/select/textarea)가
+ * 없어 dark section 안에 별도로 `color-scheme: dark`를 걸어야 할 대상도 없다.
+ *
+ * Phase 5A: 전역 focus/skip-link가 Foundations 갱신 전 옛 값 `#A74224`를 쓰고
+ * 있었다(현재 Human Signal burntOrange 토큰은 `#A84325`) — CSS는 `theme.js`의
+ * JS 값을 가져다 쓸 수 없어 여기서만 필요한 값을 custom property로 한 번만
+ * 선언한다(theme.js의 HUMAN_SIGNAL 객체 전체를 CSS로 복제하지 않는다). */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --hs-focus-ring: #A84325;
+  --hs-ink-navy: #0C1420;
+  --hs-soft-white: #FFFDF8;
 }
 
-/* Human Signal 전역 접근성 보조 규칙(이번 회차 신규).
+/* Human Signal 전역 접근성 보조 규칙.
  * 각 컴포넌트가 이미 개별 &:focus-visible sx를 두고 있는 곳에는 그쪽이
  * 우선 적용되고(클래스+가상클래스 선택자가 더 높은 우선순위), 아직
  * 개별 규칙이 없는 요소(예: skip link)에 대한 안전망으로만 동작한다. */
 :focus-visible {
-  outline: 2px solid #A74224;
+  outline: 2px solid var(--hs-focus-ring);
   outline-offset: 2px;
 }
 
@@ -55,8 +76,8 @@ body::before {
   left: 16px;
   z-index: 2000;
   padding: 12px 20px;
-  background-color: #0C1420;
-  color: #FFFDF8;
+  background-color: var(--hs-ink-navy);
+  color: var(--hs-soft-white);
   font-weight: 600;
   font-size: 0.875rem;
   border-radius: 8px;
@@ -66,7 +87,7 @@ body::before {
 
 .skip-link:focus-visible {
   top: 16px;
-  outline: 2px solid #A74224;
+  outline: 2px solid var(--hs-focus-ring);
   outline-offset: 2px;
 }
 

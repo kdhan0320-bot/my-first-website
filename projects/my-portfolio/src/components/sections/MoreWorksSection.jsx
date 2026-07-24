@@ -1,6 +1,8 @@
 import { Box, Container, Typography } from '@mui/material';
 import { ALL_PROJECTS } from '../../data/projectsData';
 import ActionIcon from '../ui/ActionIcon';
+import QhdAmbientSignal from '../ui/QhdAmbientSignal';
+import QhdSectionIndex from '../ui/QhdSectionIndex';
 import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WIDTH } from '../../theme';
 
 /* Figma 이름은 Selected Works지만 기존 데이터 규칙(moreWorksPublished)은
@@ -13,6 +15,16 @@ import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WID
  * 보존하지 않고 지웠다. 두 번째 작업이 공개되면 그때 요구사항에 맞춰 다시
  * 만든다(지금은 단일 feature 카드만 완성한다). */
 const PUBLISHED_WORKS = ALL_PROJECTS.filter((p) => p.moreWorksPublished);
+
+/* Phase 4B 재검토: burntOrange(#A84325, 전역 토큰)는 Paper Deep 위에서 4.30:1로
+ * 기준(4.5:1) 미달이라 Phase 2D에서 Ink Navy로 교체했었다. 하지만 최신 Figma
+ * "SELECTED WORKS" 라벨(267:56)이 실제로 쓰는 값은 burntOrange가 아니라
+ * 별도의 더 어두운 orange `#9E3D22`이고, 이 값은 Paper Deep 위에서 4.78:1로
+ * 기준을 통과한다(직접 재계산 확인) — Figma 값을 임의로 Ink Navy로 대체할
+ * 이유가 없어져 원래 색으로 되돌린다. Warm Paper 위 라벨(ProjectsSection 등)에는
+ * 쓰지 않는 Paper Deep 전용 값이라 전역 HUMAN_SIGNAL 토큰이 아닌 이 파일 지역
+ * 상수로만 둔다(사용처가 한 곳뿐이라 과도한 시스템화를 피함). */
+const ORANGE_ON_PAPER_DEEP = '#9E3D22';
 
 /* Human Signal Phase 2F Hybrid: "이미지 위 그라데이션 오버레이 텍스트" 패턴을
  * 재검토한 결과, OTT 스크린샷(thumbnails/ott-service.png, 1200x675)은 상단
@@ -101,13 +113,23 @@ const MoreWorksSection = () => {
   if (count === 0) return null;
 
   return (
-    // Phase 2C에서 Paper Deep 전체 배경을 시도했다가 SELECTED WORKS 라벨(burntOrange
-    // 12px)의 실측 대비가 4.36:1로 기준(4.5:1) 미달이라 Warm Paper로 되돌렸었다.
-    // Phase 2D 지시에 따라 배경은 다시 Paper Deep으로 복귀하되, 이번에는 라벨 색을
-    // Burnt Orange 대신 Ink Navy로 바꿔 대비 문제 자체를 해결한다(Paper Deep 위
-    // Ink Navy는 대비가 충분히 높다) — Warm Paper로 되돌리는 것을 첫 대응으로 삼지
-    // 않는다는 요구사항을 따른다.
-    <Box component="section" aria-label="더 많은 작업물" sx={{ bgcolor: HUMAN_SIGNAL.paperDeep, py: { xs: 7, md: 10 }, '@media (min-width:1920px)': { py: 12 } }}>
+    // Phase 2C에서 Paper Deep 전체 배경을 시도했다가 SELECTED WORKS 라벨의 실측
+    // 대비가 기준(4.5:1) 미달이라 Warm Paper로 되돌렸었다. Phase 2D는 배경을
+    // Paper Deep으로 복귀하며 라벨 색을 Ink Navy로 바꿔 대비를 해결했지만, Phase
+    // 4B 재검토에서 Figma 실제 값(ORANGE_ON_PAPER_DEEP, #9E3D22)이 이미 기준을
+    // 통과한다는 사실을 확인해 Figma 색으로 되돌린다(위 상수 선언부 주석 참고).
+    // Selected Right 신호가 section 경계 위 123px부터 시작해 이전 Featured 섹션 위로
+    // 넘어와야 한다(Figma 432:333 section-relative top -123, y=3900 - Selected 시작
+    // 4023). 이 섹션 자체의 overflow:hidden(양쪽 축)을 그대로 두면 음수 top이 잘려
+    // 안 보인다 — overflowX만 hidden으로 남겨 가로 스크롤은 이 섹션 선에서 막고
+    // (documentElement.scrollWidth가 부모까지 전파되지 않게), overflowY는 지정하지
+    // 않아 수직으로 넘치는 걸 그대로 보여준다(실제 audit:detailed로 1920/2560 둘 다
+    // horizontalOverflow:false, selected-right documentTop 정상 확인 완료).
+    <Box component="section" aria-label="더 많은 작업물" sx={{ position: 'relative', overflowX: 'hidden', bgcolor: HUMAN_SIGNAL.paperDeep, py: { xs: 7, md: 10 }, '@media (min-width:1920px)': { py: 12 } }}>
+      {/* QHD(1920+) 전용 외곽 신호 — Figma 432:333, OTT 카드와 경쟁하지 않게 저대비. */}
+      <QhdAmbientSignal variant="selected-right" sx={{ right: `calc((100vw - ${HOME_WIDE_MAX_WIDTH}px) / 2 - 440px)`, top: -123 }} />
+      <QhdSectionIndex id="selected" index="03" label="SELECTED / RANGE" side="left" indexTop={117} labelTop={277} indexOffset={502} labelOffset={434} />
+
       <Container
         maxWidth={false}
         sx={{
@@ -116,18 +138,25 @@ const MoreWorksSection = () => {
         }}
       >
         <Box sx={{ maxWidth: 640, mb: { xs: 4, md: 5 }, '@media (min-width:1920px)': { maxWidth: 900 } }}>
-          <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.inkNavy, fontSize: '0.75rem', letterSpacing: '0.06em', mb: 2 }}>
+          <Typography sx={{ fontFamily: FONT_MONO, color: ORANGE_ON_PAPER_DEEP, fontSize: '0.75rem', letterSpacing: '0.06em', mb: 2 }}>
             SELECTED WORKS
           </Typography>
           <Typography component="h2" sx={{
             fontWeight: 750, fontSize: { xs: '1.75rem', sm: '2.2rem', md: '2.6rem' }, lineHeight: 1.2, letterSpacing: '-0.02em',
             color: HUMAN_SIGNAL.inkNavy, mb: 1.5, '@media (min-width:1920px)': { fontSize: '3.75rem' },
           }}>
-            <Box component="span" sx={{ display: 'block' }}>대표 사례 밖의 작업도,</Box>
-            <Box component="span" sx={{ display: 'block' }}>큰 화면으로 빠르게 봅니다.</Box>
+            {/* 줄 끝 공백은 시각적으로 보이지 않지만 보조기술 textContent에서
+             * 단어가 붙지 않게 한다(Phase 4B 접근성 재검사에서 발견). */}
+            <Box component="span" sx={{ display: 'block' }}>다른 작업도, </Box>
+            <Box component="span" sx={{ display: 'block' }}>같은 기준으로 정리했습니다.</Box>
           </Typography>
+          {/* Phase 4B: mutedInk(#59636E)는 이 섹션 배경 Paper Deep 위에서 대비가
+           * 기준(4.5:1) 미달로 확인됐다(자동 검사) — 더 어두운 inkText로 바꾼다.
+           * ProjectsSection의 동일 문구 스타일은 배경이 더 밝은 Warm Paper라
+           * mutedInk로도 기준을 충분히 넘어 그대로 둔다. */}
           <Typography sx={{ color: HUMAN_SIGNAL.inkText, fontSize: '0.875rem', '@media (min-width:1920px)': { fontSize: '1.125rem' } }}>
-            대표 프로젝트 외 반응형 웹 퍼블리싱 작업을 실제 화면과 함께 소개합니다.
+            <Box component="span" sx={{ display: 'block' }}>대표 프로젝트 밖의 반응형 퍼블리싱 작업을 </Box>
+            <Box component="span" sx={{ display: 'block' }}>한눈에 확인할 수 있게 정리했습니다.</Box>
           </Typography>
         </Box>
 

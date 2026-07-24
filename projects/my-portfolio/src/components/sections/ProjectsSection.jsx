@@ -1,9 +1,11 @@
 import { useRef } from 'react';
 import { Box, Container, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { ALL_PROJECTS } from '../../data/projectsData';
 import useInViewOnce from '../../hooks/useInViewOnce';
 import ActionIcon from '../ui/ActionIcon';
+import QhdAmbientSignal from '../ui/QhdAmbientSignal';
+import QhdSectionIndex from '../ui/QhdSectionIndex';
 import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WIDTH, HOME_PROJECT_MAX_WIDTH } from '../../theme';
 
 /* Home Featured Projects(Figma Human Signal Home v8 180:575). 대표 3개는
@@ -94,7 +96,6 @@ const Stage = ({ project, motionSx }) => (
 const ProjectBlock = ({ block, index }) => {
   const { project, slug, displayTitle, band } = block;
   const stageFirst = index % 2 === 0;
-  const navigate = useNavigate();
 
   const prefersReduced = useRef(
     typeof window !== 'undefined' ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,
@@ -191,7 +192,7 @@ const ProjectBlock = ({ block, index }) => {
                 gridArea: 'proof', fontSize: '0.875rem', lineHeight: 1.6, color: HUMAN_SIGNAL.inkNavy, wordBreak: 'keep-all',
                 pt: 1.75, borderTop: `1px solid ${HUMAN_SIGNAL.paperDeep}`, ...revealSx(show, skip, 0.08),
               }}>
-                <Box component="span" sx={{ fontFamily: FONT_MONO, fontWeight: 700, color: labelColor, fontSize: '0.6875rem', letterSpacing: '0.04em', mr: 1 }}>
+                <Box component="span" sx={{ fontFamily: FONT_MONO, fontWeight: 700, color: labelColor, fontSize: '0.75rem', letterSpacing: '0.04em', mr: 1 }}>
                   PROOF
                 </Box>
                 {proofItems.join(' · ')}
@@ -203,7 +204,7 @@ const ProjectBlock = ({ block, index }) => {
                 gridArea: 'scope', fontSize: '0.875rem', lineHeight: 1.6, color: HUMAN_SIGNAL.inkText, wordBreak: 'keep-all',
                 ...revealSx(show, skip, 0.08),
               }}>
-                <Box component="span" sx={{ fontFamily: FONT_MONO, fontWeight: 700, color: labelColor, fontSize: '0.6875rem', letterSpacing: '0.04em', mr: 1 }}>
+                <Box component="span" sx={{ fontFamily: FONT_MONO, fontWeight: 700, color: labelColor, fontSize: '0.75rem', letterSpacing: '0.04em', mr: 1 }}>
                   ACTUAL SCOPE
                 </Box>
                 {project.cardScope}
@@ -214,12 +215,12 @@ const ProjectBlock = ({ block, index }) => {
 
             <Box sx={{ gridArea: 'cta', alignSelf: 'end', mt: { xs: 1, lg: 0 }, ...revealSx(show, skip, 0.08) }}>
               <Box
-                component="button"
-                type="button"
-                onClick={() => navigate(`/projects/${slug}`)}
+                component={RouterLink}
+                to={`/projects/${slug}`}
                 aria-label={`${displayTitle} 상세 보기`}
                 sx={{
                   bgcolor: HUMAN_SIGNAL.inkNavy, color: HUMAN_SIGNAL.softWhite, border: 0,
+                  textDecoration: 'none',
                   cursor: 'pointer', height: 48, minWidth: 160, px: 2.5, borderRadius: '12px',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 1,
                   fontWeight: 500, fontSize: '0.875rem', fontFamily: 'inherit',
@@ -245,10 +246,16 @@ const ProjectBlock = ({ block, index }) => {
 };
 
 const ProjectsSection = () => {
-  const navigate = useNavigate();
-
   return (
-    <Box component="section" id="projects" aria-label="프로젝트" sx={{ bgcolor: HUMAN_SIGNAL.warmPaper, py: { xs: 7, md: 9 }, '@media (min-width:1920px)': { py: 10 } }}>
+    <Box component="section" id="projects" aria-label="프로젝트" sx={{ position: 'relative', overflow: 'hidden', bgcolor: HUMAN_SIGNAL.warmPaper, py: { xs: 7, md: 9 }, '@media (min-width:1920px)': { py: 10 } }}>
+      {/* QHD(1920+) 전용 외곽 신호 — Figma 432:323, 프로젝트 이미지·설명과 경쟁하지 않게 저대비.
+       * top:1278은 Figma Featured Left(432:323) section-relative 실측값(y=3000, Featured
+       * section 시작 1722 기준 3000-1722=1278) — Bus Arrival(두 번째 project row) 부근에
+       * 오도록 고정값을 쓴다. project row에 ref로 직접 anchor하는 방식도 검토했지만, row
+       * 높이가 콘텐츠 길이에 따라 바뀔 수 있어 오히려 더 불안정해질 수 있다고 판단해
+       * Figma 좌표 기준 고정값을 우선 후보로 선택했다(최종 판단은 스크린샷 비교 기준). */}
+      <QhdAmbientSignal variant="featured-left" sx={{ left: `calc((100vw - ${HOME_WIDE_MAX_WIDTH}px) / 2 - 440px)`, top: 1278 }} />
+
       <Container
         maxWidth={false}
         sx={{
@@ -265,11 +272,14 @@ const ProjectsSection = () => {
             color: HUMAN_SIGNAL.inkNavy, maxWidth: 760, mb: 1.5,
             '@media (min-width:1920px)': { fontSize: '3.75rem', maxWidth: 1100 },
           }}>
-            <Box component="span" sx={{ display: 'block' }}>세 가지 작업에서,</Box>
-            <Box component="span" sx={{ display: 'block' }}>서로 다른 문제를 풀었습니다.</Box>
+            {/* 줄 끝 공백은 시각적으로 보이지 않지만 보조기술 textContent에서
+             * 단어가 붙지 않게 한다(Phase 4B 접근성 재검사에서 발견). */}
+            <Box component="span" sx={{ display: 'block' }}>서로 다른 문제를, </Box>
+            <Box component="span" sx={{ display: 'block' }}>같은 기준으로 풀었습니다.</Box>
           </Typography>
-          <Typography sx={{ color: HUMAN_SIGNAL.inkText, fontSize: '0.9375rem', '@media (min-width:1920px)': { fontSize: '1.125rem' } }}>
-            세 작업은 서로 다른 문제와 구현 범위를 보여줍니다.
+          <Typography sx={{ color: HUMAN_SIGNAL.mutedInk, fontSize: '0.9375rem', '@media (min-width:1920px)': { fontSize: '1.125rem' } }}>
+            <Box component="span" sx={{ display: 'block' }}>각 프로젝트의 화면·역할·구현 범위를 </Box>
+            <Box component="span" sx={{ display: 'block' }}>같은 기준으로 비교할 수 있게 정리했습니다.</Box>
           </Typography>
         </Box>
       </Container>
@@ -278,6 +288,12 @@ const ProjectsSection = () => {
       {FEATURED_BLOCKS.map((block, i) => (
         <ProjectBlock key={block.id} block={block} index={i} />
       ))}
+
+      {/* QhdSectionIndex는 project band들보다 DOM에서 뒤에 둔다 — band가 opaque
+       * full-bleed(100vw) 배경이라 앞에 두면 QHD 여백에 있는 숫자가 그 배경에
+       * 완전히 가려진다(elementFromPoint로 직접 재현·확인). 숫자는 1440 content
+       * shell 바깥 여백에만 있어 실제 텍스트/CTA 위로 올라올 일은 없다. */}
+      <QhdSectionIndex id="featured" index="02" label="FEATURED / EVIDENCE" side="right" indexTop={1619} labelTop={1779} indexOffset={218} labelOffset={148} />
 
       <Container
         maxWidth={false}
@@ -288,12 +304,12 @@ const ProjectsSection = () => {
       >
         <Box sx={{ mt: { xs: 6, md: 7 } }}>
           <Box
-            component="button"
-            type="button"
-            onClick={() => navigate('/projects')}
+            component={RouterLink}
+            to="/projects"
             aria-label="전체 프로젝트 페이지로 이동"
             sx={{
               bgcolor: HUMAN_SIGNAL.softWhite, color: HUMAN_SIGNAL.inkNavy, border: `1px solid ${HUMAN_SIGNAL.paperDeep}`, cursor: 'pointer',
+              textDecoration: 'none',
               height: 54, minWidth: 220, px: 2.5, borderRadius: '16px',
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 1,
               fontWeight: 500, fontSize: '0.9375rem', fontFamily: 'inherit',

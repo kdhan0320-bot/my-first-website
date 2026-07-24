@@ -4,12 +4,31 @@ import { PORTFOLIO_PDF_URL, GITHUB_PROFILE_URL, CONTACT_EMAIL } from '../../cons
 import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WIDTH } from '../../theme';
 import DMark from '../brand/DMark';
 import ActionIcon from '../ui/ActionIcon';
+import QhdAmbientSignal from '../ui/QhdAmbientSignal';
+import QhdSectionIndex from '../ui/QhdSectionIndex';
 import useInViewOnce from '../../hooks/useInViewOnce';
 
 const APPLICATION_ROLES = ['UX/UI 웹디자인', '웹퍼블리싱', 'UI 구현'];
 
 const SPLIT_MQ = '@media (min-width:1100px)';
 const QHD_MQ = '@media (min-width:1920px)';
+
+/* Phase 4B: QHD 2560 재실측(347:383) 결과 Contact의 32/68 분할은 뷰포트 끝까지
+ * 늘어나지 않고, 다른 Home 섹션과 같은 1440(HOME_WIDE_MAX_WIDTH) shell 안에서만
+ * 적용되며 그 바깥은 Closing Signal 여백이다("QHD / Contact Closing Signal"
+ * 442:166 — 좌측 클러스터는 x 0~560, 우측 클러스터는 x 2000~2560, 정확히 1440
+ * shell 좌우 여백과 일치). 배경 분할선은 shell 안 identity plane(32%) 끝
+ * 위치와 같아야 이음매가 안 보인다 — shell 절반(720px)에서 identity plane
+ * 폭(1440*0.32=460.8px)을 뺀 259.2px을 뷰포트 중앙 기준 오프셋으로 쓴다. */
+const CONTACT_SHELL_SPLIT_OFFSET = HOME_WIDE_MAX_WIDTH / 2 - HOME_WIDE_MAX_WIDTH * 0.32;
+
+/* Phase 4E: Closing Signal(442:166) 좌우 클러스터는 identity/action plane 분할선과
+ * 무관하게 순수 QHD outer gutter 폭 그대로 렌더돼야 한다(Figma 실측: 2560에서
+ * 560px, 1920에서 240px). 이전 구현은 CONTACT_SHELL_SPLIT_OFFSET 기반의 복잡한 식 +
+ * maxWidth:400을 썼는데, 그 결과 1920에서 실제 gutter(240px)보다 넓게 렌더되어
+ * 중앙 1440 shell과 겹치는(overlapsContent:true) 버그가 있었다(Phase 4D geometry
+ * 감사에서 확인). gutter 공식을 직접 쓰면 이 문제가 사라진다. */
+const CONTACT_GUTTER_WIDTH = `calc((100vw - ${HOME_WIDE_MAX_WIDTH}px) / 2)`;
 
 /* Human Signal Phase 3C 재검토(2차): Phase 3C 1차 구현은 34/66 grid를 만들었지만
  * 섹션 전체가 Deep Harbor 한 톤이라 "오른쪽 65~70% Soft White/Warm Paper action
@@ -39,11 +58,28 @@ const ContactSection = () => {
 
   return (
     <Box ref={ref} component="section" id="contact" aria-label="연락처" sx={{ position: 'relative', overflow: 'hidden', bgcolor: HUMAN_SIGNAL.deepHarbor }}>
-      {/* 2-pane full-bleed split — Hero와 동일한 breakout 기법(width:100vw + 음수 margin). */}
+      {/* QHD(1920px+) 전용 배경 — shell 바깥 여백을 identity/action plane과 같은
+       * 색으로 이어지게 채운 뒤, 그 여백에 Closing Signal 장식을 얹는다. 1920
+       * 미만에서는 렌더링하지 않는다(1440 균형 그대로 유지). */}
+      <Box aria-hidden="true" sx={{
+        display: 'none',
+        [QHD_MQ]: {
+          display: 'block', position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none',
+        },
+      }}>
+        <Box sx={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `calc(50% - ${CONTACT_SHELL_SPLIT_OFFSET}px)`, bgcolor: HUMAN_SIGNAL.deepHarbor }} />
+        <Box sx={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: `calc(50% + ${CONTACT_SHELL_SPLIT_OFFSET}px)`, bgcolor: HUMAN_SIGNAL.softWhite }} />
+        <QhdAmbientSignal variant="contact-left" sx={{ left: 0, width: CONTACT_GUTTER_WIDTH, maxWidth: 560 }} />
+        <QhdAmbientSignal variant="contact-right" sx={{ right: 0, width: CONTACT_GUTTER_WIDTH, maxWidth: 560 }} />
+      </Box>
+
+      {/* 2-pane split — 1440까지는 100vw full-bleed(Hero와 동일한 breakout 기법),
+       * 1920+에서는 HOME_WIDE_MAX_WIDTH(1440) shell로 캡핑하고 중앙 정렬한다. */}
       <Box sx={{
         position: 'relative', width: '100vw', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw',
         display: 'block',
         [SPLIT_MQ]: { display: 'grid', gridTemplateColumns: '32fr 68fr' },
+        [QHD_MQ]: { width: '100%', maxWidth: HOME_WIDE_MAX_WIDTH, left: 'auto', right: 'auto', marginLeft: 'auto', marginRight: 'auto' },
       }}>
         {/* 좌측 identity plane — Deep Harbor 32% */}
         <Box sx={{
@@ -147,7 +183,9 @@ const ContactSection = () => {
             '@media (min-width:1920px)': { fontSize: '3.75rem' },
             '@media (min-width:2300px)': { fontSize: '4.25rem' },
           }}>
-            <Box component="span" sx={{ display: 'block' }}>함께 일할 기회를</Box>
+            {/* 줄 끝 공백은 시각적으로 보이지 않지만 보조기술 textContent에서
+             * 단어가 붙지 않게 한다(Phase 4B 접근성 재검사에서 발견). */}
+            <Box component="span" sx={{ display: 'block' }}>함께 일할 기회를 </Box>
             <Box component="span" sx={{ display: 'block' }}>찾고 있습니다.</Box>
           </Typography>
           <Typography sx={{
@@ -247,22 +285,25 @@ const ContactSection = () => {
           <Box
             data-contact-motion="footer"
             sx={{
-              display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, alignItems: { xs: 'flex-start', sm: 'center' }, justifyContent: 'space-between', gap: 1,
               py: { xs: 2.5, md: 3 },
               opacity: show ? 1 : 0,
               transform: show ? 'translateY(0)' : 'translateY(6px)',
               transition: t(0.6, 0.27),
             }}
           >
-            <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.steelMist, fontSize: '0.6875rem', letterSpacing: '0.04em' }}>
-              DOHAN KIM · HUMAN SIGNAL
-            </Typography>
-            <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.steelMist, fontSize: '0.6875rem', letterSpacing: '0.04em' }}>
-              {new Date().getFullYear()} PORTFOLIO
+            {/* Figma Contact Footer(268:79)는 한 줄 문구다("DOHAN KIM · HUMAN SIGNAL /
+             * {year} PORTFOLIO") — 좌우로 분리했던 이전 구현을 한 줄로 맞춘다. */}
+            <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.steelMist, fontSize: '0.75rem', letterSpacing: '0.04em' }}>
+              DOHAN KIM · HUMAN SIGNAL / {new Date().getFullYear()} PORTFOLIO
             </Typography>
           </Box>
         </Container>
       </Box>
+
+      {/* QhdSectionIndex는 2-pane split·footer strip보다 DOM에서 뒤에 둔다 — 이
+       * section의 배경들도 opaque full-bleed(100vw)라 앞에 두면 QHD 여백의
+       * 숫자가 가려진다(ProjectsSection과 동일 원인, Featured에서 재현·확인). */}
+      <QhdSectionIndex id="contact" index="04" label="CONTACT / NEXT" side="right" indexTop={-5} labelTop={173} indexOffset={218} labelOffset={148} />
     </Box>
   );
 };

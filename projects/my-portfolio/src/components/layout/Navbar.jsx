@@ -4,35 +4,38 @@ import {
   IconButton, Drawer, Fade,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import {
   useStickyCompact,
   useActiveSection,
   scrollToSection,
 } from '../../hooks/useScrollNav';
-import { GITHUB_PROFILE_URL, CONTACT_EMAIL, PORTFOLIO_PDF_URL } from '../../constants/site';
+import { GITHUB_PROFILE_URL, CONTACT_EMAIL } from '../../constants/site';
 import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WIDTH } from '../../theme';
 import DMark from '../brand/DMark';
 import ActionIcon from '../ui/ActionIcon';
 
-/* Human Signal Header (Figma Interaction/Navigation States 220:7).
- * Ordered Signal 시절의 hide-on-scroll을 없애고 Top / Sticky Compact 두
- * 상태만 오간다 — Header는 항상 화면에 남아 있는다.
+/* Human Signal Header (Figma Interaction/Navigation States 220:7, Phase 4A
+ * 재확인). Ordered Signal 시절의 hide-on-scroll을 없애고 Top / Sticky Compact
+ * 두 상태만 오간다 — Header는 항상 화면에 남아 있는다.
  *
  * Human Signal Phase 3B: 채용 담당자의 실제 행동(대표작 보기 → 자료 받기 →
  * 코드 보기 → 연락하기) 중심으로 ABOUT 항목을 뺐다. Home이 one-page 구조라
- * About는 자연스럽게 스크롤해서 보이고, Hero의 "작업 방식 보기" CTA가 같은
- * 이동을 이미 제공한다(`id="about"` 섹션과 `/about` redirect는 유지). PDF는
- * `PORTFOLIO_PDF_URL`이 실제 값일 때만 나타난다 — "준비 중" 같은 자리표시는
- * 두지 않는다. */
+ * About는 자연스럽게 스크롤해서 보이고, Hero의 "기술 역량 보기" CTA가 같은
+ * 이동을 이미 제공한다(`id="about"` 섹션과 `/about` redirect는 유지).
+ *
+ * Phase 4A: 최신 Figma는 `PORTFOLIO_PDF_URL`이 없어도(실제 PDF 파일이 아직
+ * 없어도) "PORTFOLIO PDF" + "SOON" 배지를 항상 비활성 상태로 보여준다
+ * (220:21 "Hit Area / PORTFOLIO PDF — Disabled", DEFAULT/HOVER/ACTIVE/FOCUS/
+ * STICKY COMPACT 5개 상태 전부 동일). 그래서 PDF 항목은 조건부로 사라지는
+ * `type: 'link'`이 아니라, `PORTFOLIO_PDF_URL`이 생기기 전까지 늘 나타나는
+ * 별도 `disabled: true` 항목으로 고정한다 — 링크·버튼이 아닌 비인터랙티브
+ * 그룹이라 button/a를 쓰지 않고 aria-disabled와 tab 순서 제외로만 표현한다
+ * (Implementation Notes 220:94 "ORDER" 항목도 PDF를 건너뛰고
+ * Logo → Projects → GitHub → Mail 순서만 정의한다). */
 const NAV_ITEMS = [
   { key: 'projects', label: 'PROJECTS', type: 'route', to: '/projects' },
-  ...(PORTFOLIO_PDF_URL
-    ? [{
-        key: 'pdf', label: 'PORTFOLIO PDF', type: 'link', href: PORTFOLIO_PDF_URL,
-        external: true, ariaLabel: 'PDF 포트폴리오 새 탭에서 열기',
-      }]
-    : []),
+  { key: 'pdf', label: 'PORTFOLIO PDF', type: 'disabled', disabledNote: 'SOON' },
   {
     key: 'github', label: 'GITHUB', type: 'link', href: GITHUB_PROFILE_URL,
     external: true, ariaLabel: 'GitHub 프로필 새 탭에서 열기',
@@ -47,15 +50,13 @@ const NAV_ITEMS = [
  * 보내기" CTA가 있어 바로 위에 같은 동작을 하는 목록 항목을 또 두면
  * 390px PNG에서 두 요소가 맞닿아 명백한 중복으로 보였다(실측 확인,
  * mobile-menu-before-390.png). 지시서 6-2가 제시한 두 대안 중 "list의
- * MAIL을 제거" 쪽을 선택한다. */
+ * MAIL을 제거" 쪽을 선택한다.
+ * PDF는 Figma Mobile Menu Open(221:27)에서 목록 02번 자리에 "준비 중 ·
+ * 비활성" 설명과 함께 항상 보이되(221:48/221:49), 다른 항목과 달리 클릭·
+ * 포커스 대상이 아니다 — desktop과 같은 disabled 표현을 쓴다. */
 const MOBILE_NAV_ITEMS = [
   { key: 'projects', label: 'PROJECTS', desc: '전체 작업', type: 'route', to: '/projects' },
-  ...(PORTFOLIO_PDF_URL
-    ? [{
-        key: 'pdf', label: 'PORTFOLIO PDF', desc: '자료 받기', iconVariant: 'download', type: 'link', href: PORTFOLIO_PDF_URL,
-        external: true, ariaLabel: 'PDF 포트폴리오 새 탭에서 열기',
-      }]
-    : []),
+  { key: 'pdf', label: 'PORTFOLIO PDF', desc: '준비 중 · 비활성', type: 'disabled' },
   {
     key: 'github', label: 'GITHUB', desc: '코드 보기', iconVariant: 'external', type: 'link', href: GITHUB_PROFILE_URL,
     external: true, ariaLabel: 'GitHub 프로필 새 탭에서 열기',
@@ -78,6 +79,13 @@ const Navbar = () => {
 
   const isHome = location.pathname === '/';
   const isProjectsArea = location.pathname.startsWith('/projects');
+  // Phase 5A-F2: Figma QHD Projects header(208:2)는 본문과 같은 x=504–2056
+  // (폭 1552) shell을 쓰지만, Home QHD(347:383 "Content Master / Centered
+  // 1440")는 폭 1440(내부 1312)로 서로 다르다(읽기 전용으로 재확인함) — 그래서
+  // Navbar 전체를 1552로 넓히지 않고 `/projects` 목록 페이지에서만 좁힌다.
+  // `/projects/:slug` Detail은 아직 Figma 동기화 전이라(본문이 1312 shell을
+  // 그대로 씀) 여기서 넓히면 헤더/본문 폭이 어긋나 제외한다.
+  const isProjectsIndexQhd = location.pathname === '/projects';
   const { compact } = useStickyCompact();
   const activeSection = useActiveSection(location.pathname);
 
@@ -168,7 +176,9 @@ const Navbar = () => {
             px: { xs: 3, sm: 6, md: 8 },
             maxWidth: { xl: ULTRAWIDE_CONTENT_MAX_WIDTH + 128 },
             mx: 'auto',
-            '@media (min-width:1920px)': { maxWidth: HOME_WIDE_MAX_WIDTH, px: 8 },
+            '@media (min-width:1920px)': isProjectsIndexQhd
+              ? { maxWidth: 1552, px: 0 }
+              : { maxWidth: HOME_WIDE_MAX_WIDTH, px: 8 },
           }}
         >
           <Toolbar
@@ -269,6 +279,53 @@ const Navbar = () => {
                   ...focusVisibleSx,
                 };
 
+                if (item.type === 'disabled') {
+                  // 비인터랙티브 그룹 — button/a를 쓰지 않고 aria-disabled만 준다.
+                  // div는 기본적으로 tab 순서에 들어가지 않으므로 별도 tabIndex 처리가
+                  // 필요 없다(Implementation Notes 220:94 "ORDER"가 PDF를 건너뛴다).
+                  return (
+                    <Box
+                      key={item.key}
+                      role="group"
+                      aria-disabled="true"
+                      aria-label={`${item.label} — 준비 중`}
+                      sx={{
+                        fontFamily: FONT_MONO,
+                        fontSize: '0.75rem',
+                        '@media (min-width:1440px)': { fontSize: '0.8125rem' },
+                        '@media (min-width:1920px)': { fontSize: '0.9375rem' },
+                        letterSpacing: '0.04em',
+                        color: HUMAN_SIGNAL.deepSage,
+                        minHeight: 44,
+                        px: 1.5,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        userSelect: 'none',
+                      }}
+                    >
+                      {item.label}
+                      <Box
+                        component="span"
+                        aria-hidden="true"
+                        sx={{
+                          fontFamily: FONT_MONO,
+                          fontSize: '0.5625rem',
+                          letterSpacing: '0.04em',
+                          color: HUMAN_SIGNAL.steelMist,
+                          bgcolor: HUMAN_SIGNAL.deepHarbor,
+                          border: `1px solid ${HUMAN_SIGNAL.mutedInk}`,
+                          borderRadius: '8px',
+                          px: 0.75,
+                          py: 0.25,
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {item.disabledNote}
+                      </Box>
+                    </Box>
+                  );
+                }
                 if (item.type === 'link' || item.type === 'mail') {
                   return (
                     <Box
@@ -278,6 +335,21 @@ const Navbar = () => {
                       target={item.external ? '_blank' : undefined}
                       rel={item.external ? 'noopener noreferrer' : undefined}
                       aria-label={item.ariaLabel}
+                      sx={itemSx}
+                    >
+                      {item.label}
+                    </Box>
+                  );
+                }
+                if (item.type === 'route') {
+                  // 실제 URL 이동이라 button이 아니라 anchor semantics를 쓴다
+                  // (좌클릭·Enter·우클릭 "새 탭에서 열기"가 자연스럽게 동작).
+                  return (
+                    <Box
+                      key={item.key}
+                      component={RouterLink}
+                      to={item.to}
+                      aria-current={isActive ? 'page' : undefined}
                       sx={itemSx}
                     >
                       {item.label}
@@ -344,13 +416,16 @@ const Navbar = () => {
               <Typography sx={{ fontWeight: 500, fontSize: '0.875rem', color: HUMAN_SIGNAL.softWhite }}>
                 DOHAN KIM
               </Typography>
+              {/* Figma Mobile / Open(221:36)은 닫힌 상태(역할 문구)와 달리 HUMAN SIGNAL로
+               * 표기한다 — 열린 메뉴 안에서는 이미 이름 옆이라 직무보다 디자인 시스템/
+               * 정체성 태그를 보여주는 쪽으로 구분한 것으로 판단해 그대로 따른다. */}
               <Typography
                 sx={{
                   fontFamily: FONT_MONO, fontSize: '0.75rem',
                   color: HUMAN_SIGNAL.steelMist, letterSpacing: '0.04em',
                 }}
               >
-                UX/UI · WEB PUBLISHING
+                HUMAN SIGNAL
               </Typography>
             </Box>
           </Box>
@@ -423,12 +498,34 @@ const Navbar = () => {
               </Box>
             );
             const desc = (
-              <Typography sx={{ fontSize: '0.875rem', color: HUMAN_SIGNAL.steelMist, pl: '38px', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Typography sx={{ fontSize: '0.875rem', color: item.type === 'disabled' ? '#8E9AA6' : HUMAN_SIGNAL.steelMist, pl: '38px', display: 'flex', alignItems: 'center', gap: 0.5 }}>
                 {item.desc}
                 {item.iconVariant && <ActionIcon variant={item.iconVariant} sx={{ color: HUMAN_SIGNAL.brightOrangeOnDark, fontSize: '0.9375rem' }} />}
               </Typography>
             );
 
+            if (item.type === 'disabled') {
+              // Figma Mobile Menu Open(221:48/221:49) 02번 자리 — 다른 항목과 같은
+              // 번호 위계로 보이되 클릭·포커스 대상이 아니다(div, aria-disabled).
+              return (
+                <Box
+                  key={item.key}
+                  role="group"
+                  aria-disabled="true"
+                  sx={{ ...sx, cursor: 'default' }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
+                    <Typography component="span" aria-hidden="true" sx={{ fontFamily: FONT_MONO, fontSize: '0.75rem', color: HUMAN_SIGNAL.mutedSage }}>
+                      {num}
+                    </Typography>
+                    <Typography sx={{ fontWeight: 700, fontSize: '1.5rem', color: '#788593' }}>
+                      {item.label}
+                    </Typography>
+                  </Box>
+                  {desc}
+                </Box>
+              );
+            }
             if (item.type === 'link' || item.type === 'mail') {
               return (
                 <Box
@@ -438,6 +535,21 @@ const Navbar = () => {
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
                   aria-label={item.ariaLabel}
+                  sx={sx}
+                >
+                  {label}
+                  {desc}
+                </Box>
+              );
+            }
+            if (item.type === 'route') {
+              return (
+                <Box
+                  key={item.key}
+                  component={RouterLink}
+                  to={item.to}
+                  aria-current={isActive ? 'page' : undefined}
+                  onClick={() => setMenuOpen(false)}
                   sx={sx}
                 >
                   {label}

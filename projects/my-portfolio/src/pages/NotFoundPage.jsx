@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { Box, Container, Typography } from '@mui/material';
 import { FONT_MONO, FONT_SANS, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH } from '../theme';
 import QuietSignalBackground from '../components/ui/QuietSignalBackground';
@@ -12,7 +12,6 @@ import ActionIcon from '../components/ui/ActionIcon';
  * 헤더를 다시 그리지 않는다. */
 const NotFoundPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
 
   const focusVisibleSx = {
     '&:focus-visible': {
@@ -75,12 +74,11 @@ const NotFoundPage = () => {
 
             <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 1.5, mb: { xs: 4, md: 5 } }}>
               <Box
-                component="button"
-                type="button"
-                onClick={() => navigate('/')}
+                component={RouterLink}
+                to="/"
                 sx={{
-                  bgcolor: HUMAN_SIGNAL.inkNavy, color: HUMAN_SIGNAL.softWhite,
-                  border: 0, borderRadius: '16px', cursor: 'pointer',
+                  bgcolor: HUMAN_SIGNAL.inkNavy, color: HUMAN_SIGNAL.softWhite, textDecoration: 'none',
+                  borderRadius: '16px', cursor: 'pointer',
                   minHeight: 54, px: 3, fontFamily: FONT_SANS, fontWeight: 500, fontSize: '0.9375rem',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 1,
                   ...focusVisibleSx,
@@ -90,11 +88,10 @@ const NotFoundPage = () => {
                 <ActionIcon variant="internal" sx={{ color: HUMAN_SIGNAL.brightOrangeOnDark }} />
               </Box>
               <Box
-                component="button"
-                type="button"
-                onClick={() => navigate('/projects')}
+                component={RouterLink}
+                to="/projects"
                 sx={{
-                  bgcolor: HUMAN_SIGNAL.softWhite, color: HUMAN_SIGNAL.inkNavy,
+                  bgcolor: HUMAN_SIGNAL.softWhite, color: HUMAN_SIGNAL.inkNavy, textDecoration: 'none',
                   border: `1px solid ${HUMAN_SIGNAL.paperDeep}`, borderRadius: '16px', cursor: 'pointer',
                   minHeight: 54, px: 3, fontFamily: FONT_SANS, fontWeight: 500, fontSize: '0.9375rem',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 1,

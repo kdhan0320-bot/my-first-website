@@ -1,77 +1,54 @@
 import { Box, Container, Typography } from '@mui/material';
 import RevealOnScroll from '../ui/RevealOnScroll';
-import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WIDTH, HOME_READING_MAX_WIDTH } from '../../theme';
+import DMark from '../brand/DMark';
+import QhdAmbientSignal from '../ui/QhdAmbientSignal';
+import QhdSectionIndex from '../ui/QhdSectionIndex';
+import { FONT_MONO, HUMAN_SIGNAL, ULTRAWIDE_CONTENT_MAX_WIDTH, HOME_WIDE_MAX_WIDTH } from '../../theme';
 
-/* Home의 유일한 About 섹션(Figma Human Signal Home v8 About 180:546). 별도의
+/* Home의 유일한 About 섹션(Figma Human Signal Home v8 About 266:53). 별도의
  * /about 페이지는 존재하지 않으며, `/about` 접근은 App.jsx의 <Navigate>를
  * 통해 이 섹션으로 연결된다.
  *
- * Human Signal Phase 3C: Phase 3B에서 배경은 Warm Paper로 바로잡았지만, 위→
- * 아래로 같은 폭 블록이 쌓이는 구조(헤드라인 stack → blockquote stack →
- * 2×2 카드 grid → 2열 텍스트 rail → 1줄 breadcrumb)가 "문서를 읽는" 느낌을
- * 남긴다는 재검토 결과에 따라(art-direction-before.md 2절) 아래를 바꾼다.
- * 1) 상단을 좌(헤드라인)/우(origin 문장) 비대칭 2단으로 바꾼다.
- * 2) 정리·연결·검증을 3개 개별 아이템에서 1개의 연속된 밴드(zone 3개)로 바꾼다.
- * 3) CAPABILITIES 카드 grid + TOOL_GROUPS 텍스트 rail을 하나의 "Capability
- *    Studio"(좌 역량 설명 + 우 DESIGN/BUILD/VERIFY 3레인, dark 표면)로 합친다.
- *    Photoshop·Illustrator를 DESIGN 레인에 "사용 가능 도구"로 추가한다(사용자
- *    확인 완료, 숙련도 과장 없음).
- * 4) 5단계 process는 이 섹션에서 가장 약한 정보로 남긴다 — 이번에는 문자
- *    화살표 대신 순수 CSS 점·선 connector를 쓴다("Arrow glyph 금지" 지시). */
+ * Human Signal Phase 4A: 최신 Figma를 다시 확인한 결과 Phase 3C의 정리·연결·
+ * 검증 밴드 + Capability Studio(dark 3레인) + 5단계 Working Process는 더 이상
+ * 최신안에 없다 — 최신 About은 다음 두 블록뿐이다.
+ * 1) Intro — 좌 헤드라인(ABOUT / CAPABILITIES) / 우 origin 배경 카드(BACKGROUND).
+ * 2) Skill Matrix — Warm Paper 카드 하나 안에 좌측 소개(CAPABILITIES / VERIFIED)
+ *    + 우측 3개 Skill Card(01 UX/UI·그래픽 설계 / 02 반응형 구현 / 03 품질 검증).
+ * 섹션 바탕색도 Phase 3C의 Warm Paper에서 Soft White로 바뀌었다(266:53 실측,
+ * Origin·Skill Matrix 카드가 그 위의 Warm Paper "종이" 표면으로 대비된다). */
 
-const ABOUT_HEADLINE = ['화면의 모양보다,', '정보가 이해되고', '작동하는 구조를 봅니다.'];
+/* 줄 끝 공백은 시각적으로 보이지 않지만 보조기술이 읽는 textContent에서
+ * 단어가 붙지 않게 한다(Phase 4B 접근성 재검사에서 발견). */
+const ABOUT_HEADLINE = ['제가 할 수 있는 일을, ', '실제 결과물 기준으로 보여드립니다.'];
 
 const ORIGIN_TEXT =
-  '생산 현장과 구매관리에서 배운 기준 확인과 누락 방지 습관을 바탕으로, 정보 구조를 설계하고 반응형 UI 구현과 검증으로 연결하고 있습니다.';
+  '생산 현장과 구매관리에서 익힌 기준 확인·누락 방지 습관이 정보 구조, 반응형 구현, 접근성 검증 기준으로 이어졌습니다.';
 
-const SIGNATURE_TRIO = [
-  { num: '01', word: '정리', accentBar: HUMAN_SIGNAL.steelMist },
-  { num: '02', word: '연결', accentBar: HUMAN_SIGNAL.mutedSage },
-  { num: '03', word: '검증', accentBar: HUMAN_SIGNAL.brightOrange, accent: true },
-];
+const SKILL_INTRO_LINES = ['설계하고, ', '구현하고, ', '검증합니다.'];
+const SKILL_INTRO_BODY = '숙련도 퍼센트 대신, 결과물에서 확인 가능한 기술과 구현 범위만 적습니다.';
 
-/* 이전 CAPABILITIES(4항목)+TOOL_GROUPS(4항목)를 사실 손실 없이 DESIGN/BUILD/
- * VERIFY 3레인으로 합친다. 근거는 그대로다: Figma 프로토타입(bus-arrival-app
- * 실제 파일), 반응형 9폭 QA, Semantic HTML/접근성 대응, React/MUI 구현+build/
- * lint/audit 검증(JobFlow·Feedback Hub·이 저장소 자체). Photoshop·Illustrator는
- * 사용자가 이번 회차에서 실사용 도구로 확인한 항목만 추가했다 — 숙련도 막대·
- * 별점·%는 넣지 않는다. */
-const STUDIO_LANES = [
+/* 숙련도 %·별점·전문가 표현은 넣지 않는다 — purpose/tools 문구는 Figma
+ * Skill Card(318:112/119/126) visible text를 그대로 옮겼다. */
+const SKILL_CARDS = [
   {
-    key: 'design',
-    label: 'DESIGN',
-    statement: '정보 구조와 화면 흐름을 정리하고 설계합니다.',
-    tools: 'Figma · Photoshop · Illustrator',
-    note: 'Auto Layout · Components · Prototype',
+    index: '01', accent: HUMAN_SIGNAL.mutedSage,
+    title: 'UX/UI·그래픽 설계',
+    purpose: '정보 위계·사용자 흐름·화면 구조를 설계합니다.',
+    tools: ['Figma · Photoshop · Illustrator', 'IA · Auto Layout · Prototype'],
   },
   {
-    key: 'build',
-    label: 'BUILD',
-    statement: 'Semantic HTML·CSS와 React/MUI로 반응형 화면을 구현합니다.',
-    tools: 'HTML · CSS · JavaScript · React · MUI',
-    note: 'Supabase 연동(JobFlow · Feedback Hub)',
+    index: '02', accent: HUMAN_SIGNAL.steelMist,
+    title: '반응형 구현',
+    purpose: '설계를 여러 화면 폭에서 작동하는 UI로 구현합니다.',
+    tools: ['HTML · CSS · JavaScript', 'React'],
   },
   {
-    key: 'verify',
-    label: 'VERIFY',
-    statement: '빌드·접근성·반응형 회귀를 실제로 확인합니다.',
-    tools: 'Git/GitHub · Playwright',
-    note: 'ChatGPT · Claude로 검토·구현 보조',
+    index: '03', accent: HUMAN_SIGNAL.brightOrange,
+    title: '품질 검증',
+    purpose: '상태·접근성·브라우저·회귀 문제를 확인합니다.',
+    tools: ['Playwright · Build/Lint', 'Git'],
   },
-];
-
-const WORK_PROCESS = ['UNDERSTAND', 'STRUCTURE', 'DESIGN', 'BUILD', 'VERIFY'];
-
-/* 좌측 Capability Studio 설명 아래를 채우는 정리·연결·검증 → DESIGN/BUILD/VERIFY
- * 연결 목록. 위 SIGNATURE_TRIO(정리·연결·검증 band)와 우측 STUDIO_LANES를 같은
- * 어휘로 이어 붙여, 좌측 설명 하단의 빈 공간을 "채우기 위한 장식"이 아니라 두
- * 블록 사이의 관계를 보여주는 콘텐츠로 채운다(지시서: 좌측 빈 공간 감소 +
- * 정리·연결·검증의 의미를 짧게 연결). Desktop(md 이상)에서만 노출한다 — 모바일은
- * 이미 통과 수준이라 높이를 늘리지 않는다. */
-const STUDIO_CONNECTORS = [
-  { num: '01', word: '정리', lane: 'DESIGN' },
-  { num: '02', word: '연결', lane: 'BUILD' },
-  { num: '03', word: '검증', lane: 'VERIFY', accent: true },
 ];
 
 const AboutSection = () => {
@@ -80,14 +57,14 @@ const AboutSection = () => {
       component="section"
       id="about"
       aria-label="소개"
-      sx={{ position: 'relative', overflow: 'hidden', bgcolor: HUMAN_SIGNAL.warmPaper, py: { xs: 6.5, md: 10.5 } }}
+      sx={{ position: 'relative', overflow: 'hidden', bgcolor: HUMAN_SIGNAL.softWhite, pt: { xs: 6.5, md: 13 }, pb: { xs: 6.5, md: 14 } }}
     >
-      <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-        <Box sx={{
-          position: 'absolute', bottom: '-10%', left: { xs: '-30%', md: '-6%' }, width: { xs: 300, md: 420 }, height: { xs: 300, md: 420 },
-          borderRadius: '50%', background: `radial-gradient(circle, ${HUMAN_SIGNAL.mutedSage} 0%, transparent 70%)`, opacity: 0.1, filter: 'blur(40px)',
-        }} />
-      </Box>
+      {/* QHD(1920+) 전용 외곽 신호 — Figma 432:313, About 콘텐츠보다 강하지 않게 저대비.
+       * top:260은 Figma About Right(432:313) section-relative 실측값(y=1120, About
+       * section 시작 860 기준 1120-860=260). About section 자체가 위치 기준(relative)이라
+       * Hero처럼 Header 오프셋 보정이 필요 없다. */}
+      <QhdAmbientSignal variant="about-right" sx={{ right: `calc((100vw - ${HOME_WIDE_MAX_WIDTH}px) / 2 - 470px)`, top: 260 }} />
+      <QhdSectionIndex id="about" index="01" label="ABOUT / CAPABILITIES" side="left" indexTop={220} labelTop={380} indexOffset={502} labelOffset={434} />
 
       <Container
         maxWidth={false}
@@ -98,8 +75,7 @@ const AboutSection = () => {
           '@media (min-width:1920px)': { maxWidth: HOME_WIDE_MAX_WIDTH, px: 8 },
         }}
       >
-        {/* 상단 비대칭 2단 — 좌 58% 헤드라인 / 우 38% origin 문장(지시서: 동일 폭
-         * 스택 대신 좌/우 비대칭). 우측은 좌측 헤드라인 하단에 맞춰 정렬한다. */}
+        {/* Intro — 좌 헤드라인 / 우 origin 배경 카드(Warm Paper) */}
         <Box sx={{
           display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,58fr) minmax(0,38fr)' },
           columnGap: { md: 6 }, rowGap: { xs: 4, md: 0 }, alignItems: 'end',
@@ -107,19 +83,18 @@ const AboutSection = () => {
         }}>
           <Box>
             <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.burntOrange, fontSize: '0.75rem', letterSpacing: '0.06em', mb: { xs: 2, md: 3 } }}>
-              ABOUT
+              ABOUT / CAPABILITIES
             </Typography>
             <RevealOnScroll y={14} duration={0.45}>
               <Typography
                 component="h2"
                 sx={{
                   fontWeight: 750,
-                  fontSize: { xs: '2.125rem', sm: '2.6rem', md: '3rem' },
-                  lineHeight: { xs: 1.28, md: 1.15 },
-                  letterSpacing: '-0.025em',
+                  fontSize: { xs: '2.125rem', sm: '2.6rem', md: '2.75rem' },
+                  lineHeight: { xs: 1.28, md: 1.2 },
+                  letterSpacing: '-0.02em',
                   color: HUMAN_SIGNAL.inkNavy,
-                  '@media (min-width:1920px)': { fontSize: '4.25rem' },
-                  '@media (min-width:2560px)': { fontSize: '4.5rem' },
+                  '@media (min-width:1920px)': { fontSize: '3.75rem' },
                 }}
               >
                 {ABOUT_HEADLINE.map((line) => (
@@ -130,17 +105,19 @@ const AboutSection = () => {
           </Box>
 
           <RevealOnScroll y={14} duration={0.45} delay={0.08}>
-            <Box
-              component="blockquote"
-              sx={{
-                m: 0, pl: { xs: 2.5, md: 3 }, borderLeft: `3px solid ${HUMAN_SIGNAL.mutedSage}`,
-                '@media (min-width:1920px)': { maxWidth: HOME_READING_MAX_WIDTH },
-              }}
-            >
+            <Box sx={{
+              bgcolor: HUMAN_SIGNAL.warmPaper, borderRadius: '18px',
+              px: { xs: 2.5, md: 3 }, py: { xs: 2.25, md: 2.75 },
+            }}>
               <Typography sx={{
-                color: HUMAN_SIGNAL.inkText, fontWeight: 450,
-                fontSize: { xs: '1rem', md: '1.0625rem' }, lineHeight: 1.65,
-                '@media (min-width:1920px)': { fontSize: '1.1875rem' },
+                fontFamily: FONT_MONO, color: HUMAN_SIGNAL.burntOrange, fontSize: '0.75rem',
+                letterSpacing: '0.04em', mb: 1.25,
+              }}>
+                BACKGROUND / WHY I WORK THIS WAY
+              </Typography>
+              <Typography sx={{
+                color: HUMAN_SIGNAL.inkNavy, fontWeight: 450,
+                fontSize: { xs: '0.9375rem', md: '1rem' }, lineHeight: 1.7,
               }}>
                 {ORIGIN_TEXT}
               </Typography>
@@ -148,173 +125,86 @@ const AboutSection = () => {
           </RevealOnScroll>
         </Box>
 
-        {/* 정리·연결·검증 — 3개 개별 아이템이 아니라 1개의 연속된 밴드(공유 테두리/
-         * radius, 얇은 내부 구분선, zone별 상단 accent bar)로 통일한다. */}
-        <RevealOnScroll y={14} duration={0.45} delay={0.14} sx={{ mt: { xs: 6, md: 8 } }}>
+        {/* Skill Matrix — Warm Paper 카드 하나(좌 소개 + 우 Skill Card 3개) */}
+        <RevealOnScroll y={16} duration={0.45} delay={0.14} sx={{ mt: { xs: 6, md: 8 }, '@media (min-width:1920px)': { mt: 9 } }}>
           <Box sx={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-            border: `1px solid ${HUMAN_SIGNAL.paperDeep}`, borderRadius: '20px', overflow: 'hidden',
-            bgcolor: HUMAN_SIGNAL.softWhite,
+            position: 'relative', overflow: 'hidden',
+            bgcolor: HUMAN_SIGNAL.warmPaper, border: `1px solid ${HUMAN_SIGNAL.paperDeep}`, borderRadius: '28px',
+            p: { xs: 3, sm: 4, md: 4.5 },
+            display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,240px) 1fr' },
+            columnGap: { md: 5 }, rowGap: { xs: 4, md: 0 },
+            '@media (min-width:1920px)': { p: 6, columnGap: 7 },
           }}>
-            {SIGNATURE_TRIO.map((item, i) => (
+            {/* 좌측 — CAPABILITIES / VERIFIED 소개. D2 watermark는 배경 장식용. */}
+            <Box sx={{ position: 'relative', minWidth: 0 }}>
               <Box
-                key={item.word}
+                aria-hidden="true"
                 sx={{
-                  position: 'relative', p: { xs: 2.5, sm: 4 }, pt: { xs: 3.5, sm: 5 },
-                  borderLeft: i > 0 ? `1px solid ${HUMAN_SIGNAL.paperDeep}` : 'none',
+                  position: 'absolute', left: { xs: -12, md: 0 }, bottom: { xs: -20, md: -10 },
+                  width: 160, height: 160, opacity: 0.08, pointerEvents: 'none',
+                  display: { xs: 'none', sm: 'block' },
                 }}
               >
-                <Box aria-hidden="true" sx={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, bgcolor: item.accentBar }} />
-                <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.burntOrange, fontSize: '0.75rem', letterSpacing: '0.04em', mb: 0.75 }}>
-                  {item.num}
-                </Typography>
-                <Typography sx={{
-                  fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.05,
-                  fontSize: { xs: '1.75rem', sm: '2.5rem', md: '3rem' },
-                  color: item.accent ? HUMAN_SIGNAL.brightOrange : HUMAN_SIGNAL.inkNavy,
-                  '@media (min-width:1920px)': { fontSize: '4rem' },
-                }}>
-                  {item.word}
-                </Typography>
+                <DMark size="100%" tone="onLight" sx={{ width: '100%', height: '100%' }} />
               </Box>
-            ))}
-          </Box>
-        </RevealOnScroll>
-
-        {/* Capability Studio — 좌 38% 역량 설명 + 우 62% DESIGN/BUILD/VERIFY 3레인.
-         * About 전체에서 유일한 dark 표면(내부 대비 지점, 지시서 요구). */}
-        <RevealOnScroll y={14} duration={0.45} delay={0.18} sx={{ mt: { xs: 6, md: 8 }, '@media (min-width:1920px)': { mt: 9 } }}>
-          <Box sx={{
-            display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'minmax(0,38fr) minmax(0,62fr)' },
-            columnGap: { md: 5 }, rowGap: { xs: 3, md: 0 },
-          }}>
-            <Box sx={{
-              display: 'flex', flexDirection: 'column', pt: { md: 1 },
-              height: { md: '100%' }, justifyContent: { md: 'space-between' },
-            }}>
-              <Box>
-                <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.burntOrange, fontSize: '0.75rem', letterSpacing: '0.06em', mb: 2 }}>
-                  CAPABILITY STUDIO
-                </Typography>
-                <Typography sx={{
-                  fontWeight: 700, fontSize: { xs: '1.25rem', md: '1.5rem' }, lineHeight: 1.4,
-                  color: HUMAN_SIGNAL.inkNavy, wordBreak: 'keep-all',
-                  '@media (min-width:1920px)': { fontSize: '1.875rem' },
-                }}>
-                  요구사항과 화면 우선순위를 먼저 이해하고 정리한 뒤, 아래 세 단계로 실제 화면까지 연결합니다.
-                </Typography>
-              </Box>
-
-              <Box sx={{ display: { xs: 'none', md: 'flex' }, flexDirection: 'column', mt: 4 }}>
-                {STUDIO_CONNECTORS.map((item, i) => (
-                  <Box key={item.word}>
-                    {i > 0 && (
-                      <Box aria-hidden="true" sx={{ width: '1px', height: 18, bgcolor: HUMAN_SIGNAL.paperDeep, ml: '3px' }} />
-                    )}
-                    <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
-                      <Box aria-hidden="true" sx={{
-                        width: 6, height: 6, borderRadius: '2px', flexShrink: 0, alignSelf: 'center',
-                        bgcolor: item.accent ? HUMAN_SIGNAL.brightOrange : HUMAN_SIGNAL.mutedSage,
-                      }} />
-                      <Typography sx={{ fontFamily: FONT_MONO, fontSize: '0.75rem', color: HUMAN_SIGNAL.burntOrange, letterSpacing: '0.04em' }}>
-                        {item.num}
-                      </Typography>
-                      <Typography sx={{ fontWeight: 700, fontSize: '0.9375rem', color: HUMAN_SIGNAL.inkNavy }}>
-                        {item.word}
-                      </Typography>
-                      <Typography sx={{ fontSize: '0.8125rem', color: HUMAN_SIGNAL.inkText }}>
-                        · {item.lane} 단계로 연결
-                      </Typography>
-                    </Box>
-                  </Box>
+              <Typography sx={{ fontFamily: FONT_MONO, color: HUMAN_SIGNAL.burntOrange, fontSize: '0.75rem', letterSpacing: '0.06em', mb: 1.5, position: 'relative' }}>
+                CAPABILITIES / VERIFIED
+              </Typography>
+              <Typography sx={{
+                fontWeight: 750, fontSize: { xs: '1.5rem', md: '1.75rem' }, lineHeight: 1.25,
+                color: HUMAN_SIGNAL.inkNavy, mb: 1.75, position: 'relative',
+                '@media (min-width:1920px)': { fontSize: '2.125rem' },
+              }}>
+                {SKILL_INTRO_LINES.map((line) => (
+                  <Box key={line} component="span" sx={{ display: 'block' }}>{line}</Box>
                 ))}
-              </Box>
+              </Typography>
+              <Typography sx={{ color: HUMAN_SIGNAL.mutedInk, fontSize: '0.875rem', lineHeight: 1.6, maxWidth: 280, position: 'relative' }}>
+                {SKILL_INTRO_BODY}
+              </Typography>
             </Box>
 
+            {/* 우측 — Skill Card 3개. 카드 외곽 크기·제목 영역·설명 기준선·divider·
+             * tools 시작점을 3개 카드가 반응형별로 동일하게 통일한다(동일 grid). */}
             <Box sx={{
-              bgcolor: HUMAN_SIGNAL.deepHarbor, borderRadius: '20px', overflow: 'hidden',
-              display: 'flex', flexDirection: 'column',
+              display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' },
+              gap: { xs: 2, md: 2.5 },
             }}>
-              <Box sx={{
-                px: { xs: 3, md: 3.5 }, pt: { xs: 2.5, md: 3 }, pb: { xs: 1, md: 1.25 },
-                '@media (min-width:1920px)': { px: 5, pt: 3.5 },
-              }}>
-                <Typography sx={{
-                  fontFamily: FONT_MONO, fontWeight: 700, color: HUMAN_SIGNAL.brightOrangeOnDark,
-                  fontSize: '0.75rem', letterSpacing: '0.08em',
-                  '@media (min-width:1920px)': { fontSize: '0.9375rem' },
-                }}>
-                  TOOLS &amp; WORKFLOW
-                </Typography>
-              </Box>
-              {STUDIO_LANES.map((lane) => (
+              {SKILL_CARDS.map((card) => (
                 <Box
-                  key={lane.key}
+                  key={card.index}
                   sx={{
-                    p: { xs: 3, md: 3.5 }, borderTop: '1px solid rgba(170,183,196,0.16)',
-                    display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '96px 1fr' }, columnGap: 2, rowGap: 1,
-                    '@media (min-width:1920px)': { p: 5, gridTemplateColumns: '128px 1fr', columnGap: 3 },
+                    position: 'relative', bgcolor: HUMAN_SIGNAL.softWhite, border: `1px solid ${HUMAN_SIGNAL.paperDeep}`,
+                    borderRadius: '22px', p: { xs: 2.5, md: 2.75 }, display: 'flex', flexDirection: 'column',
+                    minHeight: { md: 300 },
                   }}
                 >
-                  <Typography sx={{
-                    fontFamily: FONT_MONO, fontWeight: 700, color: HUMAN_SIGNAL.brightOrangeOnDark, fontSize: '0.8125rem', letterSpacing: '0.06em',
-                    '@media (min-width:1920px)': { fontSize: '1rem' },
-                  }}>
-                    {lane.label}
+                  <Typography
+                    aria-hidden="true"
+                    sx={{
+                      fontFamily: FONT_MONO, fontWeight: 700, color: HUMAN_SIGNAL.inkNavy, opacity: 0.22,
+                      fontSize: { xs: '2.25rem', md: '2.75rem' }, lineHeight: 1, mb: 1.5,
+                    }}
+                  >
+                    {card.index}
                   </Typography>
-                  <Box>
-                    <Typography sx={{
-                      color: HUMAN_SIGNAL.softWhite, fontSize: { xs: '0.9375rem', md: '1rem' }, lineHeight: 1.55, wordBreak: 'keep-all', mb: 1,
-                      '@media (min-width:1920px)': { fontSize: '1.3125rem', mb: 1.5 },
-                    }}>
-                      {lane.statement}
-                    </Typography>
-                    <Typography sx={{
-                      color: HUMAN_SIGNAL.steelMist, fontSize: '0.875rem', lineHeight: 1.6, wordBreak: 'keep-all',
-                      '@media (min-width:1920px)': { fontSize: '1.125rem' },
-                    }}>
-                      {lane.tools}
-                    </Typography>
-                    <Typography sx={{
-                      color: 'rgba(170,183,196,0.72)', fontSize: '0.8125rem', lineHeight: 1.5, mt: 0.25, wordBreak: 'keep-all',
-                      '@media (min-width:1920px)': { fontSize: '1rem' },
-                    }}>
-                      {lane.note}
-                    </Typography>
+                  <Box aria-hidden="true" sx={{ width: 48, height: 4, borderRadius: '2px', bgcolor: card.accent, mb: 2 }} />
+                  <Typography sx={{ fontWeight: 700, fontSize: '1.25rem', color: HUMAN_SIGNAL.inkNavy, mb: 1, wordBreak: 'keep-all' }}>
+                    {card.title}
+                  </Typography>
+                  <Typography sx={{ fontWeight: 500, fontSize: '0.875rem', color: HUMAN_SIGNAL.inkText, lineHeight: 1.6, wordBreak: 'keep-all', mb: 'auto' }}>
+                    {card.purpose}
+                  </Typography>
+                  <Box sx={{ borderTop: `1px solid ${HUMAN_SIGNAL.paperDeep}`, mt: 2.5, pt: 1.5 }}>
+                    {card.tools.map((line) => (
+                      <Typography key={line} sx={{ fontSize: '0.75rem', color: HUMAN_SIGNAL.mutedInk, lineHeight: 1.65, wordBreak: 'keep-all' }}>
+                        {line}
+                      </Typography>
+                    ))}
                   </Box>
                 </Box>
               ))}
             </Box>
-          </Box>
-          <Typography sx={{ mt: 3, fontSize: '0.9375rem', color: HUMAN_SIGNAL.inkText, lineHeight: 1.65, maxWidth: 620, wordBreak: 'keep-all' }}>
-            요구사항과 최종 판단은 김도한이 주도하고, AI는 초안·구현·검사를 보조합니다.
-          </Typography>
-        </RevealOnScroll>
-
-        {/* 5-step process — Capabilities보다 항상 약해야 한다. 문자 화살표 대신
-         * 작은 점 + 선 connector만 쓴다(지시서: arrow glyph 금지). */}
-        <RevealOnScroll y={10} duration={0.4} delay={0.24} sx={{ mt: { xs: 4, md: 5 } }}>
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 0, pt: 2, borderTop: `1px solid ${HUMAN_SIGNAL.paperDeep}` }}>
-            {WORK_PROCESS.map((step, i) => (
-              <Box key={step} sx={{ display: 'flex', alignItems: 'center' }}>
-                {i > 0 && (
-                  <Box aria-hidden="true" sx={{ width: { xs: 12, sm: 20 }, height: '1px', bgcolor: HUMAN_SIGNAL.paperDeep, mx: 1 }} />
-                )}
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-                  <Box aria-hidden="true" sx={{
-                    width: 5, height: 5, borderRadius: '50%',
-                    bgcolor: i === WORK_PROCESS.length - 1 ? HUMAN_SIGNAL.brightOrange : HUMAN_SIGNAL.mutedSage,
-                  }} />
-                  <Typography sx={{
-                    fontFamily: FONT_MONO, fontSize: '0.625rem', letterSpacing: '0.04em',
-                    color: i === WORK_PROCESS.length - 1 ? HUMAN_SIGNAL.burntOrange : HUMAN_SIGNAL.inkText,
-                    fontWeight: i === WORK_PROCESS.length - 1 ? 700 : 400,
-                  }}>
-                    {step}
-                  </Typography>
-                </Box>
-              </Box>
-            ))}
           </Box>
         </RevealOnScroll>
       </Container>
